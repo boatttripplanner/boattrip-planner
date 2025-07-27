@@ -330,4 +330,12 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+  
+  <!-- Nueva entrada: Deportes Acuáticos -->
+  <url>
+    <loc>https://boattrip-planner.com/blog/deportes-acuaticos-barco-guia-completa</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
