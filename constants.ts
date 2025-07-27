@@ -23,7 +23,7 @@ export const AD_SLOT_ID_FOOTER = "YOUR_AD_SLOT_ID_FOOTER"; // Replace with your 
 
 
 export const SAMBOAT_AFFILIATE_URL = "https://www.samboat.com/?utm_source=affilae&utm_medium=cpa&utm_campaign=Sailway%20Adventures&ae=1582";
-export const AMAZON_AFFILIATE_LINK_PLACEHOLDER = "AMAZON_AFFILIATE_LINK";
+export const AMAZON_AFFILIATE_LINK_PLACEHOLDER = "https://amzn.to/45codtL";
 export const AMAZON_AFFILIATE_TAG = "boattrippl07-21"; // Replace with your actual Amazon Affiliate Tag
 export const AMAZON_SEARCH_BASE_URL = "https://www.amazon.es/s";
 

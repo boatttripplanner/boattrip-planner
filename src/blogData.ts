@@ -2180,7 +2180,7 @@ Al planificar tu viaje con [BoatTrip Planner](/), siempre es buena idea tener un
 ### Equipamiento Esencial para Deportes Acuáticos 🛟
 
 #### Seguridad Básica (Obligatorio):
-*   **Chaleco salvavidas homologado:** [Encuentra chalecos de calidad en Amazon](${AMAZON_AFFILIATE_LINK_PLACEHOLDER})
+*   **Chaleco salvavidas homologado:** [Encuentra chalecos de calidad en Amazon](https://amzn.to/45codtL)
 *   **Cuerda de remolque resistente:** Mínimo 20 metros de longitud
 *   **Mango de remolque ergonómico:** Con agarre cómodo y seguro
 *   **Señales de comunicación:** Bandera naranja para indicar que hay alguien en el agua
@@ -2188,21 +2188,21 @@ Al planificar tu viaje con [BoatTrip Planner](/), siempre es buena idea tener un
 #### Equipamiento Específico por Deporte:
 
 **Wakeboard:**
-*   [Tabla de wakeboard profesional en Amazon](${AMAZON_AFFILIATE_LINK_PLACEHOLDER})
-*   [Botas de wakeboard ajustables en Amazon](${AMAZON_AFFILIATE_LINK_PLACEHOLDER})
-*   [Torre de wakeboard para tu barco en Amazon](${AMAZON_AFFILIATE_LINK_PLACEHOLDER})
+*   [Tabla de wakeboard profesional en Amazon](https://amzn.to/45codtL)
+*   [Botas de wakeboard ajustables en Amazon](https://amzn.to/45codtL)
+*   [Torre de wakeboard para tu barco en Amazon](https://amzn.to/45codtL)
 
 **Esquí Acuático:**
-*   [Esquís acuáticos para principiantes en Amazon](${AMAZON_AFFILIATE_LINK_PLACEHOLDER})
-*   [Cuerda de remolque profesional en Amazon](${AMAZON_AFFILIATE_LINK_PLACEHOLDER})
+*   [Esquís acuáticos para principiantes en Amazon](https://amzn.to/45codtL)
+*   [Cuerda de remolque profesional en Amazon](https://amzn.to/45codtL)
 
 **Snorkel:**
-*   [Kit completo de snorkel en Amazon](${AMAZON_AFFILIATE_LINK_PLACEHOLDER})
-*   [Aletas de snorkel profesionales en Amazon](${AMAZON_AFFILIATE_LINK_PLACEHOLDER})
+*   [Kit completo de snorkel en Amazon](https://amzn.to/45codtL)
+*   [Aletas de snorkel profesionales en Amazon](https://amzn.to/45codtL)
 
 **Paddle Surf:**
-*   [Tabla de paddle surf inflable en Amazon](${AMAZON_AFFILIATE_LINK_PLACEHOLDER})
-*   [Remo de paddle surf ajustable en Amazon](${AMAZON_AFFILIATE_LINK_PLACEHOLDER})
+*   [Tabla de paddle surf inflable en Amazon](https://amzn.to/45codtL)
+*   [Remo de paddle surf ajustable en Amazon](https://amzn.to/45codtL)
 
 ### Consejos de Seguridad Fundamentales ⚠️
 
