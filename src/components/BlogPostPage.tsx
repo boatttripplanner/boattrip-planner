@@ -1,5 +1,5 @@
 // src/components/BlogPostPage.tsx
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { BlogPostPageProps, ParsedMarkdownPost } from '../../types';
@@ -156,6 +156,106 @@ const SocialShareButtons: React.FC<{
   );
 };
 
+// Componente para tabla de contenidos
+const TableOfContents: React.FC<{ 
+  headings: Array<{ id: string; text: string; level: number }>;
+  activeHeading: string;
+  darkMode: boolean;
+}> = ({ headings, activeHeading, darkMode }) => {
+  const scrollToHeading = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  if (headings.length === 0) return null;
+
+  return (
+    <div className={`sticky top-4 mb-6 p-4 rounded-lg border ${darkMode ? 'bg-slate-700 border-slate-600' : 'bg-slate-50 border-slate-200'}`}>
+      <h4 className={`font-semibold mb-3 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+        📋 Tabla de Contenidos
+      </h4>
+      <nav className="space-y-1">
+        {headings.map((heading) => (
+          <button
+            key={heading.id}
+            onClick={() => scrollToHeading(heading.id)}
+            className={`block w-full text-left px-2 py-1 rounded text-sm transition-colors ${
+              activeHeading === heading.id
+                ? `${darkMode ? 'bg-teal-600 text-white' : 'bg-teal-100 text-teal-800'}`
+                : `${darkMode ? 'text-slate-300 hover:bg-slate-600' : 'text-slate-600 hover:bg-slate-100'}`
+            }`}
+            style={{ paddingLeft: `${(heading.level - 1) * 12 + 8}px` }}
+          >
+            {heading.text}
+          </button>
+        ))}
+      </nav>
+    </div>
+  );
+};
+
+// Componente para navegación entre artículos
+const ArticleNavigation: React.FC<{
+  currentSlug: string;
+  allPosts: ParsedMarkdownPost[];
+  onNavigate: (slug: string) => void;
+  darkMode: boolean;
+}> = ({ currentSlug, allPosts, onNavigate, darkMode }) => {
+  const currentIndex = allPosts.findIndex(post => post.frontmatter.slug === currentSlug);
+  const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+
+  return (
+    <div className={`flex justify-between items-center p-4 rounded-lg border ${darkMode ? 'bg-slate-700 border-slate-600' : 'bg-slate-50 border-slate-200'}`}>
+      {prevPost ? (
+        <button
+          onClick={() => onNavigate(prevPost.frontmatter.slug)}
+          className={`flex items-center gap-2 p-2 rounded hover:bg-opacity-80 transition-colors ${
+            darkMode ? 'hover:bg-slate-600' : 'hover:bg-slate-100'
+          }`}
+        >
+          <span>←</span>
+          <div className="text-left">
+            <div className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>Artículo anterior</div>
+            <div className={`text-sm font-medium ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+              {prevPost.frontmatter.title.length > 40 
+                ? prevPost.frontmatter.title.substring(0, 40) + '...' 
+                : prevPost.frontmatter.title
+              }
+            </div>
+          </div>
+        </button>
+      ) : (
+        <div></div>
+      )}
+      
+      {nextPost ? (
+        <button
+          onClick={() => onNavigate(nextPost.frontmatter.slug)}
+          className={`flex items-center gap-2 p-2 rounded hover:bg-opacity-80 transition-colors ${
+            darkMode ? 'hover:bg-slate-600' : 'hover:bg-slate-100'
+          }`}
+        >
+          <div className="text-right">
+            <div className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>Siguiente artículo</div>
+            <div className={`text-sm font-medium ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+              {nextPost.frontmatter.title.length > 40 
+                ? nextPost.frontmatter.title.substring(0, 40) + '...' 
+                : nextPost.frontmatter.title
+              }
+            </div>
+          </div>
+          <span>→</span>
+        </button>
+      ) : (
+        <div></div>
+      )}
+    </div>
+  );
+};
+
 const RelatedPostCard: React.FC<{ post: ParsedMarkdownPost, onNavigate: (slug: string) => void }> = ({ post, onNavigate }) => (
     <div 
         className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col overflow-hidden cursor-pointer h-full"
@@ -202,6 +302,9 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
   const [userRating, setUserRating] = useState<number>(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
+  const [activeHeading, setActiveHeading] = useState<string>('');
+  const [headings, setHeadings] = useState<Array<{ id: string; text: string; level: number }>>([]);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const post = useMemo(() => {
     if (!slug) return null;
@@ -212,6 +315,50 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
     if (!post) return 0;
     return calculateReadingTime(post.content);
   }, [post]);
+
+  // Extraer encabezados del contenido
+  useEffect(() => {
+    if (!post) return;
+    
+    const extractedHeadings: Array<{ id: string; text: string; level: number }> = [];
+    const lines = post.content.split('\n');
+    
+    lines.forEach(line => {
+      const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
+      if (headingMatch) {
+        const level = headingMatch[1].length;
+        const text = headingMatch[2].trim();
+        const id = text.toLowerCase()
+          .replace(/[^a-z0-9\s]/g, '')
+          .replace(/\s+/g, '-');
+        extractedHeadings.push({ id, text, level });
+      }
+    });
+    
+    setHeadings(extractedHeadings);
+  }, [post]);
+
+  // Detectar encabezado activo al hacer scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!headings.length) return;
+      
+      const scrollPosition = window.scrollY + 100;
+      let currentActive = '';
+      
+      headings.forEach(heading => {
+        const element = document.getElementById(heading.id);
+        if (element && element.offsetTop <= scrollPosition) {
+          currentActive = heading.id;
+        }
+      });
+      
+      setActiveHeading(currentActive);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [headings]);
 
   // Cargar estado de favoritos y valoraciones al iniciar
   useEffect(() => {
@@ -330,21 +477,33 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
   const postUrl = `${window.location.origin}/?view=blog_post&slug=${post.frontmatter.slug}`;
 
   const markdownComponents: Components = {
-    h1: ({ children }) => (
-      <h1 className={`text-3xl font-bold mb-6 mt-8 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-        {children}
-      </h1>
-    ),
-    h2: ({ children }) => (
-      <h2 className={`text-2xl font-semibold mb-4 mt-6 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-        {children}
-      </h2>
-    ),
-    h3: ({ children }) => (
-      <h3 className={`text-xl font-semibold mb-3 mt-5 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-        {children}
-      </h3>
-    ),
+    h1: ({ children }) => {
+      const text = getNodeTextContent(children);
+      const id = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
+      return (
+        <h1 id={id} className={`text-3xl font-bold mb-6 mt-8 ${darkMode ? 'text-white' : 'text-slate-800'} scroll-mt-20`}>
+          {children}
+        </h1>
+      );
+    },
+    h2: ({ children }) => {
+      const text = getNodeTextContent(children);
+      const id = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
+      return (
+        <h2 id={id} className={`text-2xl font-semibold mb-4 mt-6 ${darkMode ? 'text-white' : 'text-slate-800'} scroll-mt-20`}>
+          {children}
+        </h2>
+      );
+    },
+    h3: ({ children }) => {
+      const text = getNodeTextContent(children);
+      const id = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
+      return (
+        <h3 id={id} className={`text-xl font-semibold mb-3 mt-5 ${darkMode ? 'text-white' : 'text-slate-800'} scroll-mt-20`}>
+          {children}
+        </h3>
+      );
+    },
     p: ({ children }) => (
       <p className={`mb-4 leading-relaxed ${darkMode ? 'text-slate-200' : 'text-slate-700'}`}>
         {children}
@@ -435,8 +594,22 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       {/* Botón volver arriba */}
       <ScrollToTopButton isVisible={showScrollToTop} />
       
-      <div className={`w-full max-w-4xl mx-auto transition-colors duration-300 ${darkMode ? 'dark' : ''}`}>
-        <div className={`${darkMode ? 'bg-slate-800 text-white' : 'bg-white'} p-6 md:p-8 rounded-lg shadow-xl transition-colors duration-300`}>
+      <div className={`w-full max-w-6xl mx-auto transition-colors duration-300 ${darkMode ? 'dark' : ''}`}>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Tabla de contenidos - Solo visible en desktop */}
+          <div className="hidden lg:block lg:col-span-1">
+            <div className="sticky top-4">
+              <TableOfContents 
+                headings={headings} 
+                activeHeading={activeHeading} 
+                darkMode={darkMode} 
+              />
+            </div>
+          </div>
+          
+          {/* Contenido principal */}
+          <div className="lg:col-span-3">
+            <div className={`${darkMode ? 'bg-slate-800 text-white' : 'bg-white'} p-6 md:p-8 rounded-lg shadow-xl transition-colors duration-300`}>
           {/* Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b border-slate-200 dark:border-slate-600">
             <div className="flex-1">
@@ -556,6 +729,16 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
             />
           </div>
 
+          {/* Navegación entre artículos */}
+          <div className="mt-8">
+            <ArticleNavigation
+              currentSlug={post.frontmatter.slug}
+              allPosts={allBlogPosts}
+              onNavigate={onNavigateToPost}
+              darkMode={darkMode}
+            />
+          </div>
+
           {/* Artículos relacionados */}
           {relatedPosts.length > 0 && (
             <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-600">
@@ -573,6 +756,8 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
               </div>
             </div>
           )}
+            </div>
+          </div>
         </div>
       </div>
     </>
