@@ -4,7 +4,7 @@ import { BlogIndexPageProps } from '../../types';
 import { allBlogPosts } from '../blogData';
 import { Button } from '../../components/Button';
 import { InputField, SelectField } from '../../components/FormControls';
-import BlogAnalytics from './BlogAnalytics';
+
 
 const formatDate = (dateString: string): string => {
   return new Date(dateString).toLocaleDateString('es-ES', {
@@ -546,7 +546,6 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
         {activeTab === 'all' && !searchQuery && !activeTag && !selectedCategory && !selectedDifficulty && !selectedReadingTime && (
           <>
             <CategorySection />
-            <BlogAnalytics />
           </>
         )}
 
