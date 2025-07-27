@@ -72,19 +72,68 @@ const getFeaturedImage = (slug: string): string => {
 const getArticleCategory = (tags: string[]): string => {
   const categoryMap: { [key: string]: string } = {
     'destinos': 'Destinos',
+    'destino': 'Destinos',
+    'baleares': 'Destinos',
+    'menorca': 'Destinos',
+    'ibiza': 'Destinos',
+    'costa brava': 'Destinos',
+    'galicia': 'Destinos',
+    'canarias': 'Destinos',
+    'españa': 'Destinos',
     'técnicas': 'Técnicas de Navegación',
+    'navegación': 'Técnicas de Navegación',
+    'navegacion': 'Técnicas de Navegación',
+    'maniobras': 'Técnicas de Navegación',
+    'fondeo': 'Técnicas de Navegación',
     'equipamiento': 'Equipamiento',
+    'equipo': 'Equipamiento',
+    'gadgets': 'Equipamiento',
+    'gps': 'Equipamiento',
+    'plotter': 'Equipamiento',
     'seguridad': 'Seguridad',
+    'emergencias': 'Seguridad',
+    'supervivencia': 'Seguridad',
+    'chaleco': 'Seguridad',
+    'ancla': 'Seguridad',
     'reviews': 'Reviews',
+    'review': 'Reviews',
+    'opinión': 'Reviews',
+    'opinion': 'Reviews',
     'consejos': 'Consejos',
+    'consejo': 'Consejos',
     'familia': 'Familia',
+    'niños': 'Familia',
+    'ninos': 'Familia',
     'aventura': 'Aventura',
     'sostenibilidad': 'Sostenibilidad',
+    'sostenible': 'Sostenibilidad',
+    'ecología': 'Sostenibilidad',
+    'ecologia': 'Sostenibilidad',
+    'medio ambiente': 'Sostenibilidad',
+    'posidonia': 'Sostenibilidad',
     'licencias': 'Licencias y Certificaciones',
+    'titulaciones': 'Licencias y Certificaciones',
+    'patente': 'Licencias y Certificaciones',
+    'pnb': 'Licencias y Certificaciones',
+    'formación': 'Licencias y Certificaciones',
+    'formacion': 'Licencias y Certificaciones',
     'mascotas': 'Mascotas',
+    'perros': 'Mascotas',
     'deportes': 'Deportes Acuáticos',
+    'deporte': 'Deportes Acuáticos',
+    'wakeboard': 'Deportes Acuáticos',
+    'paddle surf': 'Deportes Acuáticos',
+    'snorkel': 'Deportes Acuáticos',
+    'buceo': 'Deportes Acuáticos',
+    'pesca': 'Deportes Acuáticos',
     'tecnología': 'Tecnología',
-    'bienvenida': 'General'
+    'tecnologia': 'Tecnología',
+    'ia': 'Tecnología',
+    'inteligencia artificial': 'Tecnología',
+    'bienvenida': 'General',
+    'comunidad': 'General',
+    'planificación': 'General',
+    'planificacion': 'General'
   };
 
   for (const tag of tags) {
@@ -436,14 +485,18 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
   // Componente para mostrar categorías principales
   const CategorySection = () => {
     const categories = [
-      { name: 'Destinos', icon: '🗺️', slug: 'destinos' },
-      { name: 'Técnicas', icon: '⚓', slug: 'técnicas' },
-      { name: 'Equipamiento', icon: '🛥️', slug: 'equipamiento' },
-      { name: 'Seguridad', icon: '🛟', slug: 'seguridad' },
-      { name: 'Reviews', icon: '⭐', slug: 'reviews' },
-      { name: 'Consejos', icon: '💡', slug: 'consejos' },
-      { name: 'Familia', icon: '👨‍👩‍👧‍👦', slug: 'familia' },
-      { name: 'Deportes', icon: '🏄‍♂️', slug: 'deportes' }
+      { name: 'Destinos', icon: '🗺️', key: 'destinos' },
+      { name: 'Técnicas de Navegación', icon: '⚓', key: 'técnicas' },
+      { name: 'Equipamiento', icon: '🛥️', key: 'equipamiento' },
+      { name: 'Seguridad', icon: '🛟', key: 'seguridad' },
+      { name: 'Reviews', icon: '⭐', key: 'reviews' },
+      { name: 'Consejos', icon: '💡', key: 'consejos' },
+      { name: 'Familia', icon: '👨‍👩‍👧‍👦', key: 'familia' },
+      { name: 'Deportes Acuáticos', icon: '🏄‍♂️', key: 'deportes' },
+      { name: 'Tecnología', icon: '📱', key: 'tecnología' },
+      { name: 'Sostenibilidad', icon: '🌍', key: 'sostenibilidad' },
+      { name: 'Licencias y Certificaciones', icon: '🎓', key: 'licencias' },
+      { name: 'Mascotas', icon: '🐕', key: 'mascotas' }
     ];
 
     return (
@@ -451,15 +504,15 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
         <h3 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
           Explora por Categorías
         </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {categories.map((category) => {
             const categoryPosts = sortedBlogPosts.filter(post => 
-              post.frontmatter.tags?.some(tag => tag.toLowerCase().includes(category.slug))
+              getArticleCategory(post.frontmatter.tags || []) === category.name
             );
             
             return (
               <button
-                key={category.slug}
+                key={category.key}
                 onClick={() => {
                   setSelectedCategory(category.name);
                   setActiveTab('all');
@@ -472,10 +525,10 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
                 }`}
               >
                 <div className="text-2xl mb-2">{category.icon}</div>
-                <div className={`font-semibold ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                <div className={`font-semibold text-sm ${darkMode ? 'text-white' : 'text-slate-800'}`}>
                   {category.name}
                 </div>
-                <div className={`text-sm ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                <div className={`text-xs ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                   {categoryPosts.length} artículos
                 </div>
               </button>
