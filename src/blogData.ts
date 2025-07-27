@@ -64,6 +64,7 @@ const getLinkableKeywords = (allPotentialLinkTargets: ParsedMarkdownPost[], curr
     'mejores-libros-navegacion': { phrases: ["Libros de Navegación", "Mejores Libros de Navegación", "libros imprescindibles de navegación"], title: "Los 5 Mejores Libros de Navegación: ¡Tu Brújula de Conocimiento en el Mar! 📚⚓"},
     'review-garmin-echomap-uhd-mejor-plotter-sonda': { phrases: ["Garmin", "Garmin EchoMAP UHD", "review Garmin"], title: "Review: ¡Garmin EchoMAP UHD Series! ¿El Mejor Plotter/Sonda para tu Barco? 🐠🗺️"},
     'deportes-acuaticos-barco-guia-completa': { phrases: ["deportes acuáticos desde tu barco", "deportes acuáticos", "wakeboard", "esquí acuático", "donut", "tubo"], title: "Deportes Acuáticos desde tu Barco: ¡La Guía Completa para la Aventura Total! 🏄‍♂️⛵"},
+    'guia-supervivencia-mar-tecnicas-basicas': { phrases: ["supervivencia en el mar", "técnicas de supervivencia", "emergencias marítimas", "señales de socorro", "primeros auxilios marítimos"], title: "Guía de Supervivencia en el Mar: Técnicas Básicas que Todo Navegante Debe Conocer 🆘🌊"},
   };
 
   const finalKeywords: LinkableKeyword[] = [];
@@ -2276,6 +2277,207 @@ Ya sea que prefieras la velocidad del wakeboard, la exploración del snorkel o l
 ¿Cuál es tu deporte acuático favorito? ¿Ya has practicado alguno desde tu barco? ¡Comparte tu experiencia en Boattrip-Planner.com y ayuda a otros navegantes a descubrir la emoción de los deportes acuáticos! 🏄‍♂️⛵
 
 Para planificar tu próxima aventura de deportes acuáticos, usa [BoatTrip Planner](/) y encuentra los mejores destinos y rutas. Y si necesitas un barco, [Samboat](${SAMBOAT_AFFILIATE_URL}) te ofrece la mejor selección de embarcaciones para deportes acuáticos. ¡Que la aventura comience! 🚤💨
+`,
+  },
+  {
+    frontmatter: {
+      slug: 'guia-supervivencia-mar-tecnicas-basicas',
+      title: 'Guía de Supervivencia en el Mar: Técnicas Básicas que Todo Navegante Debe Conocer 🆘🌊',
+      date: getTodayDate(0), // Newest post
+      author: 'Captain Safety',
+      summary: 'Aprende las técnicas esenciales de supervivencia en el mar: desde señales de socorro hasta primeros auxilios básicos. Una guía completa para navegantes que quieren estar preparados para cualquier emergencia. ¡Tu seguridad es lo primero en Boattrip-Planner.com!',
+      tags: ["supervivencia", "seguridad", "emergencias", "primeros auxilios", "señales de socorro", "equipamiento de seguridad"],
+    },
+    content: `
+¡Hola, navegantes responsables y amantes de la seguridad! 👋 El mar es un entorno hermoso pero impredecible, y aunque esperamos que nunca tengas que usar estas técnicas, es fundamental conocerlas. En Boattrip-Planner.com, creemos que la mejor aventura es la que se vive con seguridad. Hoy te traemos una guía completa de supervivencia en el mar que todo navegante debe tener en su arsenal de conocimientos. ¡Prepárate para lo inesperado! 🛟⚓
+
+### ¿Por Qué es Fundamental Conocer Técnicas de Supervivencia? 🎯
+
+*   **Prevención:** El conocimiento es tu mejor herramienta para evitar situaciones peligrosas.
+*   **Confianza:** Saber qué hacer en una emergencia te da tranquilidad y te permite actuar con calma.
+*   **Responsabilidad:** Como capitán, la seguridad de tu tripulación está en tus manos.
+*   **Autonomía:** En el mar, a menudo estás solo y debes ser capaz de resolver problemas por ti mismo.
+*   **Cumplimiento Legal:** Muchas de estas técnicas son requisitos para obtener tu [Patente de Navegación](/?view=blog_post&slug=patente-de-navegacion-primer-paso-capitan "Lee más sobre La Patente de Navegación: ¡Tu Primer Paso para Ser Capitán de tu Propia Aventura! ⛵🎓") o [PNB](/?view=blog_post&slug=patron-de-navegacion-basica-pnb-siguiente-nivel "Lee más sobre El PNB (Patrón de Navegación Básica): ¡Tu Siguiente Nivel en la Autonomía Marina! ⚓🎓").
+
+### Equipamiento Básico de Supervivencia: Tu Kit de Emergencia 🛟
+
+#### Equipamiento Obligatorio (Según Normativa):
+*   **Chalecos salvavidas homologados:** Uno por persona a bordo, más uno de repuesto
+*   **Bengalas de mano:** Mínimo 6 unidades
+*   **Cohetes con paracaídas:** 2 unidades
+*   **Radio VHF portátil:** Con baterías de repuesto
+*   **Espejo de señales:** Para reflejar la luz del sol
+*   **Silbato:** Para atraer atención
+*   **Linterna estanca:** Con baterías de repuesto
+
+#### Equipamiento Recomendado Adicional:
+*   **Kit de primeros auxilios:** [Encuentra kits completos en Amazon](https://amzn.to/45codtL)
+*   **Manta térmica:** Para prevenir hipotermia
+*   **Agua potable:** Mínimo 2 litros por persona
+*   **Comida de emergencia:** Barras energéticas o galletas
+*   **Cuchillo de supervivencia:** [Cuchillos náuticos profesionales en Amazon](https://amzn.to/45codtL)
+*   **Cuerda resistente:** Mínimo 20 metros
+*   **Botiquín de reparaciones:** Para pequeñas averías
+
+### Señales de Socorro: Cómo Pedir Ayuda 🆘
+
+#### Señales Visuales:
+*   **Banderas de socorro:** Código internacional de señales
+*   **Bengalas:** Rojas para emergencia, blancas para atención
+*   **Espejo de señales:** Reflejar luz hacia embarcaciones o aviones
+*   **Señales de humo:** Durante el día
+*   **Señales de fuego:** Durante la noche
+
+#### Señales de Radio:
+*   **MAYDAY:** Emergencia grave que amenaza la vida
+*   **PAN-PAN:** Urgencia que no amenaza la vida
+*   **SECURITE:** Información de seguridad
+*   **Frecuencia 16:** Canal internacional de socorro
+
+> ⚠️ **Regla de Oro:** En caso de emergencia, mantén la calma y sigue el protocolo: **MAYDAY, MAYDAY, MAYDAY. Aquí [nombre del barco]. Posición [coordenadas]. Naturaleza de la emergencia. Número de personas a bordo. Over.**
+
+### Técnicas de Supervivencia en el Agua 🏊‍♂️
+
+#### Si Caes al Agua:
+1. **Mantén la calma:** El pánico consume energía y oxígeno
+2. **Flota de espaldas:** Conserva energía y mantén las vías respiratorias libres
+3. **Agrupa las piernas:** Reduce la pérdida de calor corporal
+4. **Usa el chaleco salvavidas:** Si no lo llevas puesto, infla el hinchable
+5. **Atrae atención:** Usa el silbato y agita los brazos
+
+#### Técnica HELP (Heat Escape Lessening Position):
+*   **Posición fetal:** Rodillas hacia el pecho
+*   **Brazos cruzados:** Sobre el pecho
+*   **Piernas juntas:** Para reducir la superficie expuesta
+*   **Mantén la cabeza fuera del agua:** Respiración constante
+
+### Primeros Auxilios Básicos a Bordo 🩹
+
+#### Heridas y Cortes:
+*   **Limpia la herida:** Con agua salada o antiséptico
+*   **Aplica presión:** Para detener el sangrado
+*   **Venda la herida:** Con vendas estériles
+*   **Eleva la extremidad:** Si es posible
+
+#### Quemaduras:
+*   **Enfría la zona:** Con agua fría (no hielo)
+*   **No revientes ampollas:** Protegen la piel
+*   **Cubre con gasa estéril:** Sin apretar
+*   **Busca atención médica:** Si es grave
+
+#### Hipotermia:
+*   **Retira ropa mojada:** Reemplaza con ropa seca
+*   **Aísla del frío:** Usa mantas térmicas
+*   **Calienta gradualmente:** No de forma brusca
+*   **Bebidas calientes:** Sin alcohol
+
+> 💡 **Kit de Primeros Auxilios Completo:** [Encuentra kits profesionales para embarcaciones en Amazon](https://amzn.to/45codtL) con todo lo necesario para emergencias marítimas.
+
+### Navegación de Emergencia: Cuando Fallan los Sistemas 🧭
+
+#### Sin GPS:
+*   **Usa la brújula:** [Brújulas náuticas profesionales en Amazon](https://amzn.to/45codtL)
+*   **Navegación por estrellas:** Aprende a usar la Estrella Polar
+*   **Referencias costeras:** Faros, montañas, edificios
+*   **Profundidad:** Usa la sonda para navegación costera
+
+#### Sin Motor:
+*   **Vela de emergencia:** Si tienes velero
+*   **Remos:** Para distancias cortas
+*   **Ancla:** Para evitar derivar
+*   **Señales de socorro:** Para pedir ayuda
+
+### Comunicación de Emergencia: Mantén el Contacto 📻
+
+#### Radio VHF:
+*   **Canal 16:** Emergencias internacionales
+*   **Canal 9:** Emergencias en España
+*   **Canal 10:** Emergencias en puertos
+*   **Canal 70:** DSC (Digital Selective Calling)
+
+#### Teléfono Móvil:
+*   **112:** Emergencias generales
+*   **900 202 202:** Salvamento Marítimo España
+*   **Aplicaciones:** Marine Traffic, Vessel Finder
+
+#### Dispositivos de Localización:
+*   **EPIRB:** Emergency Position Indicating Radio Beacon
+*   **PLB:** Personal Locator Beacon
+*   **AIS:** Automatic Identification System
+
+### Prevención: La Mejor Estrategia de Supervivencia 🛡️
+
+#### Antes de Zarpar:
+*   **Revisa el tiempo:** Consulta la [previsión meteorológica](/?view=blog_post&slug=como-planificar-viaje-nautico-con-ia-boattrip-planner "Lee más sobre Cómo Planificar tu Viaje Náutico con IA: ¡Paso a Paso con Boattrip-Planner! 🤖🗺️")
+*   **Verifica el equipamiento:** Todo debe estar en perfecto estado
+*   **Comunica tu plan:** Deja saber a alguien tu ruta y hora de regreso
+*   **Revisa la documentación:** Licencias, seguro, certificados
+
+#### Durante la Navegación:
+*   **Mantén la vigilancia:** Siempre alguien en cubierta
+*   **Respeta las distancias:** De otros barcos y obstáculos
+*   **Monitorea el tiempo:** Los cambios pueden ser rápidos
+*   **Conserva energía:** Baterías, combustible, agua
+
+### Casos Prácticos: Escenarios Reales 🎭
+
+#### Escenario 1: Motor Averiado en Mar Abierto
+**Situación:** Estás a 5 millas de la costa cuando el motor se para.
+
+**Acciones:**
+1. **Evalúa la situación:** ¿Hay viento para navegar a vela?
+2. **Comunica la emergencia:** Radio VHF canal 16
+3. **Usa el ancla:** Si estás cerca de la costa
+4. **Prepara señales visuales:** Bengalas, espejo
+5. **Conserva recursos:** Agua, comida, baterías
+
+#### Escenario 2: Hombre al Agua
+**Situación:** Un tripulante cae al agua.
+
+**Acciones:**
+1. **Grita "Hombre al agua":** Para alertar a todos
+2. **Lanza el salvavidas:** Con cuerda de rescate
+3. **Mantén contacto visual:** No pierdas de vista a la persona
+4. **Maniobra de rescate:** Aproximación segura
+5. **Izado a bordo:** Con precaución
+
+#### Escenario 3: Tormenta Sorpresa
+**Situación:** Se acerca una tormenta inesperada.
+
+**Acciones:**
+1. **Reduce velas:** O busca refugio
+2. **Asegura todo a bordo:** Objetos sueltos
+3. **Pon chalecos salvavidas:** A toda la tripulación
+4. **Mantén la proa al viento:** Si es posible
+5. **Comunica tu posición:** Por radio
+
+### Formación y Práctica: Invierte en tu Seguridad 🎓
+
+#### Cursos Recomendados:
+*   **Curso de Supervivencia en el Mar:** Organizado por escuelas náuticas
+*   **Primeros Auxilios Marítimos:** Específico para emergencias en el mar
+*   **Radio VHF:** Licencia de operador de radio
+*   **Meteorología Marina:** Para interpretar el tiempo
+
+#### Práctica Regular:
+*   **Simulacros:** Practica emergencias con tu tripulación
+*   **Revisión de equipamiento:** Mensual
+*   **Actualización de conocimientos:** Cursos de reciclaje
+*   **Planificación de rutas:** Siempre con alternativas
+
+> 💡 **Formación Profesional:** Para una formación completa en seguridad náutica, consulta con [Rumbovivo.com](https://www.rumbovivo.com), especialistas en cursos de seguridad marítima.
+
+### Conclusión: La Seguridad es tu Mejor Compañera de Viaje 🛟
+
+La supervivencia en el mar no es solo cuestión de equipamiento, sino de conocimiento, preparación y actitud mental. Un navegante bien preparado puede enfrentar cualquier situación con confianza y calma.
+
+Recuerda: **"Es mejor tener y no necesitar, que necesitar y no tener."** Invierte en tu seguridad, forma a tu tripulación y navega con la tranquilidad de saber que estás preparado para lo inesperado.
+
+> 🌊 **Mensaje Final:** La aventura náutica es maravillosa, pero la seguridad es lo que te permite disfrutarla una y otra vez. ¡Navega seguro, navega feliz!
+
+¿Qué técnicas de supervivencia conoces? ¿Has estado alguna vez en una situación de emergencia en el mar? ¡Comparte tu experiencia en Boattrip-Planner.com y ayuda a otros navegantes a estar mejor preparados! 🆘⚓
+
+Para planificar tus rutas con seguridad y conocer las mejores prácticas de navegación, usa [BoatTrip Planner](/) y asegúrate de que tu próxima aventura sea tanto emocionante como segura. Y si necesitas equipamiento de seguridad, [Amazon](https://amzn.to/45codtL) tiene todo lo que necesitas para navegar con tranquilidad. ¡Que el mar te trate bien! 🌊⛵
 `,
   },
   {
