@@ -1,0 +1,10 @@
+[33m2e4bc60[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Simplify wizard: Remove Step 5 (BoatDetails) to streamline user experience
+[33macf957b[m Improve SEO: Add comprehensive meta tags, structured data, sitemap, manifest, and semantic HTML structure
+[33m16cc574[m Improve form selection visibility: Add modern card-style radio buttons with clear visual indicators
+[33mee48222[m Optimize for iOS: Add code splitting and iOS-specific optimizations
+[33m7dc724c[m Deploy to Vercel: Add Vercel CLI and configure automatic deployment
+[33md24344a[m Migrate to Vercel: Add vercel.json config and update Vite base path for Vercel deployment
+[33m8a1495f[m Fix iOS compatibility: Add _redirects file and optimize Vite config for better GitHub Pages support
+[33m4ab8f54[m Fix MIME type issue: Add vercel.json and update Vite config for better JavaScript module compatibility
+[33m8dd8520[m Fix MIME type issue: Add .htaccess and _headers files to ensure correct JavaScript MIME types on GitHub Pages
+[33m89bc39c[m Fix iOS compatibility: Replace process.env with import.meta.env in App.tsx
