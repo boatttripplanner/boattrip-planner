@@ -68,7 +68,7 @@ const Footer: React.FC<FooterProps> = ({
             <div className="mb-4">
               <h4 className="text-sm font-semibold text-white mb-2">📧 Newsletter Náutico</h4>
               <p className="text-xs text-slate-400 mb-3">Recibe consejos, destinos y novedades náuticas</p>
-              <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
+              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="email"
                   value={email}
@@ -79,7 +79,7 @@ const Footer: React.FC<FooterProps> = ({
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+                  className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium rounded-lg transition-colors duration-200 sm:w-auto w-full"
                 >
                   Suscribir
                 </button>
