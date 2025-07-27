@@ -1,6 +1,6 @@
 
 
-import { BudgetLevel, ExperienceLevel, PlanningMode, planningModeOptions as planningModeOptionsType } from './types'; // Added PlanningMode to imports
+import { BudgetLevel, PlanningMode, planningModeOptions as planningModeOptionsType } from './types'; // Added PlanningMode to imports
 
 export const GEMINI_MODEL_NAME = 'gemini-2.5-flash';
 export const APP_TITLE = "BoatTrip Planner"; 
