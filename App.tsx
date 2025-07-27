@@ -97,6 +97,23 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>(initialNavigationState.view);
   const [currentBlogPostSlug, setCurrentBlogPostSlug] = useState<string | null>(initialNavigationState.slug);
 
+  // Función para limpiar el estado de la aplicación
+  const clearAppState = useCallback(() => {
+    setCurrentPreferences(null);
+    setRecommendation(null);
+    setError(null);
+    setIsGenerating(false);
+    setIsLoadingRecommendation(false);
+    setActiveChatSession(null);
+  }, []);
+
+  // Función para limpiar el localStorage del blog
+  const clearBlogStorage = useCallback(() => {
+    localStorage.removeItem('blogFavorites');
+    localStorage.removeItem('blogUserRatings');
+    localStorage.removeItem('blogSearchHistory');
+  }, []);
+
   const geminiApiKey = import.meta.env.VITE_API_KEY || "MISSING_API_KEY";
   const aiInstance = useRef(new GoogleGenAI({ apiKey: geminiApiKey }));
 
@@ -148,7 +165,14 @@ const App: React.FC = () => {
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
-  }, []); 
+  }, []);
+
+  // Limpiar estado de la aplicación cuando se navega a la vista principal
+  useEffect(() => {
+    if (currentView === AppView.MAIN_APP) {
+      clearAppState();
+    }
+  }, [currentView, clearAppState]); 
 
 
   useEffect(() => {
@@ -777,6 +801,7 @@ const App: React.FC = () => {
         onNavigateHome={handleNavigateToMainApp}
         onNavigateToBlogIndex={handleNavigateToBlogIndex}
         currentView={currentView}
+        onNewQuery={clearAppState}
       />
 
       <main className="flex-grow container mx-auto p-4 md:p-8">

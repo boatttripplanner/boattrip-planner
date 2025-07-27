@@ -6,10 +6,12 @@ interface HeaderProps {
   onNavigateHome: () => void;
   onNavigateToBlogIndex?: () => void;
   currentView: AppView;
+  onNewQuery?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, onNavigateHome, onNavigateToBlogIndex, currentView }) => {
+const Header: React.FC<HeaderProps> = ({ title, onNavigateHome, onNavigateToBlogIndex, currentView, onNewQuery }) => {
   const isBlogViewActive = currentView === AppView.BLOG_INDEX || currentView === AppView.BLOG_POST;
+  const isMainAppActive = currentView === AppView.MAIN_APP;
 
   return (
     <header className="bg-slate-800 text-white shadow-lg no-print">
@@ -24,19 +26,31 @@ const Header: React.FC<HeaderProps> = ({ title, onNavigateHome, onNavigateToBlog
           </h1>
         </button>
 
-        {onNavigateToBlogIndex && (
-          <button
-            onClick={onNavigateToBlogIndex}
-            className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:ring-offset-2 focus:ring-offset-slate-800 flex-shrink-0
-                        ${isBlogViewActive 
-                          ? 'bg-teal-600 text-white shadow-md ring-2 ring-teal-300/70'
-                          : 'bg-slate-700 hover:bg-slate-600 text-slate-200 hover:text-white'
-                        }`}
-            aria-current={isBlogViewActive ? 'page' : undefined}
-          >
-            Blog
-          </button>
-        )}
+        <div className="flex items-center gap-2">
+          {isMainAppActive && onNewQuery && (
+            <button
+              onClick={onNewQuery}
+              className="px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:ring-offset-2 focus:ring-offset-slate-800 flex-shrink-0 bg-teal-600 hover:bg-teal-700 text-white shadow-md"
+              aria-label="Nueva consulta"
+            >
+              🆕 Nueva Consulta
+            </button>
+          )}
+          
+          {onNavigateToBlogIndex && (
+            <button
+              onClick={onNavigateToBlogIndex}
+              className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:ring-offset-2 focus:ring-offset-slate-800 flex-shrink-0
+                          ${isBlogViewActive 
+                            ? 'bg-teal-600 text-white shadow-md ring-2 ring-teal-300/70'
+                            : 'bg-slate-700 hover:bg-slate-600 text-slate-200 hover:text-white'
+                          }`}
+              aria-current={isBlogViewActive ? 'page' : undefined}
+            >
+              Blog
+            </button>
+          )}
+        </div>
       </div>
     </header>
   );
