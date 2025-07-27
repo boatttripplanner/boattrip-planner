@@ -172,7 +172,20 @@ const App: React.FC = () => {
     if (currentView === AppView.MAIN_APP) {
       clearAppState();
     }
-  }, [currentView, clearAppState]); 
+  }, [currentView, clearAppState]);
+
+  // Detectar si la página se cargó desde caché y forzar recarga
+  useEffect(() => {
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        console.log('Página cargada desde caché, recargando...');
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener('pageshow', handlePageShow);
+    return () => window.removeEventListener('pageshow', handlePageShow);
+  }, []); 
 
 
   useEffect(() => {
