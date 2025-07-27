@@ -670,63 +670,89 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
             </ReactMarkdown>
           </article>
 
-          {/* Acciones sociales del artículo */}
-          <div className="flex flex-wrap gap-3 mb-8 pt-6 border-t border-slate-200 dark:border-slate-600">
-            {/* Valoración */}
-            <div className="flex items-center gap-2">
-              <span className={`text-sm ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                ¿Te gustó este artículo?
-              </span>
-              <RatingStars 
-                rating={userRating} 
-                onRate={handleRating} 
-                interactive={true}
-                size="md"
-              />
+          {/* Acciones sociales unificadas */}
+          <div className={`mb-8 pt-6 border-t ${darkMode ? 'border-slate-600' : 'border-slate-200'}`}>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              {/* Sección izquierda: Valoración y favorito */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                {/* Valoración */}
+                <div className="flex items-center gap-3">
+                  <span className={`text-sm font-medium ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    ¿Te gustó?
+                  </span>
+                  <RatingStars 
+                    rating={userRating} 
+                    onRate={handleRating} 
+                    interactive={true}
+                    size="md"
+                  />
+                </div>
+
+                {/* Favorito */}
+                <button
+                  onClick={toggleFavorite}
+                  className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    isFavorite 
+                      ? 'bg-red-100 text-red-700 hover:bg-red-200' 
+                      : `${darkMode ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`
+                  }`}
+                >
+                  {isFavorite ? '❤️' : '🤍'} {isFavorite ? 'Guardado' : 'Guardar'}
+                </button>
+              </div>
+
+              {/* Sección derecha: Compartir */}
+              <div className="flex items-center gap-2">
+                <span className={`text-sm font-medium ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                  Compartir:
+                </span>
+                <div className="flex gap-2">
+                  {/* WhatsApp */}
+                  <button
+                    onClick={handleShareViaWhatsApp}
+                    className="p-2 rounded-lg bg-green-500 hover:bg-green-600 text-white transition-colors duration-200"
+                    title="Compartir en WhatsApp"
+                  >
+                    <WhatsAppIcon className="w-4 h-4" />
+                  </button>
+
+                  {/* Twitter */}
+                  <button
+                    onClick={() => {
+                      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.frontmatter.title)}&url=${encodeURIComponent(postUrl)}`;
+                      window.open(twitterUrl, '_blank', 'noopener,noreferrer');
+                    }}
+                    className="p-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition-colors duration-200"
+                    title="Compartir en Twitter"
+                  >
+                    🐦
+                  </button>
+
+                  {/* Facebook */}
+                  <button
+                    onClick={() => {
+                      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
+                      window.open(facebookUrl, '_blank', 'noopener,noreferrer');
+                    }}
+                    className="p-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-200"
+                    title="Compartir en Facebook"
+                  >
+                    📘
+                  </button>
+
+                  {/* Imprimir */}
+                  <button
+                    onClick={handlePrint}
+                    className={`p-2 rounded-lg transition-colors duration-200 ${
+                      darkMode ? 'bg-slate-700 hover:bg-slate-600 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                    }`}
+                    title="Imprimir artículo"
+                  >
+                    🖨️
+                  </button>
+                </div>
+              </div>
             </div>
-
-            {/* Favorito */}
-            <Button
-              onClick={toggleFavorite}
-              variant={isFavorite ? "primary" : "secondary"}
-              size="sm"
-              className="inline-flex items-center gap-2"
-            >
-              {isFavorite ? '❤️' : '🤍'} {isFavorite ? 'Favorito' : 'Guardar'}
-            </Button>
-
-            {/* Compartir en WhatsApp */}
-            <Button
-              onClick={handleShareViaWhatsApp}
-              variant="primary"
-              size="sm"
-              className="inline-flex items-center gap-2"
-            >
-              <WhatsAppIcon className="w-4 h-4" />
-              WhatsApp
-            </Button>
-
-            {/* Imprimir */}
-            <Button
-              onClick={handlePrint}
-              variant="secondary"
-              size="sm"
-            >
-              🖨️ Imprimir
-            </Button>
-          </div>
-
-          {/* Compartir en redes sociales */}
-          <div className="mb-8">
-            <h4 className={`text-lg font-semibold mb-3 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-              Compartir este artículo
-            </h4>
-            <SocialShareButtons 
-              url={postUrl}
-              title={post.frontmatter.title}
-              summary={post.frontmatter.summary}
-              darkMode={darkMode}
-            />
           </div>
 
           {/* Navegación entre artículos */}
