@@ -1,4 +1,4 @@
-const CACHE_NAME = 'boattrip-planner-v1.0.0';
+const CACHE_NAME = 'boattrip-planner-v1.0.1'; // Updated version
 const urlsToCache = [
   '/',
   '/index.html',
@@ -19,15 +19,41 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Fetch event - serve from cache if available
+// Fetch event - prioritize network over cache
 self.addEventListener('fetch', (event) => {
+  // Skip caching for HTML files and API calls
+  if (event.request.url.includes('.html') || 
+      event.request.url.includes('/api/') ||
+      event.request.url.includes('?v=') ||
+      event.request.url.includes('&v=')) {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => {
+          // Only fallback to cache if network fails
+          return caches.match(event.request);
+        })
+    );
+    return;
+  }
+
+  // For other resources, try network first, then cache
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then((response) => {
-        // Return cached version or fetch from network
-        return response || fetch(event.request);
-      }
-    )
+        // If successful, update cache
+        if (response.status === 200) {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME)
+            .then((cache) => {
+              cache.put(event.request, responseClone);
+            });
+        }
+        return response;
+      })
+      .catch(() => {
+        // Fallback to cache if network fails
+        return caches.match(event.request);
+      })
   );
 });
 
@@ -45,4 +71,11 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
+});
+
+// Force update check on page load
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 }); 

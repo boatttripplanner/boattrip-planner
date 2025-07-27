@@ -187,6 +187,16 @@ const App: React.FC = () => {
     return () => window.removeEventListener('pageshow', handlePageShow);
   }, []); 
 
+  // Service Worker update handling
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        console.log('Service Worker actualizado, recargando página...');
+        window.location.reload();
+      });
+    }
+  }, []);
+
 
   useEffect(() => {
     const storedConsent = localStorage.getItem('cookieConsent');
