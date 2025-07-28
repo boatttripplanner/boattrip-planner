@@ -14,7 +14,6 @@ const Footer: React.FC<FooterProps> = ({
   onNavigateToMainApp,
   onNavigateToBlogIndex,
 }) => {
-  const [showNewsletter, setShowNewsletter] = useState(false);
   const [email, setEmail] = useState('');
   
   const linkStyle = "hover:text-teal-400 focus:text-teal-400 transition-colors duration-200 focus:outline-none focus:ring-1 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-slate-900 rounded-sm px-1";
@@ -24,7 +23,6 @@ const Footer: React.FC<FooterProps> = ({
     // Aquí se implementaría la lógica para suscribir al newsletter
     alert('¡Gracias por suscribirte! Te mantendremos informado sobre las últimas novedades náuticas.');
     setEmail('');
-    setShowNewsletter(false);
   };
   
   const handleWhatsAppContact = () => {

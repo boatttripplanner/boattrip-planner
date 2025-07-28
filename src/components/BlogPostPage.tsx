@@ -1,5 +1,5 @@
 // src/components/BlogPostPage.tsx
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { BlogPostPageProps, ParsedMarkdownPost } from '../../types';
@@ -69,92 +69,7 @@ const RatingStars: React.FC<{
   );
 };
 
-// Componente para compartir en redes sociales
-const SocialShareButtons: React.FC<{ 
-  url: string; 
-  title: string; 
-  summary: string;
-  darkMode: boolean;
-}> = ({ url, title, summary, darkMode }) => {
-  const shareData = {
-    title: title,
-    text: summary,
-    url: url
-  };
 
-  const shareButtons = [
-    {
-      name: 'Twitter',
-      icon: '🐦',
-      color: 'bg-blue-500 hover:bg-blue-600',
-      action: () => {
-        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
-        window.open(twitterUrl, '_blank', 'noopener,noreferrer');
-      }
-    },
-    {
-      name: 'Facebook',
-      icon: '📘',
-      color: 'bg-blue-600 hover:bg-blue-700',
-      action: () => {
-        const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-        window.open(facebookUrl, '_blank', 'noopener,noreferrer');
-      }
-    },
-    {
-      name: 'LinkedIn',
-      icon: '💼',
-      color: 'bg-blue-700 hover:bg-blue-800',
-      action: () => {
-        const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
-        window.open(linkedinUrl, '_blank', 'noopener,noreferrer');
-      }
-    },
-    {
-      name: 'WhatsApp',
-      icon: '📱',
-      color: 'bg-green-500 hover:bg-green-600',
-      action: () => {
-        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${title}\n\n${summary}\n\n${url}`)}`;
-        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-      }
-    },
-    {
-      name: 'Compartir',
-      icon: '📤',
-      color: 'bg-gray-500 hover:bg-gray-600',
-      action: async () => {
-        if (navigator.share) {
-          try {
-            await navigator.share(shareData);
-          } catch (err) {
-            console.log('Error sharing:', err);
-          }
-        } else {
-          // Fallback: copiar al portapapeles
-          navigator.clipboard.writeText(`${title}\n\n${url}`);
-          alert('Enlace copiado al portapapeles');
-        }
-      }
-    }
-  ];
-
-  return (
-    <div className="flex flex-wrap gap-2">
-      {shareButtons.map((button) => (
-        <button
-          key={button.name}
-          onClick={button.action}
-          className={`${button.color} text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center gap-2`}
-          title={`Compartir en ${button.name}`}
-        >
-          <span>{button.icon}</span>
-          <span className="hidden sm:inline">{button.name}</span>
-        </button>
-      ))}
-    </div>
-  );
-};
 
 // Componente para tabla de contenidos
 const TableOfContents: React.FC<{ 
@@ -301,10 +216,9 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
   const [darkMode, setDarkMode] = useState(false);
   const [userRating, setUserRating] = useState<number>(0);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [showRatingModal, setShowRatingModal] = useState(false);
+
   const [activeHeading, setActiveHeading] = useState<string>('');
   const [headings, setHeadings] = useState<Array<{ id: string; text: string; level: number }>>([]);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   const post = useMemo(() => {
     if (!slug) return null;
@@ -445,7 +359,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
     if (!post) return;
     
     setUserRating(rating);
-    setShowRatingModal(false);
+
     
     // Guardar valoración del usuario
     const userRatings = JSON.parse(localStorage.getItem('blogUserRatings') || '{}');

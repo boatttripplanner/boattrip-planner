@@ -2,7 +2,7 @@
 import { ACCUWEATHER_API_KEY, ACCUWEATHER_BASE_URL } from '../constants';
 import { WeatherData, AccuWeatherLocationResponse, AccuWeatherForecastResponse } from '../types';
 
-const genericErrorMessage = "No se pudo obtener la información meteorológica en este momento. Inténtalo más tarde.";
+
 
 interface LocationInfo {
   cityName: string;

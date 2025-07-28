@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { AppChatSession, ChatMessage } from '../types';
+import { AppChatSession } from '../types';
 import { Button } from './Button';
 import { ChatSendIcon } from './icons/ChatSendIcon';
 import { UserAvatarIcon } from './icons/UserAvatarIcon';

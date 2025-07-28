@@ -110,7 +110,7 @@ function addInternalLinksToContent(content: string, allOtherPostsForLinking: Par
     // This step is important to ensure 'item.phrase' is used for replacement text,
     // not a differently-cased version that might be matched by 'gi' flag.
     if (newContent.match(regex)) {
-        newContent = newContent.replace(regex, (match, p1_capturedPhrase) => {
+        newContent = newContent.replace(regex, (_, p1_capturedPhrase) => {
              // Use p1_capturedPhrase (the actually matched text) for the link text
              // to preserve original casing from the content.
             return `[${p1_capturedPhrase}](/?view=blog_post&slug=${item.slug} "Lee más sobre ${item.title.replace(/"/g, "'")}")`;

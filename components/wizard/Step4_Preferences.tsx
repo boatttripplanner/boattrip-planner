@@ -1,10 +1,10 @@
 
 import React, { useState } from 'react';
-import { WizardStepProps, BudgetLevel, activityOptions } from '../../types';
-import { SelectField, InputField, TextAreaField, CheckboxGroup } from '../FormControls';
+import { WizardStepProps, BudgetLevel } from '../../types';
+import { SelectField, InputField, TextAreaField } from '../FormControls';
 import { budgetLevelOptions } from '../../constants';
 import { InfoIcon } from '../icons/InfoIcon';
-import { ChevronIcon } from '../icons/ChevronIcon';
+
 import { CogIcon } from '../icons/CogIcon';
 
 const formatNumberWithDots = (digits: string): string => {
@@ -14,7 +14,7 @@ const formatNumberWithDots = (digits: string): string => {
 
 const Step4Preferences: React.FC<WizardStepProps> = ({ data, updateData }) => {
   const [showBudgetTooltip, setShowBudgetTooltip] = useState(false);
-  const [showActivitiesSection, setShowActivitiesSection] = useState(true); // Cambiado a true por defecto
+
   const [displayedCustomBudget, setDisplayedCustomBudget] = useState(
       data.customBudgetAmount ? formatNumberWithDots(data.customBudgetAmount.toString()) : ''
   );

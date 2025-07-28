@@ -2,7 +2,7 @@
 import React from 'react';
 import { UserPreferences, desiredExperienceTypeOptions, experienceLevelOptions, planningModeOptions } from '../../types';
 import { budgetLevelOptions } from '../../constants';
-import { Button } from '../Button';
+
 import { CheckCircleIcon } from '../icons/CheckCircleIcon';
 
 interface Step6ReviewProps {
@@ -122,10 +122,10 @@ const Step6Review: React.FC<Step6ReviewProps> = ({ data, goToStep, showBoatSpecs
           {data.desiredExperienceType === 'multi_day' && (
             <>
               <ReviewItem label="Duración" value={`${data.numTripDays} días`} />
-              {!data.isSamePortForMultiDay && <ReviewItem label="Llegada" value={data.arrivalPortForMultiDay} />}
+              {!data.isSamePortForMultiDay && data.arrivalPortForMultiDay && <ReviewItem label="Llegada" value={data.arrivalPortForMultiDay} />}
             </>
           )}
-          {data.desiredExperienceType === 'transfer' && <ReviewItem label="Destino" value={data.transferDestinationPort} />}
+          {data.desiredExperienceType === 'transfer' && data.transferDestinationPort && <ReviewItem label="Destino" value={data.transferDestinationPort} />}
           <ReviewItem label="Fecha de Inicio" value={data.startDate ? new Date(data.startDate + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric'}) : ''} />
         </SectionBlock>
 

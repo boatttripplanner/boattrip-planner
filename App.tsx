@@ -84,7 +84,6 @@ const getViewAndSlugFromLocation = (): { view: AppView; slug: string | null } =>
 
 
 const App: React.FC = () => {
-  const [currentPreferences, setCurrentPreferences] = useState<UserPreferences | null>(null);
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isLoadingRecommendation, setIsLoadingRecommendation] = useState(false);
@@ -99,7 +98,6 @@ const App: React.FC = () => {
 
   // Función para limpiar el estado de la aplicación
   const clearAppState = useCallback(() => {
-    setCurrentPreferences(null);
     setRecommendation(null);
     setError(null);
     setIsGenerating(false);
@@ -107,12 +105,7 @@ const App: React.FC = () => {
     setActiveChatSession(null);
   }, []);
 
-  // Función para limpiar el localStorage del blog
-  const clearBlogStorage = useCallback(() => {
-    localStorage.removeItem('blogFavorites');
-    localStorage.removeItem('blogUserRatings');
-    localStorage.removeItem('blogSearchHistory');
-  }, []);
+
 
   const geminiApiKey = import.meta.env.VITE_API_KEY || "MISSING_API_KEY";
   const aiInstance = useRef(new GoogleGenAI({ apiKey: geminiApiKey }));
@@ -528,12 +521,12 @@ const App: React.FC = () => {
         if (locationKey) {
             const weather = await getAccuWeatherForecast(locationKey);
             setRecommendation(prev => {
-              if (prev) {
+              if (prev && weather) {
                 // Adaptar el itinerario según el clima
                 adaptItineraryToWeather(prev.text, weather);
                 return { ...prev, weatherData: weather, isFetchingWeather: false };
               }
-              return null;
+              return prev ? { ...prev, weatherData: weather, isFetchingWeather: false } : null;
             });
         } else {
             setRecommendation(prev => prev ? { ...prev, weatherError: "No se pudo encontrar la clave de ubicación para el pronóstico del tiempo.", isFetchingWeather: false } : null);
@@ -575,7 +568,6 @@ const App: React.FC = () => {
 
 
   const handleGetRecommendations = useCallback(async (preferences: UserPreferences) => {
-    setCurrentPreferences(preferences);
     setIsGenerating(true);
     setIsLoadingRecommendation(true);
     setError(null);

@@ -18,7 +18,7 @@ import { ChecklistIcon } from './icons/ChecklistIcon';
 import { InfoOutlineIcon } from './icons/InfoOutlineIcon';
 import { StarOutlineIcon } from './icons/StarOutlineIcon';
 import { DocumentTextIcon } from './icons/DocumentTextIcon';
-import { ThermometerIcon } from './icons/ThermometerIcon';
+
 import { WindIcon } from './icons/WindIcon';
 import { InputField } from './FormControls';
 import { Element as HastElement } from 'hast';
@@ -189,7 +189,7 @@ const WeatherInfoDisplay: React.FC<{
   }
 
   let iconUrl: string = "";
-  const sourceText = "AccuWeather"; // Assuming AccuWeather if data is present
+
   let forecastDate = new Date(weatherData.date).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'short' });
 
   if (weatherData.accuWeatherDayIcon) {
@@ -510,7 +510,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
         </li>
       );
     },
-     a: ({ node, children, href, ...props }) => {
+           a: ({ children, href }) => {
         return (
           <a href={href} 
              target="_blank" 

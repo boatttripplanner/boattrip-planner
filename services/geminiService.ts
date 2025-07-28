@@ -3,14 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 import { UserPreferences, experienceLevelOptions, DesiredExperienceType, desiredExperienceTypeOptions, boatingLicenseTypeOptions, PlanningMode, WeatherData } from '../types';
 import { GEMINI_MODEL_NAME, budgetLevelOptions, SYSTEM_NAUTICAL_PLANNER_PROMPT, planningModeOptions } from '../constants';
 
-// Declaración de tipos para Vite
-declare global {
-  interface ImportMeta {
-    env: {
-      VITE_API_KEY?: string;
-    };
-  }
-}
+
 
 
 
