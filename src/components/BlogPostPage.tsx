@@ -557,9 +557,9 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
     a: ({ href, children }) => {
       if (href?.includes(AMAZON_AFFILIATE_LINK_PLACEHOLDER)) {
         return (
-          <a 
+          <a
             href={href} 
-            target="_blank" 
+            target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-teal-600 hover:text-teal-700 underline"
           >
@@ -568,12 +568,12 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
           </a>
         );
       }
-      return (
+            return (
         <a 
           href={href} 
           className="text-teal-600 hover:text-teal-700 underline"
-        >
-          {children}
+              >
+                {children}
         </a>
       );
     },
@@ -647,7 +647,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
           </div>
 
           {/* Etiquetas */}
-          {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
+            {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-6">
               {post.frontmatter.tags.map((tag) => (
                 <span 
@@ -655,10 +655,10 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
                   className={`text-xs px-3 py-1 rounded-full ${darkMode ? 'bg-teal-600 text-white' : 'bg-teal-100 text-teal-800'}`}
                 >
                   {tag}
-                </span>
-              ))}
-            </div>
-          )}
+                  </span>
+                ))}
+              </div>
+            )}
 
           {/* Contenido del artículo */}
           <article className={`prose prose-lg max-w-none ${darkMode ? 'prose-invert' : ''} mb-8`}>
@@ -666,9 +666,9 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
               remarkPlugins={[remarkGfm]} 
               components={markdownComponents}
             >
-              {post.content}
-            </ReactMarkdown>
-          </article>
+            {post.content}
+          </ReactMarkdown>
+        </article>
 
           {/* Acciones sociales unificadas */}
           <div className={`mb-8 pt-6 border-t ${darkMode ? 'border-slate-600' : 'border-slate-200'}`}>
@@ -709,7 +709,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
                 <div className="flex gap-2">
                   {/* WhatsApp */}
                   <button
-                    onClick={handleShareViaWhatsApp}
+            onClick={handleShareViaWhatsApp} 
                     className="p-2 rounded-lg bg-green-500 hover:bg-green-600 text-white transition-colors duration-200"
                     title="Compartir en WhatsApp"
                   >
@@ -742,7 +742,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
 
                   {/* Imprimir */}
                   <button
-                    onClick={handlePrint}
+            onClick={handlePrint}
                     className={`p-2 rounded-lg transition-colors duration-200 ${
                       darkMode ? 'bg-slate-700 hover:bg-slate-600 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
                     }`}
@@ -763,27 +763,27 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
               onNavigate={onNavigateToPost}
               darkMode={darkMode}
             />
-          </div>
-
+        </div>
+        
           {/* Artículos relacionados */}
-          {relatedPosts.length > 0 && (
+        {relatedPosts.length > 0 && (
             <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-600">
               <h3 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
                 Artículos Relacionados
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {relatedPosts.map((relatedPost) => (
-                  <RelatedPostCard
-                    key={relatedPost.frontmatter.slug}
-                    post={relatedPost}
-                    onNavigate={onNavigateToPost}
-                  />
-                ))}
-              </div>
+                        <RelatedPostCard 
+                            key={relatedPost.frontmatter.slug}
+                            post={relatedPost}
+                            onNavigate={onNavigateToPost}
+                        />
+                    ))}
+                </div>
             </div>
-          )}
-            </div>
-          </div>
+        )}
+      </div>
+    </div>
         </div>
       </div>
     </>

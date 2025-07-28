@@ -143,7 +143,7 @@ export const constructPrompt = (preferences: UserPreferences): string => {
   } else {
     prompt += `*   **Tipo de Barco Preferido (Alquiler):** ${preferences.boatType || "No especificado"}\n`;
   }
-
+  
   if (preferences.desiredExperienceType === DesiredExperienceType.MULTI_DAY) {
     prompt += `*   **Duración del Viaje:** ${preferences.numTripDays} días\n`;
     if (preferences.isSamePortForMultiDay !== undefined) {
@@ -232,7 +232,7 @@ export const constructPrompt = (preferences: UserPreferences): string => {
   if (preferences.otherActivities) {
     prompt += `*   **Otras Actividades o Solicitudes Especiales (por el usuario):** ${preferences.otherActivities}\n`;
   }
-
+  
   // Sección de adaptación meteorológica
   prompt += `
   
@@ -279,7 +279,7 @@ export const constructPrompt = (preferences: UserPreferences): string => {
   
   **🌤️ IMPORTANTE:** Los datos meteorológicos se obtendrán después de generar esta recomendación inicial. Una vez que tengas acceso a la previsión del tiempo, DEBES adaptar el itinerario según las instrucciones meteorológicas proporcionadas anteriormente.
   
-  Asegúrate de incluir el bloque "Datos para API de Clima (Uso Interno - NO MOSTRAR COMO SECCIÓN PRINCIPAL EN EL ACORDEÓN)" al final de tu respuesta, completando los campos CiudadPrincipal, CodigoPais y RegionOpcional basados en la recomendación principal. Por ejemplo, si la recomendación es para "Port de Palma (Palma de Mallorca, Spain)", CiudadPrincipal sería "Palma de Mallorca", CodigoPais "ES", y RegionOpcional "Mallorca" o "Islas Baleares".
+Asegúrate de incluir el bloque "Datos para API de Clima (Uso Interno - NO MOSTRAR COMO SECCIÓN PRINCIPAL EN EL ACORDEÓN)" al final de tu respuesta, completando los campos CiudadPrincipal, CodigoPais y RegionOpcional basados en la recomendación principal. Por ejemplo, si la recomendación es para "Port de Palma (Palma de Mallorca, Spain)", CiudadPrincipal sería "Palma de Mallorca", CodigoPais "ES", y RegionOpcional "Mallorca" o "Islas Baleares".
 
    ⚠️ **ADVERTENCIA FINAL CRÍTICA SOBRE DURACIÓN:**
   El usuario ha especificado EXACTAMENTE ${preferences.numTripDays ? preferences.numTripDays.toString() : "1"} día(s) para su viaje. 
@@ -320,7 +320,7 @@ export const constructPrompt = (preferences: UserPreferences): string => {
   5. El enfoque del viaje sea coherente con las preferencias expresadas
   
   Si detectas alguna inconsistencia, CORRÍGELA antes de generar la respuesta final.
- `;
+`;
   return prompt;
 };
 

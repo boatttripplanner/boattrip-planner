@@ -41,10 +41,6 @@
     
     <!-- Cache Busting and Service Worker Registration -->
     <script>
-      // Cache busting for development and production
-      const timestamp = Date.now();
-      const cacheBuster = '?v=' + timestamp;
-      
       // Force reload if page is loaded from cache
       window.addEventListener('pageshow', function(event) {
         if (event.persisted) {
@@ -52,37 +48,18 @@
         }
       });
       
-                    // Service Worker Registration with cache busting
-              if ('serviceWorker' in navigator) {
-                // Force unregister old service workers first
-                navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                  for(let registration of registrations) {
-                    registration.unregister();
-                  }
-                });
-                
-                window.addEventListener('load', () => {
-                  navigator.serviceWorker.register('/sw.js?v=' + timestamp)
-                    .then((registration) => {
-                      console.log('SW registered: ', registration);
-                      
-                      // Check for updates
-                      registration.addEventListener('updatefound', () => {
-                        const newWorker = registration.installing;
-                        newWorker.addEventListener('statechange', () => {
-                          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            // New service worker available, force update
-                            newWorker.postMessage({ type: 'SKIP_WAITING' });
-                            window.location.reload();
-                          }
-                        });
-                      });
-                    })
-                    .catch((registrationError) => {
-                      console.log('SW registration failed: ', registrationError);
-                    });
-                });
-              }
+      // Simple Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
     </script>
     <title>BoatTrip Planner - Planificador de Viajes Náuticos con IA</title>
     <meta name="description" content="BoatTrip Planner: Tu asistente de IA para planificar viajes en barco. Recomendaciones personalizadas, itinerarios náuticos y consejos expertos para alquiler de barcos." />

@@ -1,57 +1,18 @@
-const CACHE_NAME = 'boattrip-planner-v1.0.1'; // Updated version
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/favicon.ico',
-  '/favicon.svg',
-  '/apple-touch-icon.png',
-  '/site.webmanifest'
-];
+const CACHE_NAME = 'boattrip-planner-v1.0.2';
 
-// Install event - cache resources
+// Install event - minimal caching
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-  );
+  console.log('Service Worker installing...');
+  self.skipWaiting();
 });
 
-// Fetch event - prioritize network over cache
+// Fetch event - network first for everything
 self.addEventListener('fetch', (event) => {
-  // Skip caching for HTML files and API calls
-  if (event.request.url.includes('.html') || 
-      event.request.url.includes('/api/') ||
-      event.request.url.includes('?v=') ||
-      event.request.url.includes('&v=')) {
-    event.respondWith(
-      fetch(event.request)
-        .catch(() => {
-          // Only fallback to cache if network fails
-          return caches.match(event.request);
-        })
-    );
-    return;
-  }
-
-  // For other resources, try network first, then cache
+  // Always try network first, fallback to cache only if network fails
   event.respondWith(
     fetch(event.request)
-      .then((response) => {
-        // If successful, update cache
-        if (response.status === 200) {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME)
-            .then((cache) => {
-              cache.put(event.request, responseClone);
-            });
-        }
-        return response;
-      })
       .catch(() => {
-        // Fallback to cache if network fails
+        // Only fallback to cache if network completely fails
         return caches.match(event.request);
       })
   );
@@ -59,6 +20,7 @@ self.addEventListener('fetch', (event) => {
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
+  console.log('Service Worker activating...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -69,13 +31,9 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
+    }).then(() => {
+      // Take control immediately
+      return self.clients.claim();
     })
   );
-});
-
-// Force update check on page load
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
 }); 
