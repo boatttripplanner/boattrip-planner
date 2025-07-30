@@ -14,10 +14,10 @@ export default defineConfig(({ mode }) => {
             main: path.resolve(__dirname, 'index.html')
           },
           treeshake: {
-            moduleSideEffects: false,
-            propertyReadSideEffects: false,
-            unknownGlobalSideEffects: false,
-            tryCatchDeoptimization: false
+            moduleSideEffects: true,
+            propertyReadSideEffects: true,
+            unknownGlobalSideEffects: true,
+            tryCatchDeoptimization: true
           },
           output: {
             manualChunks: (id) => {
@@ -49,6 +49,8 @@ export default defineConfig(({ mode }) => {
               if (id.includes('node_modules')) {
                 return 'vendor';
               }
+              // Return undefined for other modules to let Rollup handle them
+              return undefined;
             },
             assetFileNames: (assetInfo) => {
               if (assetInfo.name?.endsWith('.css')) {
@@ -76,41 +78,38 @@ export default defineConfig(({ mode }) => {
             drop_console: true,
             drop_debugger: true,
             pure_funcs: ['console.log', 'console.info', 'console.debug'],
-            passes: 2,
-            // Aggressive optimizations for better compression
+            passes: 1,
+            // Less aggressive optimizations to prevent runtime errors
             dead_code: true,
-            hoist_funs: true,
-            hoist_vars: true,
+            hoist_funs: false,
+            hoist_vars: false,
             if_return: true,
             join_vars: true,
-            reduce_vars: true,
+            reduce_vars: false,
             sequences: true,
-            side_effects: true,
-            unused: true,
-            collapse_vars: true,
-            // drop_unused: true, // Not supported in current Terser version
-            evaluate: true,
-            inline: true,
-            loops: true,
-            negate_iife: true,
-            properties: true,
-            unsafe: true,
-            unsafe_comps: true,
-            unsafe_Function: true,
-            unsafe_math: true,
-            unsafe_methods: true,
-            unsafe_proto: true,
-            unsafe_regexp: true,
-            unsafe_undefined: true
+            side_effects: false,
+            unused: false,
+            collapse_vars: false,
+            evaluate: false,
+            inline: false,
+            loops: false,
+            negate_iife: false,
+            properties: false,
+            unsafe: false,
+            unsafe_comps: false,
+            unsafe_Function: false,
+            unsafe_math: false,
+            unsafe_methods: false,
+            unsafe_proto: false,
+            unsafe_regexp: false,
+            unsafe_undefined: false
           },
           mangle: {
             safari10: true,
-            // Aggressive mangling for better compression
-            toplevel: true,
-            properties: {
-              regex: /^_/
-            },
-            reserved: ['__esModule', 'default']
+            // Less aggressive mangling to prevent property access issues
+            toplevel: false,
+            properties: false,
+            reserved: ['__esModule', 'default', 'exports', 'module']
           },
           format: {
             comments: false,
