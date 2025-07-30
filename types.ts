@@ -77,7 +77,8 @@ export interface Recommendation {
   weatherData?: WeatherData | null;
   weatherError?: string | null;
   isFetchingWeather?: boolean;
-  isAwaitingLocationData?: boolean; 
+  isAwaitingLocationData?: boolean;
+  weatherAdaptations?: string; // Texto de las adaptaciones meteorológicas
 }
 
 export enum DesiredExperienceType {

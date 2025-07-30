@@ -10,6 +10,129 @@ import { AMAZON_AFFILIATE_LINK_PLACEHOLDER } from '../../constants';
 import { ShoppingCartIcon } from '../../components/icons/ShoppingCartIcon';
 import { WhatsAppIcon } from '../../components/icons/WhatsAppIcon';
 
+// Hook para manejar metadatos SEO dinámicos
+const useSEO = (post: ParsedMarkdownPost | null) => {
+  useEffect(() => {
+    if (!post) return;
+
+    // Actualizar título de la página
+    document.title = `${post.frontmatter.title} | BoatTrip Planner Blog`;
+
+    // Actualizar meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', post.frontmatter.summary);
+    } else {
+      const newMetaDescription = document.createElement('meta');
+      newMetaDescription.name = 'description';
+      newMetaDescription.content = post.frontmatter.summary;
+      document.head.appendChild(newMetaDescription);
+    }
+
+    // Actualizar Open Graph tags
+    const updateOGTag = (property: string, content: string) => {
+      let ogTag = document.querySelector(`meta[property="${property}"]`);
+      if (ogTag) {
+        ogTag.setAttribute('content', content);
+      } else {
+        ogTag = document.createElement('meta');
+        ogTag.setAttribute('property', property);
+        ogTag.setAttribute('content', content);
+        document.head.appendChild(ogTag);
+      }
+    };
+
+    const postUrl = `https://boattrip-planner.com/blog/${post.frontmatter.slug}`;
+    
+    updateOGTag('og:title', post.frontmatter.title);
+    updateOGTag('og:description', post.frontmatter.summary);
+    updateOGTag('og:url', postUrl);
+    updateOGTag('og:type', 'article');
+    updateOGTag('og:image', 'https://boattrip-planner.com/og-image.png');
+    updateOGTag('og:site_name', 'BoatTrip Planner');
+
+    // Actualizar Twitter Card tags
+    const updateTwitterTag = (name: string, content: string) => {
+      let twitterTag = document.querySelector(`meta[name="${name}"]`);
+      if (twitterTag) {
+        twitterTag.setAttribute('content', content);
+      } else {
+        twitterTag = document.createElement('meta');
+        twitterTag.setAttribute('name', name);
+        twitterTag.setAttribute('content', content);
+        document.head.appendChild(twitterTag);
+      }
+    };
+
+    updateTwitterTag('twitter:card', 'summary_large_image');
+    updateTwitterTag('twitter:title', post.frontmatter.title);
+    updateTwitterTag('twitter:description', post.frontmatter.summary);
+    updateTwitterTag('twitter:url', postUrl);
+    updateTwitterTag('twitter:image', 'https://boattrip-planner.com/og-image.png');
+
+    // Actualizar canonical URL
+    let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+    if (canonicalLink) {
+      canonicalLink.setAttribute('href', postUrl);
+    } else {
+      canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      canonicalLink.href = postUrl;
+      document.head.appendChild(canonicalLink);
+    }
+
+    // Agregar structured data para el artículo
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": post.frontmatter.title,
+      "description": post.frontmatter.summary,
+      "author": {
+        "@type": "Person",
+        "name": post.frontmatter.author || "BoatTrip Planner"
+      },
+      "datePublished": post.frontmatter.date,
+      "dateModified": post.frontmatter.date,
+      "publisher": {
+        "@type": "Organization",
+        "name": "BoatTrip Planner",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://boattrip-planner.com/apple-touch-icon.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": postUrl
+      },
+      "image": "https://boattrip-planner.com/og-image.png",
+      "url": postUrl
+    };
+
+    // Remover structured data anterior si existe
+    const existingStructuredData = document.querySelector('script[type="application/ld+json"]');
+    if (existingStructuredData) {
+      existingStructuredData.remove();
+    }
+
+    // Agregar nuevo structured data
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(structuredData);
+    document.head.appendChild(script);
+
+    // Cleanup function
+    return () => {
+      // Restaurar metadatos por defecto al desmontar
+      document.title = 'BoatTrip Planner - Planificador de Viajes Náuticos con IA';
+      const defaultMetaDescription = document.querySelector('meta[name="description"]');
+      if (defaultMetaDescription) {
+        defaultMetaDescription.setAttribute('content', 'BoatTrip Planner: Tu asistente de IA para planificar viajes en barco. Recomendaciones personalizadas, itinerarios náuticos y consejos expertos para alquiler de barcos.');
+      }
+    };
+  }, [post]);
+};
+
 const formatDate = (dateString: string): string => {
   return new Date(dateString).toLocaleDateString('es-ES', {
     year: 'numeric',
@@ -224,6 +347,9 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
     if (!slug) return null;
     return allBlogPosts.find(p => p.frontmatter.slug === slug);
   }, [slug]);
+
+  // Aplicar SEO dinámico
+  useSEO(post || null);
 
   const readingTime = useMemo(() => {
     if (!post) return 0;

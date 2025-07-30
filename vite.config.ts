@@ -3,6 +3,8 @@ import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
+    const isDevelopment = mode === 'development';
+    
     return {
       base: '/',
       root: '.',
@@ -13,32 +15,93 @@ export default defineConfig(({ mode }) => {
           },
           output: {
             manualChunks: {
-              vendor: ['react', 'react-dom'],
-              gemini: ['@google/genai'],
-              ui: ['react-markdown', 'remark-gfm']
+              // Core React chunks
+              'react-vendor': ['react', 'react-dom'],
+              // AI/ML chunks
+              'ai-vendor': ['@google/genai'],
+              // UI/Markdown chunks
+              'ui-vendor': ['react-markdown', 'remark-gfm']
             },
             assetFileNames: (assetInfo) => {
               if (assetInfo.name?.endsWith('.css')) {
                 return 'assets/[name][extname]';
               }
+              if (assetInfo.name?.endsWith('.png') || assetInfo.name?.endsWith('.jpg') || assetInfo.name?.endsWith('.jpeg') || assetInfo.name?.endsWith('.webp')) {
+                return 'assets/images/[name]-[hash][extname]';
+              }
+              if (assetInfo.name?.endsWith('.svg')) {
+                return 'assets/icons/[name]-[hash][extname]';
+              }
               return 'assets/[name]-[hash][extname]';
             },
-            chunkFileNames: 'assets/[name]-[hash].js',
-            entryFileNames: 'assets/[name]-[hash].js'
+            chunkFileNames: 'assets/js/[name]-[hash].js',
+            entryFileNames: 'assets/js/[name]-[hash].js'
           }
         },
         cssCodeSplit: false,
-        assetsInlineLimit: 0,
-        target: 'es2015',
-        chunkSizeWarningLimit: 1000
+        assetsInlineLimit: 4096,
+        target: 'es2020',
+        chunkSizeWarningLimit: 1000,
+        minify: isDevelopment ? false : 'terser',
+        terserOptions: isDevelopment ? {} : {
+          compress: {
+            drop_console: true,
+            drop_debugger: true,
+            pure_funcs: ['console.log', 'console.info', 'console.debug'],
+            passes: 2
+          },
+          mangle: {
+            safari10: true
+          },
+          format: {
+            comments: false
+          }
+        },
+        sourcemap: isDevelopment,
+        reportCompressedSize: !isDevelopment,
+        emptyOutDir: true,
+        cssMinify: !isDevelopment
       },
       define: {
-        'import.meta.env.VITE_API_KEY': JSON.stringify(env.VITE_API_KEY)
+        'import.meta.env.VITE_API_KEY': JSON.stringify(env.VITE_API_KEY),
+        'import.meta.env.DEV': isDevelopment
       },
       resolve: {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
+      },
+      optimizeDeps: {
+        include: [
+          'react', 
+          'react-dom', 
+          '@google/genai',
+          'react-markdown',
+          'remark-gfm'
+        ],
+        exclude: [],
+        force: isDevelopment
+      },
+      // Development server configuration
+      server: {
+        headers: isDevelopment ? {} : {
+          'Cache-Control': 'public, max-age=31536000, immutable'
+        },
+        compress: !isDevelopment, // Disable compression in development
+        fs: {
+          strict: false
+        },
+        // Add proper error handling
+        hmr: {
+          overlay: true
+        }
+      },
+      // Preview configuration
+      preview: {
+        headers: {
+          'Cache-Control': 'public, max-age=31536000, immutable'
+        },
+        compress: true
       },
       plugins: []
     };

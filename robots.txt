@@ -33,6 +33,7 @@ Allow: /
 Allow: /about
 Allow: /how-it-works
 Allow: /blog
+Allow: /404
 
 # Permitir todo el contenido del blog
 Allow: /blog/
@@ -41,6 +42,7 @@ Allow: /blog/*
 # Assets estáticos importantes
 Allow: /favicon.ico
 Allow: /favicon.svg
+Allow: /favicon-96x96.png
 Allow: /apple-touch-icon.png
 Allow: /site.webmanifest
 Allow: /sw.js

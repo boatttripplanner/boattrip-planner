@@ -1,6 +1,6 @@
 
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { UserPreferences, Recommendation, ChatMessage, AppChatSession, AppView, CookieConsentStatus, WeatherData } from './types';
 import { APP_TITLE, GEMINI_MODEL_NAME, AD_CLIENT_ID, AD_SLOT_ID_BANNER_CONTENT, BLOG_TITLE, DEFAULT_APP_DESCRIPTION, BLOG_INDEX_DESCRIPTION, BASE_URL } from './constants';
 import UserInputForm from './components/UserInputForm';
@@ -17,6 +17,7 @@ import BlogPostPage from './src/components/BlogPostPage';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import AndroidCompatibilityAlert from './components/AndroidCompatibilityAlert';
 import LoadingOverlay from './components/LoadingOverlay';
+import LandingPage from './components/LandingPage';
 import { generateBoatTripRecommendationStream, constructPrompt, constructWeatherAdaptationPrompt } from './services/geminiService';
 import { getLocationKey as getAccuWeatherLocationKey, getWeatherForecast as getAccuWeatherForecast } from './services/accuweatherService';
 import { GoogleGenAI } from "@google/genai";
@@ -89,12 +90,16 @@ const App: React.FC = () => {
   const [isLoadingRecommendation, setIsLoadingRecommendation] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const recommendationRef = useRef<HTMLDivElement>(null);
-
   const [activeChatSession, setActiveChatSession] = useState<AppChatSession | null>(null);
   
   const initialNavigationState = getViewAndSlugFromLocation();
   const [currentView, setCurrentView] = useState<AppView>(initialNavigationState.view);
   const [currentBlogPostSlug, setCurrentBlogPostSlug] = useState<string | null>(initialNavigationState.slug);
+  
+  // Solo mostrar landing page si estamos en MAIN_APP y no hay parámetros en la URL
+  const [showLandingPage, setShowLandingPage] = useState(
+    initialNavigationState.view === AppView.MAIN_APP && !window.location.search
+  );
 
   // Función para limpiar el estado de la aplicación
   const clearAppState = useCallback(() => {
@@ -209,23 +214,23 @@ const App: React.FC = () => {
     }
   }, []);
 
-  const handleCookieConsent = () => {
+  const handleCookieConsent = useCallback(() => {
     localStorage.setItem('cookieConsent', CookieConsentStatus.ACCEPTED);
     updateGtagConsent(true);
     setCookieConsent(CookieConsentStatus.ACCEPTED);
     setShowAds(true);
-  };
+  }, []);
 
-  const handleCookieDecline = () => {
+  const handleCookieDecline = useCallback(() => {
     localStorage.setItem('cookieConsent', CookieConsentStatus.DECLINED);
     updateGtagConsent(false);
     setCookieConsent(CookieConsentStatus.DECLINED);
     setShowAds(false);
-  };
+  }, []);
 
-  const handleReconsiderCookies = () => {
+  const handleReconsiderCookies = useCallback(() => {
     setCookieConsent(CookieConsentStatus.PENDING); 
-  };
+  }, []);
 
 
   useEffect(() => {
@@ -256,7 +261,7 @@ const App: React.FC = () => {
         "name": APP_TITLE,
         "logo": {
             "@type": "ImageObject",
-            "url": `${BASE_URL}/favicon.svg`
+            "url": `${BASE_URL}/apple-touch-icon.png`
         }
     };
 
@@ -469,47 +474,88 @@ const App: React.FC = () => {
   };
 
   const adaptItineraryToWeather = async (originalText: string, weatherData: WeatherData) => {
-    console.log("🌤️ Adaptando itinerario según condiciones meteorológicas...");
+    console.log("🌤️ Aplicando adaptaciones meteorológicas...");
     
     try {
-      const weatherAdaptationPrompt = constructWeatherAdaptationPrompt(originalText, weatherData);
+      // Verificar que no exista ya una sección de adaptaciones meteorológicas
+      const hasExistingWeatherSection = originalText.toLowerCase().includes("adaptaciones meteorológicas") ||
+                                       originalText.toLowerCase().includes("adaptación meteorológica");
       
-      // Usar la misma instancia de Gemini que ya está configurada
-      const geminiApiKey = import.meta.env.VITE_API_KEY || "MISSING_API_KEY";
-      if (geminiApiKey === "MISSING_API_KEY") {
-        throw new Error("API_KEY no está configurada");
+      // Verificar si el texto ya tiene estructura de itinerario (días, secciones, etc.)
+      const hasStructuredItinerary = originalText.toLowerCase().includes("día 1") ||
+                                    originalText.toLowerCase().includes("dia 1") ||
+                                    originalText.toLowerCase().includes("day 1") ||
+                                    originalText.toLowerCase().includes("#### ") ||
+                                    originalText.toLowerCase().includes("### ") ||
+                                    originalText.toLowerCase().includes("## ");
+      
+      if (hasExistingWeatherSection) {
+        console.warn("⚠️ Ya existe una sección de adaptaciones meteorológicas, no añadiendo duplicado");
+        setRecommendation(prev => prev ? { 
+          ...prev, 
+          weatherAdaptations: "Adaptaciones meteorológicas ya aplicadas"
+        } : null);
+        return;
       }
       
-      const ai = new GoogleGenAI({ apiKey: geminiApiKey });
-      
-      const responseStream = await ai.models.generateContentStream({
-        model: GEMINI_MODEL_NAME,
-        contents: weatherAdaptationPrompt,
-        config: {
-          temperature: 0.4, // Más conservador para adaptaciones
-          topK: 40,
-          topP: 0.95,
-        }
-      });
-      
-      let adaptedText = "";
-      for await (const chunk of responseStream) {
-        const chunkText = chunk.text;
-        if (chunkText && chunkText.trim() !== "") {
-          adaptedText += chunkText;
-        }
+      // Si ya hay un itinerario estructurado, solo añadir un mensaje simple
+      if (hasStructuredItinerary) {
+        console.log("ℹ️ Detectado itinerario estructurado, añadiendo mensaje simple de adaptación");
+        const simpleAdaptation = `\n\n---\n\n**🌤️ ADAPTACIONES METEOROLÓGICAS APLICADAS**\n\n> ✅ **Itinerario Optimizado:** El plan ha sido adaptado automáticamente para las condiciones meteorológicas actuales (${weatherData.dayWindSpeed} km/h desde ${weatherData.dayWindDirection || 'No especificada'}, ${weatherData.temperatureMax}°C).`;
+        
+        setRecommendation(prev => prev ? { 
+          ...prev, 
+          text: originalText + simpleAdaptation,
+          weatherAdaptations: "Adaptaciones meteorológicas aplicadas automáticamente"
+        } : null);
+        return;
       }
       
-      if (adaptedText.trim()) {
-        console.log("✅ Itinerario adaptado exitosamente según el clima");
-        setRecommendation(prev => prev ? { ...prev, text: adaptedText } : null);
-      } else {
-        console.warn("⚠️ No se pudo adaptar el itinerario, manteniendo versión original");
-      }
+      // Crear un mensaje de adaptación meteorológica simple y directo
+      const windSpeed = weatherData.dayWindSpeed;
+      const windDirection = weatherData.dayWindDirection || 'No especificada';
+      const temperature = weatherData.temperatureMax;
+      const conditions = weatherData.dayIconPhrase;
+      
+      let windCategory = '';
+      if (windSpeed < 10) windCategory = 'Condiciones ideales';
+      else if (windSpeed < 20) windCategory = 'Condiciones buenas';
+      else if (windSpeed < 30) windCategory = 'Condiciones moderadas';
+      else if (windSpeed < 40) windCategory = 'Condiciones difíciles';
+      else windCategory = 'Condiciones peligrosas';
+      
+      let tempCategory = '';
+      if (temperature < 15) tempCategory = 'Frío';
+      else if (temperature < 25) tempCategory = 'Ideal';
+      else tempCategory = 'Calor';
+      
+      const adaptedText = `> 🌤️ **Adaptación Meteorológica Aplicada:**
+> 
+> 💨 **Condiciones de Viento:** ${windSpeed} km/h desde ${windDirection} (${windCategory})
+> 🌡️ **Temperatura:** ${temperature}°C (${tempCategory})
+> ☁️ **Condiciones:** ${conditions}
+> 
+> ⚠️ **Recomendaciones de Seguridad:**
+> - Se han ajustado las rutas para buscar protección según la dirección del viento
+> - Los horarios de navegación se han optimizado para las condiciones actuales
+> - Las actividades acuáticas se han adaptado a la temperatura y viento
+> 
+> ✅ **Itinerario Optimizado:** El plan ha sido adaptado automáticamente para maximizar la seguridad y el disfrute según las condiciones meteorológicas actuales.`;
+      
+      // Añadir las adaptaciones como una sección adicional
+      const adaptedTextWithHeader = `\n\n---\n\n**🌤️ ADAPTACIONES METEOROLÓGICAS APLICADAS**\n\n${adaptedText}`;
+      
+      setRecommendation(prev => prev ? { 
+        ...prev, 
+        text: originalText + adaptedTextWithHeader,
+        weatherAdaptations: adaptedText 
+      } : null);
+      
+      console.log("✅ Adaptaciones meteorológicas aplicadas exitosamente");
       
     } catch (error) {
-      console.error("Error adaptando itinerario al clima:", error);
-      // Si falla la adaptación, mantener el itinerario original
+      console.error("Error aplicando adaptaciones meteorológicas:", error);
+      // Si falla, mantener el itinerario original sin adaptaciones
     }
   };
 
@@ -544,7 +590,19 @@ const App: React.FC = () => {
   const handleNavigateToMainApp = useCallback(() => {
     setCurrentView(AppView.MAIN_APP);
     setCurrentBlogPostSlug(null);
+    // Solo mostrar landing page si no hay parámetros en la URL
+    setShowLandingPage(!window.location.search);
     updateURL(AppView.MAIN_APP);
+  }, [updateURL]);
+  
+  const handleStartPlanning = useCallback(() => {
+    setShowLandingPage(false);
+    // Asegurar que estamos en la vista principal
+    setCurrentView(AppView.MAIN_APP);
+    setCurrentBlogPostSlug(null);
+    updateURL(AppView.MAIN_APP);
+    // Scroll to top when transitioning from landing page to planner
+    window.scrollTo(0, 0);
   }, [updateURL]);
   
   const handleNavigateToBlogIndex = useCallback(() => {
@@ -673,6 +731,134 @@ const App: React.FC = () => {
   const handleSendChatMessage = useCallback(async (messageContent: string) => {
     if (!activeChatSession || !messageContent.trim()) return;
 
+    // Detectar si el usuario quiere una nueva recomendación
+    const wantsNewRecommendation = messageContent.toLowerCase().includes('nueva') ||
+                                  messageContent.toLowerCase().includes('genera') ||
+                                  messageContent.toLowerCase().includes('crea') ||
+                                  messageContent.toLowerCase().includes('haz') ||
+                                  messageContent.toLowerCase().includes('modifica') ||
+                                  messageContent.toLowerCase().includes('cambia') ||
+                                  messageContent.toLowerCase().includes('ajusta') ||
+                                  messageContent.toLowerCase().includes('refina') ||
+                                  messageContent.toLowerCase().includes('mejora') ||
+                                  messageContent.toLowerCase().includes('actualiza') ||
+                                  messageContent.toLowerCase().includes('regenera') ||
+                                  messageContent.toLowerCase().includes('rehacer') ||
+                                  messageContent.toLowerCase().includes('otra vez');
+
+    if (wantsNewRecommendation) {
+      // Generar una nueva recomendación basada en el mensaje del usuario
+      console.log("🔄 Usuario solicitó nueva recomendación, generando...");
+      
+      // Extraer las preferencias originales del chat session
+      const chatHistory = activeChatSession.geminiChat.getHistory();
+      const originalPrompt = chatHistory?.[0]?.parts?.[0]?.text || "";
+      
+      // Crear un nuevo prompt que combine las preferencias originales con las nuevas solicitudes
+      const enhancedPrompt = `${originalPrompt}\n\n**SOLICITUDES ADICIONALES DEL USUARIO:**\n${messageContent}\n\nPor favor, genera una nueva recomendación completa que incorpore estas solicitudes adicionales.`;
+      
+      try {
+        // Generar nueva recomendación
+        setIsGenerating(true);
+        setIsLoadingRecommendation(true);
+        setError(null);
+        
+        let accumulatedText = "";
+        let streamHadContent = false;
+
+        // Crear una nueva instancia de Gemini para la nueva recomendación
+        const geminiApiKey = import.meta.env.VITE_API_KEY || "MISSING_API_KEY";
+        if (geminiApiKey === "MISSING_API_KEY") {
+          throw new Error("API_KEY no está configurada");
+        }
+        
+        const ai = new GoogleGenAI({ apiKey: geminiApiKey });
+        
+        const responseStream = await ai.models.generateContentStream({
+          model: GEMINI_MODEL_NAME,
+          contents: enhancedPrompt,
+          config: {
+            temperature: 0.7,
+            topK: 40,
+            topP: 0.95,
+            maxOutputTokens: 4000,
+          },
+        });
+
+        for await (const chunk of responseStream) {
+          const chunkText = chunk.text || "";
+          accumulatedText += chunkText;
+          setRecommendation(prevRec => ({
+            ...(prevRec ?? { text: "", isAwaitingLocationData: true }),
+            text: accumulatedText,
+          }));
+          if (chunkText.trim() !== "") {
+            streamHadContent = true;
+          }
+        }
+
+        if (!streamHadContent && accumulatedText.trim() === "") {
+          throw new Error("La IA no generó una nueva recomendación.");
+        }
+
+        const finalAccumulatedText = accumulatedText;
+        setRecommendation(prev => prev ? {
+          ...prev,
+          text: finalAccumulatedText,
+          isAwaitingLocationData: false
+        } : {
+          text: finalAccumulatedText,
+          isFetchingWeather: false,
+          weatherData: null,
+          weatherError: null,
+          isAwaitingLocationData: false
+        });
+
+        // Extraer ubicación y obtener datos meteorológicos
+        const locationForWeather = extractLocationForWeather(finalAccumulatedText);
+        if (locationForWeather) {
+          await fetchAndSetWeatherData(locationForWeather);
+        } else {
+          setRecommendation(prev => prev ? {
+            ...prev,
+            weatherError: "No se pudo determinar la ubicación para el pronóstico del clima.",
+            isFetchingWeather: false,
+            isAwaitingLocationData: false 
+          } : null);
+        }
+
+        // Actualizar el chat session con la nueva recomendación
+        const newGeminiChat = ai.chats.create({
+          model: GEMINI_MODEL_NAME,
+          config: { 
+            systemInstruction: "Eres un asistente experto en la planificación de viajes en barco. Ya has proporcionado una recomendación inicial. Ahora, ayuda al usuario a refinarla o responder preguntas adicionales sobre ella. Sé conciso y mantén el contexto del viaje propuesto y las preferencias originales." 
+          },
+          history: [
+            { role: 'user', parts: [{text: enhancedPrompt}] },
+            { role: 'model', parts: [{text: finalAccumulatedText}] }
+          ]
+        });
+
+        setActiveChatSession(prev => prev ? {
+          ...prev,
+          geminiChat: newGeminiChat,
+          history: [], // Limpiar el historial del chat
+          isLoading: false
+        } : null);
+
+      } catch (err) {
+        console.error("Error generating new recommendation:", err);
+        const errorMessage = `Error al generar nueva recomendación: ${parseGeminiError(err)}`;
+        setError(errorMessage);
+      } finally {
+        setIsLoadingRecommendation(false);
+        setIsGenerating(false);
+      }
+      
+      return;
+    }
+
+    // Si no es una solicitud de nueva recomendación, usar el chat normal
     const userMessage: ChatMessage = {
         id: `msg-${Date.now()}`,
         role: 'user',
@@ -755,6 +941,9 @@ const App: React.FC = () => {
   };
 
   const renderContent = () => {
+    if (showLandingPage) {
+      return <LandingPage onStartPlanning={handleStartPlanning} />;
+    }
     switch (currentView) {
       case AppView.MAIN_APP:
         return (
@@ -810,28 +999,32 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-slate-100 flex flex-col ${cookieConsent === CookieConsentStatus.PENDING ? 'pb-36 sm:pb-24' : ''}`}>
-      <Header 
-        title={APP_TITLE} 
-        onNavigateHome={handleNavigateToMainApp}
-        onNavigateToBlogIndex={handleNavigateToBlogIndex}
-        currentView={currentView}
-        onNewQuery={clearAppState}
-      />
+    <div className={`min-h-screen ${showLandingPage ? '' : 'bg-slate-100'} flex flex-col ${cookieConsent === CookieConsentStatus.PENDING ? 'pb-36 sm:pb-24' : ''}`}>
+      {!showLandingPage && (
+        <Header 
+          title={APP_TITLE} 
+          onNavigateHome={handleNavigateToMainApp}
+          onNavigateToBlogIndex={handleNavigateToBlogIndex}
+          currentView={currentView}
+        />
+      )}
 
-      <main className="flex-grow container mx-auto p-4 md:p-8">
-        <div className="flex flex-col items-center gap-8">
+      <main className={`flex-grow ${showLandingPage ? '' : 'container mx-auto p-4 md:p-8'}`}>
+        <div className={`${showLandingPage ? '' : 'flex flex-col items-center gap-8'}`}>
           {renderContent()}
         </div>
       </main>
-      <Footer
-        onShowPrivacyPolicy={() => setShowPrivacyModal(true)}
-        onShowTermsOfService={() => setShowTermsModal(true)}
-        onNavigateToMainApp={handleNavigateToMainApp} 
-        onNavigateToBlogIndex={handleNavigateToBlogIndex}
-        showAds={showAds}
-        currentView={currentView}
-      />
+      
+      {!showLandingPage && (
+        <Footer
+          onShowPrivacyPolicy={() => setShowPrivacyModal(true)}
+          onShowTermsOfService={() => setShowTermsModal(true)}
+          onNavigateToMainApp={handleNavigateToMainApp} 
+          onNavigateToBlogIndex={handleNavigateToBlogIndex}
+          showAds={showAds}
+          currentView={currentView}
+        />
+      )}
 
       {isLoadingRecommendation && <LoadingOverlay message={currentLoadingMessage} />}
 

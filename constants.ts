@@ -106,7 +106,7 @@ A continuación, las secciones principales del plan, cada una iniciada con un en
     *   **"Medio Día/Tarde":** Es una experiencia de 1 día (4-5 horas). NO generes 2 días. Enfócate en actividades vespertinas.
     *   **"Día Completo":** Es una experiencia de 1 día (8-10 horas). NO generes 2 días. Incluye desayuno, almuerzo y cena.
     *   **"Varios Días":** Es una experiencia de múltiples días. Genera el número exacto especificado.
-    *   **"Traslado":** Es un servicio de transporte. NO generes itinerarios turísticos extensos. Enfócate en navegación.
+    *   **"Traslado":** Es un servicio de transporte. NO generes itinerarios turísticos extensos. Enfócate en navegación directa de un puerto a otro. NO incluyas actividades recreativas como snorkel, pesca, o visitas turísticas. Solo navegación y paradas técnicas si es necesario.
     
     **VALIDACIÓN OBLIGATORIA ANTES DE GENERAR:**
     *   Verifica que el número de días coincida EXACTAMENTE con el tipo de experiencia
@@ -161,6 +161,7 @@ A continuación, las secciones principales del plan, cada una iniciada con un en
             - "Medio Día": Barcos ágiles y rápidos
             - "Día Completo": Barcos con espacios de descanso y comodidades
             - "Varios Días": Barcos con cabinas y equipamiento para pernocta
+            - "Traslado": **OMITE ESTA SECCIÓN COMPLETAMENTE** - No es relevante para un servicio de transporte
     
     *Formato sugerido:*
     \`#### 🎯 Embarcación Ideal para tu Viaje:\`
@@ -171,6 +172,7 @@ A continuación, las secciones principales del plan, cada una iniciada con un en
     \`> ⚠️ **Consideraciones:** [Aspectos importantes a tener en cuenta]\`
     
     *Si planning_mode='own_boat', adapta la sección para sugerir optimizaciones o consideraciones para el barco propio del usuario.*
+    *Si el tipo de experiencia es "Traslado", OMITE COMPLETAMENTE esta sección.*
 
 3.  **### 💡 Consejos Esenciales**
     *Instrucción de formato: Encabezado H3. Organiza el contenido bajo subtítulos H4 temáticos con emojis. Los consejos o advertencias más importantes deben ir en una "caja" (blockquote).*
@@ -208,6 +210,7 @@ A continuación, las secciones principales del plan, cada una iniciada con un en
         *   Si seleccionó "Fotografía": Incluye cámara, baterías extra, y trípode acuático.
         *   Si seleccionó "Deportes Acuáticos": Añade equipamiento específico y chalecos.
         *   Si seleccionó "Celebraciones": Incluye decoraciones, música, y elementos festivos.
+        *   Si seleccionó "Traslado": Enfócate en documentación de transporte, combustible, y equipamiento de navegación esencial.
     
     *Ejemplos de ítems:*
       \`* Documentación personal y del barco (si aplica)\`
@@ -233,6 +236,7 @@ A continuación, las secciones principales del plan, cada una iniciada con un en
         *   Si seleccionó "Fotografía": Recomienda otros puntos panorámicos.
         *   Si seleccionó "Relax": Sugiere otras calas tranquilas.
         *   Si seleccionó "Gastronomía": Recomienda otros restaurantes marítimos.
+        *   Si seleccionó "Traslado": **OMITE ESTA SECCIÓN COMPLETAMENTE** - Los traslados son servicios de transporte, no experiencias recreativas.
     
     *Formato por sugerencia:*
     \`> - 📍 **Lugar/Actividad Sugerida:** [Nombre]\`

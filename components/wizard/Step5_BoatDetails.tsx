@@ -52,84 +52,93 @@ const Step5BoatDetails: React.FC<WizardStepProps> = ({ data, updateData }) => {
     }
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-8 animate-fade-in">
         <div className="text-center">
-            <BoatOutlineIcon className="mx-auto h-12 w-12 text-teal-500" />
-            <h2 className="text-xl sm:text-2xl font-semibold text-slate-800 mt-2">{heading}</h2>
-            <p className="text-sm sm:text-base text-slate-600">
+            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                <BoatOutlineIcon className="h-10 w-10 text-white" />
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
+                {heading.split(' ').slice(0, -1).join(' ')}
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
+                    {heading.split(' ').slice(-1)[0]}
+                </span>
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
                 {description}
             </p>
         </div>
 
-        <div className="space-y-4 pl-3 ml-1 pt-2 pb-1">
-            <AutocompleteInputField
-                label="Modelo del Barco"
-                id="boatModel"
-                value={data.boatTransferDetails?.model || ''}
-                onChange={handleBoatModelChange}
-                suggestions={boatModelSuggestions}
-                placeholder="Ej: Beneteau Oceanis 46.1 (autocompletar)"
-                required={isRequired}
-            />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <InputField 
-                    label="Eslora (metros)" 
-                    id="boatLength" 
-                    value={data.boatTransferDetails?.length || ''} 
-                    onChange={(e) => handleDetailChange('length', e.target.value)}
-                    placeholder="Ej: 18.5" 
-                    type="text"
+        <div className="space-y-6 rounded-xl bg-gradient-to-br from-blue-50 to-teal-50 p-8 border border-blue-200 shadow-lg">
+            <div className="space-y-4">
+                <AutocompleteInputField
+                    label="Modelo del Barco"
+                    id="boatModel"
+                    value={data.boatTransferDetails?.model || ''}
+                    onChange={handleBoatModelChange}
+                    suggestions={boatModelSuggestions}
+                    placeholder="Ej: Beneteau Oceanis 46.1 (autocompletar)"
                     required={isRequired}
                 />
-                <InputField 
-                    label="Manga (metros)" 
-                    id="boatBeam" 
-                    value={data.boatTransferDetails?.beam || ''}
-                    onChange={(e) => handleDetailChange('beam', e.target.value)}
-                    placeholder="Ej: 4.8" 
-                    type="text" 
-                    required={isRequired}
-                />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <InputField 
-                    label="Calado (metros)" 
-                    id="boatDraft" 
-                    value={data.boatTransferDetails?.draft || ''} 
-                    onChange={(e) => handleDetailChange('draft', e.target.value)}
-                    placeholder="Ej: 1.5" 
-                    type="text" 
-                    required={isRequired}
-                />
-                <InputField 
-                    label="Velocidad de Crucero (nudos)" 
-                    id="boatCruisingSpeed" 
-                    value={data.boatTransferDetails?.cruisingSpeed || ''}
-                    onChange={(e) => handleDetailChange('cruisingSpeed', e.target.value)}
-                    placeholder="Ej: 22" 
-                    type="text" 
-                    required={isRequired}
-                />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <InputField 
-                    label="Capacidad del Depósito (litros)" 
-                    id="boatTankCapacity" 
-                    value={data.boatTransferDetails?.tankCapacity || ''}
-                    onChange={(e) => handleDetailChange('tankCapacity', e.target.value)}
-                    placeholder="Ej: 3000" 
-                    type="text" 
-                    required={isRequired}
-                />
-                <InputField 
-                    label="Consumo Medio (litros/hora)" 
-                    id="boatAverageConsumption" 
-                    value={data.boatTransferDetails?.averageConsumption || ''}
-                    onChange={(e) => handleDetailChange('averageConsumption', e.target.value)}
-                    placeholder="Ej: 150" 
-                    type="text" 
-                    required={isRequired}
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <InputField 
+                        label="Eslora (metros)" 
+                        id="boatLength" 
+                        value={data.boatTransferDetails?.length || ''} 
+                        onChange={(e) => handleDetailChange('length', e.target.value)}
+                        placeholder="Ej: 18.5" 
+                        type="text"
+                        required={isRequired}
+                    />
+                    <InputField 
+                        label="Manga (metros)" 
+                        id="boatBeam" 
+                        value={data.boatTransferDetails?.beam || ''}
+                        onChange={(e) => handleDetailChange('beam', e.target.value)}
+                        placeholder="Ej: 4.8" 
+                        type="text" 
+                        required={isRequired}
+                    />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <InputField 
+                        label="Calado (metros)" 
+                        id="boatDraft" 
+                        value={data.boatTransferDetails?.draft || ''} 
+                        onChange={(e) => handleDetailChange('draft', e.target.value)}
+                        placeholder="Ej: 1.5" 
+                        type="text" 
+                        required={isRequired}
+                    />
+                    <InputField 
+                        label="Velocidad de Crucero (nudos)" 
+                        id="boatCruisingSpeed" 
+                        value={data.boatTransferDetails?.cruisingSpeed || ''}
+                        onChange={(e) => handleDetailChange('cruisingSpeed', e.target.value)}
+                        placeholder="Ej: 22" 
+                        type="text" 
+                        required={isRequired}
+                    />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <InputField 
+                        label="Capacidad del Depósito (litros)" 
+                        id="boatTankCapacity" 
+                        value={data.boatTransferDetails?.tankCapacity || ''}
+                        onChange={(e) => handleDetailChange('tankCapacity', e.target.value)}
+                        placeholder="Ej: 3000" 
+                        type="text" 
+                        required={isRequired}
+                    />
+                    <InputField 
+                        label="Consumo Medio (litros/hora)" 
+                        id="boatAverageConsumption" 
+                        value={data.boatTransferDetails?.averageConsumption || ''}
+                        onChange={(e) => handleDetailChange('averageConsumption', e.target.value)}
+                        placeholder="Ej: 150" 
+                        type="text" 
+                        required={isRequired}
+                    />
+                </div>
             </div>
         </div>
     </div>

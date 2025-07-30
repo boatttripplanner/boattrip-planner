@@ -1,8 +1,54 @@
+/* Performance optimized CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles */
-body {
-  font-family: 'Poppins', sans-serif;
+/* Critical CSS for above-the-fold content */
+@layer base {
+  /* Optimize font loading */
+  @font-face {
+    font-family: 'Poppins';
+    font-display: swap;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  /* Optimize body styles */
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Optimize images */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Optimize animations */
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* Reduce layout shifts */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Performance optimizations */
+@layer utilities {
+  /* Optimize for mobile */
+  @media (max-width: 768px) {
+    .mobile-optimized {
+      will-change: auto;
+    }
+  }
+  
+  /* Optimize animations */
+  .animate-optimized {
+    will-change: transform, opacity;
+  }
 } 

@@ -103,6 +103,8 @@ export const constructPrompt = (preferences: UserPreferences): string => {
     prompt += `    *   **INSTRUCCIÓN OBLIGATORIA para Varios Días:** Es una experiencia de varios días. Debes generar un itinerario completo para cada día, incluyendo pernoctas, comidas, y actividades variadas. Cada día debe tener su propio programa completo.\n`;
   } else if (preferences.desiredExperienceType === DesiredExperienceType.TRANSFER) {
     prompt += `    *   **INSTRUCCIÓN OBLIGATORIA para Traslado:** Es un servicio de transporte marítimo. El itinerario debe enfocarse en la navegación de un punto a otro, con paradas técnicas si es necesario. No incluyas actividades recreativas extensas.\n`;
+    prompt += `    *   **INSTRUCCIÓN CRÍTICA para Traslado:** OMITE COMPLETAMENTE la sección "🚤 Tipo de Embarcación Recomendada". Los traslados son servicios de transporte, no experiencias recreativas.\n`;
+    prompt += `    *   **INSTRUCCIÓN para Itinerario de Traslado:** El itinerario debe ser simple y directo: salida del puerto de origen, navegación directa al puerto de destino, con posibles paradas técnicas para repostaje si es necesario.\n`;
   }
   
   prompt += `*   **Zona de Navegación:** ${preferences.destination}\n`;
@@ -216,10 +218,9 @@ export const constructPrompt = (preferences: UserPreferences): string => {
     if (preferences.activities.includes('Grupo de Amigos')) {
       prompt += `    *   **INSTRUCCIÓN OBLIGATORIA para Grupos:** TODO el itinerario debe enfocarse en actividades grupales. Enfoca EXCLUSIVAMENTE en espacios amplios, actividades sociales, y destinos con ambiente para grupos. Cada parada debe incluir actividades apropiadas para grupos.\n`;
     }
-  } else if (preferences.desiredExperienceType !== DesiredExperienceType.TRANSFER) {
-    prompt += `*   **Actividades Específicas Seleccionadas:** No especificadas (IA debe sugerir actividades relevantes para el Tipo de Experiencia Deseada, descritas de forma profesional y clara)\n`;
-  } else {
-     prompt += `*   **Actividades Específicas Seleccionadas:** No aplicable directamente (es un traslado)\n`;
+  } else if (preferences.desiredExperienceType === DesiredExperienceType.TRANSFER) {
+    prompt += `*   **Actividades para Traslado:** N/A - Los traslados son servicios de transporte, no experiencias recreativas.\n`;
+    prompt += `    *   **INSTRUCCIÓN CRÍTICA PARA TRASLADOS:** NO incluyas actividades recreativas como snorkel, pesca, o visitas turísticas. El enfoque debe ser únicamente en la navegación de un puerto a otro.\n`;
   }
 
   if (preferences.otherActivities) {
@@ -338,7 +339,7 @@ export const constructWeatherAdaptationPrompt = (originalRecommendation: string,
   return `
 **🌤️ ADAPTACIÓN METEOROLÓGICA DEL ITINERARIO**
 
-Basándote en la siguiente previsión meteorológica, DEBES adaptar el itinerario original para optimizar la experiencia y garantizar la seguridad náutica:
+Basándote en la siguiente previsión meteorológica, DEBES generar SOLO las adaptaciones meteorológicas que se aplicarán al itinerario original:
 
 **DATOS METEOROLÓGICOS ACTUALES:**
 - **Velocidad del viento:** ${windSpeed} ${weatherData.dayWindUnit} (${windCategory})
@@ -346,10 +347,12 @@ Basándote en la siguiente previsión meteorológica, DEBES adaptar el itinerari
 - **Temperatura máxima:** ${temperature}°${weatherData.temperatureUnit} (${tempCategory})
 - **Condiciones generales:** ${conditions}
 
-**ITINERARIO ORIGINAL:**
+**ITINERARIO ORIGINAL (SOLO PARA REFERENCIA):**
 ${originalRecommendation}
 
-**INSTRUCCIONES PARA ADAPTACIÓN:**
+**INSTRUCCIONES CRÍTICAS PARA ADAPTACIÓN:**
+
+⚠️ **IMPORTANTE:** NO generes un itinerario completo nuevo. Solo genera las adaptaciones meteorológicas específicas.
 
 1. **ANÁLISIS DE VIENTO:** Según ${windSpeed} ${weatherData.dayWindUnit} desde ${windDirection}, determina:
    - ¿Qué calas están protegidas de este viento?
@@ -361,19 +364,22 @@ ${originalRecommendation}
    - ¿Qué tipo de fondeos son más cómodos?
    - ¿Qué actividades son más apropiadas?
 
-3. **ADAPTACIONES OBLIGATORIAS:**
-   - Modifica las calas sugeridas para buscar protección según la dirección del viento
-   - Ajusta los horarios según las condiciones meteorológicas
-   - Sugiere alternativas seguras si las condiciones son adversas
-   - Explica cada adaptación con razones meteorológicas
+3. **FORMATO DE RESPUESTA OBLIGATORIO:**
+   - Genera SOLO las adaptaciones meteorológicas específicas
+   - Usa el formato de blockquote (>) para destacar las adaptaciones
+   - Incluye explicaciones breves de por qué se hacen estos cambios
+   - NO repitas el itinerario completo
+   - NO generes secciones de título principales (## o ###)
+   - Solo genera las notas de adaptación meteorológica
 
-4. **FORMATO DE RESPUESTA:**
-   - Mantén la estructura original del itinerario
-   - Añade notas meteorológicas en cada sección relevante
-   - Incluye una sección "🌤️ Adaptaciones Meteorológicas" explicando los cambios
-   - Prioriza la seguridad náutica en todas las decisiones
+4. **EJEMPLO DE FORMATO CORRECTO:**
+   > 💨 **Adaptación por Viento:** Con viento de ${windDirection} a ${windSpeed} ${weatherData.dayWindUnit}, se recomienda buscar calas protegidas al oeste.
+   > 
+   > ⏰ **Ajuste de Horarios:** Las mejores horas para navegación serán entre 10:00-14:00 cuando el viento sea más suave.
+   > 
+   > 🏊 **Actividades Adaptadas:** El snorkel se recomienda en calas con aguas más tranquilas.
 
-**OBJETIVO:** Como un patrón experimentado, adapta el itinerario para maximizar la seguridad y el disfrute según las condiciones meteorológicas reales.
+**OBJETIVO:** Como un patrón experimentado, genera SOLO las adaptaciones meteorológicas específicas que se aplicarán al itinerario existente, sin duplicar el contenido completo.
 `;
 };
 

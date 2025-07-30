@@ -2,56 +2,81 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    
+    <!-- Performance Optimizations for Core Web Vitals -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Preload critical resources -->
+    <!-- Removed apple-touch-icon preload to fix preload warning -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"></noscript>
+    
     <!-- Cache Control Headers -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-W92QTGF4');</script>
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000, immutable" />
+    <meta http-equiv="Pragma" content="cache" />
+    <meta http-equiv="Expires" content="31536000" />
+    
+    <!-- Google Tag Manager - Optimized for Core Web Vitals -->
+    <script>
+      // Defer GTM loading to improve Core Web Vitals
+      window.addEventListener('load', function() {
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-W92QTGF4');
+      });
+    </script>
     <!-- End Google Tag Manager -->
-    <!-- Google tag (gtag.js) -->
+    
+    <!-- Google tag (gtag.js) - Optimized for Core Web Vitals -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR3KE7RXBD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
       
-      // Consent Mode V2 default state - Set before any config calls
-      gtag('consent', 'default', {
-        'ad_storage': 'denied',
-        'ad_user_data': 'denied',
-        'ad_personalization': 'denied',
-        'analytics_storage': 'denied'
-      });
+      // Defer analytics initialization to improve Core Web Vitals
+      window.addEventListener('load', function() {
+        gtag('js', new Date());
+        
+        // Consent Mode V2 default state - Set before any config calls
+        gtag('consent', 'default', {
+          'ad_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied',
+          'analytics_storage': 'denied'
+        });
 
-      gtag('config', 'G-VR3KE7RXBD');
+        gtag('config', 'G-VR3KE7RXBD', {
+          'send_page_view': false // Disable automatic page view
+        });
+        
+        // Send page view manually after load
+        gtag('event', 'page_view');
+      });
     </script>
-    <!-- Favicon principal SVG (blanco y azul) -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    
+    <!-- Favicon principal PNG redondeado (blanco y azul) -->
+    <link rel="icon" type="image/png" sizes="96x96" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
+    <link rel="shortcut icon" type="image/png" href="/apple-touch-icon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Cache Busting and Service Worker Registration -->
+    <!-- Performance Service Worker Registration -->
     <script>
-      // Force reload if page is loaded from cache
-      window.addEventListener('pageshow', function(event) {
-        if (event.persisted) {
-          window.location.reload();
-        }
-      });
-      
-      // Simple Service Worker Registration
-      if ('serviceWorker' in navigator) {
+      // Optimized Service Worker Registration - Only in production
+      if ('serviceWorker' in navigator && window.location.hostname !== 'localhost' && window.location.protocol === 'https:') {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
+          navigator.serviceWorker.register('/sw.js', { scope: '/' })
             .then((registration) => {
               console.log('SW registered: ', registration);
             })
@@ -60,10 +85,20 @@
             });
         });
       }
+      
+      // Performance monitoring
+      window.addEventListener('load', () => {
+        if ('performance' in window) {
+          const perfData = performance.getEntriesByType('navigation')[0];
+          if (perfData && perfData.loadEventEnd && perfData.loadEventStart) {
+            console.log('Page Load Time:', perfData.loadEventEnd - perfData.loadEventStart);
+          }
+        }
+      });
     </script>
     <title>BoatTrip Planner - Planificador de Viajes Náuticos con IA</title>
-    <meta name="description" content="BoatTrip Planner: Tu asistente de IA para planificar viajes en barco. Recomendaciones personalizadas, itinerarios náuticos y consejos expertos para alquiler de barcos." />
-    <meta name="keywords" content="planificador de barcos, alquiler de barcos, viajes en barco, IA, planificación de viajes, náutica, vacaciones en barco, itinerarios náuticos, blog de nautica, consejos de navegacion" />
+    <meta name="description" content="BoatTrip Planner: Tu asistente de IA para planificar viajes en barco. Recomendaciones personalizadas, itinerarios náuticos y consejos expertos para alquiler de barcos y propietarios de embarcaciones." />
+    <meta name="keywords" content="planificador de barcos, alquiler de barcos, propietarios de barcos, viajes en barco, IA, planificación de viajes, náutica, vacaciones en barco, itinerarios náuticos, blog de nautica, consejos de navegacion, flota de barcos" />
     <link rel="canonical" href="https://boattrip-planner.com/" />
 
     <!-- PWA & iOS Web App Meta Tags -->
@@ -77,7 +112,7 @@
     <meta name="msapplication-config" content="/browserconfig.xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="apple-touch-startup-image" href="/apple-touch-icon.png">
-    <link rel="mask-icon" href="/favicon.svg" color="#0d9488">
+    <link rel="mask-icon" href="/favicon-96x96.png" color="#0d9488">
     
     <!-- iOS Performance Optimizations -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -90,20 +125,18 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://boattrip-planner.com/" />
     <meta property="og:title" content="BoatTrip Planner - Planificador de Viajes Náuticos con IA" />
-    <meta property="og:description" content="BoatTrip Planner: Tu asistente de IA para planificar viajes en barco. Recomendaciones personalizadas, itinerarios náuticos y consejos expertos para alquiler de barcos." />
+    <meta property="og:description" content="BoatTrip Planner: Tu asistente de IA para planificar viajes en barco. Recomendaciones personalizadas, itinerarios náuticos y consejos expertos para alquiler de barcos y propietarios de embarcaciones." />
     <meta property="og:image" content="https://boattrip-planner.com/og-image.png" />
     <meta property="og:site_name" content="BoatTrip Planner" />
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://boattrip-planner.com/" />
     <meta property="twitter:title" content="BoatTrip Planner - Planificador de Viajes Náuticos con IA" />
-    <meta property="twitter:description" content="BoatTrip Planner: Tu asistente de IA para planificar viajes en barco. Recomendaciones personalizadas, itinerarios náuticos y consejos expertos para alquiler de barcos." />
+    <meta property="twitter:description" content="BoatTrip Planner: Tu asistente de IA para planificar viajes en barco. Recomendaciones personalizadas, itinerarios náuticos y consejos expertos para alquiler de barcos y propietarios de embarcaciones." />
     <meta property="twitter:image" content="https://boattrip-planner.com/og-image.png" />
 
-    <!-- Modern Font: Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Modern Font: Poppins - Optimized loading -->
+    <!-- Font loading is handled by preload above -->
 
     <style>
       /* iOS Optimizations */
@@ -130,6 +163,7 @@
       /* iOS-specific input optimizations */
       input, textarea, select {
         -webkit-appearance: none;
+        appearance: none;
         border-radius: 0;
         font-size: 16px; /* Prevent zoom on iOS */
       }
@@ -137,6 +171,7 @@
       /* iOS-specific button optimizations */
       button {
         -webkit-appearance: none;
+        appearance: none;
         -webkit-tap-highlight-color: transparent;
       }
       .body-no-scroll {
@@ -355,8 +390,17 @@
          }
       }
     </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7049246836044228"
-     crossorigin="anonymous"></script>
+    <!-- Google AdSense - Optimized for Core Web Vitals -->
+    <script>
+      // Defer AdSense loading to improve Core Web Vitals
+      window.addEventListener('load', function() {
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7049246836044228';
+        script.crossOrigin = 'anonymous';
+        document.head.appendChild(script);
+      });
+    </script>
 
 <script id="structured-data" type="application/ld+json">
 {
@@ -380,7 +424,7 @@
     "name": "BoatTrip Planner",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://boattrip-planner.com/favicon.svg"
+      "url": "https://boattrip-planner.com/apple-touch-icon.png"
     }
   }
 }
@@ -397,5 +441,19 @@
     
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
+    
+    <!-- Development cache clearing utility -->
+    <script>
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        // Clear any existing service worker caches in development
+        if ('caches' in window) {
+          caches.keys().then(cacheNames => {
+            cacheNames.forEach(cacheName => {
+              caches.delete(cacheName);
+            });
+          });
+        }
+      }
+    </script>
   </body>
 </html>

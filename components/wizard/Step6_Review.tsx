@@ -17,24 +17,24 @@ const getDisplayValue = (options: { value: string; label: string }[], value: str
 };
 
 const SectionBlock: React.FC<{ title: string; children: React.ReactNode; onEdit: () => void }> = ({ title, children, onEdit }) => (
-  <div className="bg-white border border-slate-200 rounded-lg p-4 space-y-3">
+  <div className="bg-white border border-blue-200 rounded-xl p-6 space-y-4 shadow-md">
     <div className="flex justify-between items-center">
       <h3 className="text-lg font-semibold text-slate-800">{title}</h3>
       <button
         onClick={onEdit}
-        className="text-sm text-teal-600 hover:text-teal-700 font-medium"
+        className="text-sm text-blue-600 hover:text-blue-700 font-medium hover:underline transition-colors"
       >
         Editar
       </button>
     </div>
-    <div className="space-y-2">
+    <div className="space-y-3">
       {children}
     </div>
   </div>
 );
 
 const ReviewItem: React.FC<{ label: string; value: string | number }> = ({ label, value }) => (
-  <div className="flex justify-between items-center py-2 border-b border-slate-100 last:border-b-0">
+  <div className="flex justify-between items-center py-2 border-b border-blue-100 last:border-b-0">
     <span className="text-slate-600 font-medium">{label}:</span>
     <span className="text-slate-800 font-semibold">{value}</span>
   </div>
@@ -75,20 +75,20 @@ const ActivitiesPreview: React.FC<{ activities: string[] }> = ({ activities }) =
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {Object.entries(categorizedActivities).map(([category, categoryActivities]) => {
         if (categoryActivities.length === 0) return null;
         
         return (
-          <div key={category} className="space-y-2">
-            <h4 className="text-sm font-medium text-teal-700 uppercase tracking-wide">
+          <div key={category} className="space-y-3">
+            <h4 className="text-sm font-medium text-blue-700 uppercase tracking-wide">
               {category}
             </h4>
             <div className="flex flex-wrap gap-2">
               {categoryActivities.map((activity) => (
                 <span
                   key={activity}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-teal-100 text-teal-800"
+                  className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-100 to-teal-100 text-blue-800 border border-blue-200"
                 >
                   <CheckCircleIcon className="w-3 h-3 mr-1" />
                   {activity}
@@ -104,14 +104,23 @@ const ActivitiesPreview: React.FC<{ activities: string[] }> = ({ activities }) =
 
 const Step6Review: React.FC<Step6ReviewProps> = ({ data, goToStep, showBoatSpecsStep }) => {
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-8 animate-fade-in">
       <div className="text-center">
-        <CheckCircleIcon className="mx-auto h-12 w-12 text-teal-500" />
-        <h2 className="text-xl sm:text-2xl font-semibold text-slate-800 mt-2">Revisa tu Plan</h2>
-        <p className="text-sm sm:text-base text-slate-600">Confirma todos los detalles antes de generar tu recomendación personalizada.</p>
+        <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+            <CheckCircleIcon className="h-10 w-10 text-white" />
+        </div>
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
+            Revisa tu
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
+                Plan Perfecto
+            </span>
+        </h2>
+        <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            Confirma todos los detalles antes de generar tu recomendación personalizada.
+        </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         <SectionBlock title="Experiencia Náutica" onEdit={() => goToStep(1)}>
           <ReviewItem label="Tipo de Planificación" value={getDisplayValue(planningModeOptions, data.planningMode)} />
           <ReviewItem label="Experiencia Deseada" value={getDisplayValue(desiredExperienceTypeOptions, data.desiredExperienceType)} />
@@ -148,7 +157,7 @@ const Step6Review: React.FC<Step6ReviewProps> = ({ data, goToStep, showBoatSpecs
               </div>
             )}
             
-            <div className="pt-2 border-t border-slate-200">
+            <div className="pt-2 border-t border-blue-200">
               <ReviewItem label="Presupuesto" value={data.budgetLevel ? getDisplayValue(budgetLevelOptions, data.budgetLevel) : 'No especificado'} />
               {data.budgetLevel === 'specific_amount' && <ReviewItem label="Monto" value={`${data.customBudgetAmount?.toLocaleString('es-ES') || '0'} EUR`} />}
             </div>
@@ -181,18 +190,33 @@ const Step6Review: React.FC<Step6ReviewProps> = ({ data, goToStep, showBoatSpecs
         )}
       </div>
 
-      <div className="bg-gradient-to-r from-teal-50 to-blue-50 p-4 rounded-lg border border-teal-200">
-        <h3 className="text-lg font-semibold text-slate-800 mb-2">✨ Tu Recomendación Personalizada</h3>
-        <p className="text-sm text-slate-600">
+      <div className="bg-gradient-to-r from-blue-50 to-teal-50 p-6 rounded-xl border border-blue-200 shadow-lg">
+        <h3 className="text-lg font-semibold text-slate-800 mb-3">✨ Tu Recomendación Personalizada</h3>
+        <p className="text-sm text-slate-600 mb-3">
           Basándome en tus selecciones, especialmente tus actividades preferidas, 
           generaré un itinerario completamente personalizado que incluirá:
         </p>
-        <ul className="mt-2 text-sm text-slate-700 space-y-1">
-          <li>• Destinos específicos para tus actividades seleccionadas</li>
-          <li>• Horarios optimizados para cada experiencia</li>
-          <li>• Consejos especializados según tus preferencias</li>
-          <li>• Checklist personalizado con equipamiento necesario</li>
-          <li>• Sugerencias adicionales relacionadas con tus intereses</li>
+        <ul className="text-sm text-slate-700 space-y-2">
+          <li className="flex items-start">
+            <span className="text-blue-500 mr-2">•</span>
+            Destinos específicos para tus actividades seleccionadas
+          </li>
+          <li className="flex items-start">
+            <span className="text-blue-500 mr-2">•</span>
+            Horarios optimizados para cada experiencia
+          </li>
+          <li className="flex items-start">
+            <span className="text-blue-500 mr-2">•</span>
+            Consejos especializados según tus preferencias
+          </li>
+          <li className="flex items-start">
+            <span className="text-blue-500 mr-2">•</span>
+            Checklist personalizado con equipamiento necesario
+          </li>
+          <li className="flex items-start">
+            <span className="text-blue-500 mr-2">•</span>
+            Sugerencias adicionales relacionadas con tus intereses
+          </li>
         </ul>
       </div>
     </div>

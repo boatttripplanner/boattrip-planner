@@ -13,6 +13,20 @@ interface ChatInterfaceProps {
   onSendMessage: (message: string) => void;
 }
 
+// Regex patterns to filter out internal data blocks
+const WEATHER_DATA_BLOCK_REGEX = /---\s*[\r\n]+\s*\*\*Datos para API de Clima \(Uso Interno - NO MOSTRAR COMO SECCIÓN PRINCIPAL EN EL ACORDEÓN\):\*\*[\s\S]*?---/ms;
+const INTERNAL_DATA_REGEX = /###\s*\*\*Datos para API de Clima \(Uso Interno - NO MOSTRAR COMO SECCIÓN PRINCIPAL EN EL ACORDEÓN\):\*\*[\s\S]*?(?=###|$)/gi;
+const WEATHER_DATA_ALTERNATIVE_REGEX = /\*\*Datos para API de Clima \(Uso Interno - NO MOSTRAR COMO SECCIÓN PRINCIPAL EN EL ACORDEÓN\):\*\*[\s\S]*?(?=---|$)/gi;
+
+// Function to filter out internal data from chat messages
+const filterInternalData = (content: string): string => {
+  return content
+    .replace(WEATHER_DATA_BLOCK_REGEX, '')
+    .replace(INTERNAL_DATA_REGEX, '')
+    .replace(WEATHER_DATA_ALTERNATIVE_REGEX, '')
+    .trim();
+};
+
 const ChatInterface: React.FC<ChatInterfaceProps> = ({ chatSession, onSendMessage }) => {
   const [newMessage, setNewMessage] = useState('');
   const chatMessagesEndRef = useRef<HTMLDivElement>(null);
@@ -53,7 +67,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ chatSession, onSendMessag
               }`}
             >
               <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                {msg.content}
+                {filterInternalData(msg.content)}
               </ReactMarkdown>
               <div className={`text-xs mt-1 ${msg.role === 'user' ? 'text-teal-200 text-right' : 'text-slate-500'}`}>
                 {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

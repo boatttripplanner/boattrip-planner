@@ -91,6 +91,10 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
   const goToStep = (step: number) => {
     if (step >= 1 && step <= totalSteps) {
       setCurrentStep(step);
+      // Scroll hacia arriba para una mejor experiencia de usuario
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
     }
   };
 
@@ -149,12 +153,20 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
 
     if (currentStep < totalSteps) {
       setCurrentStep(prev => prev + 1);
+      // Scroll hacia arriba para una mejor experiencia de usuario
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
     }
   };
 
   const handleBack = () => {
     if (currentStep > 1) {
       setCurrentStep(prev => prev - 1);
+      // Scroll hacia arriba para una mejor experiencia de usuario
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
     }
   };
 

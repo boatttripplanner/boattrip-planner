@@ -5,7 +5,6 @@ import { SAMBOAT_AFFILIATE_URL, AMAZON_AFFILIATE_LINK_PLACEHOLDER } from '../con
 import { FooterProps } from '../types'; 
 import { SailboatIcon } from './icons/SailboatIcon';
 import { TikTokIcon } from './icons/TikTokIcon';
-import { WhatsAppIcon } from './icons/WhatsAppIcon';
 
 
 const Footer: React.FC<FooterProps> = ({ 
@@ -23,11 +22,6 @@ const Footer: React.FC<FooterProps> = ({
     // Aquí se implementaría la lógica para suscribir al newsletter
     alert('¡Gracias por suscribirte! Te mantendremos informado sobre las últimas novedades náuticas.');
     setEmail('');
-  };
-  
-  const handleWhatsAppContact = () => {
-    const message = encodeURIComponent('¡Hola! Me interesa saber más sobre BoatTrip Planner 🚤');
-    window.open(`https://wa.me/34600000000?text=${message}`, '_blank');
   };
   
   return (
@@ -54,7 +48,13 @@ const Footer: React.FC<FooterProps> = ({
           {/* Column 1: Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center mb-4">
-              <SailboatIcon className="w-10 h-10 text-teal-400 mr-3" />
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-teal-100 rounded-full flex items-center justify-center shadow-lg mr-3">
+                <img 
+                  src="/apple-touch-icon.png" 
+                  alt="BoatTrip Planner Logo" 
+                  className="w-6 h-6"
+                />
+              </div>
               <span className="text-2xl font-bold text-white">BoatTrip Planner</span>
             </div>
             <p className="text-sm mb-4 leading-relaxed">
@@ -91,9 +91,9 @@ const Footer: React.FC<FooterProps> = ({
             <ul className="space-y-3">
               <li><button onClick={onNavigateToMainApp} className={linkStyle}>Planificador IA</button></li>
               {onNavigateToBlogIndex && <li><button onClick={onNavigateToBlogIndex} className={linkStyle}>Blog Náutico</button></li>}
-              <li><a href="#destinos" className={linkStyle}>Destinos</a></li>
-              <li><a href="#consejos" className={linkStyle}>Consejos</a></li>
-              <li><a href="#equipamiento" className={linkStyle}>Equipamiento</a></li>
+              <li><a href="/?view=blog_index&category=Destinos" className={linkStyle}>Destinos</a></li>
+              <li><a href="/?view=blog_index&category=Equipamiento" className={linkStyle}>Equipamiento</a></li>
+              <li><a href="/?view=blog_index&category=Consejos" className={linkStyle}>Consejos</a></li>
             </ul>
           </div>
 
@@ -103,9 +103,6 @@ const Footer: React.FC<FooterProps> = ({
             <ul className="space-y-3">
               <li><a href={AMAZON_AFFILIATE_LINK_PLACEHOLDER} target="_blank" rel="noopener noreferrer" className={linkStyle}>Equipamiento Amazon</a></li>
               <li><a href={SAMBOAT_AFFILIATE_URL} target="_blank" rel="noopener noreferrer" className={linkStyle}>Alquiler de Barcos</a></li>
-              <li><a href="#checklists" className={linkStyle}>Checklists</a></li>
-              <li><a href="#mapas" className={linkStyle}>Mapas Náuticos</a></li>
-              <li><a href="#permisos" className={linkStyle}>Permisos</a></li>
             </ul>
           </div>
 
@@ -113,12 +110,6 @@ const Footer: React.FC<FooterProps> = ({
           <div>
             <h3 className="text-md font-semibold text-white mb-4 tracking-wider">📞 Contacto</h3>
             <ul className="space-y-3">
-              <li>
-                <button onClick={handleWhatsAppContact} className={`${linkStyle} flex items-center gap-2`}>
-                  <WhatsAppIcon className="w-4 h-4" />
-                  WhatsApp
-                </button>
-              </li>
               <li><a href="mailto:info@boattrip-planner.com" className={linkStyle}>Email</a></li>
               <li><button onClick={onShowPrivacyPolicy} className={linkStyle}>Privacidad</button></li>
               <li><button onClick={onShowTermsOfService} className={linkStyle}>Términos</button></li>
@@ -138,24 +129,6 @@ const Footer: React.FC<FooterProps> = ({
               >
                 <TikTokIcon className="w-5 h-5" />
                 TikTok
-              </a>
-              <a 
-                href="https://instagram.com/boattrip.planner" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className={`${linkStyle} flex items-center gap-2`} 
-                aria-label="Instagram"
-              >
-                📸 Instagram
-              </a>
-              <a 
-                href="https://youtube.com/@boattripplanner" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className={`${linkStyle} flex items-center gap-2`} 
-                aria-label="YouTube"
-              >
-                🎥 YouTube
               </a>
             </div>
           </div>

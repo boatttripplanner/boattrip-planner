@@ -1,6 +1,6 @@
 {
   "name": "BoatTrip Planner",
-  "description": "Una aplicación que proporciona recomendaciones personalizadas para el alquiler de barcos utilizando IA, simplificando el proceso de planificación de viajes.",
+  "description": "Una aplicación que proporciona recomendaciones personalizadas para el alquiler de barcos y propietarios de embarcaciones utilizando IA, simplificando el proceso de planificación de viajes náuticos.",
   "requestFramePermissions": [],
   "prompt": ""
 }

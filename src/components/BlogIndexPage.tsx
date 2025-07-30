@@ -197,6 +197,15 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
   const [activeTab, setActiveTab] = useState<'all' | 'favorites' | 'featured'>('all');
   const [favorites, setFavorites] = useState<string[]>([]);
 
+  // Leer parámetros de URL al cargar el componente
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const categoryParam = params.get('category');
+    if (categoryParam) {
+      setSelectedCategory(categoryParam);
+    }
+  }, []);
+
   // Toggle dark mode
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -500,11 +509,11 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
     ];
 
     return (
-      <div className="mb-8">
-        <h3 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+      <div className="mb-6 sm:mb-8">
+        <h3 className={`text-lg sm:text-xl font-bold mb-3 sm:mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
           Explora por Categorías
         </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
           {categories.map((category) => {
             const categoryPosts = sortedBlogPosts.filter(post => 
               getArticleCategory(post.frontmatter.tags || []) === category.name
@@ -518,14 +527,14 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
                   setActiveTab('all');
                   setCurrentPage(1);
                 }}
-                className={`p-4 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
+                className={`p-3 sm:p-4 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
                   selectedCategory === category.name
                     ? `${darkMode ? 'border-teal-400 bg-teal-400/10' : 'border-teal-500 bg-teal-50'}`
                     : `${darkMode ? 'border-slate-600 hover:border-teal-400' : 'border-slate-200 hover:border-teal-300'}`
                 }`}
               >
-                <div className="text-2xl mb-2">{category.icon}</div>
-                <div className={`font-semibold text-sm ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                <div className="text-xl sm:text-2xl mb-1 sm:mb-2">{category.icon}</div>
+                <div className={`font-semibold text-xs sm:text-sm ${darkMode ? 'text-white' : 'text-slate-800'}`}>
                   {category.name}
                 </div>
                 <div className={`text-xs ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -541,9 +550,9 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
 
   return (
     <div className={`w-full max-w-5xl mx-auto transition-colors duration-300 ${darkMode ? 'dark' : ''}`}>
-      <div className={`${darkMode ? 'bg-slate-800 text-white' : 'bg-white'} p-6 md:p-8 rounded-lg shadow-xl transition-colors duration-300`}>
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-6 pb-4 border-b border-slate-200 dark:border-slate-600">
-          <h1 className={`text-3xl sm:text-4xl font-bold ${darkMode ? 'text-white' : 'text-slate-800'} mb-4 sm:mb-0`}>
+      <div className={`${darkMode ? 'bg-slate-800 text-white' : 'bg-white'} p-4 sm:p-6 md:p-8 rounded-lg shadow-xl transition-colors duration-300`}>
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-200 dark:border-slate-600">
+          <h1 className={`text-2xl sm:text-3xl md:text-4xl font-bold ${darkMode ? 'text-white' : 'text-slate-800'} mb-3 sm:mb-0 text-center sm:text-left`}>
             Blog de Aventuras Náuticas
           </h1>
           <div className="flex gap-2">
@@ -551,31 +560,31 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
               onClick={toggleDarkMode} 
               variant="secondary" 
               size="sm" 
-              className="w-auto"
+              className="w-auto px-3 py-2"
             >
               {darkMode ? '☀️' : '🌙'}
             </Button>
-            <Button onClick={onNavigateHome} variant="secondary" size="sm" className="w-auto">
+            <Button onClick={onNavigateHome} variant="secondary" size="sm" className="w-auto px-3 py-2">
               Ir al Planificador
             </Button>
           </div>
         </div>
 
-        {/* Pestañas */}
-        <div className="flex border-b border-slate-200 dark:border-slate-600 mb-6">
+        {/* Pestañas - Mejoradas para móvil */}
+        <div className="flex flex-wrap border-b border-slate-200 dark:border-slate-600 mb-4 sm:mb-6">
           <button
             onClick={() => setActiveTab('all')}
-            className={`px-4 py-2 font-medium transition-colors duration-200 ${
+            className={`px-3 sm:px-4 py-2 text-sm sm:text-base font-medium transition-colors duration-200 ${
               activeTab === 'all'
                 ? `${darkMode ? 'text-teal-400 border-b-2 border-teal-400' : 'text-teal-600 border-b-2 border-teal-600'}`
                 : `${darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-500 hover:text-slate-700'}`
             }`}
           >
-            Todos los Artículos ({sortedBlogPosts.length})
+            Todos ({sortedBlogPosts.length})
           </button>
           <button
             onClick={() => setActiveTab('featured')}
-            className={`px-4 py-2 font-medium transition-colors duration-200 ${
+            className={`px-3 sm:px-4 py-2 text-sm sm:text-base font-medium transition-colors duration-200 ${
               activeTab === 'featured'
                 ? `${darkMode ? 'text-teal-400 border-b-2 border-teal-400' : 'text-teal-600 border-b-2 border-teal-600'}`
                 : `${darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-500 hover:text-slate-700'}`
@@ -585,7 +594,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
           </button>
           <button
             onClick={() => setActiveTab('favorites')}
-            className={`px-4 py-2 font-medium transition-colors duration-200 ${
+            className={`px-3 sm:px-4 py-2 text-sm sm:text-base font-medium transition-colors duration-200 ${
               activeTab === 'favorites'
                 ? `${darkMode ? 'text-teal-400 border-b-2 border-teal-400' : 'text-teal-600 border-b-2 border-teal-600'}`
                 : `${darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-500 hover:text-slate-700'}`
@@ -603,7 +612,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
         )}
 
         {/* Búsqueda principal */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <div className="relative">
             <InputField
               label="Buscar en el blog..."
@@ -634,19 +643,18 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
                     ))}
                   </div>
                 )}
-                
                 {searchHistory.length > 0 && (
                   <div className="p-2 border-t border-slate-200 dark:border-slate-600">
                     <div className={`text-xs font-semibold mb-2 ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                      Historial:
+                      Búsquedas recientes:
                     </div>
-                    {searchHistory.map((historyItem, index) => (
+                    {searchHistory.map((query, index) => (
                       <button
                         key={index}
-                        onClick={() => handleSearch(historyItem)}
+                        onClick={() => handleSearch(query)}
                         className={`w-full text-left px-3 py-2 rounded hover:bg-teal-50 hover:text-teal-700 transition-colors ${darkMode ? 'text-slate-200 hover:bg-slate-600' : 'text-slate-700'}`}
                       >
-                        🔍 {historyItem}
+                        {query}
                       </button>
                     ))}
                   </div>
@@ -656,66 +664,61 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
           </div>
         </div>
 
-        {/* Filtros básicos */}
-        <div className="mb-6 flex flex-col md:flex-row gap-4">
-          <div className="flex-grow">
-            <SelectField
-              label="Filtrar por Etiqueta"
-              id="tag-filter-select"
-              value={activeTag || ''}
-              onChange={(e) => handleTagClick(e.target.value || null)}
-              options={tagOptions}
-            />
-          </div>
-          <div className="flex-shrink-0">
-            <Button
-              onClick={toggleAdvancedFilters}
-              variant="secondary"
-              size="sm"
-              className="w-full md:w-auto"
-            >
-              {showAdvancedFilters ? 'Ocultar' : 'Mostrar'} Filtros Avanzados
-            </Button>
-          </div>
-        </div>
-
         {/* Filtros avanzados */}
-        {showAdvancedFilters && (
-          <div className={`mb-6 p-4 rounded-lg ${darkMode ? 'bg-slate-700' : 'bg-slate-50'}`}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <SelectField
-                label="Categoría"
-                id="category-filter"
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                options={categoryOptions}
-              />
-              <SelectField
-                label="Nivel de Dificultad"
-                id="difficulty-filter"
-                value={selectedDifficulty}
-                onChange={(e) => setSelectedDifficulty(e.target.value)}
-                options={difficultyOptions}
-              />
-              <SelectField
-                label="Tiempo de Lectura"
-                id="reading-time-filter"
-                value={selectedReadingTime}
-                onChange={(e) => setSelectedReadingTime(e.target.value)}
-                options={readingTimeOptions}
-              />
+        <div className="mb-4 sm:mb-6">
+          <button
+            onClick={toggleAdvancedFilters}
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              darkMode 
+                ? 'bg-slate-700 hover:bg-slate-600 text-slate-200' 
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+            }`}
+          >
+            <span>🔍</span>
+            Filtros Avanzados
+            <span className={`transform transition-transform ${showAdvancedFilters ? 'rotate-180' : ''}`}>
+              ▼
+            </span>
+          </button>
+          
+          {showAdvancedFilters && (
+            <div className={`mt-3 p-4 rounded-lg ${darkMode ? 'bg-slate-700' : 'bg-slate-50'}`}>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                <SelectField
+                  label="Categoría"
+                  id="category-filter"
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  options={categoryOptions}
+                />
+                <SelectField
+                  label="Nivel de Dificultad"
+                  id="difficulty-filter"
+                  value={selectedDifficulty}
+                  onChange={(e) => setSelectedDifficulty(e.target.value)}
+                  options={difficultyOptions}
+                />
+                <SelectField
+                  label="Tiempo de Lectura"
+                  id="reading-time-filter"
+                  value={selectedReadingTime}
+                  onChange={(e) => setSelectedReadingTime(e.target.value)}
+                  options={readingTimeOptions}
+                />
+              </div>
+              <div className="mt-4 flex justify-end">
+                <Button
+                  onClick={clearAllFilters}
+                  variant="secondary"
+                  size="sm"
+                  className="px-3 py-2"
+                >
+                  Limpiar Filtros
+                </Button>
+              </div>
             </div>
-            <div className="mt-4 flex justify-end">
-              <Button
-                onClick={clearAllFilters}
-                variant="secondary"
-                size="sm"
-              >
-                Limpiar Filtros
-              </Button>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
         
         <div className="mb-6">
           <p className={`text-sm ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -735,7 +738,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
 
         {filteredPosts.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
               {currentPostsToDisplay.map((post) => {
                 const readingTime = calculateReadingTime(post.content);
                 const featuredImage = getFeaturedImage(post.frontmatter.slug);
@@ -746,7 +749,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
                 return (
                   <article key={post.frontmatter.slug} className={`group ${darkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-white'} rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden`}>
                     {/* Imagen destacada */}
-                    <div className="relative h-48 overflow-hidden">
+                    <div className="relative h-40 sm:h-48 overflow-hidden">
                       <img 
                         src={featuredImage} 
                         alt={post.frontmatter.title}
@@ -757,15 +760,15 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
                         }}
                       />
                       {/* Overlay con tiempo de lectura */}
-                      <div className="absolute top-3 right-3 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs font-medium">
+                      <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs font-medium">
                         ⏱️ {readingTime} min
                       </div>
                       {/* Badge de categoría */}
-                      <div className="absolute top-3 left-3 bg-teal-600 text-white px-2 py-1 rounded text-xs font-medium">
+                      <div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-teal-600 text-white px-2 py-1 rounded text-xs font-medium">
                         {category}
                       </div>
                       {/* Badge de dificultad */}
-                      <div className={`absolute bottom-3 left-3 px-2 py-1 rounded text-xs font-medium ${
+                      <div className={`absolute bottom-2 sm:bottom-3 left-2 sm:left-3 px-2 py-1 rounded text-xs font-medium ${
                         difficulty === 'Principiante' ? 'bg-green-600 text-white' :
                         difficulty === 'Intermedio' ? 'bg-yellow-600 text-white' :
                         'bg-red-600 text-white'
@@ -774,14 +777,14 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
                       </div>
                       {/* Indicador de favorito */}
                       {isPostFavorite && (
-                        <div className="absolute bottom-3 right-3 bg-red-500 text-white px-2 py-1 rounded text-xs font-medium">
+                        <div className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3 bg-red-500 text-white px-2 py-1 rounded text-xs font-medium">
                           ❤️
                         </div>
                       )}
                     </div>
                     
-                    <div className="p-6 flex flex-col flex-grow">
-                      <h3 className={`text-xl font-semibold ${darkMode ? 'text-white group-hover:text-teal-400' : 'text-slate-800 group-hover:text-teal-700'} transition-colors mb-2`}>
+                    <div className="p-4 sm:p-6 flex flex-col flex-grow">
+                      <h3 className={`text-lg sm:text-xl font-semibold ${darkMode ? 'text-white group-hover:text-teal-400' : 'text-slate-800 group-hover:text-teal-700'} transition-colors mb-2`}>
                         <button
                           onClick={() => onNavigateToPost(post.frontmatter.slug)}
                           className="text-left focus:outline-none focus:underline"
@@ -789,16 +792,16 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
                           {post.frontmatter.title}
                         </button>
                       </h3>
-                      <p className={`text-sm ${darkMode ? 'text-slate-300' : 'text-slate-500'} mb-3`}>
+                      <p className={`text-xs sm:text-sm ${darkMode ? 'text-slate-300' : 'text-slate-500'} mb-2 sm:mb-3`}>
                         {formatDate(post.frontmatter.date)}
                       </p>
-                      <p className={`${darkMode ? 'text-slate-200' : 'text-slate-700'} leading-relaxed mb-4 flex-grow`}>
+                      <p className={`${darkMode ? 'text-slate-200' : 'text-slate-700'} leading-relaxed mb-3 sm:mb-4 flex-grow text-sm sm:text-base`}>
                         {post.frontmatter.summary}
                       </p>
                       
                       {/* Etiquetas */}
                       {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mb-4">
+                        <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
                           {post.frontmatter.tags.slice(0, 3).map((tag) => (
                             <span 
                               key={tag}
@@ -819,7 +822,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
                         onClick={() => onNavigateToPost(post.frontmatter.slug)}
                         variant="primary"
                         size="sm"
-                        className="mt-auto self-start"
+                        className="mt-auto self-start px-3 py-2"
                       >
                         Leer Más &rarr;
                       </Button>
@@ -830,12 +833,13 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
             </div>
 
             {totalPages > 1 && (
-              <div className={`mt-10 pt-6 border-t ${darkMode ? 'border-slate-600' : 'border-slate-200'} flex flex-wrap justify-center items-center gap-2`}>
+              <div className={`mt-8 sm:mt-10 pt-4 sm:pt-6 border-t ${darkMode ? 'border-slate-600' : 'border-slate-200'} flex flex-wrap justify-center items-center gap-2`}>
                 <Button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
                   variant="secondary"
                   size="sm"
+                  className="px-3 py-2 text-sm"
                   aria-label="Página anterior"
                 >
                   &larr; Anterior
@@ -846,6 +850,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
                   disabled={currentPage === totalPages}
                   variant="secondary"
                   size="sm"
+                  className="px-3 py-2 text-sm"
                   aria-label="Página siguiente"
                 >
                   Siguiente &rarr;

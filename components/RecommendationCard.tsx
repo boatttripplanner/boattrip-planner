@@ -6,7 +6,7 @@ import { LoadingSpinner } from './LoadingSpinner';
 import { ErrorMessage } from './ErrorMessage';
 import { SailboatIcon } from './icons/SailboatIcon';
 import { Button } from './Button';
-import ChatInterface from './ChatInterface';
+// import ChatInterface from './ChatInterface'; // Comentado - sección de "Refinar Recomendación" deshabilitada
 import { AccordionItem } from './AccordionItem';
 import { getAccuWeatherIconUrl } from '../services/accuweatherService';
 import { SAMBOAT_AFFILIATE_URL } from '../constants'; 
@@ -48,7 +48,9 @@ interface ParsedRecommendation {
   sections: SectionData[];
 }
 
-const WEATHER_DATA_BLOCK_REGEX = /---\s*[\r\n]+\s*\*\*Datos para API de Clima \(Uso Interno - NO MOSTRAR COMO SECCIÓN PRINCIPAL EN EL ACORDEÓN\):\*\*(?:.|\r\n|\r\n)*?---/ms;
+const WEATHER_DATA_BLOCK_REGEX = /---\s*[\r\n]+\s*\*\*Datos para API de Clima \(Uso Interno - NO MOSTRAR COMO SECCIÓN PRINCIPAL EN EL ACORDEÓN\):\*\*[\s\S]*?---/ms;
+const INTERNAL_DATA_REGEX = /###\s*\*\*Datos para API de Clima \(Uso Interno - NO MOSTRAR COMO SECCIÓN PRINCIPAL EN EL ACORDEÓN\):\*\*[\s\S]*?(?=###|$)/gi;
+const WEATHER_DATA_ALTERNATIVE_REGEX = /\*\*Datos para API de Clima \(Uso Interno - NO MOSTRAR COMO SECCIÓN PRINCIPAL EN EL ACORDEÓN\):\*\*[\s\S]*?(?=---|$)/gi;
 const APP_URL = typeof window !== 'undefined' ? window.location.origin + '/' : "https://www.boattrip-planner.com/";
 
 const purchasableKeywords: string[] = [
@@ -79,7 +81,11 @@ const parseMarkdownToSections = (markdownTextWithWeatherBlock: string): ParsedRe
   let introduction = "";
   const sections: SectionData[] = [];
 
-  const fullText = markdownTextWithWeatherBlock.replace(WEATHER_DATA_BLOCK_REGEX, '').trim();
+  const fullText = markdownTextWithWeatherBlock
+    .replace(WEATHER_DATA_BLOCK_REGEX, '')
+    .replace(INTERNAL_DATA_REGEX, '')
+    .replace(WEATHER_DATA_ALTERNATIVE_REGEX, '')
+    .trim();
   
   let textBeforeH2 = "";
   let textToParseForSections = fullText; 
@@ -144,10 +150,16 @@ const WeatherInfoDisplay: React.FC<{
   if (isAwaitingLocationData) {
     return (
       <div className="bg-gradient-to-r from-blue-50 to-teal-50 p-4 rounded-lg border-2 border-blue-200 shadow-sm">
-        <div className="flex items-center justify-center space-x-3">
-          <SailboatIcon className="w-6 h-6 text-blue-500 animate-pulse" />
-          <span className="text-slate-700 font-medium">🌦️ Esperando información de ubicación para el pronóstico...</span>
-        </div>
+                 <div className="flex items-center justify-center space-x-3">
+                       <div className="w-6 h-6 bg-gradient-to-br from-blue-50 to-teal-100 rounded-full flex items-center justify-center shadow-sm animate-pulse">
+             <img 
+               src="/apple-touch-icon.png" 
+               alt="BoatTrip Planner Logo" 
+               className="w-4 h-4"
+             />
+           </div>
+           <span className="text-slate-700 font-medium">🌦️ Esperando información de ubicación para el pronóstico...</span>
+         </div>
       </div>
     );
   }
@@ -347,7 +359,81 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
     if (!recommendation || !recommendation.text.trim()) {
         return { mainTitle: undefined, introduction: undefined, sections: [] };
     }
-    return parseMarkdownToSections(recommendation.text);
+    
+    const parsed = parseMarkdownToSections(recommendation.text);
+    
+    // Process sections to avoid duplication
+    const processedSections = parsed.sections.reduce((acc, section) => {
+      // Skip internal data sections completely
+      if (section.title.toLowerCase().includes("datos para api de clima") || 
+          section.title.toLowerCase().includes("uso interno")) {
+        return acc;
+      }
+      
+      const isItinerary = section.title.toLowerCase().includes("itinerario");
+      const isWeatherAdaptation = section.title.toLowerCase().includes("adaptaciones meteorológicas") || 
+                                  section.title.toLowerCase().includes("adaptación meteorológica");
+      
+      if (isItinerary && isWeatherAdaptation) {
+        // This section already contains both itinerary and weather adaptations
+        // Keep it as is, but ensure it has the integrated title
+        acc.push({
+          ...section,
+          id: `section-integrated-itinerary-weather`,
+          title: "🚤 Itinerario Recomendado con Adaptaciones Meteorológicas"
+        });
+      } else if (isItinerary) {
+        // Check if we already have a weather adaptation section
+        const weatherSectionIndex = acc.findIndex(s => 
+          s.title.toLowerCase().includes("adaptaciones meteorológicas") ||
+          s.title.toLowerCase().includes("adaptación meteorológica")
+        );
+        
+        if (weatherSectionIndex >= 0) {
+          // Merge weather adaptations into the itinerary section
+          const weatherSection = acc[weatherSectionIndex];
+          acc[weatherSectionIndex] = {
+            ...section,
+            id: `section-integrated-itinerary-weather`,
+            title: "🚤 Itinerario Recomendado con Adaptaciones Meteorológicas",
+            content: section.content + "\n\n" + weatherSection.content
+          };
+          // Remove the original weather section
+          acc.splice(weatherSectionIndex, 1);
+        } else {
+          // Keep the itinerary section as is
+          acc.push(section);
+        }
+      } else if (isWeatherAdaptation) {
+        // Check if we already have an itinerary section
+        const itinerarySectionIndex = acc.findIndex(s => 
+          s.title.toLowerCase().includes("itinerario") && 
+          !s.title.toLowerCase().includes("adaptaciones meteorológicas") &&
+          !s.title.toLowerCase().includes("adaptación meteorológica")
+        );
+        
+        if (itinerarySectionIndex >= 0) {
+          // Merge weather adaptations into the existing itinerary section
+          const itinerarySection = acc[itinerarySectionIndex];
+          acc[itinerarySectionIndex] = {
+            ...itinerarySection,
+            id: `section-integrated-itinerary-weather`,
+            title: "🚤 Itinerario Recomendado con Adaptaciones Meteorológicas",
+            content: itinerarySection.content + "\n\n" + section.content
+          };
+        } else {
+          // Keep the weather adaptation section as is
+          acc.push(section);
+        }
+      } else {
+        // Keep other sections as they are
+        acc.push(section);
+      }
+      
+      return acc;
+    }, [] as SectionData[]);
+    
+    return { ...parsed, sections: processedSections };
   }, [recommendation?.text]);
 
   useEffect(() => {
@@ -531,7 +617,8 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
     // Rely on keyword matching for a consistent, designed icon set, ignoring text emojis.
     if (title.toLowerCase().includes("datos clave") || title.toLowerCase().includes("zona de navegación")) return <div className={iconContainerClasses}><MapPinIcon className={iconClasses} aria-hidden="true" /></div>;
     if (title.toLowerCase().includes("resumen")) return <div className={iconContainerClasses}><ClipboardListIcon className={iconClasses} aria-hidden="true" /></div>;
-    if (title.toLowerCase().includes("itinerario")) return <div className={iconContainerClasses}><MapRouteIcon className={iconClasses} aria-hidden="true" /></div>;
+         if (title.toLowerCase().includes("itinerario recomendado con adaptaciones meteorológicas")) return <div className={iconContainerClasses}><MapRouteIcon className={iconClasses} aria-hidden="true" /></div>;
+     if (title.toLowerCase().includes("itinerario")) return <div className={iconContainerClasses}><MapRouteIcon className={iconClasses} aria-hidden="true" /></div>;
     if (title.toLowerCase().includes("checklist")) return <div className={iconContainerClasses}><ChecklistIcon className={iconClasses} aria-hidden="true" /></div>;
     if (title.toLowerCase().includes("consejos") || title.toLowerCase().includes("advertencias")) return <div className={iconContainerClasses}><InfoOutlineIcon className={iconClasses} aria-hidden="true" /></div>;
     if (title.toLowerCase().includes("actividades y lugares extra")) return <div className={iconContainerClasses}><StarOutlineIcon className={iconClasses} aria-hidden="true" /></div>;
@@ -541,6 +628,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
   };
 
 
+  // Don't show content while loading the main recommendation
   if (isLoading) {
     return null;
   }
@@ -576,7 +664,13 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
   if (!recommendation || !recommendation.text.trim()) {
     return (
       <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center min-h-[300px] text-center w-full">
-        <SailboatIcon className="w-16 h-16 text-slate-300 mb-4" />
+                 <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-teal-100 rounded-full flex items-center justify-center shadow-lg mb-4">
+          <img 
+            src="/apple-touch-icon.png" 
+            alt="BoatTrip Planner Logo" 
+            className="w-8 h-8"
+          />
+        </div>
         <h3 className="text-xl font-semibold text-slate-700 mb-2">¿Listo para la Aventura?</h3>
         <p className="text-slate-600">¡Completa el formulario para obtener recomendaciones personalizadas de viajes en barco!</p>
       </div>
@@ -586,27 +680,10 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
   const remarkPlugins = [remarkGfm];
 
   return (
-    <div id="recommendation-content" className="recommendation-card bg-gradient-to-br from-white to-slate-50 p-6 md:p-8 rounded-xl shadow-xl w-full break-words">
-      {mainTitle && (
-        <div className="mb-6 pb-4 border-b border-slate-200">
-          <h2 className="recommendation-header text-3xl md:text-4xl font-bold text-slate-800 text-center">
-             <ReactMarkdown remarkPlugins={remarkPlugins} components={{p: ({node, ...props}) => <span {...props} />}}>
-                {mainTitle}
-             </ReactMarkdown>
-          </h2>
-        </div>
-      )}
-      {introduction && (
-        <div className="recommendation-intro text-slate-700 mb-6 leading-relaxed bg-white/70 backdrop-blur-sm p-4 rounded-md shadow-sm border border-slate-200">
-           <ReactMarkdown remarkPlugins={remarkPlugins} components={baseMarkdownComponents}>
-            {introduction}
-          </ReactMarkdown>
-        </div>
-      )}
-
-      {/* Weather Information Display - Prominent Position */}
+    <div id="recommendation-content" className="recommendation-card bg-gradient-to-br from-white to-slate-50 p-4 sm:p-6 md:p-8 rounded-xl shadow-xl w-full break-words">
+      {/* Weather Information Display - Always show when available */}
       {(recommendation?.weatherData || recommendation?.weatherError || recommendation?.isFetchingWeather || recommendation?.isAwaitingLocationData) && (
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <WeatherInfoDisplay
             weatherData={recommendation?.weatherData}
             weatherError={recommendation?.weatherError}
@@ -616,38 +693,51 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
         </div>
       )}
 
-      {sections.length > 0 ? (
-        <div className="space-y-3">
-          {sections.map((section) => {
-            const isChecklistSection = section.title.toLowerCase().includes("checklist") || section.title.includes("✅");
-            const isNavDataSection = section.title.toLowerCase().includes("datos clave") || section.title.includes("🗺️");
-            
-            // Regex to remove leading emojis for a cleaner title display. The 'u' flag is for unicode.
-            const cleanTitle = section.title.replace(/^(\s*[\p{Emoji_Presentation}\p{Emoji}]\s*)+/u, '').trim();
-            
-            return (
-              <AccordionItem
-                key={section.id}
-                id={section.id}
-                title={cleanTitle}
-                icon={getSectionIcon(section.title)}
-                isOpen={openAccordionId === section.id}
-                onToggle={() => handleToggleAccordion(section.id)}
-              >
-                {isNavDataSection && (
-                  <WeatherInfoDisplay
-                    weatherData={recommendation?.weatherData}
-                    weatherError={recommendation?.weatherError}
-                    isFetchingWeather={recommendation?.isFetchingWeather}
-                    isAwaitingLocationData={recommendation?.isAwaitingLocationData}
-                  />
-                )}
-                <ReactMarkdown
-                  remarkPlugins={remarkPlugins}
-                  components={isChecklistSection ? interactiveChecklistComponents : baseMarkdownComponents}
-                >
-                  {section.content}
-                </ReactMarkdown>
+      {/* Only show main content when everything is completely loaded */}
+      {(!recommendation?.isFetchingWeather && !recommendation?.isAwaitingLocationData) && (
+        <>
+          {mainTitle && (
+            <div className="mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-200">
+              <h2 className="recommendation-header text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 text-center">
+                 <ReactMarkdown remarkPlugins={remarkPlugins} components={{p: ({node, ...props}) => <span {...props} />}}>
+                    {mainTitle}
+                 </ReactMarkdown>
+              </h2>
+            </div>
+          )}
+
+          {introduction && (
+            <div className="recommendation-intro text-slate-700 mb-4 sm:mb-6 leading-relaxed bg-white/70 backdrop-blur-sm p-3 sm:p-4 rounded-md shadow-sm border border-slate-200">
+               <ReactMarkdown remarkPlugins={remarkPlugins} components={baseMarkdownComponents}>
+                {introduction}
+              </ReactMarkdown>
+            </div>
+          )}
+
+          {sections.length > 0 ? (
+            <div className="space-y-2 sm:space-y-3">
+              {sections.map((section) => {
+                const isChecklistSection = section.title.toLowerCase().includes("checklist") || section.title.includes("✅");
+                
+                // Regex to remove leading emojis for a cleaner title display. The 'u' flag is for unicode.
+                const cleanTitle = section.title.replace(/^(\s*[\p{Emoji_Presentation}\p{Emoji}]\s*)+/u, '').trim();
+                
+                return (
+                  <AccordionItem
+                    key={section.id}
+                    id={section.id}
+                    title={cleanTitle}
+                    icon={getSectionIcon(section.title)}
+                    isOpen={openAccordionId === section.id}
+                    onToggle={() => handleToggleAccordion(section.id)}
+                  >
+                    
+                    <ReactMarkdown
+                      remarkPlugins={remarkPlugins}
+                      components={isChecklistSection ? interactiveChecklistComponents : baseMarkdownComponents}
+                    >
+                      {section.content}
+                    </ReactMarkdown>
                 {isChecklistSection && (
                   <div className="mt-6 pt-4 border-t border-slate-300">
                     <h4 className="text-lg font-semibold text-teal-700 mb-3">✏️ Añadir artículos propios a la checklist:</h4>
@@ -702,50 +792,74 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
           })}
         </div>
       ) : (
-         !mainTitle && !introduction && recommendation.text && (
-            <div className="bg-white p-4 rounded-lg shadow-md text-slate-700">
-                 <ReactMarkdown remarkPlugins={remarkPlugins} components={baseMarkdownComponents}>
-                    {recommendation.text}
-                 </ReactMarkdown>
-            </div>
-         )
+        !mainTitle && !introduction && recommendation.text && (
+          <div className="bg-white p-4 rounded-lg shadow-md text-slate-700">
+            <ReactMarkdown remarkPlugins={remarkPlugins} components={baseMarkdownComponents}>
+              {recommendation.text}
+            </ReactMarkdown>
+          </div>
+        )
       )}
 
-      <div className="mt-8 pt-6 border-t-2 border-slate-300/70 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 no-print">
-        <Button
-          onClick={handleModifyPreferences}
-          variant="secondary"
-          className="w-full"
-          aria-label="Modificar mis preferencias y volver al formulario"
-        >
-          🔄 Modificar Preferencias
-        </Button>
-         <Button
-          onClick={onPrintPlan}
-          variant="secondary"
-          className="w-full"
-          aria-label="Imprimir este plan"
-        >
-          🖨️ Imprimir Plan
-        </Button>
-        <Button
-          onClick={handleShareViaWhatsApp}
-          variant="secondary" 
-          className="w-full bg-green-500 hover:bg-green-600 text-white focus:ring-green-400 flex items-center justify-center transform transition-all hover:-translate-y-0.5"
-          aria-label="Compartir plan por WhatsApp"
-        >
-          <WhatsAppIcon className="w-5 h-5 mr-2" /> Compartir
-        </Button>
-        <Button
-          onClick={() => window.open(SAMBOAT_AFFILIATE_URL, '_blank', 'noopener,noreferrer')}
-          variant="primary"
-          className="w-full text-center flex items-center justify-center"
-          aria-label="Ver barcos en SamBoat (enlace externo)"
-        >
-          <SailboatIcon className="w-5 h-5 mr-2" /> Ver Barcos
-        </Button>
-      </div>
+             {/* Simplified Action Buttons Section */}
+             <div className="mt-6 pt-4 border-t-2 border-slate-300/70 no-print">
+               <div className="text-center mb-4">
+                 <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-1">🚤 ¿Qué te gustaría hacer ahora?</h3>
+                 <p className="text-sm text-slate-600">Gestiona tu plan y continúa con tu aventura náutica</p>
+               </div>
+               
+               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+                 <Button
+                   onClick={handleModifyPreferences}
+                   variant="secondary"
+                   className="w-full h-12 sm:h-14 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 border-2 border-blue-200 hover:border-blue-300 transition-all duration-200"
+                   aria-label="Modificar mis preferencias y volver al formulario"
+                 >
+                   <div className="text-lg sm:text-xl">🔄</div>
+                   <span className="text-xs sm:text-sm font-semibold text-slate-700 leading-tight">Modificar</span>
+                 </Button>
+                 
+                 <Button
+                   onClick={onPrintPlan}
+                   variant="secondary"
+                   className="w-full h-12 sm:h-14 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 border-2 border-purple-200 hover:border-purple-300 transition-all duration-200"
+                   aria-label="Imprimir este plan"
+                 >
+                   <div className="text-lg sm:text-xl">🖨️</div>
+                   <span className="text-xs sm:text-sm font-semibold text-slate-700 leading-tight">Imprimir</span>
+                 </Button>
+                 
+                 <Button
+                   onClick={handleShareViaWhatsApp}
+                   className="w-full h-12 sm:h-14 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-2 border-green-400 hover:border-green-500 transition-all duration-200 shadow-md"
+                   aria-label="Compartir plan por WhatsApp"
+                 >
+                   <WhatsAppIcon className="w-5 h-5 sm:w-6 sm:h-6" />
+                   <span className="text-xs sm:text-sm font-semibold leading-tight">Compartir</span>
+                 </Button>
+                 
+                 <Button
+                   onClick={() => window.open(SAMBOAT_AFFILIATE_URL, '_blank', 'noopener,noreferrer')}
+                   className="w-full h-12 sm:h-14 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-2 border-orange-400 hover:border-orange-500 transition-all duration-200 shadow-md"
+                   aria-label="Ver barcos en SamBoat (enlace externo)"
+                 >
+                                       <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-blue-50 to-teal-100 rounded-full flex items-center justify-center shadow-sm">
+                      <img 
+                        src="/apple-touch-icon.png" 
+                        alt="BoatTrip Planner Logo" 
+                        className="w-3 h-3 sm:w-4 sm:h-4"
+                      />
+                    </div>
+                    <span className="text-xs sm:text-sm font-semibold leading-tight">Ver Barcos</span>
+                 </Button>
+               </div>
+               
 
+             </div>
+        </>
+      )}
+
+      {/* ChatInterface ocultado - sección de "Refinar Recomendación" deshabilitada
       {chatSession && (
         <div className="mt-8 pt-6 border-t border-slate-200 no-print">
             <ChatInterface
@@ -754,6 +868,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
             />
         </div>
       )}
+      */}
     </div>
   );
 };

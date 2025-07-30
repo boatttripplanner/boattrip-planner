@@ -26,4 +26,5 @@ export { default as TrashIcon } from './TrashIcon';
 export { UserAvatarIcon } from './UserAvatarIcon';
 export { UsersIcon } from './UsersIcon';
 export { WhatsAppIcon } from './WhatsAppIcon';
-export { WindIcon } from './WindIcon'; 
+export { WindIcon } from './WindIcon';
+export { CrewIcon } from './CrewIcon'; 

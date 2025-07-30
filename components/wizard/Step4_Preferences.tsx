@@ -103,15 +103,23 @@ const Step4Preferences: React.FC<WizardStepProps> = ({ data, updateData }) => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-        <div className="text-center">
-            <CogIcon className="mx-auto h-12 w-12 text-teal-500" />
-            <h2 className="text-xl sm:text-2xl font-semibold text-slate-800 mt-2">Preferencias y Actividades</h2>
-            <p className="text-sm sm:text-base text-slate-600">Personaliza tu experiencia náutica perfecta.</p>
+    <div className="space-y-8 animate-fade-in">
+      <div className="text-center">
+        <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+            <CogIcon className="h-10 w-10 text-white" />
         </div>
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
+            Preferencias y
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
+                Actividades
+            </span>
+        </h2>
+        <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            Personaliza tu experiencia con tus actividades favoritas y presupuesto.
+        </p>
+      </div>
 
-      {/* Sección de Actividades - Ahora más prominente */}
-      <div className="space-y-4 bg-gradient-to-r from-teal-50 to-blue-50 p-6 rounded-lg border border-teal-200">
+      <div className="space-y-6 rounded-xl bg-gradient-to-br from-blue-50 to-teal-50 p-8 border border-blue-200 shadow-lg">
         <div className="text-center mb-4">
           <h3 className="text-lg font-semibold text-slate-800 mb-2">🎯 ¿Qué te gustaría hacer?</h3>
           <p className="text-sm text-slate-600 mb-3">Selecciona las actividades que más te interesan para personalizar tu itinerario</p>
