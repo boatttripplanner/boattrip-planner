@@ -147,8 +147,11 @@ export default defineConfig(({ mode }) => {
       },
       // Development server configuration
       server: {
-        headers: isDevelopment ? {} : {
-          'Cache-Control': 'public, max-age=31536000, immutable'
+        headers: isDevelopment ? {
+          'Content-Type': 'application/javascript; charset=utf-8'
+        } : {
+          'Cache-Control': 'public, max-age=31536000, immutable',
+          'Content-Type': 'application/javascript; charset=utf-8'
         },
         compress: !isDevelopment, // Disable compression in development
         fs: {
@@ -162,7 +165,8 @@ export default defineConfig(({ mode }) => {
       // Preview configuration
       preview: {
         headers: {
-          'Cache-Control': 'public, max-age=31536000, immutable'
+          'Cache-Control': 'public, max-age=31536000, immutable',
+          'Content-Type': 'application/javascript; charset=utf-8'
         },
         compress: true
       },
