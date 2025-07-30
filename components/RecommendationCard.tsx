@@ -29,10 +29,8 @@ import { WhatsAppIcon } from './icons/WhatsAppIcon';
 
 interface RecommendationCardProps {
   recommendation: Recommendation | null;
-  isLoading: boolean; // For Gemini text generation
+  isLoading: boolean;
   error: string | null;
-  chatSession: AppChatSession | null;
-  onSendChatMessage: (message: string) => void;
   onPrintPlan: () => void;
 }
 
@@ -344,8 +342,6 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
     recommendation,
     isLoading,
     error,
-    chatSession,
-    onSendChatMessage,
     onPrintPlan
 }) => {
   const [checkedAiItems, setCheckedAiItems] = useState<Record<string, boolean>>({});

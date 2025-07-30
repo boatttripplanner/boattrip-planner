@@ -1,7 +1,7 @@
 import React, { useState, useRef, Suspense, lazy, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserPreferences, CookieConsentStatus, Recommendation } from '../types';
-import { generateBoatTripRecommendation, constructWeatherAdaptationPrompt } from '../services/geminiService';
+import { generateStaticRecommendation } from '../services/staticRecommendationService';
 import { getLocationKey, getWeatherForecast } from '../services/accuweatherService';
 
 // Lazy load components for better performance
@@ -28,7 +28,7 @@ const PlanningWizardPage: React.FC = () => {
   const [weatherError, setWeatherError] = useState<string | null>(null);
   const [isFetchingWeather, setIsFetchingWeather] = useState(false);
   const [isAwaitingLocationData, setIsAwaitingLocationData] = useState(false);
-  const abortControllerRef = useRef<AbortController | null>(null);
+
   const navigate = useNavigate();
 
   // Scroll hacia arriba cuando se carga el componente
@@ -37,7 +37,7 @@ const PlanningWizardPage: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  const handleSubmit = async (preferences: UserPreferences) => {
+  const handleSubmit = (preferences: UserPreferences) => {
     setIsLoading(true);
     setError(null);
     setRecommendation(null);
@@ -45,38 +45,30 @@ const PlanningWizardPage: React.FC = () => {
     // Hacer scroll hacia arriba para centrar la pantalla de carga
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
-    // Cancelar cualquier generación anterior
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-    
-    abortControllerRef.current = new AbortController();
-    
     try {
-      // Generar recomendación completa de una vez (sin streaming)
-      const fullText = await generateBoatTripRecommendation(preferences);
+      // Generar recomendación estática instantánea
+      const fullText = generateStaticRecommendation(preferences);
       
-      if (!abortControllerRef.current?.signal.aborted) {
-        const aiRecommendation: Recommendation = {
-          text: fullText,
-          chatHistory: [],
-          weatherData: null,
-          weatherError: null,
-          isFetchingWeather: false,
-          isAwaitingLocationData: false,
-          weatherAdaptations: "Condiciones meteorológicas favorables para navegación costera."
-        };
-        
-        setRecommendation(aiRecommendation);
-        setShowRecommendation(true);
-        
-        // Extraer datos de ubicación y obtener clima
-        const locationData = extractLocationData(fullText);
-        if (locationData) {
-          setIsAwaitingLocationData(true);
-          await fetchWeatherData(locationData);
+      const staticRecommendation: Recommendation = {
+        text: fullText,
+        chatHistory: [],
+        weatherData: null,
+        weatherError: null,
+        isFetchingWeather: false,
+        isAwaitingLocationData: false,
+        weatherAdaptations: "Condiciones meteorológicas favorables para navegación costera."
+      };
+      
+      setRecommendation(staticRecommendation);
+      setShowRecommendation(true);
+      
+      // Extraer datos de ubicación y obtener clima (opcional)
+      const locationData = extractLocationData(fullText);
+      if (locationData) {
+        setIsAwaitingLocationData(true);
+        fetchWeatherData(locationData).finally(() => {
           setIsAwaitingLocationData(false);
-        }
+        });
       }
     } catch (error) {
       console.error('Error generating recommendation:', error);
@@ -87,7 +79,6 @@ const PlanningWizardPage: React.FC = () => {
       }
     } finally {
       setIsLoading(false);
-      abortControllerRef.current = null;
     }
   };
 
@@ -114,9 +105,6 @@ const PlanningWizardPage: React.FC = () => {
   };
 
   const handleCancelGeneration = () => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
     setIsLoading(false);
     setError(null);
   };
@@ -258,8 +246,6 @@ const PlanningWizardPage: React.FC = () => {
               }}
               isLoading={isLoading}
               error={error}
-              chatSession={null}
-              onSendChatMessage={(message) => console.log('Chat message:', message)}
               onPrintPlan={() => window.print()}
             />
           </Suspense>
