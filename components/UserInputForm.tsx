@@ -1,15 +1,25 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, Suspense, lazy } from 'react';
 import { UserPreferences, PlanningMode, DesiredExperienceType, ExperienceLevel, CookieConsentStatus, UserInputFormProps } from '../types';
 import { Button } from './Button';
 import ProgressStepper from './wizard/ProgressStepper';
-import Step1Experience from './wizard/Step1_Experience';
-import Step2Route from './wizard/Step2_Route';
-import Step3Crew from './wizard/Step3_Crew';
-import Step4Preferences from './wizard/Step4_Preferences';
-import Step5BoatDetails from './wizard/Step5_BoatDetails';
-import Step6Review from './wizard/Step6_Review';
 import WizardNavigation from './wizard/WizardNavigation';
+
+// Lazy load wizard steps for better performance
+const Step1Experience = lazy(() => import('./wizard/Step1_Experience'));
+const Step2Route = lazy(() => import('./wizard/Step2_Route'));
+const Step3Crew = lazy(() => import('./wizard/Step3_Crew'));
+const Step4Preferences = lazy(() => import('./wizard/Step4_Preferences'));
+const Step5BoatDetails = lazy(() => import('./wizard/Step5_BoatDetails'));
+const Step6Review = lazy(() => import('./wizard/Step6_Review'));
+
+// Loading component for wizard steps
+const StepLoadingFallback = () => (
+  <div className="flex items-center justify-center p-8">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
+    <span className="ml-3 text-slate-600">Cargando...</span>
+  </div>
+);
 
 const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cookieConsent, onReconsiderCookies }) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -211,22 +221,50 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
 
     switch (currentStep) {
       case 1:
-        return <Step1Experience {...stepProps} />;
+        return (
+          <Suspense fallback={<StepLoadingFallback />}>
+            <Step1Experience {...stepProps} />
+          </Suspense>
+        );
       case 2:
-        return <Step2Route {...stepProps} />;
+        return (
+          <Suspense fallback={<StepLoadingFallback />}>
+            <Step2Route {...stepProps} />
+          </Suspense>
+        );
       case 3:
-        return <Step3Crew {...stepProps} />;
+        return (
+          <Suspense fallback={<StepLoadingFallback />}>
+            <Step3Crew {...stepProps} />
+          </Suspense>
+        );
       case 4:
-        return <Step4Preferences {...stepProps} />;
+        return (
+          <Suspense fallback={<StepLoadingFallback />}>
+            <Step4Preferences {...stepProps} />
+          </Suspense>
+        );
       case 5:
         if (shouldShowBoatStep) {
-          return <Step5BoatDetails {...stepProps} />;
+          return (
+            <Suspense fallback={<StepLoadingFallback />}>
+              <Step5BoatDetails {...stepProps} />
+            </Suspense>
+          );
         } else {
-          return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
+          return (
+            <Suspense fallback={<StepLoadingFallback />}>
+              <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />
+            </Suspense>
+          );
         }
       case 6:
         if (shouldShowBoatStep) {
-          return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
+          return (
+            <Suspense fallback={<StepLoadingFallback />}>
+              <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />
+            </Suspense>
+          );
         }
         break;
       default:

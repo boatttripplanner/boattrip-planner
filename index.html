@@ -14,26 +14,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- Preload critical resources -->
-    <!-- Removed apple-touch-icon preload to fix preload warning -->
+    <!-- Critical CSS for above-the-fold content -->
+    <link rel="preload" href="/src/critical.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/src/critical.css"></noscript>
+    
+    <!-- Preload critical fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"></noscript>
+    
+    <!-- Preload critical images -->
+    <link rel="preload" href="/apple-touch-icon.png" as="image" type="image/png">
+    
+    <!-- Preload critical JavaScript chunks -->
+    <link rel="modulepreload" href="/src/index.tsx">
     
     <!-- Cache Control Headers -->
     <meta http-equiv="Cache-Control" content="public, max-age=31536000, immutable" />
     <meta http-equiv="Pragma" content="cache" />
     <meta http-equiv="Expires" content="31536000" />
     
-    <!-- Google Tag Manager - Optimized for Core Web Vitals -->
+    <!-- Google Tag Manager - DISABLED: Container not found -->
+    <!--
     <script>
-      // Defer GTM loading to improve Core Web Vitals
-      window.addEventListener('load', function() {
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-W92QTGF4');
-      });
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-W92QTGF4');
     </script>
+    -->
     <!-- End Google Tag Manager -->
     
     <!-- Google tag (gtag.js) - Optimized for Core Web Vitals -->
@@ -42,25 +51,28 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       
-      // Defer analytics initialization to improve Core Web Vitals
-      window.addEventListener('load', function() {
-        gtag('js', new Date());
-        
-        // Consent Mode V2 default state - Set before any config calls
-        gtag('consent', 'default', {
-          'ad_storage': 'denied',
-          'ad_user_data': 'denied',
-          'ad_personalization': 'denied',
-          'analytics_storage': 'denied'
-        });
+      // Only load analytics in production
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        // Defer analytics initialization to improve Core Web Vitals
+        window.addEventListener('load', function() {
+          gtag('js', new Date());
+          
+          // Consent Mode V2 default state - Set before any config calls
+          gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'analytics_storage': 'denied'
+          });
 
-        gtag('config', 'G-VR3KE7RXBD', {
-          'send_page_view': false // Disable automatic page view
+          gtag('config', 'G-VR3KE7RXBD', {
+            'send_page_view': false // Disable automatic page view
+          });
+          
+          // Send page view manually after load
+          gtag('event', 'page_view');
         });
-        
-        // Send page view manually after load
-        gtag('event', 'page_view');
-      });
+      }
     </script>
     
     <!-- Favicon principal PNG redondeado (blanco y azul) -->
@@ -71,21 +83,24 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Performance Service Worker Registration -->
+    <!-- Advanced PWA Service Worker Registration -->
     <script>
-      // Optimized Service Worker Registration - Only in production
-      if ('serviceWorker' in navigator && window.location.hostname !== 'localhost' && window.location.protocol === 'https:') {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js', { scope: '/' })
-            .then((registration) => {
-              console.log('SW registered: ', registration);
-            })
-            .catch((registrationError) => {
-              console.log('SW registration failed: ', registrationError);
-            });
-        });
-      }
+      // Detect Safari and use appropriate service worker registration
+      const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
       
+      if (isSafari) {
+        // Load Safari-specific service worker registration
+        const script = document.createElement('script');
+        script.src = '/sw-safari.js';
+        document.head.appendChild(script);
+      } else {
+        // Load standard service worker registration
+        const script = document.createElement('script');
+        script.src = '/sw-register.js';
+        document.head.appendChild(script);
+      }
+    </script>
+    <script>
       // Performance monitoring
       window.addEventListener('load', () => {
         if ('performance' in window) {
@@ -119,6 +134,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Safari-specific optimizations -->
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-title" content="BoatTrip Planner">
+    <meta name="application-name" content="BoatTrip Planner">
+    <meta name="msapplication-TileColor" content="#0d9488">
+    <meta name="theme-color" content="#0d9488">
 
 
     <!-- Open Graph / Facebook -->
@@ -126,14 +149,17 @@
     <meta property="og:url" content="https://boattrip-planner.com/" />
     <meta property="og:title" content="BoatTrip Planner - Planificador de Viajes Náuticos con IA" />
     <meta property="og:description" content="BoatTrip Planner: Tu asistente de IA para planificar viajes en barco. Recomendaciones personalizadas, itinerarios náuticos y consejos expertos para alquiler de barcos y propietarios de embarcaciones." />
-    <meta property="og:image" content="https://boattrip-planner.com/og-image.png" />
+    <meta property="og:image" content="https://boattrip-planner.com/og-image.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/svg+xml" />
     <meta property="og:site_name" content="BoatTrip Planner" />
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://boattrip-planner.com/" />
     <meta property="twitter:title" content="BoatTrip Planner - Planificador de Viajes Náuticos con IA" />
     <meta property="twitter:description" content="BoatTrip Planner: Tu asistente de IA para planificar viajes en barco. Recomendaciones personalizadas, itinerarios náuticos y consejos expertos para alquiler de barcos y propietarios de embarcaciones." />
-    <meta property="twitter:image" content="https://boattrip-planner.com/og-image.png" />
+    <meta property="twitter:image" content="https://boattrip-planner.com/og-image.svg" />
 
     <!-- Modern Font: Poppins - Optimized loading -->
     <!-- Font loading is handled by preload above -->
@@ -173,6 +199,73 @@
         -webkit-appearance: none;
         appearance: none;
         -webkit-tap-highlight-color: transparent;
+      }
+      
+      /* Safari-specific fixes */
+      @supports (-webkit-touch-callout: none) {
+        /* Safari-specific styles */
+        body {
+          -webkit-overflow-scrolling: touch;
+          -webkit-text-size-adjust: 100%;
+        }
+        
+        /* Fix for Safari flexbox issues */
+        .flex {
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+        }
+        
+        /* Fix for Safari grid issues */
+        .grid {
+          display: -webkit-grid;
+          display: grid;
+        }
+        
+        /* Fix for Safari transform issues */
+        .transform {
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+        }
+        
+        /* Fix for Safari animation issues */
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @-webkit-keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        /* Fix for Safari input zoom issues */
+        input, textarea, select {
+          font-size: 16px !important;
+          -webkit-appearance: none;
+          appearance: none;
+        }
+        
+        /* Fix for Safari scrollbar issues */
+        ::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+          background: #c1c1c1;
+          border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+          background: #a8a8a8;
+        }
       }
       .body-no-scroll {
         overflow: hidden !important; /* Prevent body scroll when modals are open */
@@ -289,15 +382,21 @@
       }
 
       /* Custom styles for the new TikTok icon */
-      .tiktok-icon .tiktok-glitch-cyan,
-      .tiktok-icon .tiktok-glitch-magenta {
+      .tiktok-icon {
+        transition: all 0.3s ease;
+      }
+      .tiktok-icon .tiktok-cyan,
+      .tiktok-icon .tiktok-magenta {
         transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       }
-      .tiktok-link:hover .tiktok-glitch-cyan {
-        transform: translate(2px, -1.5px);
+      .tiktok-link:hover .tiktok-icon {
+        transform: scale(1.05);
       }
-      .tiktok-link:hover .tiktok-glitch-magenta {
-        transform: translate(-2px, 1.5px);
+      .tiktok-link:hover .tiktok-cyan {
+        transform: translateX(-1px) translateY(-0.5px);
+      }
+      .tiktok-link:hover .tiktok-magenta {
+        transform: translateX(1px) translateY(0.5px);
       }
 
 
@@ -390,7 +489,8 @@
          }
       }
     </style>
-    <!-- Google AdSense - Optimized for Core Web Vitals -->
+    <!-- Google AdSense - DISABLED: Development mode -->
+    <!--
     <script>
       // Defer AdSense loading to improve Core Web Vitals
       window.addEventListener('load', function() {
@@ -401,6 +501,7 @@
         document.head.appendChild(script);
       });
     </script>
+    -->
 
 <script id="structured-data" type="application/ld+json">
 {
@@ -412,7 +513,7 @@
   "operatingSystem": "All",
   "browserRequirements": "Requires HTML5 support, JavaScript",
   "url": "https://boattrip-planner.com/",
-  "image": "https://boattrip-planner.com/og-image.png",
+  "image": "https://boattrip-planner.com/og-image.svg",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -433,8 +534,11 @@
 </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) - DISABLED: Container not found -->
+    <!--
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W92QTGF4"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    -->
     <!-- End Google Tag Manager (noscript) -->
     
 

@@ -690,6 +690,21 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
             isFetchingWeather={recommendation?.isFetchingWeather}
             isAwaitingLocationData={recommendation?.isAwaitingLocationData}
           />
+          
+          {/* Weather Adaptations Section */}
+          {recommendation?.weatherAdaptations && recommendation.weatherAdaptations.trim() && (
+            <div className="mt-4 bg-gradient-to-r from-teal-50 to-blue-50 p-4 rounded-lg border-2 border-teal-200 shadow-sm">
+              <div className="flex items-center mb-3">
+                <span className="text-teal-600 text-lg mr-2">🌤️</span>
+                <h4 className="font-semibold text-teal-800">Adaptaciones Meteorológicas</h4>
+              </div>
+              <div className="text-sm text-teal-700">
+                <ReactMarkdown remarkPlugins={remarkPlugins} components={baseMarkdownComponents}>
+                  {recommendation.weatherAdaptations}
+                </ReactMarkdown>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

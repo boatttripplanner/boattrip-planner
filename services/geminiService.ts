@@ -383,6 +383,58 @@ ${originalRecommendation}
 `;
 };
 
+export async function generateBoatTripRecommendation(preferences: UserPreferences): Promise<string> {
+  if (geminiApiKey === "MISSING_API_KEY") { 
+    console.error("Error: La API_KEY de Google Gemini no está configurada en el entorno.");
+    throw new Error("La API_KEY no está configurada. Por favor, asegúrate de que la variable de entorno API_KEY esté definida correctamente. No se puede conectar a la API de Gemini.");
+  }
+  
+  const prompt = constructPrompt(preferences);
+  
+  try {
+    const response = await ai.models.generateContent({
+      model: GEMINI_MODEL_NAME,
+      contents: prompt,
+      config: {
+        temperature: 0.6, 
+        topK: 40,
+        topP: 0.95,
+      }
+    });
+    
+    const generatedText = response.text;
+    
+    if (!generatedText || generatedText.trim() === "") {
+      console.warn("Advertencia: La IA no generó contenido textual significativo para el prompt:", prompt.substring(0, 500) + "...");
+      throw new Error("No se pudo generar una recomendación. Por favor, inténtalo de nuevo.");
+    }
+    
+    return generatedText;
+
+  } catch (error) {
+    console.error("Error llamando a la API de Gemini:", error);
+    if (error instanceof Error) {
+        if (error.message.includes("API key not valid") || 
+            error.message.includes("API_KEY_INVALID") || 
+            error.message.toLowerCase().includes("permission denied") || 
+            error.message.toLowerCase().includes("api key is missing") ||
+            error.message.toLowerCase().includes("authentication failed")) { 
+             throw new Error("Error de autenticación con la API de Gemini: Clave API inválida, con permisos insuficientes, o no proporcionada. Por favor, verifica la configuración de tu clave API (API_KEY) en el entorno.");
+        }
+        const geminiError = error as any; 
+        if (geminiError?.message?.toLowerCase().includes("blocked") || 
+            geminiError?.response?.promptFeedback?.blockReason || 
+            geminiError?.promptFeedback?.blockReason) {
+             const blockReason = geminiError?.response?.promptFeedback?.blockReason || geminiError?.promptFeedback?.blockReason || "no especificada";
+             console.warn("Respuesta bloqueada por la API de Gemini. Razón:", blockReason);
+             throw new Error(`Tu solicitud no pudo ser procesada porque el contenido fue bloqueado por razones de seguridad o política de la IA (Razón: ${blockReason}). Intenta reformular tus preferencias.`);
+        }
+         throw new Error(`La solicitud a la API de Gemini falló con el mensaje: ${error.message}. Por favor, inténtalo de nuevo más tarde.`);
+    }
+    throw new Error("Ocurrió un error desconocido al comunicarse con la API de Gemini. Por favor, inténtalo de nuevo más tarde.");
+  }
+}
+
 export async function* generateBoatTripRecommendationStream(preferences: UserPreferences): AsyncGenerator<string, void, undefined> {
   if (geminiApiKey === "MISSING_API_KEY") { 
     console.error("Error: La API_KEY de Google Gemini no está configurada en el entorno.");
