@@ -214,60 +214,58 @@
     {
       "source": "/404",
       "destination": "/404.html"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
     },
     {
-      "src": "/sw.js",
-      "dest": "/sw.js"
+      "source": "/assets/(.*)",
+      "destination": "/assets/$1"
     },
     {
-      "src": "/sw-safari-safe.js",
-      "dest": "/sw-safari-safe.js"
+      "source": "/sw.js",
+      "destination": "/sw.js"
     },
     {
-      "src": "/sw-safari.js",
-      "dest": "/sw-safari.js"
+      "source": "/sw-safari-safe.js",
+      "destination": "/sw-safari-safe.js"
     },
     {
-      "src": "/sw-register.js",
-      "dest": "/sw-register.js"
+      "source": "/sw-safari.js",
+      "destination": "/sw-safari.js"
     },
     {
-      "src": "/sw-push.js",
-      "dest": "/sw-push.js"
+      "source": "/sw-register.js",
+      "destination": "/sw-register.js"
     },
     {
-      "src": "/apple-touch-icon.png",
-      "dest": "/apple-touch-icon.png"
+      "source": "/sw-push.js",
+      "destination": "/sw-push.js"
     },
     {
-      "src": "/favicon.ico",
-      "dest": "/favicon.ico"
+      "source": "/apple-touch-icon.png",
+      "destination": "/apple-touch-icon.png"
     },
     {
-      "src": "/favicon.svg",
-      "dest": "/favicon.svg"
+      "source": "/favicon.ico",
+      "destination": "/favicon.ico"
     },
     {
-      "src": "/site.webmanifest",
-      "dest": "/site.webmanifest"
+      "source": "/favicon.svg",
+      "destination": "/favicon.svg"
     },
     {
-      "src": "/robots.txt",
-      "dest": "/robots.txt"
+      "source": "/site.webmanifest",
+      "destination": "/site.webmanifest"
     },
     {
-      "src": "/sitemap.xml",
-      "dest": "/sitemap.xml"
+      "source": "/robots.txt",
+      "destination": "/robots.txt"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/sitemap.xml",
+      "destination": "/sitemap.xml"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 } 
