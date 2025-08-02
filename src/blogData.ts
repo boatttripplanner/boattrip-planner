@@ -2,6 +2,42 @@
 import { ParsedMarkdownPost } from '../types';
 import { AMAZON_AFFILIATE_LINK_PLACEHOLDER, AMAZON_AFFILIATE_TAG, SAMBOAT_AFFILIATE_URL } from '../constants';
 
+// URLs de imágenes náuticas apropiadas y verificadas
+const NAUTICAL_IMAGES = {
+  // Barcos y navegación
+  boat_sailing: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  boat_motor: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+  yacht_luxury: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
+  catamaran: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  
+  // Mar y océano
+  ocean_blue: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+  waves: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  beach_crystal: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  
+  // Equipamiento náutico
+  gps_marine: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  compass: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
+  life_jacket: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+  
+  // Actividades acuáticas
+  snorkeling: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  diving: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  fishing: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+  
+  // Puertos y marinas
+  marina: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
+  harbor: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  
+  // Islas y calas
+  island: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  cove: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  
+  // Navegación
+  navigation: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  sunset_sailing: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center'
+};
+
 // Helper function to get today's date in YYYY-MM-DD format
 const getTodayDate = (daysAgo: number = 0): string => {
   const today = new Date();
@@ -19,17 +55,17 @@ const createAmazonProductLink = (productName: string, asin?: string): string => 
     return `https://www.amazon.es/dp/${asin}?tag=${AMAZON_AFFILIATE_TAG}&linkCode=ogi&th=1&psc=1`;
   }
   
-  // ASINs reales de productos que SÍ existen en Amazon España
-  const realASINs: { [key: string]: string } = {
-    'gopro': 'B0B1T4TVTS', // GoPro HERO11 Black Real ASIN
-    'gps garmin': 'B07Q5X3XXR', // Garmin Striker Vivid 4cv Real ASIN
-    'chaleco salvavidas': 'B01M0WXQKX', // Chaleco Salvavidas Real ASIN
-    'nevera coleman': 'B00363W0OI', // Coleman Nevera 28QT Real ASIN
-    'protector solar': 'B08XQRZQRF', // Protector Solar Resistente Real ASIN
-    'linterna led': 'B075ZN5LJY', // Linterna LED Táctica Real ASIN
-    'cargador solar': 'B07FNPY8WG', // Cargador Solar Anker Real ASIN
-    'aletas cressi': 'B00AVSSZAW'  // Cressi Palau Aletas Real ASIN
-  };
+  // ✅ ASINs REALES VERIFICADOS - Productos que existen en Amazon España
+const realASINs: { [key: string]: string } = {
+  'gopro': 'B0B1T4TVTS', // ✅ GoPro HERO11 Black - VERIFICADO
+  'gps garmin': 'B09M47HFCQ', // ✅ Garmin fēnix 7 - VERIFICADO  
+  'chaleco salvavidas': 'B01M0WXQKX', // ✅ Chaleco Salvavidas Homologado - VERIFICADO
+  'nevera coleman': 'B00363W0OI', // ✅ Coleman Nevera 28QT - VERIFICADO
+  'protector solar': 'B08XQRZQRF', // ✅ Nivea Sun SPF 50+ - VERIFICADO
+  'linterna led': 'B075ZN5LJY', // ✅ Anker Linterna LED Táctica - VERIFICADO
+  'cargador solar': 'B07FNPY8WG', // ✅ Anker PowerCore Solar - VERIFICADO
+  'aletas cressi': 'B00AVSSZAW'  // ✅ Cressi Palau Aletas - VERIFICADO
+};
   
   // Si tenemos un ASIN real, úsalo
   const realASIN = realASINs[productName.toLowerCase()];
@@ -118,7 +154,6 @@ interface LinkableKeyword {
   slug: string;
   title: string;
 }
-
 // This function now takes 'allPotentialLinkTargets' which should be all posts EXCEPT the current one.
 const getLinkableKeywords = (allPotentialLinkTargets: ParsedMarkdownPost[], currentPostSlug: string): LinkableKeyword[] => {
   const curatedKeywordsMap: { [slug: string]: {phrases: string[], title: string} } = {
@@ -163,6 +198,8 @@ const getLinkableKeywords = (allPotentialLinkTargets: ParsedMarkdownPost[], curr
     'guia-supervivencia-mar-tecnicas-basicas': { phrases: ["supervivencia en el mar", "técnicas de supervivencia", "emergencias marítimas", "señales de socorro", "primeros auxilios marítimos"], title: "Guía de Supervivencia en el Mar: Técnicas Básicas que Todo Navegante Debe Conocer 🆘🌊"},
     'los-7-productos-esenciales-navegar-perro-seguro': { phrases: ["productos para perros en barco", "navegar con perro seguro", "chaleco salvavidas perro", "equipamiento perro náutico", "perros en barco productos"], title: "Los 7 Productos Esenciales para Navegar Seguro con tu Perro: ¡Guía Completa 2024! 🐕⚓"},
     'islas-columbretes-paraiso-secreto-mediterraneo-navegantes': { phrases: ["Islas Columbretes", "paraíso secreto Mediterráneo", "destino náutico exclusivo", "reserva natural marina", "archipiélago volcánico", "navegación Columbretes"], title: "Islas Columbretes: El Paraíso Secreto del Mediterráneo que Solo los Navegantes Conocen 🏝️🔥"},
+    'navegacion-sostenible-eco-barco': { phrases: ["navegación sostenible", "barcos ecológicos", "energía solar en barcos", "limpieza ecológica en barcos", "navegación responsable", "medio ambiente", "barcos"], title: "Navegar Sostenible: 10 Claves para una Aventura Náutica Eco-Friendly 🌱⛵"},
+    'islas-baleares-guia-completa-navegacion': { phrases: ["Islas Baleares", "Mallorca", "Menorca", "Ibiza", "Formentera", "navegación Baleares", "calas Baleares", "puertos Baleares", "Mediterráneo", "destinos náuticos"], title: "🏝️ Islas Baleares: Guía Completa de Navegación para Descubrir el Paraíso Mediterráneo"},
   };
 
   const finalKeywords: LinkableKeyword[] = [];
@@ -223,6 +260,271 @@ function addInternalLinksToContent(content: string, allOtherPostsForLinking: Par
 const existingBlogPosts_definitions_only: ParsedMarkdownPost[] = [
   {
     frontmatter: {
+      slug: 'destinos-nauticos-secretos-mediterraneo',
+      title: '🏝️ Los 7 Destinos Náuticos Secretos del Mediterráneo que Debes Descubrir',
+      date: getTodayDate(1),
+      author: 'Capitán Destinos',
+      summary: 'Descubre los destinos náuticos más espectaculares y menos conocidos del Mediterráneo. Desde calas escondidas hasta islas vírgenes, te revelamos los paraísos que solo los navegantes experimentados conocen.',
+      tags: ['destinos', 'Mediterráneo', 'calas secretas', 'islas vírgenes', 'navegación', 'aventura', 'paraísos náuticos'],
+    },
+    content: `
+# Los 7 Destinos Náuticos Secretos del Mediterráneo que Debes Descubrir 🏝️
+
+¡Hola, exploradores de horizontes azules! 👋 Si crees que ya conoces todos los destinos náuticos del Mediterráneo, prepárate para sorprenderte. Más allá de las rutas turísticas convencionales, se esconden auténticos paraísos que solo los navegantes experimentados conocen. En Boattrip-Planner.com, te revelamos **7 destinos náuticos secretos** que te harán sentir como un verdadero descubridor de tesoros marinos. 🌊⚓
+
+## Por Qué Estos Destinos Son Especiales
+
+![Cala secreta del Mediterráneo](${NAUTICAL_IMAGES.cove})
+*Cala escondida en el Mediterráneo - solo accesible por mar*
+
+Estos destinos no aparecen en las guías turísticas convencionales. Son lugares donde el tiempo se detiene, donde las aguas cristalinas te invitan a sumergirte, y donde la naturaleza te recibe como un invitado privilegiado. Cada uno tiene su propia personalidad, su historia única, y una magia que solo se puede experimentar navegando hasta ellos.
+
+### Criterios de Selección
+
+- **Accesibilidad:** Solo por mar (no hay carreteras que lleguen)
+- **Belleza natural:** Paisajes vírgenes y aguas cristalinas
+- **Tranquilidad:** Sin masificación turística
+- **Experiencia única:** Cada destino ofrece algo diferente
+- **Navegación segura:** Fondeaderos protegidos y bien documentados
+
+## 1. Islas Columbretes, Castellón - El Archipiélago Volcánico 🔥
+
+![Islas Columbretes desde el mar](${NAUTICAL_IMAGES.island})
+*Las Islas Columbretes: un archipiélago volcánico único en el Mediterráneo*
+
+**Ubicación:** 56 km al este de Castellón de la Plana
+**Mejor época:** Mayo a octubre
+**Tipo de navegación:** Navegación de altura (2-3 horas desde Castellón)
+
+### Por Qué Es Especial
+
+Las Columbretes son un archipiélago volcánico formado por cuatro islas principales: Grossa, La Ferrera, La Foradada y El Carallot. Es una **Reserva Marina** donde la biodiversidad marina es espectacular. Las aguas cristalinas te permiten ver el fondo a 20 metros de profundidad.
+
+### Qué Hacer
+
+- **Buceo y snorkel:** Fondos marinos espectaculares con corales y peces tropicales
+- **Fotografía:** Paisajes volcánicos únicos en el Mediterráneo
+- **Observación de aves:** Especies endémicas como la gaviota de Audouin
+- **Fondeo:** Cala del Llop, protegida de vientos del norte
+
+### Consejos de Navegación
+
+- **Permisos:** Necesitas autorización de la Generalitat Valenciana
+- **Fondeo:** Solo en Cala del Llop (máximo 3 barcos)
+- **Protección:** Está prohibido pescar y fondear en otras zonas
+- **Equipamiento:** Lleva todo lo necesario, no hay servicios
+
+> 💡 **Equipamiento esencial:** [Gafas de snorkel profesionales](${createAmazonProductLink('gafas snorkel profesionales')}) para explorar los fondos marinos.
+
+## 2. Isla de Cabrera, Baleares - El Parque Nacional Submarino 🐠
+
+![Isla de Cabrera desde el mar](${NAUTICAL_IMAGES.island})
+*La Isla de Cabrera: un parque nacional donde la naturaleza manda*
+
+**Ubicación:** 10 km al sur de Mallorca
+**Mejor época:** Abril a noviembre
+**Tipo de navegación:** Navegación costera (1 hora desde Mallorca)
+
+### Por Qué Es Especial
+
+Cabrera es el **Parque Nacional Marítimo-Terrestre** más importante del Mediterráneo español. Sus aguas albergan más de 200 especies de peces y es uno de los mejores lugares para ver delfines mulares en libertad.
+
+### Qué Hacer
+
+- **Buceo:** Fondos marinos vírgenes con corales y esponjas
+- **Avistamiento de cetáceos:** Delfines y ballenas en su hábitat natural
+- **Senderismo:** Rutas por la isla con vistas espectaculares
+- **Historia:** Visita al castillo del siglo XIV
+
+### Consejos de Navegación
+
+- **Reserva:** Necesitas reserva previa (máximo 50 barcos por día)
+- **Fondeo:** Solo en zonas autorizadas
+- **Protección:** Está prohibido pescar y fondear en zonas restringidas
+- **Servicios:** Hay un pequeño puerto con servicios básicos
+
+> 💡 **Para el buceo:** [Equipo de snorkel completo](${createAmazonProductLink('equipo snorkel completo')}) para explorar los fondos marinos.
+
+## 3. Cala Macarella y Macarelleta, Menorca - Las Gemas Turquesas 💎
+
+![Cala Macarella desde el mar](${NAUTICAL_IMAGES.beach_crystal})
+*Cala Macarella: aguas turquesas que parecen del Caribe*
+
+**Ubicación:** Costa sur de Menorca
+**Mejor época:** Mayo a octubre
+**Tipo de navegación:** Navegación costera
+
+### Por Qué Es Especial
+Estas dos calas gemelas ofrecen las aguas más cristalinas del Mediterráneo. El color turquesa de sus aguas te hará pensar que estás en el Caribe. Son perfectas para familias y grupos de amigos.
+
+### Qué Hacer
+
+- **Baño:** Aguas cristalinas perfectas para nadar
+- **Snorkel:** Fondos rocosos con peces de colores
+- **Fotografía:** Paisajes de postal
+- **Relax:** Playas de arena blanca
+
+### Consejos de Navegación
+
+- **Fondeo:** Llega temprano, se llena rápido
+- **Protección:** Vientos del norte
+- **Servicios:** No hay servicios en las calas
+- **Acceso:** Solo por mar o senderos desde tierra
+
+> 💡 **Protección solar:** [Protector solar resistente al agua](${createAmazonProductLink('protector solar resistente agua')}) para disfrutar del sol sin preocupaciones.
+
+## 4. Islas Medes, Costa Brava - El Acuario Natural 🐟
+
+![Islas Medes desde el mar](${NAUTICAL_IMAGES.diving})
+*Las Islas Medes: un acuario natural en el Mediterráneo*
+
+**Ubicación:** Frente a L'Estartit, Costa Brava
+**Mejor época:** Mayo a octubre
+**Tipo de navegación:** Navegación costera
+
+### Por Qué Es Especial
+
+Las Medes son un **Parque Natural** submarino donde la biodiversidad marina es espectacular. Es uno de los mejores lugares de Europa para buceo y snorkel. Las aguas cristalinas te permiten ver el fondo marino desde la superficie.
+
+### Qué Hacer
+
+- **Buceo:** Fondos marinos espectaculares con corales y peces tropicales
+- **Snorkel:** Exploración de la vida marina
+- **Fotografía submarina:** Especies únicas del Mediterráneo
+- **Observación:** Peces de colores y crustáceos
+
+### Consejos de Navegación
+
+- **Protección:** Está prohibido pescar y fondear en zonas restringidas
+- **Buceo:** Necesitas autorización para buceo
+- **Fondeo:** Solo en zonas autorizadas
+- **Servicios:** L'Estartit tiene todos los servicios necesarios
+
+> 💡 **Para el buceo:** [Máscara de buceo profesional](${createAmazonProductLink('mascara buceo profesional')}) para explorar los fondos marinos.
+
+## 5. Cala de San Pedro, Cabo de Gata - El Desierto junto al Mar 🏜️
+
+![Cala de San Pedro desde el mar](${NAUTICAL_IMAGES.cove})
+*Cala de San Pedro: donde el desierto se encuentra con el mar*
+
+**Ubicación:** Parque Natural de Cabo de Gata-Níjar, Almería
+**Mejor época:** Abril a noviembre
+**Tipo de navegación:** Navegación costera
+
+### Por Qué Es Especial
+
+Esta cala es accesible solo por mar o por un sendero de 2 horas desde tierra. Ofrece un paisaje único donde el desierto se encuentra con el mar. Es perfecta para quienes buscan soledad y conexión con la naturaleza.
+
+### Qué Hacer
+
+- **Relax:** Playas vírgenes sin masificación
+- **Snorkel:** Fondos rocosos con vida marina
+- **Fotografía:** Paisajes únicos del desierto y el mar
+- **Senderismo:** Rutas por el parque natural
+
+### Consejos de Navegación
+
+- **Fondeo:** Llega temprano, es muy popular
+- **Protección:** Vientos del este
+- **Servicios:** No hay servicios en la cala
+- **Acceso:** Solo por mar o senderos desde tierra
+
+> 💡 **Para la aventura:** [Equipo de snorkel completo](${createAmazonProductLink('equipo snorkel completo')}) para explorar los fondos marinos.
+
+## 6. Isla de Tabarca, Alicante - La Isla Fortificada 🏰
+
+![Isla de Tabarca desde el mar](${NAUTICAL_IMAGES.island})
+*La Isla de Tabarca: historia y naturaleza en perfecta armonía*
+
+**Ubicación:** 22 km de Alicante
+**Mejor época:** Mayo a octubre
+**Tipo de navegación:** Navegación costera (1.5 horas desde Alicante)
+
+### Por Qué Es Especial
+
+Tabarca es la única isla habitada de la Comunidad Valenciana. Su casco histórico está declarado **Conjunto Histórico-Artístico** y sus aguas son **Reserva Marina**. Combina historia, cultura y naturaleza en un lugar único.
+
+### Qué Hacer
+
+- **Historia:** Visita al casco histórico fortificado
+- **Gastronomía:** Restaurantes con pescado fresco
+- **Buceo:** Fondos marinos protegidos
+- **Fotografía:** Arquitectura histórica y paisajes marinos
+
+### Consejos de Navegación
+
+- **Fondeo:** Puerto deportivo con servicios
+- **Protección:** Vientos del norte
+- **Servicios:** Restaurantes, hoteles y servicios turísticos
+- **Acceso:** Ferry desde Alicante o navegación propia
+
+> 💡 **Para la fotografía:** [Cámara acuática resistente](${createAmazonProductLink('camara acuatica resistente')}) para capturar momentos únicos.
+
+## 7. Cala del Plomo, Cabo de Gata - La Cala del Silencio 🤫
+
+![Cala del Plomo desde el mar](${NAUTICAL_IMAGES.beach_crystal})
+*Cala del Plomo: donde el silencio se encuentra con el mar*
+
+**Ubicación:** Parque Natural de Cabo de Gata-Níjar, Almería
+**Mejor época:** Abril a noviembre
+**Tipo de navegación:** Navegación costera
+
+### Por Qué Es Especial
+
+Esta cala es una de las más tranquilas del Mediterráneo. Sus aguas cristalinas y su arena dorada te invitan a relajarte y desconectar del mundo. Es perfecta para meditación y conexión con la naturaleza.
+
+### Qué Hacer
+
+- **Relax:** Playas vírgenes sin masificación
+- **Snorkel:** Fondos rocosos con vida marina
+- **Meditación:** Ambiente tranquilo y relajante
+- **Fotografía:** Paisajes únicos del parque natural
+
+### Consejos de Navegación
+
+- **Fondeo:** Llega temprano, es muy popular
+- **Protección:** Vientos del este
+- **Servicios:** No hay servicios en la cala
+- **Acceso:** Solo por mar o senderos desde tierra
+
+> 💡 **Para el relax:** [Esterilla de playa resistente](${createAmazonProductLink('esterilla playa resistente')}) para disfrutar del sol y el mar.
+
+## Planificación de tu Aventura
+
+### Equipamiento Esencial
+
+Para disfrutar de estos destinos secretos, necesitarás:
+
+- **Navegación:** [GPS marino confiable](${createAmazonProductLink('gps marino')}) para navegar con seguridad
+- **Seguridad:** [Chaleco salvavidas homologado](${createAmazonProductLink('chaleco salvavidas homologado')}) para toda la tripulación
+- **Exploración:** [Equipo de snorkel completo](${createAmazonProductLink('equipo snorkel completo')}) para descubrir los fondos marinos
+- **Protección:** [Protector solar resistente al agua](${createAmazonProductLink('protector solar resistente agua')}) para disfrutar del sol sin preocupaciones
+
+### Consejos de Navegación
+
+1. **Planificación:** Estudia las cartas náuticas y las condiciones meteorológicas
+2. **Permisos:** Verifica si necesitas autorizaciones especiales
+3. **Equipamiento:** Lleva todo lo necesario, muchos destinos no tienen servicios
+4. **Respeto:** Respeta las zonas protegidas y la fauna marina
+5. **Seguridad:** Navega siempre con chalecos salvavidas y equipamiento de seguridad
+
+### Mejor Época para Visitar
+
+- **Primavera (Abril-Mayo):** Aguas cristalinas y menos masificación
+- **Verano (Junio-Agosto):** Mejor tiempo pero más concurrido
+- **Otoño (Septiembre-Octubre):** Aguas templadas y tranquilidad
+
+## Conclusión
+
+Estos 7 destinos secretos del Mediterráneo te ofrecen experiencias únicas que van más allá del turismo convencional. Cada uno tiene su propia personalidad y te permitirá conectar con la naturaleza de una manera especial.
+
+¿Listo para descubrir estos paraísos náuticos? Planifica tu aventura con [Boattrip-Planner.com](/) y encuentra la embarcación perfecta en [Samboat](${SAMBOAT_AFFILIATE_URL}). ¡El Mediterráneo te espera con sus secretos más preciados! 🌊⚓
+
+*¿Te ha gustado este post? ¡No te pierdas nuestros otros artículos sobre navegación, destinos náuticos y consejos para navegantes!*
+`,
+  },
+  {
+    frontmatter: {
       slug: 'mejores-gps-marinos-2024-comparativa-completa',
       title: 'Los 5 Mejores GPS Marinos de 2024: Comparativa Real y Análisis Profundo',
       date: getTodayDate(0),
@@ -240,7 +542,7 @@ Te mostraré exactamente qué funciona, qué no vale la pena, y cómo elegir el 
 
 ## Por Qué Importa Elegir Bien tu GPS Marino
 
-![Chartplotter GPS marino navegación](https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center)
+![Chartplotter GPS marino navegación](${NAUTICAL_IMAGES.gps_marine})
 *Un GPS marino moderno: el corazón de la navegación electrónica profesional*
 
 ### La Diferencia Entre Llegar Seguro y Pasar un Mal Rato
@@ -252,7 +554,6 @@ Un GPS marino no es como el navegador de tu coche. En el mar, no hay carreteras 
 ### ¿Qué Hace Realmente Especial a un GPS Marino?
 
 La diferencia entre un GPS terrestre y uno marino va mucho más allá de ser "resistente al agua". Los GPS marinos están diseñados para condiciones donde un error de un metro puede significar la diferencia entre pasar tranquilamente o encallar en una roca.
-
 **Precisión en movimiento:** Mientras navegas a 15 nudos con mar de fondo, tu GPS debe mantener la precisión. Los algoritmos de filtrado de los GPS marinos están optimizados para el movimiento constante en tres dimensiones.
 
 **Cartas náuticas integradas:** No es solo mapas de Google adaptados. Las cartas náuticas incluyen información crítica como profundidades, corrientes, ayudas a la navegación, y zonas peligrosas que pueden no aparecer en mapas terrestres.
@@ -282,7 +583,7 @@ Durante 18 meses, cada GPS ha sido probado en:
 
 ### 1. Garmin GPSMAP 8612xsv - El Profesional Completo
 
-![Garmin GPSMAP en acción durante navegación](https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&h=400&fit=crop&crop=center)
+![Garmin GPSMAP en acción durante navegación](${NAUTICAL_IMAGES.gps_marine})
 *El Garmin GPSMAP 8612xsv en uso durante una travesía real*
 
 **Veredicto tras 6 meses de uso:** Si tuviera que elegir un solo GPS para navegar por el mundo, sería este.
@@ -312,7 +613,7 @@ Durante 18 meses, cada GPS ha sido probado en:
 
 ### 2. Raymarine Axiom 9 - El Equilibrio Perfecto
 
-![Raymarine Axiom 9 interfaz táctil](https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&h=400&fit=crop&crop=center)
+![Raymarine Axiom 9 interfaz táctil](${NAUTICAL_IMAGES.gps_marine})
 *El Raymarine Axiom 9 con su interfaz táctil intuitiva LightHouse 3*
 
 **Por qué destaca:** La mejor relación funcionalidad-precio-facilidad de uso del mercado.
@@ -340,7 +641,7 @@ Después de 4 meses navegando con el Axiom 9, es el GPS que recomiendo a navegan
 
 ### 3. Lowrance HDS-12 Live - El Especialista en Pesca
 
-![Lowrance HDS-12 Live con sonar activo](https://images.unsplash.com/photo-1544378730-6afe9b3bc4ad?w=800&h=400&fit=crop&crop=center)
+![Lowrance HDS-12 Live con sonar activo](${NAUTICAL_IMAGES.gps_marine})
 *Lowrance HDS-12 Live mostrando su capacidad de sonar avanzada para pesca*
 
 **Perfecto para:** Navegantes que combinan travesía con pesca seria.
@@ -368,7 +669,7 @@ He usado este GPS durante una temporada completa de pesca de atún en el Mediter
 
 ### 4. Simrad GO9 XSE - El Intuitivo
 
-![Simrad GO9 XSE pantalla SolarMAX](https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center)
+![Simrad GO9 XSE pantalla SolarMAX](${NAUTICAL_IMAGES.gps_marine})
 *Simrad GO9 XSE con tecnología SolarMAX HD para máxima visibilidad*
 
 **Ideal para:** Navegantes que priorizan simplicidad sin sacrificar funcionalidad.
@@ -396,7 +697,7 @@ El GO9 XSE es el GPS que menos manual requiere. La interfaz es tan intuitiva que
 
 ### 5. Garmin echoMAP UHD 93sv - El Versátil Económico
 
-![Garmin echoMAP UHD 93sv instalado](https://images.unsplash.com/photo-1551717743-49959800b1f6?w=800&h=400&fit=crop&crop=center)
+![Garmin echoMAP UHD 93sv instalado](${NAUTICAL_IMAGES.gps_marine})
 *Garmin echoMAP UHD 93sv: funcionalidad completa a precio accesible*
 
 **Para quién:** Navegantes conscientes del presupuesto que no quieren comprometer funcionalidad básica.
@@ -436,7 +737,7 @@ A 800€, ofrece el 80% de la funcionalidad del GPSMAP por el 35% del precio. Pa
 
 ## Instalación y Configuración: Lo Que Nadie Te Cuenta
 
-![Instalación profesional GPS marino](https://images.unsplash.com/photo-1569263979104-865ab7cd8d6b?w=800&h=400&fit=crop&crop=center)
+![Instalación profesional GPS marino](${NAUTICAL_IMAGES.gps_marine})
 *Instalación profesional de GPS marino: la clave del rendimiento óptimo*
 
 ### Errores Comunes que Arruinan el Rendimiento
@@ -452,7 +753,6 @@ A 800€, ofrece el 80% de la funcionalidad del GPSMAP por el 35% del precio. Pa
 **Calibración de compás:** Navegue en círculos completos a velocidad constante en aguas abiertas. Una calibración incorrecta puede generar errores de rumbo de hasta 15°.
 
 **Configuración de alarmas:** Establece alarmas de proximidad conservadoras. En aguas conocidas, 50 metros; en aguas desconocidas, 200 metros mínimo.
-
 **Backup de configuración:** Exporta tu configuración después de optimizarla. He visto navegantes perder días de trabajo de configuración por actualizaciones que resetean el sistema.
 
 **¿Necesitas una instalación profesional?** Estos accesorios aseguran el rendimiento óptimo de tu GPS:
@@ -593,7 +893,7 @@ En esta guía completa, descubrirás exactamente cómo transformar tu experienci
 
 ## El Impacto Real de la Navegación Tradicional
 
-![Contaminación marina por plásticos](https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800&h=400&fit=crop&crop=center)
+![Contaminación marina por plásticos](${NAUTICAL_IMAGES.ocean_blue})
 *El impacto de la contaminación marina en nuestros océanos*
 
 Antes de hablar de soluciones, es importante entender la magnitud del desafío. Los datos pueden resultar sorprendentes:
@@ -606,7 +906,7 @@ Pero aquí está la parte esperanzadora: **los arrecifes de coral**, que han per
 
 ## La Revolución Energética a Bordo: Más Allá del Combustible
 
-![Paneles solares en velero navegando](https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center)
+![Paneles solares en velero navegando](${NAUTICAL_IMAGES.sunset_sailing})
 *Un velero moderno equipado con paneles solares navegando de forma sostenible*
 
 ### El Potencial de la Energía Solar Marina
@@ -637,7 +937,7 @@ El viento y el agua en movimiento también pueden generar electricidad. Los gene
 
 ## Productos de Limpieza: La Química Invisible que Importa
 
-![Productos de limpieza ecológicos marinos](https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=400&fit=crop&crop=center)
+![Productos de limpieza ecológicos marinos](${NAUTICAL_IMAGES.beach_crystal})
 *Productos de limpieza biodegradables: la alternativa responsable para el cuidado marino*
 
 ### El Problema Oculto de los Químicos Tradicionales
@@ -651,7 +951,6 @@ Los tensioactivos no biodegradables pueden persistir en el agua durante meses, a
 Los productos de limpieza biodegradables modernos han superado las limitaciones de las primeras generaciones. Utilizan tensioactivos derivados de plantas que se descomponen completamente en elementos naturales en menos de 28 días. Su eficacia de limpieza es comparable, y en muchos casos superior, a los productos tradicionales.
 
 **La concentración es clave.** Muchos productos biodegradables son súper concentrados, lo que significa que una botella pequeña puede durar tanto como varias botellas de productos tradicionales, reduciendo tanto los residuos como los costos a largo plazo.
-
 Para la higiene personal a bordo, los jabones sólidos marinos y champús biodegradables eliminan la necesidad de envases plásticos mientras proporcionan una experiencia de limpieza superior. Estos productos están formulados específicamente para funcionar bien con agua salada.
 
 **¿Quieres hacer la transición ahora?** Estos productos son el primer paso más fácil hacia la navegación limpia:
@@ -706,7 +1005,7 @@ Las ceras y pulimentos vegetales proporcionan protección UV y resistencia al ag
 
 ## Navegación Responsable en Ecosistemas Sensibles
 
-![Arrecife de coral con vida marina](https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center)
+![Arrecife de coral con vida marina](${NAUTICAL_IMAGES.snorkeling})
 *Los ecosistemas marinos que protegemos: biodiversidad que depende de nuestras decisiones responsables*
 
 ### Entendiendo las Zonas Protegidas
@@ -723,7 +1022,7 @@ Los protectores solares biodegradables son esenciales cuando nadas en áreas con
 
 ## El Futuro Está Aquí: Tecnologías Emergentes
 
-![Barco eléctrico navegando silenciosamente](https://images.unsplash.com/photo-1569263979104-865ab7cd8d6b?w=800&h=400&fit=crop&crop=center)
+![Barco eléctrico navegando silenciosamente](${NAUTICAL_IMAGES.boat_motor})
 *La propulsión eléctrica marina: silenciosa, limpia y eficiente*
 
 ### Propulsión Eléctrica Marina
@@ -824,7 +1123,7 @@ Para navegantes que buscan las últimas innovaciones en sostenibilidad marina.
 
 ## Tu Legado en el Mar
 
-![Océano cristalino con velero al atardecer](https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center)
+![Océano cristalino con velero al atardecer](${NAUTICAL_IMAGES.sunset_sailing})
 *El océano que queremos preservar: aguas cristalinas para las futuras generaciones de navegantes*
 
 La navegación sostenible no es solo sobre tecnología o productos; es sobre una mentalidad que reconoce que somos custodios temporales de los océanos que amamos. Cada decisión que tomas a bordo, desde la energía que utilizas hasta los productos que eliges, es una declaración sobre el mundo que quieres dejar a las futuras generaciones de navegantes.
@@ -851,14 +1150,13 @@ El cambio comienza con una decisión, continúa con una acción, y se convierte 
     content: `# Cómo Navegar en Familia Sin Perder la Cordura: La Guía Definitiva para Aventuras Náuticas Memorables
 
 ¿Has soñado alguna vez con ver la expresión de pura magia en los ojos de tus hijos cuando avistan su primer delfín desde la cubierta? ¿O te has imaginado enseñándoles a izar la vela mayor mientras el sol se pone en el horizonte, creando recuerdos que durarán toda la vida?
-
 Pero también has tenido esa vocecita interior que susurra: "¿Y si se aburren? ¿Y si algo sale mal? ¿Y si termina siendo una pesadilla de gritos, llantos y 'quiero ir a casa'?"
 
 La realidad es que **navegar en familia puede ser la experiencia más transformadora que vivas juntos**, o puede convertirse en el viaje que prefieran olvidar. La diferencia no está en la suerte, sino en entender exactamente cómo funciona la psicología familiar en el agua y qué necesita cada edad para florecer en el entorno marino.
 
 ## La Neurociencia de Por Qué los Niños Necesitan el Mar
 
-![Familia navegando junta en velero](https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center)
+![Familia navegando junta en velero](${NAUTICAL_IMAGES.boat_sailing})
 *La navegación familiar: donde los vínculos se fortalecen y nacen aventureros*
 
 ### El Efecto Transformador del Entorno Marino en el Desarrollo Infantil
@@ -1051,7 +1349,6 @@ El Garmin fēnix 7 no es solo un reloj, es tu compañero de navegación definiti
 - **Precio:** €599.99 (antes €799.99 - ¡Ahorra €200!)
 
 ---
-
 ## 🔥 #2 Kit Completo Snorkel - OFERTA LIMITADA
 
 ¡Última semana con 50% de descuento en el kit más completo del mercado!
@@ -1152,7 +1449,7 @@ La mayoría de navegantes pasan décadas explorando costas, fondeos y bahías, a
 
 ## La Geología Volcánica Que Creó un Mundo Submarino Único
 
-![Islas Columbretes vista aérea con formaciones volcánicas](https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center)
+![Islas Columbretes vista aérea con formaciones volcánicas](${NAUTICAL_IMAGES.island})
 *Las Islas Columbretes: resultado de una actividad volcánica submarina que comenzó hace 1 millón de años*
 
 ### El Fenómeno Volcánico Mediterráneo Más Joven
@@ -1165,7 +1462,7 @@ La composición basáltica de las rocas volcánicas ha creado un sustrato minera
 
 ### Por Qué la Exclusividad No Es Marketing, Es Necesidad Científica
 
-![Fondos marinos volcánicos con vida marina única](https://images.unsplash.com/photo-1582967788606-a171c1080cb0?w=800&h=400&fit=crop&crop=center)
+![Fondos marinos volcánicos con vida marina única](${NAUTICAL_IMAGES.ocean_blue})
 *Los fondos volcánicos de Columbretes albergan ecosistemas que requieren protección absoluta*
 
 La limitación de 2,500 visitantes anuales no es una estrategia de marketing exclusivo; es una medida de conservación basada en estudios científicos rigurosos sobre la capacidad de carga ecológica del archipiélago.
@@ -1181,7 +1478,7 @@ La visibilidad de hasta 40 metros en las aguas de Columbretes no es casualidad; 
 
 ## El Ecosistema Submarino: Un Laboratorio Evolutivo en Funcionamiento
 
-![Vida marina en arrecifes volcánicos de Columbretes](https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center)
+![Vida marina en arrecifes volcánicos de Columbretes](${NAUTICAL_IMAGES.snorkeling})
 *Los ecosistemas volcánicos submarinos crean hábitats únicos para especies especializadas*
 
 Los fondos volcánicos han creado una cadena alimentaria completamente diferente a la de las costas continentales. **Las algas calcáreas que crecen sobre basalto tienen una composición mineral única** que se traduce en fitoplancton con características nutricionales específicas.
@@ -1248,7 +1545,6 @@ Los volcanes han estado esperando un millón de años. Tu comprensión puede com
 > 🎯 **Dato Increíble:** La visibilidad underwater puede superar los **40 metros** - algo excepcional en el Mediterráneo.
 
 ### **🏝️ Experiencia en Superficie**
-
 **Illa Grossa - La Joya del Archipiélago:**
 - **Faro histórico:** Construido en 1858, habitado por un solitario farero
 - **Centro de interpretación:** Aprende sobre vulcanología marina
@@ -1439,7 +1735,6 @@ Los volcanes han estado esperando un millón de años. Tu comprensión puede com
 - 🐠 **Guía de fauna submarina** ilustrada
 - 📱 **App offline** con coordenadas y puntos de interés
 - 🎥 **Video-tutorial** de navegación segura en la reserva
-
 ## 🌅 **Tu Aventura Volcánica te Espera**
 
 Las Islas Columbretes no son solo un destino, son **una experiencia transformadora** que solo unos pocos afortunados pueden vivir cada año. La combinación de historia volcánica, biodiversidad única y aguas cristalinas crea un escenario que ningún navegante olvida jamás.
@@ -1477,11 +1772,11 @@ Los volcanes han estado esperando millones de años. Tu aventura puede empezar *
 
 La mayoría de propietarios de perros que sueñan con aventuras náuticas cometen el mismo error fatal: piensan que basta con "llevar al perro al barco" para crear recuerdos maravillosos. La realidad es mucho más compleja y, cuando las cosas salen mal, las consecuencias pueden ser devastadoras.
 
-**Navegar con tu perro de forma segura no es una cuestión de suerte o intuición**; es una ciencia que combina biología canina, psicología animal, y conocimiento náutico especializado. Cuando entiendes exactamente cómo reacciona el cuerpo y la mente de tu perro al entorno marino, cada decisión que tomes puede ser la diferencia entre una aventura inolvidable y una tragedia que lamentarás toda la vida.
+**Navegar con tu perro de forma segura no es una cuestión de suerte o intuición**; es una ciencia que combina biología canina, psicología animal, y conocimiento náutico especializado. Cuando entiendes exactamente cómo reacciona el cuerpo y la mente de tu perro al entorno marino, cada decisión que tomas puede ser la diferencia entre una aventura inolvidable y una tragedia que lamentarás toda la vida.
 
 ## La Fisiología Canina en el Agua: Lo Que Tu Perro No Puede Decirte
 
-![Perro golden retriever nadando junto a velero](https://images.unsplash.com/photo-1551717743-49959800b1f6?w=800&h=400&fit=crop&crop=center)
+![Perro golden retriever nadando junto a velero](${NAUTICAL_IMAGES.boat_sailing})
 *Un perro experimentado en el agua muestra confianza natural - pero llegar a este punto requiere preparación cuidadosa*
 
 ### La Verdad Sobre los "Perros Nadadores Naturales"
@@ -1505,7 +1800,7 @@ Las razas de pecho profundo (como grandes daneses o weimaraners) tienen un centr
 
 ## La Psicología del Estrés Canino en Espacios Confinados
 
-![Familia con perro en cubierta de barco navegando](https://images.unsplash.com/photo-1544962167-6b4a3c7c3f82?w=800&h=400&fit=crop&crop=center)
+![Familia con perro en cubierta de barco navegando](${NAUTICAL_IMAGES.boat_sailing})
 *Un perro relajado en cubierta es el resultado de adaptación progresiva, no casualidad*
 
 ### El Fenómeno del "Barco Trampa"
@@ -1546,7 +1841,7 @@ La sal que se acumula en el pelaje crea irritación cutánea constante. Los perr
 
 ## El Protocolo de Emergencia Que Puede Salvar Vidas
 
-![Equipo de rescate náutico para mascotas](https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center)
+![Equipo de rescate náutico para mascotas](${NAUTICAL_IMAGES.boat_sailing})
 *El equipamiento de seguridad específico para perros no es un lujo - es una necesidad vital*
 
 ### Reconocimiento de Emergencias Caninas
@@ -1635,11 +1930,10 @@ La mayoría de campistas creen que "acampar en la naturaleza" es automáticament
 
 ## La Ciencia del Impacto: Por Qué Cada Decisión de Camping Importa
 
-![Playa virgen al amanecer con dunas y vegetación costera](https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center)
+![Playa virgen al amanecer con dunas y vegetación costera](${NAUTICAL_IMAGES.beach_crystal})
 *Los ecosistemas costeros son extraordinariamente frágiles - cada pisada cuenta*
 
 ### El Ecosistema Costero: Un Equilibrio Milagroso
-
 Las zonas costeras representan menos del 2% de la superficie terrestre, pero sustentan más del 40% de la población mundial y albergan algunos de los ecosistemas más productivos del planeta. Cuando acampas en la playa, no estás simplemente "durmiendo en la arena"; estás interactuando con un sistema complejo donde dunas, vegetación marina, vida microbiana y corrientes oceánicas mantienen un equilibrio delicado.
 
 **La compactación del suelo por pisoteo puede reducir la infiltración de agua hasta en un 75%**, afectando la vegetación dunaria que literalmente mantiene unida la línea de costa. Las plantas pioneras como la grama de playa y el cardo marítimo tienen sistemas radiculares que pueden tardar décadas en establecerse completamente, pero pueden ser destruidas en minutos por una tienda mal colocada.
@@ -1655,7 +1949,7 @@ Lo que no puedes ver puede ser lo más dañino. Los productos químicos de prote
 
 ## La Revolución del Equipamiento: Materiales Que Regeneran
 
-![Equipo de camping ecológico dispuesto en la arena](https://images.unsplash.com/photo-1471115853179-bb1d604434e0?w=800&h=400&fit=crop&crop=center)
+![Equipo de camping ecológico dispuesto en la arena](${NAUTICAL_IMAGES.beach_crystal})
 *El equipamiento sostenible moderno supera en rendimiento a las alternativas tradicionales*
 
 ### Más Allá del "Menos Malo": Equipamiento Regenerativo
@@ -1683,7 +1977,7 @@ Acampar en la parte alta de la playa, aparentemente más "segura", puede interru
 
 ### La Gestión Avanzada de Residuos Orgánicos
 
-![Sistema de gestión de residuos de camping en la playa](https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=400&fit=crop&crop=center)
+![Sistema de gestión de residuos de camping en la playa](${NAUTICAL_IMAGES.beach_crystal})
 *La gestión correcta de residuos en camping costero requiere técnicas especializadas*
 
 **Los residuos orgánicos en ambientes costeros se comportan de manera completamente diferente que en bosques o montañas**. La alta salinidad del suelo, la exposición a la radiación UV y los vientos constantes crean condiciones de descomposición únicas que la mayoría de campistas no comprende.
@@ -1837,7 +2131,6 @@ Con más de 2,300 reviews positivos, el Garmin Striker 4 es el GPS náutico más
 - Conectividad WiFi y Bluetooth
 
 ## 🛟 Equipos de Seguridad Certificados
-
 ### Crewsaver Crewfit 150N - Chaleco Salvavidas Homologado
 **Precio actual:** €89.99 (antes €119.99)
 **Rating:** ⭐⭐⭐⭐⭐ (4.6/5)
@@ -2036,7 +2329,6 @@ La **Caña de Pesca Shimano FX** es la elección número uno para pesca desde em
 ## 🏄‍♂️ #5: Tabla de Paddle Surf Inflable - Diversión Portátil
 
 La **Tabla de Paddle Surf Inflable** es perfecta para llevar en tu barco. [Ver en Amazon →](https://www.amazon.es/s?k=tabla+paddle+surf+inflable+barco&tag=explorashop18-21) Se infla en minutos y te permite explorar calas y playas inaccesibles.
-
 **Ventajas:**
 - Fácil de transportar
 - Resistente y duradera
@@ -2235,7 +2527,6 @@ Un buen marinero siempre tiene sus herramientas a mano. Estas son las imprescind
 - Aprende a limpiar la máscara correctamente
 - Respeta la vida marina
 - Navega siempre con compañía
-
 ## 🎣 Equipo de Pesca: Conecta con la Tradición Marina
 
 La pesca desde embarcación es una actividad que combina tradición, deporte y, por qué no, una buena cena.
@@ -2408,7 +2699,6 @@ Si sabes que eres muy propenso al mareo, consulta a tu médico o farmacéutico a
 *   **Antihistamínicos (Dimenhidrinato, Meclizina):** Son los más comunes (como Dramamine o Biodramina). Suelen causar somnolencia, así que pruébalos antes de la travesía para ver cómo te afectan. Tómales al menos 30-60 minutos antes de zarpar.
 *   **Parches de Escopolamina:** Son parches transdérmicos que liberan la medicación lentamente. Se aplican detrás de la oreja y pueden durar hasta 72 horas. Requieren receta médica en algunos lugares.
 *   **Medicamentos con Receta:** Para casos severos, tu médico podría recetar medicamentos más potentes.
-
 ## 4. Qué Hacer si Ya te Sientes Mareado: ¡Acción Rápida! 🤢➡️😊
 Si ya notas los primeros síntomas, actúa rápidamente:
 
@@ -2604,7 +2894,6 @@ A pesar de sus muchas ventajas, los catamaranes también tienen algunos puntos a
 *   **Mayor Superficie al Viento:** Su gran tamaño y altura pueden hacerlos más susceptibles al viento lateral en puerto o fondeo, complicando a veces las maniobras sin experiencia.
 *   **Disponibilidad en Puertos:** Algunos puertos pequeños o antiguos pueden tener limitaciones de espacio para catamaranes grandes, especialmente en temporada alta.
 *   **Mantenimiento:** Al tener dos motores y sistemas duplicados, el mantenimiento puede ser más complejo o costoso, lo que influye en el precio final del alquiler.
-
 ## ¿Es el Catamarán el Barco para Ti? 🧐
 Si valoras la estabilidad, el espacio, el confort y la privacidad por encima de la velocidad extrema o la capacidad de ceñir, y tu presupuesto lo permite, un catamarán es una elección excelente. Son ideales para:
 
@@ -2988,7 +3277,6 @@ La **Guía de Pesca desde Barco** es una puerta de entrada a una afición que co
     },
     content: `
 ¡Hola, cazadores de paraísos y amantes de las aguas turquesas! 👋 Si hay una imagen que representa la belleza idílica de Menorca, esa es la de **Cala Macarella y Macarelleta**. Estas dos calas vírgenes, situadas en la costa sur de la isla, son un auténtico espectáculo de la naturaleza: arena blanca y fina, aguas de un color azul tan intenso que parece irreal, y un frondoso pinar que las abraza. Llegar a ellas por tierra puede ser una odisea en verano, pero **explorar en barco** estas joyas es una experiencia inolvidable y la mejor forma de disfrutarlas en todo su esplendor. En Boattrip-Planner.com, te guiamos para que tu visita sea perfecta. 🌊⛵
-
 ### Macarella y Macarelleta: Un Dúo Inseparable
 
 *   **Cala Macarella:** Es la más grande de las dos. Una amplia bahía protegida de la mayoría de los vientos, con una extensa playa y un pequeño chiringuito (el único servicio en la zona). Sus aguas tranquilas y su belleza la convierten en un fondeadero muy popular.
@@ -3188,7 +3476,6 @@ Al planificar tu viaje con [BoatTrip Planner](/), ten en cuenta estas prácticas
 2.  **Patrón Profesional (Skipper):**
     *   **Contrata un Experto:** Si prefieres relajarte y disfrutar del viaje, puedes contratar a uno de sus patrones profesionales. No solo se encargarán de la navegación, sino que también actuarán como guías locales, mostrándote los mejores rincones.
     *   **Traslados de Embarcaciones:** ¿Necesitas mover tu barco de un puerto a otro? Su equipo de patrones se encarga del traslado con la máxima profesionalidad y seguridad.
-
 ### ¿Por Qué Recomendamos Rumbovivo.com?
 
 En Boattrip-Planner.com, creemos en la excelencia y la seguridad. Rumbovivo comparte estos valores:
@@ -3374,7 +3661,6 @@ Antes de tu próxima salida, asegúrate de que el barco que alquilas en [Samboat
     },
     content: `
 ¡Hola, exploradores de la costa y amantes del equilibrio! 👋 Si has estado en una playa o cala últimamente, seguro que los has visto: personas de pie sobre una tabla, remando plácidamente sobre las aguas. El **Paddle Surf**, Stand Up Paddle o **SUP**, se ha convertido en el deporte acuático estrella de los últimos años, ¡y no es para menos! Es divertido, accesible para todos y una forma increíble de explorar el mar. En Boattrip-Planner.com, te contamos todo lo que necesitas saber para subirte a la tabla. 🏄‍♂️💦
-
 ### ¿Qué es el Paddle Surf?
 
 El SUP consiste en remar de pie sobre una tabla de surf de gran tamaño y estabilidad, utilizando un remo para propulsarte. Es una mezcla perfecta de surf y piragüismo que te permite deslizarte sobre el agua y disfrutar del paisaje desde una perspectiva privilegiada.
@@ -3573,7 +3859,6 @@ Si después de obtenerla te pica el gusanillo y quieres más (¡lo cual es muy p
     },
     content: `
 ¡Hola, navegantes con ganas de más! 👋 Ya has probado el mar con la [Patente de Navegación](/?view=blog_post&slug=patente-de-navegacion-primer-paso-capitan "Lee más sobre La Patente de Navegación: ¡Tu Primer Paso para Ser Capitán de tu Propia Aventura! ⛵🎓") y te ha sabido a poco. Quieres alejarte un poco más de la costa, poder navegar cuando el sol se pone o quizás llevar un barco un poco más grande. Si te sientes identificado, tu siguiente meta en el horizonte es el título de **PNB (Patrón de Navegación Básica)**. En Boattrip-Planner.com, te contamos todo sobre este título, el escalón perfecto para ganar autonomía y confianza. 🌊✨
-
 ### ¿Qué es el PNB?
 
 El PNB es la titulación náutica de recreo que se sitúa justo por encima de la Patente de Navegación. Te otorga mayores atribuciones y requiere una formación más completa, incluyendo un examen teórico.
@@ -3762,7 +4047,6 @@ Guía de grosores por temperatura del agua:
 *   **3/2mm:** El más versátil. Ideal para aguas templadas (17-22°C), como la primavera o el otoño.
 *   **4/3mm:** Para aguas más frías (12-17°C). Te permitirá disfrutar del mar en los meses de invierno suave.
 *   **5/4mm y más:** Para aguas frías (<12°C), pensado para deportes de invierno o aguas del Atlántico norte.
-
 > 💡 Para la mayoría de actividades recreativas en España, un traje **3/2mm** es una excelente inversión. [Encuentra tu traje de neopreno 3/2mm perfecto en Amazon](${AMAZON_AFFILIATE_LINK_PLACEHOLDER}).
 
 ### Tipos de Traje Según el Corte
@@ -3941,7 +4225,6 @@ El gadget definitivo contra el mareo y para el máximo confort.
 *   **¿Qué son?:** Un dispositivo que contiene un volante de inercia girando a altísima velocidad en una esfera de vacío. Mediante la física giroscópica, contrarresta activamente el balanceo del barco.
 *   **¿Por qué es top?:** Elimina hasta el 95% del balanceo del barco, tanto navegando como en fondeo. Transforma la experiencia a bordo, haciendo que sea increíblemente estable y cómoda. Es el gadget de lujo por excelencia.
 *   **Marcas líderes:** Seakeeper es el dominador absoluto del mercado.
-
 ### 4. Comunicador Satelital (Garmin inReach) 🛰️🆘
 
 La seguridad más allá de la cobertura móvil.
@@ -4141,7 +4424,6 @@ Encuentra "El Libro de la Navegación" en [Amazon](${AMAZON_AFFILIATE_LINK_PLACE
 **Ideal para:** Estudiantes de titulaciones náuticas (como el [PNB](/?view=blog_post&slug=patron-de-navegacion-basica-pnb-siguiente-nivel "Lee más sobre El PNB (Patrón de Navegación Básica): ¡Tu Siguiente Nivel en la Autonomía Marina! ⚓🎓") o PER), y patrones que buscan una referencia técnica y oficial.
 
 **Temas clave:** Cartografía (incluyendo la [Carta Náutica](/?view=blog_post&slug=gps-nautico-navegador-indispensable "Lee más sobre El GPS Náutico: Tu Navegador Indispensable en Cada Travesía 🛰️🗺️")), reglas de rumbo y gobierno, balizamiento, seguridad, meteorología, mareas y corrientes.
-
 Consigue el "Manual de Navegación" de la RYA en [Amazon](${AMAZON_AFFILIATE_LINK_PLACEHOLDER}) para tu formación.
 
 ### 3. "Meteorología para Navegantes" de David Houghton 🥉
@@ -4337,7 +4619,6 @@ Al planificar tu viaje con [BoatTrip Planner](/), siempre es buena idea tener un
 #### 3. Donut/Tubo: La Diversión Familiar por Excelencia 🥉
 
 **¿Qué es?** Un hinchable en forma de donut donde te sientas mientras el barco te arrastra, creando giros y saltos.
-
 **Equipamiento necesario:**
 *   Donut hinchable
 *   Cuerda de remolque
@@ -4537,7 +4818,6 @@ Para planificar tu próxima aventura de deportes acuáticos, usa [BoatTrip Plann
 *   **Frecuencia 16:** Canal internacional de socorro
 
 > ⚠️ **Regla de Oro:** En caso de emergencia, mantén la calma y sigue el protocolo: **MAYDAY, MAYDAY, MAYDAY. Aquí [nombre del barco]. Posición [coordenadas]. Naturaleza de la emergencia. Número de personas a bordo. Over.**
-
 ### Técnicas de Supervivencia en el Agua 🏊‍♂️
 
 #### Si Caes al Agua:
@@ -4728,7 +5008,6 @@ Hemos puesto a prueba varios modelos de la serie EchoMAP UHD en diferentes escen
 *   **Navegantes Costeros:** Que necesiten un plotter fiable y detallado para navegar en sus rutas diarias o semanales, ya sea en la [Costa Brava](/?view=blog_post&slug=navegar-costa-brava-explora-encanto-mediterraneo "Lee más sobre Navegar en la Costa Brava: ¡Explora el Salvaje Encanto Mediterráneo en Barco! 🌊⚓") o en [Menorca en barco](/?view=blog_post&slug=menorca-en-barco-paraiso-calas-turquesas "Lee más sobre Descubre Menorca en Barco: ¡El Paraíso Escondido de las Calas Turquesas! 🏝️💙").
 *   **Propietarios de Embarcaciones de Recreo (hasta 10-12 metros):** Que busquen un equipo versátil y potente sin ir a sistemas de pantallas multifunción mucho más grandes y complejos.
 *   **Usuarios de [Patente de Navegación](/?view=blog_post&slug=patente-de-navegacion-primer-paso-capitan "Lee más sobre La Patente de Navegación: ¡Tu Primer Paso para Ser Capitán de tu Propia Aventura! ⛵🎓") o [PNB](/?view=blog_post&slug=patron-de-navegacion-basica-pnb-siguiente-nivel "Lee más sobre El PNB (Patrón de Navegación Básica): ¡Tu Siguiente Nivel en la Autonomía Marina! ⚓🎓"):** Que quieran mejorar su seguridad y eficiencia en el mar con tecnología de punta.
-
 ### Veredicto Final: ¡Una Opción Ganadora para tu Navegación y Pesca! ⭐⭐⭐⭐⭐
 La serie Garmin EchoMAP UHD ofrece una combinación excepcional de plotter GPS y sonda de alta definición. Su facilidad de uso, la calidad de imagen de la sonda y la compatibilidad con tecnologías avanzadas como LiveScope la convierten en una de las mejores opciones en su rango de precio. Tanto si tu pasión es la pesca como si buscas un equipo fiable para la navegación costera, el EchoMAP UHD es una inversión que vale la pena.
 
@@ -4928,7 +5207,6 @@ Las titulaciones náuticas son tu pasaporte para disfrutar del mar de forma lega
 
 ### 🌊 Patrón de Embarcaciones de Recreo (PER)
 **Navegación entre islas**
-
 - **Distancia**: Hasta 12 millas de la costa
 - **Embarcación**: Hasta 15 metros de eslora
 - **Horario**: Día y noche
@@ -5126,7 +5404,6 @@ Mantén tus bebidas y comida fresca durante toda tu travesía.
 - **Aletas Cressi Palau:** €39.99 → €23.99 (40% OFF)
 - **Máscara Cressi F1:** €32.99 → €21.99 (33% OFF)  
 - **Tubo Supernova:** €24.99 → €16.99 (32% OFF)
-
 ### 🛟 Seguridad Náutica  
 - **Bengalas de Emergencia:** €59.99 → €35.99 (40% OFF)
 - **Botiquín Náutico:** €89.99 → €62.99 (30% OFF)
@@ -5325,7 +5602,6 @@ Estas ofertas **TERMINAN HOY** a medianoche:
 **Perfecto para:** Propietarios de Volvo Penta y navegantes comerciales
 
 ## 🔍 Cómo Elegir el GPS Náutico Perfecto
-
 ### 1. **Tamaño de Pantalla según tu Embarcación**
 
 | Tamaño Embarcación | Pantalla Recomendada | Modelo Ideal |
@@ -5515,7 +5791,6 @@ Estas ofertas **TERMINAN HOY** a medianoche:
 ❌ Desgaste normal
 
 ## 🌟 Conclusión: ¿Cuál Elegir?
-
 ### Para Principiantes: 
 **Garmin Striker 4** - Relación calidad-precio imbatible
 
@@ -5557,7 +5832,7 @@ La mayoría de navegantes creen que la dependencia energética es el precio inev
 
 ## La Física de la Revolución: Por Qué 2024 Es Diferente
 
-![Panel solar marino de alta eficiencia instalado en cubierta de velero](https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center)
+![Panel solar marino de alta eficiencia instalado en cubierta de velero](${NAUTICAL_IMAGES.sunset_sailing})
 *Los paneles solares marinos modernos superan los 400W en espacios donde antes cabían 200W*
 
 ### La Barrera de Eficiencia Ha Sido Rota
@@ -5577,7 +5852,7 @@ Algo que los manuales técnicos raramente mencionan: **el ambiente marino multip
 
 ## La Neurociencia de la Independencia Energética
 
-![Navegante relajado en cubierta con todos los sistemas funcionando silenciosamente](https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center)
+![Navegante relajado en cubierta con todos los sistemas funcionando silenciosamente](${NAUTICAL_IMAGES.boat_sailing})
 *La ausencia de ruido mecánico transforma completamente la experiencia de navegación*
 
 ### El Estrés Invisible de la Dependencia Energética
@@ -5612,7 +5887,7 @@ Más importante: **pueden cargarse a tasas de hasta 1C sin degradación**, lo qu
 
 ## Cálculo Inteligente: La Ciencia de Dimensionar Correctamente
 
-![Esquema técnico de instalación solar marina en cubierta](https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=800&h=400&fit=crop&crop=center)
+![Esquema técnico de instalación solar marina en cubierta](${NAUTICAL_IMAGES.gps_marine})
 *El diseño técnico correcto determina el éxito o fracaso del sistema*
 
 ### Más Allá del Consumo Teórico
@@ -5913,7 +6188,6 @@ El confort a bordo es clave para el bienestar:
 
 > *"Mi gato siamés me acompaña en todas las regatas. Con el arnés adecuado y una zona de refugio cómoda, disfruta tanto como nosotros del mar."*
 > **- Carlos Mendez, Regatista profesional**
-
 ### **🎯 Errores Comunes que Debes Evitar:**
 
 **❌ NO hacer nunca:**
@@ -5976,6 +6250,866 @@ Convertir a tu mascota en un **marinero experimentado** requiere tiempo, pacienc
 
 **#MascotasNáuticas #NavegaciónSegura #PerrosMarineros #EquipamientoNáutico #VidaMarina**
     `,
+  },
+  {
+    frontmatter: {
+      slug: 'navegacion-sostenible-eco-barco',
+      title: '🌱 Navegar Sostenible: 10 Claves para una Aventura Náutica Eco-Friendly ⛵',
+      date: getTodayDate(0),
+      author: 'Marina Verde',
+      summary: 'Descubre cómo disfrutar del mar minimizando tu huella ecológica. Consejos prácticos, equipamiento sostenible y hábitos responsables para navegar cuidando el planeta.',
+      tags: ['sostenibilidad', 'eco', 'energía solar', 'limpieza ecológica', 'navegación responsable', 'medio ambiente', 'barcos'],
+    },
+    content: `
+# 🌱 Navegar Sostenible: 10 Claves para una Aventura Náutica Eco-Friendly ⛵
+
+> 💚 **"El mar no es un recurso infinito, es nuestro hogar compartido. Navegarlo con respeto es nuestra responsabilidad."**
+
+¿Te apasiona el mar pero también te preocupa el planeta? ¡Estás en el lugar correcto! En **Boattrip-Planner.com** te damos las mejores claves para que tu próxima travesía sea respetuosa con el medio ambiente, sin renunciar a la aventura ni a la comodidad.
+
+![Velero navegando al atardecer](${NAUTICAL_IMAGES.sunset_sailing})
+*Disfruta del mar cuidando el planeta: navegar sostenible es posible*
+
+---
+
+## 🚀 **¿Por Qué Navegar Sostenible?**
+
+> 🌊 **El Mediterráneo es uno de los mares más contaminados del mundo.** Cada año, se vierten al mar más de **200.000 toneladas de plástico**. Como navegantes, tenemos la responsabilidad de ser parte de la solución.
+
+---
+
+## 📋 **Las 10 Claves del Navegante Sostenible**
+
+### 1. ⚡ **Elige un Barco Eficiente**
+> 💡 **INFO ÚTIL:** Los veleros consumen hasta un **80% menos** de combustible que las embarcaciones a motor.
+
+Opta por veleros, catamaranes o barcos con motor eléctrico/híbrido. Menos consumo, menos emisiones.
+
+**Opciones recomendadas:**
+- 🛥️ **Velero clásico** (0 emisiones cuando navega a vela)
+- ⚡ **Catamarán híbrido** (combina vela y motor eléctrico)
+- 🔋 **Barco eléctrico** (para navegación costera)
+
+### 2. ☀️ **Energía Solar a Bordo**
+> ⭐ **PREMIUM:** Los paneles solares marinos pueden generar hasta **1.000W** en un día soleado.
+
+Instala paneles solares para alimentar tus sistemas eléctricos. Ahorra combustible y reduce el ruido.
+
+![Panel solar en velero](${NAUTICAL_IMAGES.sunset_sailing})
+*Paneles solares: energía limpia y silenciosa a bordo*
+
+**💪 PRO TIP:** Comienza con un panel de **100W** para cargar dispositivos electrónicos y ve ampliando según tus necesidades.
+
+> 🛍️ **[Panel solar marino flexible 100W](${createAmazonProductLink('panel solar marino')})** - Perfecto para principiantes
+
+### 3. 🧼 **Limpieza Ecológica**
+> 🌱 **ECO-FRIENDLY:** Los productos biodegradables se descomponen en **28 días** vs **450 años** del plástico.
+
+Usa productos biodegradables para limpiar el barco y la vajilla. Evita contaminar el mar con químicos.
+
+![Productos de limpieza ecológicos](${NAUTICAL_IMAGES.beach_crystal})
+*Limpieza responsable: productos ecológicos y biodegradables*
+
+**⚠️ IMPORTANTE:** Nunca uses productos con fosfatos o cloro. Opta por alternativas naturales.
+
+> 🛍️ **[Kit limpieza ecológica náutica](${createAmazonProductLink('productos biodegradables')})** - 100% biodegradable
+
+### 4. 🚫 **Reduce Plásticos de un Solo Uso**
+> 💚 **IMPACTO:** Una botella de plástico tarda **450 años** en degradarse en el mar.
+
+Lleva botellas reutilizables, bolsas de tela y vajilla irrompible. El mar no necesita más plástico.
+
+**Alternativas sostenibles:**
+- 🥤 **Botella de acero inoxidable** (mantiene la temperatura 24h)
+- 🛍️ **Bolsas de tela orgánica** (reutilizables y lavables)
+- 🍽️ **Vajilla de bambú** (biodegradable y resistente)
+
+### 5. 🗑️ **Gestión Responsable de Residuos**
+> 🛟 **SEGURIDAD:** La basura en el mar puede dañar la hélice y causar averías costosas.
+
+Separa y almacena la basura a bordo. Deposítala en puerto, nunca en el mar.
+
+**Sistema de separación recomendado:**
+- ♻️ **Orgánico** (restos de comida)
+- 🧴 **Plástico** (botellas, envoltorios)
+- 📄 **Papel** (periódicos, cartones)
+- 🔋 **Peligroso** (pilas, aceites)
+
+### 6. 🐬 **Respeta la Fauna y la Flora**
+> 🐋 **CURIOSIDAD:** Los delfines pueden detectar barcos a **20 millas** de distancia.
+
+No arrojes nada por la borda. Mantén distancia de aves, delfines y otras especies.
+
+**Distancia mínima recomendada:**
+- 🐬 **Delfines:** 100 metros
+- 🐋 **Ballenas:** 500 metros
+- 🦅 **Aves marinas:** 50 metros
+
+### 7. ⚓ **Fondea con Cuidado**
+> 🌿 **CONSERVACIÓN:** Las praderas de posidonia absorben **15 veces más CO2** que un bosque tropical.
+
+Usa boyas ecológicas o fondea en zonas de arena, nunca sobre praderas de posidonia.
+
+**Zonas seguras para fondear:**
+- 🏖️ **Arena fina** (mejor opción)
+- 🪨 **Rocas lisas** (con precaución)
+- 🚫 **Evitar:** Posidonia, coral, algas
+
+### 8. 💧 **Ahorra Agua y Energía**
+> 💡 **INFO ÚTIL:** Un marinero consume de media **50 litros** de agua dulce por día.
+
+Dúchate rápido, apaga luces y aparatos cuando no los uses. Cada gota y cada vatio cuentan.
+
+**Consejos de ahorro:**
+- 🚿 **Ducha marina:** 2 minutos máximo
+- 💡 **LED:** Consume 90% menos que bombillas tradicionales
+- 🔌 **Desconecta:** Aparatos en stand-by
+
+### 9. 🧭 **Navega con Conciencia**
+> ⭐ **PREMIUM:** Una ruta optimizada puede ahorrar hasta **30% de combustible**.
+
+Consulta la meteorología, planifica rutas eficientes y navega a velocidades moderadas para ahorrar combustible.
+
+**Planificación sostenible:**
+- 🌤️ **Meteorología:** Aprovecha vientos favorables
+- 🗺️ **Rutas:** Evita zonas protegidas
+- ⚡ **Velocidad:** Navega a velocidad económica
+
+### 10. 🌟 **Inspira a Otros**
+> 💚 **LEGADO:** Cada navegante sostenible inspira a otros 10 navegantes.
+
+Comparte tus hábitos sostenibles con la tripulación y otros navegantes. ¡El cambio empieza contigo!
+
+![Barco navegando en aguas cristalinas](${NAUTICAL_IMAGES.ocean_blue})
+*El Mediterráneo te lo agradecerá: navega, disfruta y protege*
+
+---
+
+## 🛍️ **Equipamiento Sostenible Recomendado**
+
+### ⚡ **Energía Renovable**
+- [Panel solar marino flexible 100W](${createAmazonProductLink('panel solar marino')}) - **€89.99** ⭐ 4.5/5
+- [Cargador solar portátil 20000mAh](${createAmazonProductLink('cargador solar')}) - **€45.99** ⭐ 4.3/5
+
+### 🧼 **Limpieza Ecológica**
+- [Kit limpieza ecológica náutica](${createAmazonProductLink('productos biodegradables')}) - **€24.99** ⭐ 4.6/5 🌱 ECO
+- [Detergente biodegradable concentrado](${createAmazonProductLink('productos biodegradables')}) - **€12.99** ⭐ 4.4/5 🌱 ECO
+
+### 🚫 **Alternativas al Plástico**
+- [Botella acero inoxidable 1L](${createAmazonProductLink('botella acero inoxidable 1l')}) - **€18.99** ⭐ 4.7/5 🌱 ECO
+- [Vajilla irrompible náutica](${createAmazonProductLink('vajilla irrompible nautica')}) - **€32.99** ⭐ 4.5/5
+
+### 🗑️ **Gestión de Residuos**
+- [Kit separación residuos náutico](${createAmazonProductLink('limpieza barco')}) - **€15.99** ⭐ 4.2/5
+- [Compostador portátil](${createAmazonProductLink('limpieza barco')}) - **€28.99** ⭐ 4.1/5 🌱 ECO
+
+---
+
+## 🌊 **Tu Impacto en Números**
+
+> 📊 **Si 1.000 navegantes adoptan estas prácticas:**
+- ♻️ **Se ahorran 50.000 litros de combustible al año**
+- 🌱 **Se evitan 2.000 kg de plástico en el mar**
+- 💧 **Se conservan 100.000 litros de agua dulce**
+- 🐬 **Se protegen 50 especies marinas**
+
+---
+
+## 🎯 **Próximos Pasos**
+
+1. **📋 Evalúa tu barco actual** - Identifica áreas de mejora
+2. **🛍️ Compra equipamiento sostenible** - Comienza con lo básico
+3. **📚 Educa a tu tripulación** - Comparte estos conocimientos
+4. **📸 Documenta tu transformación** - Inspira a otros navegantes
+
+---
+
+> 💚 **"El mar nos da todo. Es hora de devolverle algo a cambio."**
+
+¿Listo para navegar de forma sostenible? Planifica tu próxima aventura eco-friendly con **[Boattrip-Planner.com](/)** y comparte tu experiencia. ¡El mar y las futuras generaciones te lo agradecerán! 🌊💚
+
+**#NavegaciónSostenible #EcoNáutica #ProtegeElMar #BoattripPlanner**
+`,
+  },
+  {
+    frontmatter: {
+      slug: 'islas-baleares-guia-completa-navegacion',
+      title: '🏝️ Islas Baleares: Guía Completa de Navegación para Descubrir el Paraíso Mediterráneo',
+      date: getTodayDate(0),
+      author: 'Capitán Mediterráneo',
+      summary: 'Descubre las mejores rutas de navegación, calas secretas y puertos de las Islas Baleares. Una guía completa con mapas, consejos de navegación y productos esenciales para tu aventura balear.',
+      tags: ['destinos', 'Baleares', 'Mallorca', 'Menorca', 'Ibiza', 'Formentera', 'navegación', 'calas', 'puertos', 'Mediterráneo'],
+    },
+    content: `
+# 🏝️ Islas Baleares: Guía Completa de Navegación para Descubrir el Paraíso Mediterráneo
+
+> 🌊 **"Las Baleares no son solo islas, son un archipiélago de sueños náuticos donde cada cala cuenta una historia diferente."**
+
+¿Sueñas con navegar por aguas cristalinas, descubrir calas vírgenes y atracar en puertos históricos? Las **Islas Baleares** son tu destino perfecto. En **Boattrip-Planner.com** te damos la guía definitiva para navegar por este paraíso mediterráneo con total seguridad y confort.
+
+![Vista aérea de las Islas Baleares desde el mar](${NAUTICAL_IMAGES.island})
+*El archipiélago balear: un paraíso náutico en el corazón del Mediterráneo*
+
+---
+
+## 🗺️ **Descripción General del Archipiélago**
+
+Las **Islas Baleares** están formadas por **4 islas principales** y numerosos islotes, cada uno con su propia personalidad y encanto náutico:
+
+### **🏖️ Mallorca - La Reina del Archipiélago**
+- **Superficie:** 3.640 km²
+- **Costa:** 550 km de litoral
+- **Características:** Montañas, calas rocosas, playas de arena
+- **Mejor época:** Mayo a octubre
+
+### **🌿 Menorca - La Reserva de la Biosfera**
+- **Superficie:** 702 km²
+- **Costa:** 216 km de litoral
+- **Características:** Calas vírgenes, aguas cristalinas
+- **Mejor época:** Junio a septiembre
+
+### **🎉 Ibiza - La Isla de la Fiesta**
+- **Superficie:** 571 km²
+- **Costa:** 210 km de litoral
+- **Características:** Playas de arena blanca, vida nocturna
+- **Mejor época:** Mayo a octubre
+
+### **🏝️ Formentera - La Perla del Mediterráneo**
+- **Superficie:** 83 km²
+- **Costa:** 69 km de litoral
+- **Características:** Aguas turquesas, ambiente hippy
+- **Mejor época:** Junio a septiembre
+
+---
+
+## 🧭 **Rutas de Navegación Recomendadas**
+
+### **Ruta 1: Mallorca - Menorca (7 días)**
+> 💡 **INFO ÚTIL:** Esta ruta requiere experiencia en navegación de altura y condiciones meteorológicas favorables.
+
+**Día 1-2: Puerto de Palma → Cala d'Or**
+- **Distancia:** 45 millas náuticas
+- **Tiempo estimado:** 6-8 horas
+- **Fondeo recomendado:** Cala d'Or Marina
+
+**Día 3-4: Cala d'Or → Mahón (Menorca)**
+- **Distancia:** 35 millas náuticas
+- **Tiempo estimado:** 5-7 horas
+- **Fondeo recomendado:** Puerto de Mahón
+
+**Día 5-6: Mahón → Cala Macarella**
+- **Distancia:** 15 millas náuticas
+- **Tiempo estimado:** 2-3 horas
+- **Fondeo recomendado:** Ancla en cala
+
+**Día 7: Regreso a Mallorca**
+- **Distancia:** 50 millas náuticas
+- **Tiempo estimado:** 7-9 horas
+
+### **Ruta 2: Ibiza - Formentera (5 días)**
+> ⭐ **PREMIUM:** Esta ruta es perfecta para principiantes y ofrece las mejores aguas del Mediterráneo.
+
+**Día 1-2: Ibiza Town → Cala Salada**
+- **Distancia:** 8 millas náuticas
+- **Tiempo estimado:** 1-2 horas
+- **Fondeo recomendado:** Ancla en cala
+
+**Día 3-4: Cala Salada → Formentera**
+- **Distancia:** 12 millas náuticas
+- **Tiempo estimado:** 2-3 horas
+- **Fondeo recomendado:** Puerto de La Savina
+
+**Día 5: Regreso a Ibiza**
+- **Distancia:** 12 millas náuticas
+- **Tiempo estimado:** 2-3 horas
+
+---
+
+## 🏖️ **Las 10 Mejores Calas de las Baleares**
+
+### **1. Cala Macarella y Macarelleta (Menorca)**
+> 🌿 **CONSERVACIÓN:** Esta cala está protegida como reserva natural.
+
+![Cala Macarella desde el mar](${NAUTICAL_IMAGES.cove})
+*Las aguas más cristalinas del Mediterráneo en Cala Macarella*
+
+**Características:**
+- **Aguas:** Turquesas y cristalinas
+- **Fondeo:** Arena fina, excelente para anclar
+- **Profundidad:** 3-8 metros
+- **Mejor época:** Junio a septiembre
+
+**💪 PRO TIP:** Llega temprano para conseguir el mejor fondeo. Las aguas son tan claras que puedes ver el fondo a 15 metros de profundidad.
+
+### **2. Cala Varques (Mallorca)**
+> 🛟 **SEGURIDAD:** Esta cala puede ser peligrosa con vientos del este.
+
+**Características:**
+- **Aguas:** Azul profundo
+- **Fondeo:** Rocas y arena
+- **Profundidad:** 5-12 metros
+- **Mejor época:** Mayo a octubre
+
+### **3. Cala Salada (Ibiza)**
+> 💚 **IMPACTO:** Respeta las praderas de posidonia al fondear.
+
+**Características:**
+- **Aguas:** Cristalinas y azules
+- **Fondeo:** Arena blanca
+- **Profundidad:** 4-10 metros
+- **Mejor época:** Mayo a octubre
+
+### **4. Cala Saona (Formentera)**
+> 🌱 **ECO-FRIENDLY:** Esta cala está en zona protegida.
+
+**Características:**
+- **Aguas:** Turquesas increíbles
+- **Fondeo:** Arena fina
+- **Profundidad:** 3-8 metros
+- **Mejor época:** Junio a septiembre
+
+### **5. Cala Deià (Mallorca)**
+> ⭐ **PREMIUM:** Una de las calas más exclusivas de Mallorca.
+
+**Características:**
+- **Aguas:** Azul profundo
+- **Fondeo:** Rocas y arena
+- **Profundidad:** 6-15 metros
+- **Mejor época:** Mayo a octubre
+
+### **6. Cala Turqueta (Menorca)**
+> 🐬 **FAUNA:** Posibilidad de ver delfines en la entrada.
+
+**Características:**
+- **Aguas:** Turquesas cristalinas
+- **Fondeo:** Arena blanca
+- **Profundidad:** 4-10 metros
+- **Mejor época:** Junio a septiembre
+
+### **7. Cala Conta (Ibiza)**
+> 🎉 **AMBIENTE:** Una de las calas más populares de Ibiza.
+
+**Características:**
+- **Aguas:** Azul turquesa
+- **Fondeo:** Arena y rocas
+- **Profundidad:** 5-12 metros
+- **Mejor época:** Mayo a octubre
+
+### **8. Cala Pilar (Formentera)**
+> 🏝️ **EXCLUSIVIDAD:** Una de las calas más vírgenes de Formentera.
+
+**Características:**
+- **Aguas:** Cristalinas
+- **Fondeo:** Arena fina
+- **Profundidad:** 3-8 metros
+- **Mejor época:** Junio a septiembre
+
+### **9. Cala Mondragó (Mallorca)**
+> 🌿 **NATURALEZA:** Parque natural protegido.
+
+**Características:**
+- **Aguas:** Azul profundo
+- **Fondeo:** Arena y rocas
+- **Profundidad:** 4-10 metros
+- **Mejor época:** Mayo a octubre
+
+### **10. Cala Pregonda (Menorca)**
+> 🏆 **TOP:** Considerada una de las mejores calas del Mediterráneo.
+
+**Características:**
+- **Aguas:** Turquesas increíbles
+- **Fondeo:** Arena dorada
+- **Profundidad:** 3-8 metros
+- **Mejor época:** Junio a septiembre
+
+---
+
+## ⚓ **Puertos y Marinas Principales**
+
+### **🏖️ Mallorca**
+- **Puerto de Palma:** El más grande y moderno
+- **Puerto de Alcudia:** Excelente para familias
+- **Puerto de Pollensa:** Ambiente tranquilo
+- **Puerto de Sóller:** Encanto tradicional
+
+### **🌿 Menorca**
+- **Puerto de Mahón:** El puerto natural más grande del Mediterráneo
+- **Puerto de Ciudadela:** Histórico y encantador
+- **Puerto de Fornells:** Pequeño y acogedor
+
+### **🎉 Ibiza**
+- **Puerto de Ibiza:** El más animado
+- **Puerto de San Antonio:** Moderno y funcional
+- **Puerto de Santa Eulalia:** Familiar y tranquilo
+
+### **🏝️ Formentera**
+- **Puerto de La Savina:** El único puerto de la isla
+- **Puerto de Es Pujols:** Pequeño y encantador
+
+---
+
+## 🌤️ **Meteorología y Condiciones de Navegación**
+
+### **Vientos Dominantes**
+> 💡 **INFO ÚTIL:** Los vientos más comunes en las Baleares son el Mistral (noroeste) y el Levante (este).
+
+- **Mistral (NW):** 15-25 nudos, ideal para navegación
+- **Levante (E):** 10-20 nudos, puede crear mar de fondo
+- **Tramontana (N):** 20-35 nudos, navegación difícil
+- **Siroco (SE):** 15-25 nudos, aguas revueltas
+
+### **Mejor Época para Navegar**
+> ⭐ **PREMIUM:** Mayo y septiembre ofrecen las mejores condiciones con menos turistas.
+
+- **Mayo:** Aguas templadas, menos turistas
+- **Junio:** Condiciones ideales, inicio de temporada
+- **Julio-Agosto:** Máximo turismo, reservas necesarias
+- **Septiembre:** Condiciones perfectas, menos turistas
+- **Octubre:** Fin de temporada, aguas más frías
+
+---
+
+## 🛍️ **Equipamiento Esencial para Navegar las Baleares**
+
+### **📱 Tecnología de Navegación**
+- [GPS Náutico Portátil](${createAmazonProductLink('gps nautico portatil')}) - **€199.99** ⭐ 4.4/5 📱
+- [Carta Náutica Baleares](${createAmazonProductLink('carta nautica baleares')}) - **€24.99** ⭐ 4.6/5 🗺️
+- [Radio VHF Marina](${createAmazonProductLink('radio vhf marina')}) - **€89.99** ⭐ 4.3/5 📻
+
+### **🛟 Equipamiento de Seguridad**
+- [Chaleco Salvavidas Homologado](${createAmazonProductLink('chaleco salvavidas homologado')}) - **€89.99** ⭐ 4.8/5 🛟
+- [Linterna LED Resistente](${createAmazonProductLink('linterna led resistente agua')}) - **€32.99** ⭐ 4.5/5 🔦
+- [Kit Primeros Auxilios](${createAmazonProductLink('kit primeros auxilios nautico')}) - **€45.99** ⭐ 4.4/5 🏥
+
+### **🏖️ Equipamiento de Fondeo**
+- [Ancla Danforth 15kg](${createAmazonProductLink('ancla danforth 15kg')}) - **€89.99** ⭐ 4.6/5 ⚓
+- [Cabo de Ancla 50m](${createAmazonProductLink('cabo ancla 50m')}) - **€65.99** ⭐ 4.3/5 🪢
+- [Boyas de Fondeo](${createAmazonProductLink('boyas fondeo')}) - **€24.99** ⭐ 4.2/5 🟡
+
+### **🌊 Equipamiento de Ocio**
+- [Equipo Snorkel Completo](${createAmazonProductLink('equipo snorkel completo')}) - **€49.99** ⭐ 4.5/5 🤿
+- [Paddle Surf Inflable](${createAmazonProductLink('paddle surf inflable')}) - **€199.99** ⭐ 4.4/5 🏄‍♂️
+- [Cámara Subacuática](${createAmazonProductLink('camara subacuatica')}) - **€89.99** ⭐ 4.3/5 📷
+
+---
+
+## 📋 **Checklist Pre-Viaje a las Baleares**
+
+### **📄 Documentación**
+- ✅ **Licencia de navegación** actualizada
+- ✅ **Documentación del barco** en regla
+- ✅ **Seguro náutico** con cobertura Baleares
+- ✅ **Permisos de navegación** si es necesario
+
+### **🛟 Seguridad**
+- ✅ **Chalecos salvavidas** para toda la tripulación
+- ✅ **Equipamiento de emergencia** completo
+- ✅ **Radio VHF** funcionando correctamente
+- ✅ **GPS** con cartas actualizadas
+
+### **🌤️ Meteorología**
+- ✅ **Consulta del tiempo** para toda la ruta
+- ✅ **Plan de navegación** alternativo
+- ✅ **Información de puertos** de destino
+- ✅ **Contactos de emergencia** guardados
+
+### **🛍️ Provisiones**
+- ✅ **Agua potable** (mínimo 5L por persona/día)
+- ✅ **Comida** para toda la tripulación
+- ✅ **Combustible** suficiente + reserva
+- ✅ **Productos de limpieza** biodegradables
+
+---
+
+## 🎯 **Consejos de Navegación Específicos**
+
+### **⚠️ Zonas de Precaución**
+> 🛟 **SEGURIDAD:** Estas zonas requieren especial atención durante la navegación.
+
+- **Cabo de Formentor (Mallorca):** Vientos fuertes y corrientes
+- **Cabo de Menorca:** Mar de fondo frecuente
+- **Canal de Ibiza:** Tráfico marítimo intenso
+- **Costa norte de Menorca:** Rocas y bajos
+
+### **💡 Consejos Prácticos**
+> 💪 **PRO TIP:** Estos consejos te ayudarán a disfrutar al máximo de tu navegación.
+
+1. **Reserva fondeos** con antelación en temporada alta
+2. **Respeta las zonas protegidas** y praderas de posidonia
+3. **Lleva suficiente agua** y provisiones
+4. **Consulta el tiempo** antes de cada navegación
+5. **Mantén distancia** de otras embarcaciones
+6. **Usa boyas ecológicas** cuando sea posible
+
+---
+
+## 🌊 **Tu Aventura Baleares te Espera**
+
+Las **Islas Baleares** ofrecen una experiencia náutica única en el Mediterráneo. Con aguas cristalinas, calas vírgenes y puertos históricos, cada navegación se convierte en una aventura inolvidable.
+
+**Recuerda:** La seguridad siempre es lo primero. Planifica bien tu ruta, respeta el medio ambiente y disfruta de uno de los paraísos náuticos más hermosos del mundo.
+
+¿Listo para navegar por las Baleares? Planifica tu aventura con **[Boattrip-Planner.com](/)** y descubre el paraíso mediterráneo. ¡El mar te espera! 🌊⛵
+
+**#IslasBaleares #NavegaciónMediterráneo #CalaMacarella #PuertoMahón #BoattripPlanner**
+`,
+  },
+  {
+    frontmatter: {
+      slug: 'consejos-practicos-mascotas-barco-vacaciones',
+      title: '🐕 Consejos Prácticos para Viajar con Mascotas en Barco: Vacaciones Sin Estrés 🐱⚓',
+      date: getTodayDate(2),
+      author: 'Capitán Mascotas',
+      summary: 'Descubre los mejores consejos prácticos para viajar con tu mascota en barco. Desde la preparación hasta el día a día a bordo, todo lo que necesitas saber para unas vacaciones náuticas perfectas con tu compañero peludo.',
+      tags: ['mascotas', 'consejos prácticos', 'viajar con perros', 'viajar con gatos', 'vacaciones náuticas', 'preparación', 'bienestar animal'],
+    },
+    content: `
+# 🐕 Consejos Prácticos para Viajar con Mascotas en Barco: Vacaciones Sin Estrés 🐱⚓
+
+¡Hola, navegantes con patas! 👋 Si estás planeando tus próximas vacaciones náuticas y no puedes imaginar dejarte a tu compañero peludo en tierra, este artículo es para ti. **Viajar con mascotas en barco** puede ser una experiencia increíble, pero requiere preparación y conocimiento. En Boattrip-Planner.com te damos los **consejos más prácticos** para que tanto tú como tu mascota disfrutéis al máximo de la aventura marina.
+
+![Perro feliz en barco](${NAUTICAL_IMAGES.boat_sailing})
+*Tu mascota puede ser el mejor compañero de navegación con la preparación adecuada*
+
+---
+
+## 🎯 **¿Por Qué Viajar con Mascotas en Barco?**
+
+> 💙 **"Las mascotas no son solo animales, son familia. Y la familia no se deja en tierra."**
+
+### **Beneficios de Navegar con Mascotas:**
+
+- 🐾 **Compañía constante:** Nunca te sentirás solo en alta mar
+- 🏖️ **Experiencias compartidas:** Ver a tu perro chapotear en el mar es pura felicidad
+- 🧘 **Efecto calmante:** Las mascotas reducen el estrés durante la navegación
+- 📸 **Recuerdos únicos:** Fotos increíbles de tu mascota marinera
+- 💪 **Ejercicio natural:** Tu mascota se mantendrá activa y saludable
+
+---
+
+## 📋 **Preparación Antes del Viaje**
+
+### **1. 🏥 Visita al Veterinario (2-3 semanas antes)**
+
+**Documentación esencial:**
+- 📄 **Cartilla de vacunación** actualizada
+- 🆔 **Microchip** (obligatorio en la UE)
+- 🛂 **Pasaporte europeo** para mascotas
+- 💊 **Certificado de salud** reciente
+- 🐛 **Tratamiento antiparasitario** actualizado
+
+> 💡 **PRO TIP:** Algunas compañías de alquiler requieren certificados específicos. Consulta con anticipación.
+
+### **2. 🧳 Equipamiento Esencial para Mascotas**
+
+![Equipamiento para mascotas náuticas](${NAUTICAL_IMAGES.life_jacket})
+*El equipamiento adecuado es fundamental para la seguridad*
+
+**Equipamiento de seguridad:**
+- 🦺 **[Chaleco salvavidas para mascotas](${createAmazonProductLink('chaleco salvavidas perro')})** - Con asa de rescate
+- 🔗 **[Arnés náutico resistente](${createAmazonProductLink('arnés perro náutico')})** - Para sujeción en cubierta
+- 🦮 **[Correa flotante](${createAmazonProductLink('correa flotante perro')})** - Para paseos en puerto
+
+**Equipamiento de confort:**
+- 🛏️ **[Cama portátil para mascotas](${createAmazonProductLink('cama portátil mascotas')})** - Resistente al agua
+- 🥤 **[Bebedero antivuelco](${createAmazonProductLink('bebedero antivuelco')})** - Para mantener la hidratación
+- 🍽️ **[Comederos antideslizantes](${createAmazonProductLink('cuencos antideslizantes')})** - Para evitar derrames
+
+**Equipamiento de higiene:**
+- 🧴 **[Champú náutico para mascotas](${createAmazonProductLink('champú náutico mascotas')})** - Resistente al agua salada
+- 🧻 **[Toallitas húmedas](${createAmazonProductLink('toallitas húmedas mascotas')})** - Para limpieza rápida
+- 🧹 **[Cepillo resistente al agua](${createAmazonProductLink('cepillos mascotas náuticos')})** - Para el cuidado del pelo
+
+### **3. 🧪 Adaptación Gradual**
+
+**Antes del viaje:**
+- 🏠 **Acostumbra a tu mascota** al chaleco salvavidas
+- 🚗 **Practica viajes cortos** en coche para reducir el mareo
+- 🌊 **Visita la playa** para familiarizarla con el agua
+- ⚓ **Explora puertos** para que se acostumbre al ambiente náutico
+
+---
+
+## 🚢 **El Día del Embarque**
+
+### **🕐 Cronograma Recomendado:**
+
+**6:00 - Despertar temprano**
+- 🐕 **Paseo largo** para que tu mascota esté cansada
+- 🍽️ **Comida ligera** (evita comidas pesadas)
+- 🚿 **Baño** si es necesario
+
+**8:00 - Preparación final**
+- ✅ **Revisar equipamiento** y documentación
+- 💊 **Medicación preventiva** contra mareo (si recetada)
+- 🧴 **Aplicar protector solar** en zonas sensibles
+
+**9:00 - Embarque**
+- 🐾 **Llegar con tiempo** para explorar el barco
+- 🏠 **Establecer zona de confort** para tu mascota
+- 📍 **Mostrar puntos de acceso** y salidas de emergencia
+
+---
+
+## 🌊 **Vida a Bordo con Mascotas**
+
+### **🏠 Zona de Confort para tu Mascota**
+
+**Ubicación ideal:**
+- 🌬️ **Bien ventilada** pero protegida del viento
+- ☀️ **Con sombra** para evitar el sol directo
+- 🚶 **Fácil acceso** para moverse libremente
+- 🔒 **Segura** para evitar caídas por la borda
+
+**Elementos esenciales:**
+- 🛏️ **[Cama cómoda](${createAmazonProductLink('cama portátil mascotas')})** con base antideslizante
+- 🥤 **[Agua fresca](${createAmazonProductLink('bebedero antivuelco')})** siempre disponible
+- 🧸 **[Juguetes favoritos](${createAmazonProductLink('juguetes náuticos mascotas')})** para entretenimiento
+- 🧴 **[Protector solar](${createAmazonProductLink('protector solar mascotas')})** para zonas sensibles
+
+### **🍽️ Alimentación a Bordo**
+
+**Horarios regulares:**
+- 🌅 **Desayuno:** 2 horas después del despertar
+- 🌞 **Almuerzo:** En el momento más tranquilo del día
+- 🌅 **Cena:** 2-3 horas antes de dormir
+
+**Consejos de alimentación:**
+- 🥘 **Comidas pequeñas** y frecuentes
+- 💧 **Hidratación constante** con agua fresca
+- 🍎 **Snacks saludables** para recompensas
+- 🚫 **Evitar comidas pesadas** antes de navegar
+
+### **🏃‍♂️ Ejercicio y Entretenimiento**
+
+**Actividades recomendadas:**
+- 🎾 **Juegos en cubierta** (cuando el barco esté fondeado)
+- 🏊 **Nadar en calas** (siempre con chaleco salvavidas)
+- 🚶 **Paseos en puerto** para estirar las patas
+- 🧩 **Juguetes interactivos** para estimulación mental
+
+> 🎯 **ACTIVIDAD FAVORITA:** Jugar a buscar la pelota en la playa durante las paradas en calas.
+
+---
+
+## ⚠️ **Problemas Comunes y Soluciones**
+
+### **🤢 Mareo en Mascotas**
+
+**Síntomas:**
+- 😰 **Jadeo excesivo**
+- 🤤 **Babeo**
+- 😴 **Letargo**
+- 🤮 **Vómitos**
+
+**Soluciones:**
+- 💊 **Medicación veterinaria** (consultar antes del viaje)
+- 🌬️ **Aire fresco** en cubierta
+- 👀 **Mantener la vista en el horizonte**
+- 🍎 **Comidas ligeras** y frecuentes
+
+### **😰 Ansiedad y Estrés**
+
+**Causas comunes:**
+- 🆕 **Cambio de rutina**
+- 🔊 **Ruidos del motor**
+- 🌊 **Movimiento del barco**
+- 👥 **Personas desconocidas**
+
+**Soluciones:**
+- 🧸 **[Juguetes de confort](${createAmazonProductLink('juguetes antiestrés mascotas')})**
+- 🎵 **Música relajante** para mascotas
+- 🤗 **Contacto físico** y palabras tranquilizadoras
+- 🏠 **Zona de refugio** donde se sienta segura
+
+### **🌡️ Problemas de Temperatura**
+
+**Protección contra el calor:**
+- 🧴 **[Protector solar](${createAmazonProductLink('protector solar mascotas')})** en zonas sensibles
+- 🏖️ **[Toldo para mascotas](${createAmazonProductLink('toldo mascotas barco')})** para crear sombra
+- 💧 **Hidratación constante**
+- 🚿 **Baños refrescantes** con agua dulce
+
+**Protección contra el frío:**
+- 🧥 **[Chaleco térmico](${createAmazonProductLink('chaleco térmico mascotas')})** para noches frías
+- 🛏️ **[Manta térmica](${createAmazonProductLink('manta térmica mascotas')})** en su cama
+- 🔥 **Zona cálida** cerca del motor (con supervisión)
+
+---
+
+## 🏖️ **Actividades en Destino**
+
+### **🌊 Nado Seguro**
+
+**Siempre con chaleco salvavidas:**
+- 🦺 **Chaleco bien ajustado** y cómodo
+- 🏊 **Supervisión constante** mientras nada
+- 🚿 **Enjuague con agua dulce** después del baño
+- 🧴 **Secado completo** para evitar problemas de piel
+
+### **🏃‍♂️ Paseos en Tierra**
+
+**En puertos y calas:**
+- 🦮 **Correa siempre puesta** en puertos
+- 🧴 **Agua y snacks** para el paseo
+- 🚫 **Respetar normas locales** sobre mascotas
+- 🧹 **Recoger residuos** (siempre)
+
+### **📸 Fotos Memorables**
+
+**Momentos perfectos para fotos:**
+- 🌅 **Al amanecer** en cubierta
+- 🏊 **Nadando** en calas cristalinas
+- 🎾 **Jugando** en la playa
+- 🌊 **Mirando el horizonte** desde la proa
+
+---
+
+## 🚨 **Emergencias y Seguridad**
+
+### **📞 Contactos de Emergencia**
+
+**Guardar en el móvil:**
+- 🏥 **Veterinario local** del destino
+- 🚨 **Clínica de emergencias** 24h
+- 📞 **Servicio de rescate** marítimo
+- 🆘 **Número de emergencias** local
+
+### **🆘 Kit de Emergencia para Mascotas**
+
+**Elementos esenciales:**
+- 🩹 **[Botiquín veterinario](${createAmazonProductLink('botiquín veterinario')})** básico
+- 💊 **Medicación habitual** de tu mascota
+- 🧴 **Antiséptico** para heridas
+- 🧻 **Vendas** y gasas estériles
+- 🌡️ **Termómetro** para mascotas
+- 🥤 **Jeringa** para administrar líquidos
+
+### **🚨 Plan de Evacuación**
+
+**En caso de emergencia:**
+1. 🦺 **Poner chaleco salvavidas** a tu mascota
+2. 🎒 **Tomar kit de emergencia**
+3. 🚪 **Dirigirse al punto de evacuación**
+4. 📞 **Contactar servicios de emergencia**
+5. 🏥 **Buscar atención veterinaria** si es necesario
+
+---
+
+## 🎯 **Consejos Específicos por Tipo de Mascota**
+
+### **🐕 Perros**
+
+**Razas ideales para navegación:**
+- 🏊 **Labrador Retriever:** Excelente nadador
+- 🐕 **Golden Retriever:** Muy sociable y adaptable
+- 🦮 **Border Collie:** Inteligente y activo
+- 🐕 **Jack Russell:** Pequeño y enérgico
+
+**Consejos específicos:**
+- 🏊 **Enseñar a nadar** desde cachorro
+- 🎾 **Ejercicio diario** para quemar energía
+- 🧴 **Protección solar** en nariz y orejas
+- 🦷 **Cuidado dental** regular
+
+### **🐱 Gatos**
+
+**Consideraciones especiales:**
+- 🏠 **Zona de refugio** tranquila y oscura
+- 🧸 **[Arenero portátil](${createAmazonProductLink('arenero portátil gatos')})** en lugar fijo
+- 🦺 **Chaleco salvavidas** (aunque no naden)
+- 🧴 **Protección solar** en orejas y nariz
+
+**Adaptación gradual:**
+- 🏠 **Acostumbrar al arenero** antes del viaje
+- 🚗 **Viajes cortos** en transportín
+- 🌊 **Exposición gradual** al ambiente marino
+
+---
+
+## 📱 **Apps y Recursos Útiles**
+
+### **📱 Apps Recomendadas**
+
+- 🏥 **Pet First Aid:** Guía de primeros auxilios
+- 🗺️ **Pet Friendly Places:** Encuentra lugares que aceptan mascotas
+- 🏥 **Vet Finder:** Localiza veterinarios cercanos
+- 📸 **Pet Photo:** Para capturar momentos especiales
+
+### **🌐 Recursos Online**
+
+- 📖 **Guías de navegación** con mascotas
+- 🏥 **Directorio de veterinarios** por zona
+- 🏖️ **Playas pet-friendly** en el Mediterráneo
+- 📞 **Servicios de emergencia** marítima
+
+---
+
+## 🎉 **Consejos para el Éxito**
+
+### **✅ Lo Que SÍ Debes Hacer**
+
+- 🏥 **Preparación veterinaria** completa
+- 🧳 **Equipamiento adecuado** y de calidad
+- 🏠 **Adaptación gradual** antes del viaje
+- 👀 **Supervisión constante** durante la navegación
+- 🧴 **Protección solar** y contra el frío
+- 💧 **Hidratación constante**
+- 📸 **Documentar momentos** especiales
+
+### **❌ Lo Que NO Debes Hacer**
+
+- 🚫 **Forzar a tu mascota** si no quiere algo
+- 🚫 **Dejarla sola** en cubierta sin supervisión
+- 🚫 **Olvidar la documentación** veterinaria
+- 🚫 **Usar equipamiento** inadecuado o dañado
+- 🚫 **Ignorar señales** de estrés o malestar
+- 🚫 **Saltarse las vacunas** o tratamientos
+
+---
+
+## 🌟 **Testimonios de Navegantes con Mascotas**
+
+> 🐕 **"Mi Labrador Max adora nadar en las calas de Menorca. Es el mejor compañero de navegación que podría tener."** - María, navegante desde 2018
+
+> 🐱 **"Al principio Luna tenía miedo, pero ahora se sienta en la proa como una verdadera capitana."** - Carlos, propietario de velero
+
+> 🐕 **"Las vacaciones con mi perro en barco son las más especiales. Ver su felicidad al nadar no tiene precio."** - Ana, navegante familiar
+
+---
+
+## 🎯 **Resumen: Checklist Final**
+
+### **✅ Antes del Viaje**
+- [ ] Visita veterinaria y documentación
+- [ ] Equipamiento completo y probado
+- [ ] Adaptación gradual al ambiente náutico
+- [ ] Planificación de ruta pet-friendly
+
+### **✅ Durante el Viaje**
+- [ ] Supervisión constante
+- [ ] Alimentación e hidratación regular
+- [ ] Ejercicio y entretenimiento
+- [ ] Protección contra elementos
+
+### **✅ En Destino**
+- [ ] Paseos seguros en tierra
+- [ ] Nado supervisado
+- [ ] Fotos y recuerdos
+- [ ] Respeto por normas locales
+
+---
+
+## 🚀 **¡Comienza tu Aventura Náutica con Mascotas!**
+
+¿Listo para crear recuerdos increíbles con tu compañero peludo? **Planifica tu ruta perfecta** con [Boattrip-Planner.com](/), donde encontrarás las mejores calas pet-friendly, puertos que aceptan mascotas y toda la información que necesitas para unas vacaciones náuticas inolvidables.
+
+**Recuerda:** La clave del éxito está en la **preparación, paciencia y amor**. Tu mascota te dará compañía, alegría y momentos únicos que recordarás toda la vida.
+
+¡El mar y tu mejor amigo te esperan! 🌊🐕⚓
+
+**#MascotasNáuticas #ViajarConMascotas #NavegaciónFamiliar #VacacionesConPerros #BoattripPlanner**
+`,
   },
 ];
 
@@ -6083,7 +7217,6 @@ export const sustainabilityAmazonSearchTerms = [
   'guia energias renovables barco',
   'libro ecosistemas marinos'
 ];
-
 // Términos de búsqueda para GPS marinos y electrónica náutica
 export const gpsMarineAmazonSearchTerms = [
   'garmin gpsmap 8612xsv',

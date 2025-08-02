@@ -1,0 +1,522 @@
+/* 🚨 SAFARI COMPATIBILITY FIXES */
+
+/* iOS Safari viewport fixes */
+@supports (-webkit-touch-callout: none) {
+  body {
+    /* Prevent zoom on input focus in iOS Safari */
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    
+    /* Safe area support for iPhone X and newer */
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    
+    /* Prevent zoom on input focus */
+    touch-action: manipulation;
+    
+    /* Fix for iOS Safari 100vh issue */
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Allow text selection in specific areas */
+  .prose-custom, .recommendation-content, .blog-content, input, textarea {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+  
+  /* iOS-specific input optimizations */
+  input, textarea, select {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    font-size: 16px; /* Prevent zoom on iOS */
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  /* iOS-specific button optimizations */
+  button {
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Safari-specific fixes */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  /* Fix for Safari flexbox issues */
+  .flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+  }
+  
+  /* Fix for Safari grid issues */
+  .grid {
+    display: -webkit-grid;
+    display: grid;
+  }
+  
+  /* Fix for Safari transform issues */
+  .transform {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  /* Fix for Safari animation issues */
+  .animate-pulse {
+    -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  /* Fix for Safari backdrop-filter issues */
+  .backdrop-blur {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* Chrome mobile specific fixes */
+@media screen and (max-width: 768px) {
+  /* Fix for Chrome mobile viewport issues */
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Fix for Chrome mobile input issues */
+  input, textarea {
+    font-size: 16px !important; /* Prevent zoom */
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  /* Fix for Chrome mobile touch issues */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+}
+
+/* Mobile-specific fixes */
+@media (max-width: 768px) {
+  /* Fix for mobile viewport */
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* Fix for mobile touch targets */
+  button, a, input, select, textarea {
+    min-height: 44px; /* Apple's recommended minimum touch target size */
+    min-width: 44px;
+  }
+  
+  /* Fix for mobile scrolling */
+  .overflow-auto, .overflow-scroll {
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+  }
+  
+  /* Fix for mobile forms */
+  form {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  form input, form textarea, form select {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+}
+
+/* Tablet-specific fixes */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Fix for tablet viewport */
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Fix for tablet touch targets */
+  button, a {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
+
+/* Safari scrollbar fixes */
+.safari-scrollbar {
+  /* Webkit scrollbar for Safari */
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 #e2e8f0;
+}
+
+.safari-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.safari-scrollbar::-webkit-scrollbar-track {
+  background-color: #e2e8f0;
+  border-radius: 10px;
+}
+
+.safari-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #94a3b8;
+  border-radius: 10px;
+}
+
+.safari-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #64748b;
+}
+
+/* Safari focus fixes */
+.safari-focus:focus {
+  outline: 2px solid #0d9488;
+  outline-offset: 2px;
+  -webkit-outline: 2px solid #0d9488;
+  -webkit-outline-offset: 2px;
+}
+
+/* Safari animation performance fixes */
+.safari-gpu {
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Safari text rendering fixes */
+.safari-text {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Safari form fixes */
+.safari-form input,
+.safari-form textarea,
+.safari-form select {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Safari button fixes */
+.safari-button {
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Safari modal fixes */
+.safari-modal {
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+}
+
+/* Safari image fixes */
+.safari-image {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Safari link fixes */
+.safari-link {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Safari list fixes */
+.safari-list {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-padding-start: 0;
+  margin-before: 0;
+  margin-after: 0;
+  padding-start: 0;
+}
+
+/* Safari table fixes */
+.safari-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  -webkit-border-horizontal-spacing: 0;
+  -webkit-border-vertical-spacing: 0;
+}
+
+/* Safari video fixes */
+.safari-video {
+  -webkit-playsinline: true;
+  playsinline: true;
+  -webkit-video-playable-inline: true;
+}
+
+/* Safari audio fixes */
+.safari-audio {
+  -webkit-playsinline: true;
+  playsinline: true;
+}
+
+/* Safari canvas fixes */
+.safari-canvas {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* Safari iframe fixes */
+.safari-iframe {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* Safari svg fixes */
+.safari-svg {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* Safari object fixes */
+.safari-object {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* Safari embed fixes */
+.safari-embed {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* Safari applet fixes */
+.safari-applet {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* Safari fieldset fixes */
+.safari-fieldset {
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-before: 0;
+  -webkit-padding-start: 0;
+  -webkit-padding-end: 0;
+  -webkit-padding-after: 0;
+  margin-start: 0;
+  margin-end: 0;
+  padding-before: 0;
+  padding-start: 0;
+  padding-end: 0;
+  padding-after: 0;
+}
+
+/* Safari legend fixes */
+.safari-legend {
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-before: 0;
+  -webkit-padding-start: 0;
+  -webkit-padding-end: 0;
+  -webkit-padding-after: 0;
+  margin-start: 0;
+  margin-end: 0;
+  padding-before: 0;
+  padding-start: 0;
+  padding-end: 0;
+  padding-after: 0;
+}
+
+/* Safari details fixes */
+.safari-details {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  margin-before: 0;
+  margin-after: 0;
+}
+
+/* Safari summary fixes */
+.safari-summary {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  margin-before: 0;
+  margin-after: 0;
+}
+
+/* Safari menu fixes */
+.safari-menu {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-padding-start: 0;
+  margin-before: 0;
+  margin-after: 0;
+  padding-start: 0;
+}
+
+/* Safari menuitem fixes */
+.safari-menuitem {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  margin-before: 0;
+  margin-after: 0;
+}
+
+/* Safari command fixes */
+.safari-command {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  margin-before: 0;
+  margin-after: 0;
+}
+
+/* Safari keygen fixes */
+.safari-keygen {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  margin-before: 0;
+  margin-after: 0;
+}
+
+/* Safari output fixes */
+.safari-output {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  margin-before: 0;
+  margin-after: 0;
+}
+
+/* Safari progress fixes */
+.safari-progress {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Safari meter fixes */
+.safari-meter {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Safari datalist fixes */
+.safari-datalist {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-padding-start: 0;
+  margin-before: 0;
+  margin-after: 0;
+  padding-start: 0;
+}
+
+/* Safari option fixes */
+.safari-option {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  margin-before: 0;
+  margin-after: 0;
+}
+
+/* Safari optgroup fixes */
+.safari-optgroup {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  margin-before: 0;
+  margin-after: 0;
+}
+
+/* Safari textarea fixes */
+.safari-textarea {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  resize: vertical;
+}
+
+/* Safari select fixes */
+.safari-select {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Safari input fixes */
+.safari-input {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Safari button fixes */
+.safari-button {
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Safari label fixes */
+.safari-label {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Safari fieldset fixes */
+.safari-fieldset {
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-before: 0;
+  -webkit-padding-start: 0;
+  -webkit-padding-end: 0;
+  -webkit-padding-after: 0;
+  margin-start: 0;
+  margin-end: 0;
+  padding-before: 0;
+  padding-start: 0;
+  padding-end: 0;
+  padding-after: 0;
+}
+
+/* Safari legend fixes */
+.safari-legend {
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-before: 0;
+  -webkit-padding-start: 0;
+  -webkit-padding-end: 0;
+  -webkit-padding-after: 0;
+  margin-start: 0;
+  margin-end: 0;
+  padding-before: 0;
+  padding-start: 0;
+  padding-end: 0;
+  padding-after: 0;
+} 

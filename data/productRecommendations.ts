@@ -3,29 +3,19 @@
 
 import { AMAZON_AFFILIATE_TAG } from '../constants';
 
-// Función para crear enlaces de afiliados monetizables
-const createAffiliateUrl = (asin: string, source: string = 'blog', campaign: string = 'recommendations'): string => {
-  const baseUrl = `https://www.amazon.es/dp/${asin}`;
-  const params = new URLSearchParams({
-    tag: AMAZON_AFFILIATE_TAG,
-    linkCode: 'ogi',
-    language: 'es_ES',
-    ref: source,
-    utm_source: 'boattrip-planner',
-    utm_medium: 'blog',
-    utm_campaign: campaign,
-    utm_content: asin
-  });
-  
-  return `${baseUrl}?${params.toString()}`;
+// Función para crear URLs de búsqueda directa en Amazon.es
+const createSearchUrl = (searchTerm: string, source: string = 'blog', campaign: string = 'recommendations'): string => {
+  const encodedTerm = encodeURIComponent(searchTerm);
+  return `https://www.amazon.es/s?k=${encodedTerm}&tag=${AMAZON_AFFILIATE_TAG}`;
 };
 
 interface ProductRecommendation {
-  asin: string;
+  searchTerm: string;
   title: string;
   imageUrl: string;
   price: string;
   affiliateUrl: string;
+  category: string;
 }
 
 interface ProductRecommendationsMap {
@@ -35,34 +25,128 @@ interface ProductRecommendationsMap {
 export const PRODUCT_RECOMMENDATIONS: ProductRecommendationsMap = {
   snorkel: [
     {
-      asin: 'B07C2VJ7QK',
-      title: 'Cressi Palau Short Fin - Aletas de Snorkel',
-      imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-      price: '29.99',
-      affiliateUrl: createAffiliateUrl('B07C2VJ7QK', 'blog', 'snorkel-fins'),
+      searchTerm: 'protector solar resistente agua',
+      title: 'Protector Solar Resistente al Agua',
+      imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop&crop=center',
+      price: 'Desde 12.99€',
+      affiliateUrl: createSearchUrl('protector solar resistente agua', 'blog', 'protector-solar'),
+      category: 'protección solar'
     },
     {
-      asin: 'B08N5WRWNW',
-      title: 'Cressi Supernova - Tubo de Snorkel',
-      imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-      price: '19.99',
-      affiliateUrl: createAffiliateUrl('B08N5WRWNW', 'blog', 'snorkel-tube'),
+      searchTerm: 'chaleco salvavidas homologado',
+      title: 'Chaleco Salvavidas Homologado',
+      imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
+      price: 'Desde 45.99€',
+      affiliateUrl: createSearchUrl('chaleco salvavidas homologado', 'blog', 'chaleco-salvavidas'),
+      category: 'seguridad'
     },
     {
-      asin: 'B00J5F4LXS',
-      title: 'Cressi F1 - Máscara de Snorkel',
+      searchTerm: 'aletas snorkel cressi',
+      title: 'Equipo de Snorkel Cressi',
       imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center',
-      price: '24.99',
-      affiliateUrl: createAffiliateUrl('B00J5F4LXS', 'blog', 'snorkel-mask'),
+      price: 'Desde 24.99€',
+      affiliateUrl: createSearchUrl('aletas snorkel cressi', 'blog', 'aletas-snorkel'),
+      category: 'equipo snorkel'
     },
   ],
   gps: [
     {
-      asin: 'B01N5IB20Q',
-      title: 'Garmin Striker 4 - GPS Náutico',
+      searchTerm: 'garmin fenix 7',
+      title: 'Garmin fēnix 7 - Smartwatch GPS',
       imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
-      price: '199.99',
-      affiliateUrl: createAffiliateUrl('B01N5IB20Q', 'blog', 'gps-nautical'),
+      price: 'Desde 699.99€',
+      affiliateUrl: createSearchUrl('garmin fenix 7', 'blog', 'gps-garmin'),
+      category: 'gps navegación'
+    },
+  ],
+  tecnologia: [
+    {
+      searchTerm: 'gopro hero 11',
+      title: 'GoPro HERO11 Black',
+      imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
+      price: 'Desde 399.99€',
+      affiliateUrl: createSearchUrl('gopro hero 11', 'blog', 'gopro-camera'),
+      category: 'tecnología'
+    },
+  ],
+  nevera: [
+    {
+      searchTerm: 'nevera portatil coleman',
+      title: 'Nevera Portátil Coleman',
+      imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
+      price: 'Desde 89.99€',
+      affiliateUrl: createSearchUrl('nevera portatil coleman', 'blog', 'nevera-coleman'),
+      category: 'nevera cooler'
+    },
+  ],
+  botiquin: [
+    {
+      searchTerm: 'botiquin primeros auxilios',
+      title: 'Botiquín Primeros Auxilios',
+      imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
+      price: 'Desde 29.99€',
+      affiliateUrl: createSearchUrl('botiquin primeros auxilios', 'blog', 'botiquin-emergencia'),
+      category: 'botiquín'
+    },
+  ],
+  gafas: [
+    {
+      searchTerm: 'gafas sol polarizadas',
+      title: 'Gafas de Sol Polarizadas',
+      imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
+      price: 'Desde 19.99€',
+      affiliateUrl: createSearchUrl('gafas sol polarizadas', 'blog', 'gafas-polarizadas'),
+      category: 'gafas sol'
+    },
+  ],
+  deportes: [
+    {
+      searchTerm: 'equipo deportes acuaticos',
+      title: 'Equipo Deportes Acuáticos',
+      imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
+      price: 'Desde 49.99€',
+      affiliateUrl: createSearchUrl('equipo deportes acuaticos', 'blog', 'deportes-acuaticos'),
+      category: 'deportes acuáticos'
+    },
+  ],
+  ropa: [
+    {
+      searchTerm: 'ropa nautica',
+      title: 'Ropa Náutica y Accesorios',
+      imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
+      price: 'Desde 39.99€',
+      affiliateUrl: createSearchUrl('ropa nautica', 'blog', 'ropa-nautica'),
+      category: 'ropa accesorios'
+    },
+  ],
+  comida: [
+    {
+      searchTerm: 'comida barco conservas',
+      title: 'Comida y Bebidas para Barco',
+      imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
+      price: 'Desde 15.99€',
+      affiliateUrl: createSearchUrl('comida barco conservas', 'blog', 'comida-barco'),
+      category: 'comida bebidas'
+    },
+  ],
+  limpieza: [
+    {
+      searchTerm: 'productos limpieza barco',
+      title: 'Productos Limpieza Barco',
+      imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
+      price: 'Desde 9.99€',
+      affiliateUrl: createSearchUrl('productos limpieza barco', 'blog', 'limpieza-barco'),
+      category: 'limpieza'
+    },
+  ],
+  documentacion: [
+    {
+      searchTerm: 'documentacion nautica',
+      title: 'Documentación Náutica',
+      imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
+      price: 'Desde 19.99€',
+      affiliateUrl: createSearchUrl('documentacion nautica', 'blog', 'documentacion-nautica'),
+      category: 'documentación'
     },
   ],
   // Puedes añadir más categorías y productos aquí
@@ -75,6 +159,6 @@ export function getRecommendedProductsForEntry(tags: string[]): ProductRecommend
       products.push(...PRODUCT_RECOMMENDATIONS[tag]);
     }
   });
-  // Eliminar duplicados por ASIN
-  return Array.from(new Map(products.map(p => [p.asin, p])).values());
+  // Eliminar duplicados por searchTerm
+  return Array.from(new Map(products.map(p => [p.searchTerm, p])).values());
 }

@@ -79,7 +79,10 @@ export interface Recommendation {
   isFetchingWeather?: boolean;
   isAwaitingLocationData?: boolean;
   weatherAdaptations?: string; // Texto de las adaptaciones meteorológicas
+
 }
+
+
 
 export enum DesiredExperienceType {
   FULL_DAY = 'full_day',

@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './src/index.css';
+import './src/safari-fixes.css'; // 🚨 SAFARI COMPATIBILITY FIXES
 
 
 const rootElement = document.getElementById('root');

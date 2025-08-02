@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => {
         },
         cssCodeSplit: false,
         assetsInlineLimit: 4096,
-        target: 'es2020',
+        target: ['es2017', 'safari11', 'chrome67', 'firefox60'], // 🚨 COMPATIBILIDAD MEJORADA
         chunkSizeWarningLimit: 1000,
         minify: isDevelopment ? false : 'terser',
         terserOptions: isDevelopment ? {} : {
@@ -84,12 +84,20 @@ export default defineConfig(({ mode }) => {
       },
       // Development server configuration
       server: {
-        headers: isDevelopment ? {} : {
+        headers: isDevelopment ? {
+          // 🚨 HEADERS PARA COMPATIBILIDAD MÁXIMA
+          'Cross-Origin-Embedder-Policy': 'unsafe-none',
+          'Cross-Origin-Opener-Policy': 'unsafe-none',
+          'Cross-Origin-Resource-Policy': 'cross-origin',
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'SAMEORIGIN'
+        } : {
           'Cache-Control': 'public, max-age=31536000, immutable'
         },
         compress: !isDevelopment, // Disable compression in development
         fs: {
-          strict: false
+          strict: false,
+          allow: ['..'] // Permitir acceso a archivos fuera del directorio raíz
         },
         // Optimizar HMR para evitar recargas innecesarias
         hmr: {
@@ -98,18 +106,14 @@ export default defineConfig(({ mode }) => {
           port: 24678,
         },
         // Configuración más estable
-        watch: {
-          // Ignorar archivos que no necesitan vigilancia
-          ignored: ['**/node_modules/**', '**/.git/**', '**/dist/**']
-        }
+        host: '0.0.0.0', // Permitir acceso desde dispositivos móviles
+        port: 5173,
+        strictPort: false,
+        open: false
       },
-      // Preview configuration
-      preview: {
-        headers: {
-          'Cache-Control': 'public, max-age=31536000, immutable'
-        },
-        compress: true
-      },
-      plugins: []
+      // 🚨 CONFIGURACIÓN ESPECÍFICA PARA COMPATIBILIDAD MÁXIMA
+      esbuild: {
+        target: ['es2017', 'safari11', 'chrome67', 'firefox60']
+      }
     };
 });

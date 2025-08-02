@@ -23,6 +23,7 @@ import AppInstallTab from './components/AppInstallTab';
 
 
 import { generateBoatTripRecommendationStream, constructPrompt } from './services/geminiService';
+
 import { getWeatherData } from './services/weatherService';
 import { GoogleGenAI } from "@google/genai";
 import { allBlogPosts } from './src/blogData';
@@ -749,6 +750,7 @@ const App: React.FC = () => {
         });
       } else {
         const finalAccumulatedText = accumulatedText;
+        
         setRecommendation(prev => prev ? {
             ...prev,
             text: finalAccumulatedText,

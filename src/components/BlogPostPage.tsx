@@ -977,7 +977,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
             <h3 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-slate-800'}`}>Productos recomendados</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {recommendedProducts.map(product => (
-                <div key={product.asin} className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
+                <div key={product.searchTerm} className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
                   <img src={product.imageUrl} alt={product.title} className="w-32 h-32 object-contain mb-2" />
                   <div className="font-semibold text-center mb-1">{product.title}</div>
                   <div className="text-green-700 font-bold mb-2">€{product.price}</div>
