@@ -1,164 +1,244 @@
-const CACHE_NAME = 'boattrip-planner-v2.0';
-const STATIC_CACHE = 'static-v2.0';
-const DYNAMIC_CACHE = 'dynamic-v2.0';
+// Service Worker para Boattrip-Planner
+// Optimización de cache y rendimiento
 
-// Resources to cache immediately
-const STATIC_RESOURCES = [
+const CACHE_NAME = 'boattrip-planner-v1.2.0';
+const STATIC_CACHE = 'static-v1.2.0';
+const DYNAMIC_CACHE = 'dynamic-v1.2.0';
+
+// Recursos críticos para cache inmediato
+const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/apple-touch-icon.png',
+  '/assets/style.css',
+  '/assets/js/main-CXE_PG7D.js',
+  '/assets/js/react-vendor-BXDmVgKW.js',
+  '/assets/js/ui-vendor-BAE1vNJg.js',
   '/favicon.ico',
-  '/web-app-manifest-192x192.png',
-  '/web-app-manifest-512x512.png',
-  '/site.webmanifest',
-  '/sw.js'
+  '/manifest.json',
+  '/images/logo.png',
+  '/images/hero-bg.jpg'
 ];
 
-// Install event - cache static resources
+// Recursos de terceros para cache
+const THIRD_PARTY_ASSETS = [
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
+  'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center'
+];
+
+// Estrategia: Cache First para recursos estáticos
+const cacheFirst = async (request) => {
+  const cache = await caches.open(STATIC_CACHE);
+  const cachedResponse = await cache.match(request);
+  
+  if (cachedResponse) {
+    return cachedResponse;
+  }
+  
+  try {
+    const networkResponse = await fetch(request);
+    if (networkResponse.ok) {
+      cache.put(request, networkResponse.clone());
+    }
+    return networkResponse;
+  } catch (error) {
+    // Fallback para recursos críticos
+    if (request.url.includes('/assets/')) {
+      return new Response('Resource not available', { status: 404 });
+    }
+    throw error;
+  }
+};
+
+// Estrategia: Network First para datos dinámicos
+const networkFirst = async (request) => {
+  const cache = await caches.open(DYNAMIC_CACHE);
+  
+  try {
+    const networkResponse = await fetch(request);
+    if (networkResponse.ok) {
+      cache.put(request, networkResponse.clone());
+    }
+    return networkResponse;
+  } catch (error) {
+    const cachedResponse = await cache.match(request);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+    throw error;
+  }
+};
+
+// Estrategia: Stale While Revalidate para recursos no críticos
+const staleWhileRevalidate = async (request) => {
+  const cache = await caches.open(DYNAMIC_CACHE);
+  const cachedResponse = await cache.match(request);
+  
+  const fetchPromise = fetch(request).then(networkResponse => {
+    if (networkResponse.ok) {
+      cache.put(request, networkResponse.clone());
+    }
+    return networkResponse;
+  }).catch(() => cachedResponse);
+  
+  return cachedResponse || fetchPromise;
+};
+
+// Instalación del Service Worker
 self.addEventListener('install', (event) => {
+  console.log('Service Worker installing...');
+  
   event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then((cache) => {
-        console.log('Caching static resources');
-        return cache.addAll(STATIC_RESOURCES);
+    Promise.all([
+      // Cachear recursos estáticos
+      caches.open(STATIC_CACHE).then(cache => {
+        console.log('Caching static assets...');
+        return cache.addAll(STATIC_ASSETS);
+      }),
+      
+      // Cachear recursos de terceros
+      caches.open(DYNAMIC_CACHE).then(cache => {
+        console.log('Caching third-party assets...');
+        return cache.addAll(THIRD_PARTY_ASSETS);
       })
-      .then(() => self.skipWaiting())
+    ])
   );
+  
+  // Activar inmediatamente
+  self.skipWaiting();
 });
 
-// Activate event - clean up old caches
+// Activación del Service Worker
 self.addEventListener('activate', (event) => {
+  console.log('Service Worker activating...');
+  
   event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => {
+    Promise.all([
+      // Limpiar caches antiguos
+      caches.keys().then(cacheNames => {
         return Promise.all(
-          cacheNames.map((cacheName) => {
+          cacheNames.map(cacheName => {
             if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
               console.log('Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
           })
         );
-      })
-      .then(() => self.clients.claim())
+      }),
+      
+      // Tomar control inmediatamente
+      self.clients.claim()
+    ])
   );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Interceptar solicitudes
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
-
-  // Skip non-GET requests
+  
+  // Ignorar solicitudes no GET
   if (request.method !== 'GET') {
     return;
   }
-
-  // Skip development server requests
-  if (url.hostname === 'localhost' || url.port) {
-    return;
+  
+  // Estrategias de cache según el tipo de recurso
+  if (STATIC_ASSETS.includes(url.pathname) || 
+      request.url.includes('/assets/') ||
+      request.url.includes('/images/')) {
+    // Cache First para recursos estáticos
+    event.respondWith(cacheFirst(request));
+  } else if (request.url.includes('/api/') || 
+             request.url.includes('/blog/')) {
+    // Network First para datos dinámicos
+    event.respondWith(networkFirst(request));
+  } else if (request.url.includes('fonts.googleapis.com') ||
+             request.url.includes('images.unsplash.com')) {
+    // Stale While Revalidate para recursos externos
+    event.respondWith(staleWhileRevalidate(request));
+  } else {
+    // Estrategia por defecto
+    event.respondWith(networkFirst(request));
   }
-
-  // Handle API requests (don't cache)
-  if (url.pathname.startsWith('/api/')) {
-    return;
-  }
-
-  // Handle static assets with proper headers
-  if (url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
-    event.respondWith(
-      caches.match(request)
-        .then((response) => {
-          if (response) {
-            return response;
-          }
-          return fetch(request, {
-            headers: {
-              'Accept': request.headers.get('Accept') || '*/*',
-              'Accept-Encoding': 'gzip, deflate, br'
-            }
-          })
-            .then((fetchResponse) => {
-              // Cache successful responses
-              if (fetchResponse.status === 200) {
-                const responseClone = fetchResponse.clone();
-                caches.open(DYNAMIC_CACHE)
-                  .then((cache) => {
-                    cache.put(request, responseClone);
-                  });
-              }
-              return fetchResponse;
-            })
-            .catch((error) => {
-              console.error('Fetch failed for:', request.url, error);
-              return new Response('Network error', { status: 503 });
-            });
-        })
-    );
-    return;
-  }
-
-  // Handle HTML pages
-  if (request.headers.get('accept')?.includes('text/html')) {
-    event.respondWith(
-      fetch(request, {
-        headers: {
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-          'Accept-Encoding': 'gzip, deflate, br'
-        }
-      })
-        .then((response) => {
-          // Cache successful responses
-          if (response.status === 200) {
-            const responseClone = response.clone();
-            caches.open(DYNAMIC_CACHE)
-              .then((cache) => {
-                cache.put(request, responseClone);
-              });
-          }
-          return response;
-        })
-        .catch(() => {
-          // Fallback to cached version
-          return caches.match(request)
-            .then((response) => {
-              if (response) {
-                return response;
-              }
-              // Fallback to index.html for SPA routing
-              return caches.match('/index.html');
-            });
-        })
-    );
-    return;
-  }
-
-  // Default strategy for other requests
-  event.respondWith(
-    caches.match(request)
-      .then((response) => {
-        return response || fetch(request, {
-          headers: {
-            'Accept': request.headers.get('Accept') || '*/*',
-            'Accept-Encoding': 'gzip, deflate, br'
-          }
-        });
-      })
-  );
 });
 
-// Background sync for offline functionality
+// Manejo de mensajes
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+  
+  if (event.data && event.data.type === 'GET_VERSION') {
+    event.ports[0].postMessage({ version: CACHE_NAME });
+  }
+});
+
+// Manejo de errores
+self.addEventListener('error', (event) => {
+  console.error('Service Worker error:', event.error);
+});
+
+// Manejo de rechazos de promesas no manejados
+self.addEventListener('unhandledrejection', (event) => {
+  console.error('Service Worker unhandled rejection:', event.reason);
+});
+
+// Optimización: Precachear recursos críticos en background
 self.addEventListener('sync', (event) => {
   if (event.tag === 'background-sync') {
-    event.waitUntil(doBackgroundSync());
+    event.waitUntil(
+      caches.open(DYNAMIC_CACHE).then(cache => {
+        // Precachear recursos adicionales en background
+        return cache.addAll([
+          '/blog/',
+          '/destinos/',
+          '/productos/'
+        ]);
+      })
+    );
   }
 });
 
-async function doBackgroundSync() {
-  try {
-    // Handle any pending background tasks
-    console.log('Background sync completed');
-  } catch (error) {
-    console.error('Background sync failed:', error);
+// Optimización: Manejo de push notifications
+self.addEventListener('push', (event) => {
+  if (event.data) {
+    const data = event.data.json();
+    const options = {
+      body: data.body,
+      icon: '/images/logo.png',
+      badge: '/images/badge.png',
+      vibrate: [100, 50, 100],
+      data: {
+        dateOfArrival: Date.now(),
+        primaryKey: 1
+      },
+      actions: [
+        {
+          action: 'explore',
+          title: 'Ver más',
+          icon: '/images/checkmark.png'
+        },
+        {
+          action: 'close',
+          title: 'Cerrar',
+          icon: '/images/xmark.png'
+        }
+      ]
+    };
+    
+    event.waitUntil(
+      self.registration.showNotification(data.title, options)
+    );
   }
-} 
+});
+
+// Optimización: Manejo de clicks en notifications
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  
+  if (event.action === 'explore') {
+    event.waitUntil(
+      clients.openWindow('/')
+    );
+  }
+}); 
