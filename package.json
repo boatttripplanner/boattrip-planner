@@ -17,6 +17,7 @@
     "@vercel/kv": "^1.0.0",
     "@vercel/node": "^3.0.0",
     "hast": "^1.0.0",
+    "lucide-react": "^0.536.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-markdown": "^9.0.0",
