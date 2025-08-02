@@ -1,89 +1,260 @@
 import React from 'react';
-import { Button } from './Button';
+import { CheckIcon } from './icons/CheckIcon';
+import { CONTACT_EMAIL } from '../constants';
 
 interface PrivacyPolicyModalProps {
+  isOpen: boolean;
   onClose: () => void;
 }
 
-const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ onClose }) => {
+const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
+
   return (
-    <div 
-        className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[60] p-4 no-print"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="privacy-policy-title"
-    >
-      <div className="bg-white p-6 md:p-8 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col">
-        <h2 id="privacy-policy-title" className="text-xl sm:text-2xl font-semibold text-slate-800 mb-4">Política de Privacidad</h2>
-        <div className="overflow-y-auto custom-scrollbar flex-grow pr-2 space-y-3 text-sm text-slate-700">
-          <p><strong>Última actualización:</strong> {new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-
-          <p>Bienvenido/a a BoatTrip Planner (en adelante, "nosotros", "nuestro" o "la Aplicación"). Nos tomamos muy en serio tu privacidad. Esta Política de Privacidad explica cómo recopilamos, usamos, divulgamos y protegemos tu información cuando utilizas nuestra aplicación web.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">1. Información que Recopilamos</h3>
-          <p>Podemos recopilar la siguiente información:</p>
-          <ul className="list-disc list-inside pl-4">
-            <li><strong>Información de Preferencias del Usuario:</strong> Cuando utilizas el formulario para generar recomendaciones, recopilamos los datos que proporcionas, como destino, número de personas, tipo de experiencia, presupuesto, actividades seleccionadas, nivel de experiencia náutica, fechas, y cualquier otro detalle que incluyas.</li>
-            <li><strong>Interacciones con la IA:</strong> Si utilizas la función de chat para refinar tu recomendación, almacenamos temporalmente el historial de esa conversación durante tu sesión activa para mantener el contexto.</li>
-            <li><strong>Datos de Uso y Almacenamiento Local:</strong> Utilizamos el almacenamiento local del navegador para guardar preferencias esenciales de la aplicación (por ejemplo, tu elección en el banner de consentimiento).</li>
-            <li><strong>Información para Publicidad (con tu consentimiento):</strong> Si aceptas el uso de cookies para publicidad, Google AdSense y sus socios pueden recopilar información sobre tus visitas a esta y otras webs para mostrarte anuncios personalizados. Esto puede incluir identificadores de cookies, direcciones IP (truncadas o no), e información sobre tu navegador o dispositivo.</li>
-          </ul>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">2. Cómo Usamos Tu Información</h3>
-          <p>Usamos la información recopilada para:</p>
-          <ul className="list-disc list-inside pl-4">
-            <li>Proporcionar, operar y mantener nuestra Aplicación.</li>
-            <li>Generar recomendaciones de viajes en barco personalizadas basadas en tus preferencias (Google Gemini).</li>
-            <li>Permitir la interacción con nuestro asistente de IA (Google Gemini).</li>
-            <li>Obtener datos meteorológicos (AccuWeather para España).</li>
-            <li>Mostrar publicidad relevante a través de Google AdSense (con tu consentimiento).</li>
-            <li>Mejorar y personalizar tu experiencia.</li>
-            <li>Analizar el uso de la Aplicación (agregado y anónimo).</li>
-            <li>Cumplir con obligaciones legales.</li>
-          </ul>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">3. Intercambio de Tu Información</h3>
-          <p>No vendemos tu información personal. Podemos compartir tu información con:</p>
-          <ul className="list-disc list-inside pl-4">
-            <li><strong>Proveedores de API de IA (Google Gemini):</strong> Tus preferencias y chat se envían a Google Gemini.</li>
-            <li><strong>Proveedores de API Meteorológica (AccuWeather):</strong> Para destinos en España.</li>
-            <li><strong>Socios Publicitarios (Google AdSense):</strong> Si has consentido, compartimos información con Google y sus socios para mostrar anuncios. Google utiliza cookies para publicar anuncios basados en tus visitas anteriores a esta u otras páginas web. El uso de cookies de publicidad de Google permite a Google y a sus socios mostrar anuncios basados en tu visita a nuestros sitios y/o a otros sitios de Internet.</li>
-            <li><strong>Obligaciones Legales.</strong></li>
-          </ul>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">4. Cookies y Almacenamiento Local</h3>
-          <p>La Aplicación utiliza:</p>
-            <ul className="list-disc list-inside pl-4">
-                <li><strong>Almacenamiento Local (`localStorage`):</strong> Para recordar configuraciones esenciales, como tu estado de consentimiento de cookies.</li>
-                <li><strong>Cookies de Publicidad (Google AdSense):</strong> Si das tu consentimiento, Google AdSense utilizará cookies para personalizar los anuncios que ves. Estas cookies pueden rastrear tu actividad en diferentes sitios web para mostrarte publicidad que sea relevante para tus intereses.</li>
-            </ul>
-          <p><strong>Gestión de Cookies y Publicidad Personalizada:</strong></p>
-          <ul className="list-disc list-inside pl-4">
-            <li>Puedes optar por no recibir publicidad personalizada de Google visitando la <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:underline">Configuración de anuncios de Google</a>.</li>
-            <li>También puedes optar por que otros proveedores y redes publicitarias de terceros no usen cookies para la publicidad personalizada visitando <a href="http://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:underline">www.aboutads.info/choices/</a> (para usuarios en EE. UU.) o <a href="http://www.youronlinechoices.com/" target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:underline">www.youronlinechoices.com/</a> (para usuarios en Europa).</li>
-            <li>Puedes gestionar el almacenamiento local y las cookies a través de la configuración de tu navegador. Deshabilitar ciertas cookies o el almacenamiento local puede afectar la funcionalidad de la Aplicación.</li>
-          </ul>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">5. Seguridad de Tu Información</h3>
-          <p>Tomamos medidas razonables para proteger tu información. Sin embargo, ningún sistema es 100% seguro. Implementamos medidas técnicas y organizativas para salvaguardar la propiedad intelectual de la Aplicación. Las claves API para servicios de terceros se gestionan de forma segura.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">6. Retención de Datos</h3>
-          <p>Las preferencias del usuario para generar una recomendación y el historial de chat se mantienen solo durante la sesión activa. Las preferencias de consentimiento guardadas en el almacenamiento local persisten hasta que las borres.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">7. Tus Derechos de Privacidad</h3>
-          <p>Puedes gestionar tus preferencias de consentimiento de cookies a través del banner que se muestra. Para otros derechos, contáctanos.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">8. Privacidad de los Niños</h3>
-          <p>Nuestra Aplicación no está dirigida a menores de 13 años (o la edad aplicable). No recopilamos información de niños a sabiendas.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">9. Cambios a Esta Política de Privacidad</h3>
-          <p>Podemos actualizar esta Política. Te notificaremos publicando la nueva política aquí y actualizando la fecha.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">10. Contáctanos</h3>
-          <p>Si tienes alguna pregunta, contáctanos en alemv.mlg@gmail.com.</p>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+          <h2 className="text-2xl font-bold text-gray-900">Política de Privacidad</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors"
+            aria-label="Cerrar política de privacidad"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
-        <div className="mt-6 text-right no-print">
-          <Button onClick={onClose} variant="primary">Cerrar</Button>
+
+        {/* Content */}
+        <div className="px-6 py-6 text-gray-700 leading-relaxed">
+          <div className="space-y-6">
+            {/* Introduction */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">1. Información General</h3>
+              <p className="mb-3">
+                BoatTrip Planner ("nosotros", "nuestro", "la empresa") se compromete a proteger su privacidad. 
+                Esta Política de Privacidad explica cómo recopilamos, utilizamos, almacenamos y protegemos su información 
+                personal cuando utiliza nuestro servicio de planificación de viajes náuticos.
+              </p>
+              <p>
+                Al utilizar nuestro servicio, usted acepta la recopilación y uso de información de acuerdo con esta política.
+              </p>
+            </section>
+
+            {/* Information We Collect */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">2. Información que Recopilamos</h3>
+              
+              <h4 className="text-lg font-medium text-gray-800 mb-2">2.1 Información que Usted Nos Proporciona</h4>
+              <ul className="list-disc pl-6 space-y-2 mb-4">
+                <li>Preferencias de viaje y navegación</li>
+                <li>Información sobre experiencia náutica</li>
+                <li>Detalles del barco y tripulación</li>
+                <li>Destinos y rutas de interés</li>
+                <li>Comentarios y feedback</li>
+                <li>Dirección de correo electrónico</li>
+              </ul>
+
+              <h4 className="text-lg font-medium text-gray-800 mb-2">2.2 Información Recopilada Automáticamente</h4>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Dirección IP y datos de ubicación aproximada</li>
+                <li>Información del navegador y dispositivo</li>
+                <li>Páginas visitadas y tiempo de permanencia</li>
+                <li>Cookies y tecnologías similares</li>
+                <li>Datos de uso y analytics</li>
+              </ul>
+            </section>
+
+            {/* How We Use Information */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">3. Cómo Utilizamos su Información</h3>
+              <p className="mb-3">Utilizamos la información recopilada para:</p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Generar recomendaciones personalizadas de viajes</li>
+                <li>Mejorar nuestros servicios y funcionalidades</li>
+                <li>Proporcionar soporte al cliente</li>
+                <li>Enviar comunicaciones relevantes (con su consentimiento)</li>
+                <li>Analizar el uso del servicio para optimizaciones</li>
+                <li>Cumplir con obligaciones legales</li>
+                <li>Prevenir fraudes y abusos</li>
+              </ul>
+            </section>
+
+            {/* Third-Party Services */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">4. Servicios de Terceros</h3>
+              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+                <div className="flex">
+                  <CheckIcon className="w-5 h-5 text-blue-400 mt-0.5 mr-2 flex-shrink-0" />
+                  <div>
+                    <p className="text-blue-800 font-medium">Servicios Utilizados:</p>
+                    <p className="text-blue-700 text-sm">
+                      Nuestro servicio utiliza APIs de terceros para proporcionar funcionalidades específicas. 
+                      Cada servicio tiene sus propias políticas de privacidad.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <h4 className="text-lg font-medium text-gray-800 mb-2">4.1 Google Gemini AI</h4>
+              <p className="mb-3">
+                Utilizamos Google Gemini para generar recomendaciones personalizadas. La información que enviamos 
+                a Google está sujeta a la Política de Privacidad de Google.
+              </p>
+
+              <h4 className="text-lg font-medium text-gray-800 mb-2">4.2 Servicios Meteorológicos</h4>
+              <p className="mb-3">
+                AccuWeather y AEMET proporcionan datos meteorológicos. No compartimos información personal 
+                con estos servicios, solo datos de ubicación para obtener información meteorológica relevante.
+              </p>
+
+              <h4 className="text-lg font-medium text-gray-800 mb-2">4.3 Google AdSense</h4>
+              <p className="mb-3">
+                Utilizamos Google AdSense para mostrar publicidad relevante. Google puede utilizar cookies 
+                para personalizar anuncios basándose en sus intereses.
+              </p>
+            </section>
+
+            {/* Data Storage and Security */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">5. Almacenamiento y Seguridad</h3>
+              <div className="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+                <div className="flex">
+                  <CheckIcon className="w-5 h-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                  <div>
+                    <p className="text-green-800 font-medium">Compromiso de Seguridad:</p>
+                    <p className="text-green-700 text-sm">
+                      Implementamos medidas de seguridad técnicas y organizativas para proteger su información personal.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Encriptación de datos en tránsito y en reposo</li>
+                <li>Acceso restringido a información personal</li>
+                <li>Monitoreo regular de seguridad</li>
+                <li>Actualizaciones de seguridad regulares</li>
+                <li>Backups seguros de datos</li>
+              </ul>
+            </section>
+
+            {/* Cookies */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">6. Cookies y Tecnologías Similares</h3>
+              <p className="mb-3">
+                Utilizamos cookies y tecnologías similares para mejorar su experiencia:
+              </p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li><strong>Cookies Esenciales:</strong> Necesarias para el funcionamiento básico del sitio</li>
+                <li><strong>Cookies de Rendimiento:</strong> Para analizar el uso del sitio y mejorar la experiencia</li>
+                <li><strong>Cookies de Publicidad:</strong> Para mostrar anuncios relevantes (con su consentimiento)</li>
+                <li><strong>Cookies de Preferencias:</strong> Para recordar sus configuraciones</li>
+              </ul>
+              <p className="mt-3">
+                Puede gestionar sus preferencias de cookies a través de la configuración de su navegador.
+              </p>
+            </section>
+
+            {/* Data Sharing */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">7. Compartir Información</h3>
+              <p className="mb-3">
+                No vendemos, alquilamos ni compartimos su información personal con terceros, excepto en las siguientes circunstancias:
+              </p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Con su consentimiento explícito</li>
+                <li>Para cumplir con obligaciones legales</li>
+                <li>Con proveedores de servicios que nos ayudan a operar (bajo acuerdos de confidencialidad)</li>
+                <li>Para proteger nuestros derechos y seguridad</li>
+                <li>En caso de fusión o adquisición empresarial</li>
+              </ul>
+            </section>
+
+            {/* User Rights */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">8. Sus Derechos</h3>
+              <p className="mb-3">Usted tiene los siguientes derechos respecto a su información personal:</p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li><strong>Acceso:</strong> Solicitar información sobre los datos que tenemos sobre usted</li>
+                <li><strong>Rectificación:</strong> Corregir información inexacta o incompleta</li>
+                <li><strong>Eliminación:</strong> Solicitar la eliminación de sus datos personales</li>
+                <li><strong>Portabilidad:</strong> Recibir sus datos en formato estructurado</li>
+                <li><strong>Limitación:</strong> Restringir el procesamiento de sus datos</li>
+                <li><strong>Oposición:</strong> Oponerse al procesamiento de sus datos</li>
+                <li><strong>Retirada del consentimiento:</strong> Revocar el consentimiento en cualquier momento</li>
+              </ul>
+            </section>
+
+            {/* Data Retention */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">9. Retención de Datos</h3>
+              <p className="mb-3">
+                Conservamos su información personal solo durante el tiempo necesario para los fines descritos en esta política:
+              </p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Datos de uso: Hasta 2 años</li>
+                <li>Preferencias de viaje: Hasta que solicite su eliminación</li>
+                <li>Información de contacto: Hasta que se dé de baja</li>
+                <li>Datos de analytics: Hasta 26 meses</li>
+                <li>Información legal: Según requiera la ley</li>
+              </ul>
+            </section>
+
+            {/* Children's Privacy */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">10. Privacidad de Menores</h3>
+              <p>
+                Nuestro servicio no está dirigido a menores de 16 años. No recopilamos intencionalmente información 
+                personal de menores de 16 años. Si cree que hemos recopilado información de un menor, 
+                contáctenos inmediatamente.
+              </p>
+            </section>
+
+            {/* International Transfers */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">11. Transferencias Internacionales</h3>
+              <p>
+                Su información puede ser transferida y procesada en países fuera de su residencia. 
+                Nos aseguramos de que estas transferencias cumplan con las leyes de protección de datos aplicables 
+                y utilicen medidas de seguridad apropiadas.
+              </p>
+            </section>
+
+            {/* Changes to Policy */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">12. Cambios en esta Política</h3>
+              <p>
+                Podemos actualizar esta Política de Privacidad ocasionalmente. Le notificaremos sobre cambios 
+                significativos por correo electrónico o mediante un aviso en nuestro sitio web. 
+                Su uso continuado del servicio después de los cambios constituye su aceptación de la política actualizada.
+              </p>
+            </section>
+
+            {/* Contact Information */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">13. Información de Contacto</h3>
+              <p className="mb-3">
+                Si tiene preguntas sobre esta Política de Privacidad o desea ejercer sus derechos, contáctenos en:
+              </p>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="font-medium">Email: <a href={`mailto:${CONTACT_EMAIL}`} className="text-teal-700">{CONTACT_EMAIL}</a></p>
+                <p className="text-sm text-gray-600 mt-1">Última actualización: {new Date().toLocaleDateString('es-ES')}</p>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 px-6 py-4 flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+          >
+            Entendido
+          </button>
         </div>
       </div>
     </div>

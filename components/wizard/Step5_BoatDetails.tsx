@@ -10,7 +10,8 @@ const Step5BoatDetails: React.FC<WizardStepProps> = ({ data, updateData }) => {
     const boatModelSuggestions = useMemo(() => boatDatabase.map(b => b.displayName), []);
     
     const isRequired = useMemo(() => 
-        data.planningMode === PlanningMode.OWN_BOAT || data.desiredExperienceType === DesiredExperienceType.TRANSFER,
+        data.planningMode === PlanningMode.OWN_BOAT || 
+        (data.planningMode === PlanningMode.RENTAL && data.desiredExperienceType === DesiredExperienceType.TRANSFER),
         [data.planningMode, data.desiredExperienceType]
     );
 
@@ -37,18 +38,20 @@ const Step5BoatDetails: React.FC<WizardStepProps> = ({ data, updateData }) => {
         });
     };
     
-    let heading = "Detalles de Tu Barco (Opcional)";
-    let description = "Si quieres, danos detalles del tipo de barco que buscas.";
+    let heading = "Preferencias de Barco (Opcional)";
+    let description = "Si tienes preferencias específicas sobre el tipo de barco que quieres alquilar, puedes indicarlas aquí.";
     
     if (data.planningMode === PlanningMode.OWN_BOAT) {
-        heading = "Detalles de Tu Barco";
-        description = "Introduce las especificaciones de tu embarcación.";
-    } else if (data.desiredExperienceType === DesiredExperienceType.TRANSFER) {
-        heading = "Especificaciones del Barco para Traslado";
-        description = "Introduce las especificaciones de tu embarcación.";
+        if (data.desiredExperienceType === DesiredExperienceType.TRANSFER) {
+            heading = "Especificaciones del Barco para Traslado";
+            description = "Introduce las especificaciones de tu embarcación.";
+        } else {
+            heading = "Especificaciones de tu Barco";
+            description = "Introduce las especificaciones de tu embarcación para personalizar mejor tu itinerario.";
+        }
     } else if (data.planningMode === PlanningMode.RENTAL) {
         heading = "Preferencias de Barco (Opcional)";
-        description = "Si tienes preferencias específicas sobre el tipo de barco que quieres alquilar, puedes indicarlas aquí.";
+        description = "Como tienes experiencia suficiente para navegar sin patrón, puedes especificar tus preferencias de barco si lo deseas.";
     }
 
   return (

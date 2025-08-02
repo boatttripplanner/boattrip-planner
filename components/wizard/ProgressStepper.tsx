@@ -2,50 +2,103 @@
 import React from 'react';
 import { CheckIcon } from '../icons/CheckIcon';
 
-interface ProgressStepperProps {
-  steps: string[];
-  currentStep: number;
+interface Step {
+  id: number;
+  name: string;
 }
 
-const ProgressStepper: React.FC<ProgressStepperProps> = ({ steps, currentStep }) => {
+interface ProgressStepperProps {
+  steps: Step[];
+  currentStep: number;
+  onStepClick?: (step: number) => void;
+}
+
+const ProgressStepper: React.FC<ProgressStepperProps> = ({ 
+  steps, 
+  currentStep, 
+  onStepClick 
+}) => {
   return (
-    <nav aria-label="Progreso del formulario">
-      <ol className="flex items-center justify-around space-x-2">
+    <div className="w-full">
+      <div className="flex items-center justify-between relative">
+        {/* Progress Line */}
+        <div className="absolute top-1/2 left-0 right-0 h-1 bg-slate-200 -translate-y-1/2 z-0"></div>
+        <div 
+          className="absolute top-1/2 left-0 h-1 bg-gradient-to-r from-ocean-500 to-sea-500 -translate-y-1/2 z-0 transition-all duration-500 ease-out"
+          style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
+        ></div>
+
+        {/* Steps */}
         {steps.map((step, index) => {
-          const stepNumber = index + 1;
-          const isCompleted = currentStep > stepNumber;
-          const isCurrent = currentStep === stepNumber;
+          const isCompleted = index + 1 < currentStep;
+          const isCurrent = index + 1 === currentStep;
+          const isClickable = onStepClick && (isCompleted || isCurrent);
 
           return (
-            <li key={step} className="flex-1">
-              <div
-                className={`group flex flex-col items-center w-full ${isCompleted ? 'cursor-pointer' : ''}`}
+            <div key={step.id} className="relative z-10 flex flex-col items-center">
+              {/* Step Circle */}
+              <button
+                onClick={() => isClickable && onStepClick(index + 1)}
+                disabled={!isClickable}
+                className={`
+                  w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all duration-300
+                  ${isCompleted 
+                    ? 'bg-gradient-to-r from-ocean-500 to-sea-500 shadow-medium hover:shadow-glow cursor-pointer' 
+                    : isCurrent 
+                    ? 'bg-gradient-to-r from-ocean-400 to-sea-400 shadow-strong animate-pulse-slow cursor-pointer' 
+                    : 'bg-white border-2 border-slate-300 shadow-soft'
+                  }
+                  ${isClickable ? 'hover:scale-110' : ''}
+                `}
               >
-                <div className="flex items-center justify-center w-full">
-                   <div className={`flex-1 border-t-2 transition-colors duration-300 ${isCompleted || isCurrent ? 'border-gradient-to-r from-blue-500 to-teal-600' : 'border-slate-300'}`}></div>
-                    <span
-                        className={`flex h-10 w-10 items-center justify-center rounded-full text-lg font-semibold transition-all duration-300 shadow-lg
-                        ${isCurrent ? 'bg-gradient-to-br from-blue-500 to-teal-600 text-white ring-4 ring-blue-200 shadow-xl' : ''}
-                        ${isCompleted ? 'bg-gradient-to-br from-blue-500 to-teal-600 text-white shadow-lg' : ''}
-                        ${!isCurrent && !isCompleted ? 'bg-slate-300 text-slate-600 group-hover:bg-slate-400 shadow-md' : ''}`}
-                    >
-                        {isCompleted ? <CheckIcon className="w-6 h-6" /> : stepNumber}
-                    </span>
-                   <div className={`flex-1 border-t-2 transition-colors duration-300 ${isCompleted ? 'border-gradient-to-r from-blue-500 to-teal-600' : 'border-slate-300'}`}></div>
-                </div>
-                <p
-                  className={`mt-2 text-xs sm:text-sm font-medium text-center transition-colors duration-300 hidden sm:block
-                    ${isCurrent ? 'text-blue-700 font-semibold' : 'text-slate-500'}
-                    ${isCompleted ? 'text-slate-700' : ''}`}
-                >
-                  {step}
-                </p>
+                {isCompleted ? (
+                  <CheckIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                ) : (
+                  <span className={`text-xs sm:text-sm font-semibold ${isCurrent ? 'text-white' : 'text-slate-500'}`}>
+                    {step.id}
+                  </span>
+                )}
+              </button>
+
+              {/* Step Label */}
+              <div className="mt-2 sm:mt-3 text-center max-w-20 sm:max-w-24">
+                <span className={`
+                  text-xs font-medium transition-colors duration-300
+                  ${isCompleted 
+                    ? 'text-ocean-600' 
+                    : isCurrent 
+                    ? 'text-ocean-600 font-semibold' 
+                    : 'text-slate-500'
+                  }
+                `}>
+                  {step.name}
+                </span>
               </div>
-            </li>
+
+              {/* Current Step Indicator */}
+              {isCurrent && (
+                <div className="absolute -top-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-sunset-500 rounded-full animate-bounce-slow">
+                  <div className="w-full h-full bg-sunset-500 rounded-full animate-ping"></div>
+                </div>
+              )}
+            </div>
           );
         })}
-      </ol>
-    </nav>
+      </div>
+
+      {/* Progress Text */}
+      <div className="mt-4 sm:mt-6 text-center">
+        <p className="text-xs sm:text-sm text-slate-600">
+          Paso {currentStep} de {steps.length}
+        </p>
+        <div className="mt-2 w-full bg-slate-200 rounded-full h-1.5 sm:h-2">
+          <div 
+            className="bg-gradient-to-r from-ocean-500 to-sea-500 h-1.5 sm:h-2 rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${(currentStep / steps.length) * 100}%` }}
+          ></div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -30,7 +30,7 @@ if (geminiApiKey === "MISSING_API_KEY") {
 
 const ai = new GoogleGenAI({ apiKey: geminiApiKey }); 
 
-export const constructPrompt = (preferences: UserPreferences): string => {
+export const constructPrompt = (preferences: UserPreferences, weatherData?: WeatherData[]): string => {
   const desiredExperienceTypeOption = desiredExperienceTypeOptions.find(opt => opt.value === preferences.desiredExperienceType);
   const desiredExperienceTypeDisplay = desiredExperienceTypeOption ? desiredExperienceTypeOption.label : 'No especificado';
   
@@ -41,14 +41,14 @@ export const constructPrompt = (preferences: UserPreferences): string => {
 
   prompt = prompt.replace('{planning_mode}', planningModeDisplay);
   
-  if (preferences.planningMode === PlanningMode.OWN_BOAT && preferences.boatTransferDetails) {
-    let boatDetailsOwnStr = "";
-    if (preferences.boatTransferDetails.model) boatDetailsOwnStr += `Modelo: ${preferences.boatTransferDetails.model}, `;
-    if (preferences.boatTransferDetails.length) boatDetailsOwnStr += `Eslora: ${preferences.boatTransferDetails.length}m, `;
+  if (preferences.planningMode === PlanningMode.RENTAL && preferences.boatTransferDetails) {
+    let boatDetailsRentalStr = "";
+    if (preferences.boatTransferDetails.model) boatDetailsRentalStr += `Modelo: ${preferences.boatTransferDetails.model}, `;
+    if (preferences.boatTransferDetails.length) boatDetailsRentalStr += `Eslora: ${preferences.boatTransferDetails.length}m, `;
     // Add other relevant details
-    boatDetailsOwnStr = boatDetailsOwnStr.length > 0 ? boatDetailsOwnStr.slice(0, -2) : "Detalles no especificados";
-    prompt = prompt.replace('{boat_details_own}', boatDetailsOwnStr);
-    prompt = prompt.replace('{barco_rental_preference}', "N/A (Barco Propio)");
+    boatDetailsRentalStr = boatDetailsRentalStr.length > 0 ? boatDetailsRentalStr.slice(0, -2) : "Detalles no especificados";
+    prompt = prompt.replace('{boat_details_own}', "N/A (Alquiler)");
+    prompt = prompt.replace('{barco_rental_preference}', boatDetailsRentalStr || preferences.boatType || "No especificado");
   } else {
     prompt = prompt.replace('{boat_details_own}', "N/A (Alquiler)");
     prompt = prompt.replace('{barco_rental_preference}', preferences.boatType || "No especificado");
@@ -83,6 +83,15 @@ export const constructPrompt = (preferences: UserPreferences): string => {
 `;
 
   prompt += `*   **Modo de Planificación:** ${planningModeDisplay}\n`;
+  
+  // Lógica condicional para barco propio
+  if (preferences.planningMode === PlanningMode.OWN_BOAT) {
+    if (preferences.boatTransferDetails && preferences.boatTransferDetails.model) {
+      prompt += `*   **INSTRUCCIÓN CRÍTICA PARA SECCIÓN DE EMBARCACIÓN (BARCO PROPIO):** El usuario tiene un barco propio con modelo especificado (${preferences.boatTransferDetails.model}). DEBES MOSTRAR la sección "🔧 Revisión del Barco Antes de la Salida" con consideraciones específicas para barco propio y el modelo especificado.\n`;
+    } else {
+      prompt += `*   **INSTRUCCIÓN CRÍTICA PARA SECCIÓN DE EMBARCACIÓN (BARCO PROPIO):** El usuario tiene un barco propio pero NO ha especificado el modelo. DEBES MOSTRAR la sección "🚤 Tipo de Embarcación Recomendada" adaptada para optimizaciones de barco propio.\n`;
+    }
+  }
 
   const experienceDisplay = experienceOption ? experienceOption.label : 'No especificado';
 
@@ -124,7 +133,55 @@ export const constructPrompt = (preferences: UserPreferences): string => {
   prompt += `*   **Número de Personas:** ${preferences.numPeople}\n`;
   prompt += `*   **Nivel de Experiencia del Patrón:** ${experienceDisplay}\n`;
 
-  if (preferences.planningMode === PlanningMode.OWN_BOAT && preferences.boatTransferDetails) {
+  // Agregar información meteorológica si está disponible
+  if (weatherData && weatherData.length > 0) {
+    // Usar el primer día para el análisis principal, pero incluir información de todos los días
+    const primaryWeather = weatherData[0];
+    const windSpeed = primaryWeather.dayWindSpeed;
+    const windDirection = primaryWeather.dayWindDirection || 'No especificada';
+    const temperature = primaryWeather.temperatureMax;
+    const conditions = primaryWeather.dayIconPhrase;
+    
+    let windCategory = '';
+    if (windSpeed < 10) windCategory = 'Condiciones ideales';
+    else if (windSpeed < 20) windCategory = 'Condiciones buenas';
+    else if (windSpeed < 30) windCategory = 'Condiciones moderadas';
+    else if (windSpeed < 40) windCategory = 'Condiciones difíciles';
+    else windCategory = 'Condiciones peligrosas';
+    
+    let tempCategory = '';
+    if (temperature < 15) tempCategory = 'Frío';
+    else if (temperature < 25) tempCategory = 'Ideal';
+    else tempCategory = 'Calor';
+    
+    prompt += `*   **🌤️ CONDICIONES METEOROLÓGICAS (${weatherData.length} días disponibles):**\n`;
+    prompt += `    *   **Condiciones principales:** ${conditions}\n`;
+    prompt += `    *   **Velocidad del viento:** ${windSpeed} ${primaryWeather.dayWindUnit} (${windCategory})\n`;
+    prompt += `    *   **Dirección del viento:** ${windDirection}\n`;
+    prompt += `    *   **Temperatura máxima:** ${temperature}°${primaryWeather.temperatureUnit} (${tempCategory})\n`;
+    prompt += `    *   **Temperatura mínima:** ${primaryWeather.temperatureMin}°${primaryWeather.temperatureUnit}\n`;
+    
+    // Incluir resumen de todos los días disponibles
+    if (weatherData.length > 1) {
+      prompt += `    *   **📅 Pronóstico extendido (${weatherData.length} días):**\n`;
+      weatherData.forEach((day) => {
+        const date = new Date(day.date).toLocaleDateString('es-ES', { 
+          weekday: 'short', 
+          month: 'short', 
+          day: 'numeric' 
+        });
+        const dayWindCategory = day.dayWindSpeed < 10 ? 'Suave' : day.dayWindSpeed < 20 ? 'Moderado' : 'Fuerte';
+        prompt += `        *   **${date}:** ${day.dayIconPhrase}, ${day.temperatureMax}°${day.temperatureUnit}, viento ${day.dayWindSpeed} ${day.dayWindUnit} ${day.dayWindDirection || ''} (${dayWindCategory})\n`;
+      });
+    }
+    
+    prompt += `    *   **INSTRUCCIÓN CRÍTICA METEOROLÓGICA:** DEBES ADAPTAR TODO EL ITINERARIO a estas condiciones meteorológicas desde el primer momento. Considera las variaciones a lo largo de los ${weatherData.length} días disponibles. NO generes una sección separada de "adaptaciones meteorológicas". Integra las consideraciones meteorológicas directamente en cada actividad, ruta, y recomendación del itinerario.\n`;
+    prompt += `    *   **CONSIDERACIONES DE VIENTO:** Con viento de ${windSpeed} ${primaryWeather.dayWindUnit} desde ${windDirection}, prioriza calas protegidas, ajusta horarios de navegación, y adapta actividades acuáticas según la seguridad.\n`;
+    prompt += `    *   **CONSIDERACIONES DE TEMPERATURA:** Con ${temperature}°${primaryWeather.temperatureUnit}, ajusta horarios de actividades al aire libre y recomienda fondeos apropiados para el confort térmico.\n`;
+    prompt += `    *   **ANÁLISIS MULTIDÍA:** Considera las variaciones meteorológicas a lo largo de los ${weatherData.length} días para optimizar la planificación del viaje y adaptar las actividades según las condiciones de cada día.\n`;
+  }
+
+  if (preferences.planningMode === PlanningMode.RENTAL && preferences.boatTransferDetails) {
     let boatDetailsStr = "";
     if (preferences.boatTransferDetails.model) boatDetailsStr += `Modelo: ${preferences.boatTransferDetails.model}, `;
     if (preferences.boatTransferDetails.length) boatDetailsStr += `Eslora: ${preferences.boatTransferDetails.length}m, `;
@@ -134,9 +191,17 @@ export const constructPrompt = (preferences: UserPreferences): string => {
     if (preferences.boatTransferDetails.tankCapacity) boatDetailsStr += `Capacidad del Depósito: ${preferences.boatTransferDetails.tankCapacity}, `;
     if (preferences.boatTransferDetails.averageConsumption) boatDetailsStr += `Consumo Medio: ${preferences.boatTransferDetails.averageConsumption}`;
     boatDetailsStr = boatDetailsStr.length > 0 ? boatDetailsStr.slice(0, -2) : "Detalles no especificados";
-    prompt += `*   **Detalles del Barco Propio:** ${boatDetailsStr}\n`;
+    prompt += `*   **Preferencias de Barco (Alquiler):** ${boatDetailsStr}\n`;
+    
+    // Lógica condicional para la sección de embarcación
+    if (preferences.boatTransferDetails.model) {
+      prompt += `*   **INSTRUCCIÓN CRÍTICA PARA SECCIÓN DE EMBARCACIÓN:** El usuario ha especificado un modelo de barco (${preferences.boatTransferDetails.model}). DEBES MOSTRAR la sección "🔧 Revisión del Barco Antes de la Salida" en lugar de "🚤 Tipo de Embarcación Recomendada". Proporciona una revisión técnica específica para este modelo de barco.\n`;
+    } else {
+      prompt += `*   **INSTRUCCIÓN CRÍTICA PARA SECCIÓN DE EMBARCACIÓN:** El usuario NO ha especificado un modelo de barco específico. DEBES MOSTRAR la sección "🚤 Tipo de Embarcación Recomendada" con sugerencias basadas en sus preferencias.\n`;
+    }
   } else {
     prompt += `*   **Tipo de Barco Preferido (Alquiler):** ${preferences.boatType || "No especificado"}\n`;
+    prompt += `*   **INSTRUCCIÓN CRÍTICA PARA SECCIÓN DE EMBARCACIÓN:** El usuario NO ha especificado un modelo de barco específico. DEBES MOSTRAR la sección "🚤 Tipo de Embarcación Recomendada" con sugerencias basadas en sus preferencias.\n`;
   }
   
   if (preferences.desiredExperienceType === DesiredExperienceType.MULTI_DAY) {
@@ -383,65 +448,13 @@ ${originalRecommendation}
 `;
 };
 
-export async function generateBoatTripRecommendation(preferences: UserPreferences): Promise<string> {
+export async function* generateBoatTripRecommendationStream(preferences: UserPreferences, weatherData?: WeatherData[]): AsyncGenerator<string, void, undefined> {
   if (geminiApiKey === "MISSING_API_KEY") { 
     console.error("Error: La API_KEY de Google Gemini no está configurada en el entorno.");
     throw new Error("La API_KEY no está configurada. Por favor, asegúrate de que la variable de entorno API_KEY esté definida correctamente. No se puede conectar a la API de Gemini.");
   }
   
-  const prompt = constructPrompt(preferences);
-  
-  try {
-    const response = await ai.models.generateContent({
-      model: GEMINI_MODEL_NAME,
-      contents: prompt,
-      config: {
-        temperature: 0.6, 
-        topK: 40,
-        topP: 0.95,
-      }
-    });
-    
-    const generatedText = response.text;
-    
-    if (!generatedText || generatedText.trim() === "") {
-      console.warn("Advertencia: La IA no generó contenido textual significativo para el prompt:", prompt.substring(0, 500) + "...");
-      throw new Error("No se pudo generar una recomendación. Por favor, inténtalo de nuevo.");
-    }
-    
-    return generatedText;
-
-  } catch (error) {
-    console.error("Error llamando a la API de Gemini:", error);
-    if (error instanceof Error) {
-        if (error.message.includes("API key not valid") || 
-            error.message.includes("API_KEY_INVALID") || 
-            error.message.toLowerCase().includes("permission denied") || 
-            error.message.toLowerCase().includes("api key is missing") ||
-            error.message.toLowerCase().includes("authentication failed")) { 
-             throw new Error("Error de autenticación con la API de Gemini: Clave API inválida, con permisos insuficientes, o no proporcionada. Por favor, verifica la configuración de tu clave API (API_KEY) en el entorno.");
-        }
-        const geminiError = error as any; 
-        if (geminiError?.message?.toLowerCase().includes("blocked") || 
-            geminiError?.response?.promptFeedback?.blockReason || 
-            geminiError?.promptFeedback?.blockReason) {
-             const blockReason = geminiError?.response?.promptFeedback?.blockReason || geminiError?.promptFeedback?.blockReason || "no especificada";
-             console.warn("Respuesta bloqueada por la API de Gemini. Razón:", blockReason);
-             throw new Error(`Tu solicitud no pudo ser procesada porque el contenido fue bloqueado por razones de seguridad o política de la IA (Razón: ${blockReason}). Intenta reformular tus preferencias.`);
-        }
-         throw new Error(`La solicitud a la API de Gemini falló con el mensaje: ${error.message}. Por favor, inténtalo de nuevo más tarde.`);
-    }
-    throw new Error("Ocurrió un error desconocido al comunicarse con la API de Gemini. Por favor, inténtalo de nuevo más tarde.");
-  }
-}
-
-export async function* generateBoatTripRecommendationStream(preferences: UserPreferences): AsyncGenerator<string, void, undefined> {
-  if (geminiApiKey === "MISSING_API_KEY") { 
-    console.error("Error: La API_KEY de Google Gemini no está configurada en el entorno.");
-    throw new Error("La API_KEY no está configurada. Por favor, asegúrate de que la variable de entorno API_KEY esté definida correctamente. No se puede conectar a la API de Gemini.");
-  }
-  
-  const prompt = constructPrompt(preferences);
+  const prompt = constructPrompt(preferences, weatherData);
   
   try {
     const responseStream = await ai.models.generateContentStream({

@@ -1,6 +1,6 @@
-// Service Worker Simplificado - Sin Background Sync
-const CACHE_NAME = 'boattrip-planner-v3.0';
-const STATIC_CACHE = 'static-v3.0';
+const CACHE_NAME = 'boattrip-planner-v2.0';
+const STATIC_CACHE = 'static-v2.0';
+const DYNAMIC_CACHE = 'dynamic-v2.0';
 
 // Resources to cache immediately
 const STATIC_RESOURCES = [
@@ -8,18 +8,21 @@ const STATIC_RESOURCES = [
   '/index.html',
   '/apple-touch-icon.png',
   '/favicon.ico',
-  '/favicon-96x96.png',
   '/web-app-manifest-192x192.png',
-  '/web-app-manifest-512x512.png'
+  '/web-app-manifest-512x512.png',
+  '/site.webmanifest',
+  '/sw.js'
 ];
 
 // Install event - cache static resources
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(STATIC_CACHE).then((cache) => {
-      console.log('Caching static resources');
-      return cache.addAll(STATIC_RESOURCES);
-    }).then(() => self.skipWaiting())
+    caches.open(STATIC_CACHE)
+      .then((cache) => {
+        console.log('Caching static resources');
+        return cache.addAll(STATIC_RESOURCES);
+      })
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -30,7 +33,7 @@ self.addEventListener('activate', (event) => {
       .then((cacheNames) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
-            if (cacheName !== STATIC_CACHE) {
+            if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
               console.log('Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
@@ -41,7 +44,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - network first strategy
+// Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -51,102 +54,111 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Handle different types of requests
-  if (url.pathname === '/') {
-    // Homepage - network first
-    event.respondWith(handleHomepageRequest(request));
-  } else if (url.pathname.startsWith('/assets/')) {
-    // Static assets - cache first
-    event.respondWith(handleStaticAsset(request));
-  } else if (url.pathname.startsWith('/api/')) {
-    // API requests - network only
-    event.respondWith(handleApiRequest(request));
-  } else {
-    // Default - network first
-    event.respondWith(handleDefaultRequest(request));
+  // Skip development server requests
+  if (url.hostname === 'localhost' || url.port) {
+    return;
+  }
+
+  // Handle API requests (don't cache)
+  if (url.pathname.startsWith('/api/')) {
+    return;
+  }
+
+  // Handle static assets with proper headers
+  if (url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
+    event.respondWith(
+      caches.match(request)
+        .then((response) => {
+          if (response) {
+            return response;
+          }
+          return fetch(request, {
+            headers: {
+              'Accept': request.headers.get('Accept') || '*/*',
+              'Accept-Encoding': 'gzip, deflate, br'
+            }
+          })
+            .then((fetchResponse) => {
+              // Cache successful responses
+              if (fetchResponse.status === 200) {
+                const responseClone = fetchResponse.clone();
+                caches.open(DYNAMIC_CACHE)
+                  .then((cache) => {
+                    cache.put(request, responseClone);
+                  });
+              }
+              return fetchResponse;
+            })
+            .catch((error) => {
+              console.error('Fetch failed for:', request.url, error);
+              return new Response('Network error', { status: 503 });
+            });
+        })
+    );
+    return;
+  }
+
+  // Handle HTML pages
+  if (request.headers.get('accept')?.includes('text/html')) {
+    event.respondWith(
+      fetch(request, {
+        headers: {
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Encoding': 'gzip, deflate, br'
+        }
+      })
+        .then((response) => {
+          // Cache successful responses
+          if (response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(DYNAMIC_CACHE)
+              .then((cache) => {
+                cache.put(request, responseClone);
+              });
+          }
+          return response;
+        })
+        .catch(() => {
+          // Fallback to cached version
+          return caches.match(request)
+            .then((response) => {
+              if (response) {
+                return response;
+              }
+              // Fallback to index.html for SPA routing
+              return caches.match('/index.html');
+            });
+        })
+    );
+    return;
+  }
+
+  // Default strategy for other requests
+  event.respondWith(
+    caches.match(request)
+      .then((response) => {
+        return response || fetch(request, {
+          headers: {
+            'Accept': request.headers.get('Accept') || '*/*',
+            'Accept-Encoding': 'gzip, deflate, br'
+          }
+        });
+      })
+  );
+});
+
+// Background sync for offline functionality
+self.addEventListener('sync', (event) => {
+  if (event.tag === 'background-sync') {
+    event.waitUntil(doBackgroundSync());
   }
 });
 
-// Handle homepage requests
-async function handleHomepageRequest(request) {
+async function doBackgroundSync() {
   try {
-    // Try network first
-    const networkResponse = await fetch(request);
-    if (networkResponse.ok) {
-      // Cache the response
-      const cache = await caches.open(STATIC_CACHE);
-      cache.put(request, networkResponse.clone());
-      return networkResponse;
-    }
+    // Handle any pending background tasks
+    console.log('Background sync completed');
   } catch (error) {
-    console.log('Network failed for homepage, trying cache');
+    console.error('Background sync failed:', error);
   }
-
-  // Fallback to cache
-  const cachedResponse = await caches.match(request);
-  if (cachedResponse) {
-    return cachedResponse;
-  }
-
-  // Fallback to index.html
-  return caches.match('/index.html');
-}
-
-// Handle static asset requests
-async function handleStaticAsset(request) {
-  // Try cache first
-  const cachedResponse = await caches.match(request);
-  if (cachedResponse) {
-    return cachedResponse;
-  }
-
-  try {
-    // Try network
-    const networkResponse = await fetch(request);
-    if (networkResponse.ok) {
-      // Cache the response
-      const cache = await caches.open(STATIC_CACHE);
-      cache.put(request, networkResponse.clone());
-      return networkResponse;
-    }
-  } catch (error) {
-    console.log('Network failed for static asset:', request.url);
-  }
-
-  // Return a default response
-  return new Response('Not found', { status: 404 });
-}
-
-// Handle API requests
-async function handleApiRequest(request) {
-  try {
-    // Network only for API requests
-    const response = await fetch(request);
-    return response;
-  } catch (error) {
-    console.log('API request failed:', request.url);
-    return new Response('API unavailable', { status: 503 });
-  }
-}
-
-// Handle default requests
-async function handleDefaultRequest(request) {
-  try {
-    // Try network first
-    const networkResponse = await fetch(request);
-    if (networkResponse.ok) {
-      return networkResponse;
-    }
-  } catch (error) {
-    console.log('Network failed for request:', request.url);
-  }
-
-  // Fallback to cache
-  const cachedResponse = await caches.match(request);
-  if (cachedResponse) {
-    return cachedResponse;
-  }
-
-  // Return a default response
-  return new Response('Not found', { status: 404 });
 } 

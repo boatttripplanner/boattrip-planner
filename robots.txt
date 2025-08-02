@@ -39,15 +39,28 @@ Allow: /404
 Allow: /blog/
 Allow: /blog/*
 
+# Entradas de blog destacadas (alta prioridad SEO)
+Allow: /blog/energia-solar-sostenible-barcos-paneles-solares-marinos-2024
+Allow: /blog/los-7-productos-esenciales-navegar-perro-seguro
+Allow: /blog/islas-columbretes-paraiso-secreto-mediterraneo-navegantes
+Allow: /blog/navegar-en-familia-guia-completa-aventuras-nauticas
+Allow: /blog/navegacion-sostenible-guia-completa-barco-ecologico
+Allow: /blog/mejores-gps-marinos-2024-comparativa-completa
+
+# URLs con parámetros de consulta para el blog
+Allow: /*?view=BLOG_INDEX
+Allow: /*?view=BLOG_POST*
+
 # Assets estáticos importantes
 Allow: /favicon.ico
-Allow: /favicon.svg
 Allow: /favicon-96x96.png
 Allow: /apple-touch-icon.png
 Allow: /site.webmanifest
 Allow: /sw.js
 Allow: /og-image.png
 Allow: /web-app-manifest-*.png
+Allow: /images/
+Allow: /images/*
 
 # Permitir archivos de configuración PWA
 Allow: /browserconfig.xml
@@ -81,10 +94,15 @@ Crawl-delay: 1
 Sitemap: https://boattrip-planner.com/sitemap.xml
 
 # Sitemaps adicionales (comentados para uso futuro)
-# Sitemap: https://app.boattrip-planner.com/sitemap-blog.xml
-# Sitemap: https://app.boattrip-planner.com/sitemap-images.xml
-# Sitemap: https://app.boattrip-planner.com/sitemap-videos.xml
+# Sitemap: https://boattrip-planner.com/sitemap-blog.xml
+# Sitemap: https://boattrip-planner.com/sitemap-images.xml
+# Sitemap: https://boattrip-planner.com/sitemap-videos.xml
+
+# Host canónico
+Host: https://boattrip-planner.com
 
 # Información adicional para desarrolladores
 # Este robots.txt está optimizado para SEO y permite
 # la indexación completa del contenido público de BoatTrip Planner
+# Última actualización: 2025-01-31
+# Nuevas entradas agregadas: Mascotas, Destinos, Familia, Sostenibilidad, Reviews GPS

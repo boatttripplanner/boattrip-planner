@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useId, useMemo } from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Recommendation, AppChatSession, CustomChecklistItem, WeatherData } from '../types';
+import { Recommendation, CustomChecklistItem, WeatherData } from '../types';
 import { LoadingSpinner } from './LoadingSpinner';
 import { ErrorMessage } from './ErrorMessage';
 import { SailboatIcon } from './icons/SailboatIcon';
 import { Button } from './Button';
 // import ChatInterface from './ChatInterface'; // Comentado - sección de "Refinar Recomendación" deshabilitada
 import { AccordionItem } from './AccordionItem';
-import { getAccuWeatherIconUrl } from '../services/accuweatherService';
+// Weather icon URL function (simplified)
+const getWeatherIconUrl = (iconNumber: number): string => {
+  return `https://developer.accuweather.com/sites/default/files/${iconNumber < 10 ? `0${iconNumber}` : iconNumber.toString()}-s.png`;
+};
 import { SAMBOAT_AFFILIATE_URL } from '../constants'; 
+import { createAffiliateUrl, searchAmazonProducts, checkProductAvailability } from '../services/amazonApi';
 
 import { MapPinIcon } from './icons/MapPinIcon';
 import { ClipboardListIcon } from './icons/ClipboardListIcon';
@@ -29,7 +33,7 @@ import { WhatsAppIcon } from './icons/WhatsAppIcon';
 
 interface RecommendationCardProps {
   recommendation: Recommendation | null;
-  isLoading: boolean;
+  isLoading: boolean; // For Gemini text generation
   error: string | null;
   onPrintPlan: () => void;
 }
@@ -71,6 +75,103 @@ const isItemPotentiallyPurchasable = (itemText: string): boolean => {
   if (!itemText) return false;
   const lowerItemText = itemText.toLowerCase();
   return purchasableKeywords.some(keyword => lowerItemText.includes(keyword));
+};
+
+// Función para extraer palabras clave de producto del texto del item
+const extractProductKeywords = (itemText: string): string[] => {
+  if (!itemText) return [];
+  
+  const lowerText = itemText.toLowerCase();
+  const keywords: string[] = [];
+  
+  // Extraer palabras clave específicas para búsqueda en Amazon
+  const productPatterns = [
+    // Patrones específicos náuticos
+    /chaleco\s+salvavidas|salvavidas/gi,
+    /gps\s+náutico|gps\s+marino|plotter/gi,
+    /equipo\s+snorkel|máscara\s+buceo|aletas/gi,
+    /crema\s+solar|protector\s+solar/gi,
+    /go\s*pro|cámara\s+acuática/gi,
+    /altavoz\s+bluetooth|altavoz\s+impermeable/gi,
+    /nevera\s+portátil|cooler/gi,
+    /linterna\s+impermeable|linterna\s+led/gi,
+    /botiquín|primeros\s+auxilios/gi,
+    /bengalas|bengala\s+emergencia/gi,
+    /radio\s+vhf|vhf\s+portátil/gi,
+    /ancla|fondeo/gi,
+    /cuerda\s+náutica|cabo\s+marino/gi,
+    /defensas\s+barco|defensas\s+náuticas/gi,
+    /caña\s+pescar|equipo\s+pesca/gi,
+    /pastillas\s+mareo|biodramina/gi,
+    /cargador\s+solar|batería\s+externa|power\s+bank/gi
+  ];
+  
+  productPatterns.forEach(pattern => {
+    const matches = lowerText.match(pattern);
+    if (matches) {
+      keywords.push(...matches);
+    }
+  });
+  
+  // Si no encontramos patrones específicos, usar palabras del purchasableKeywords
+  if (keywords.length === 0) {
+    const foundKeywords = purchasableKeywords.filter(keyword => 
+      lowerText.includes(keyword)
+    );
+    keywords.push(...foundKeywords);
+  }
+  
+  return keywords;
+};
+
+// Función DINÁMICA para buscar y verificar productos en Amazon España
+const findBestAmazonProduct = async (itemText: string): Promise<string | null> => {
+  try {
+    const keywords = extractProductKeywords(itemText);
+    
+    if (keywords.length === 0) {
+      return null; // No es un producto comprable
+    }
+    
+    // Intentar con cada palabra clave, empezando por la más específica
+    for (const keyword of keywords) {
+      try {
+        // Buscar productos en Amazon España
+        const searchResult = await searchAmazonProducts({
+          query: keyword,
+          category: 'nautical',
+          rating: 4.0, // Solo productos bien valorados
+          prime: false, // No requerimos Prime
+          sortBy: 'rating' // Ordenar por valoración
+        });
+        
+        if (searchResult.products && searchResult.products.length > 0) {
+          // Verificar disponibilidad de los primeros productos
+          const asins = searchResult.products.slice(0, 3).map(p => p.asin);
+          const availability = await checkProductAvailability(asins);
+          
+          // Encontrar el primer producto disponible
+          for (const product of searchResult.products.slice(0, 3)) {
+            if (availability[product.asin] && product.rating >= 4.0) {
+              console.log(`✅ Producto encontrado para "${itemText}": ${product.title} (${product.asin})`);
+              return product.asin;
+            }
+          }
+        }
+      } catch (error) {
+        console.warn(`⚠️ Error buscando "${keyword}":`, error);
+        continue; // Intentar con la siguiente palabra clave
+      }
+    }
+    
+    // Si no encontramos nada, devolver null (no mostrar enlace)
+    console.log(`❌ No se encontró producto disponible para: "${itemText}"`);
+    return null;
+    
+  } catch (error) {
+    console.error('Error en búsqueda dinámica de productos:', error);
+    return null;
+  }
 };
 
 
@@ -139,7 +240,7 @@ const parseMarkdownToSections = (markdownTextWithWeatherBlock: string): ParsedRe
 
 
 const WeatherInfoDisplay: React.FC<{
-    weatherData: WeatherData | null | undefined,
+    weatherData: WeatherData[] | null | undefined,
     weatherError: string | null | undefined,
     isFetchingWeather: boolean | undefined,
     isAwaitingLocationData: boolean | undefined
@@ -148,16 +249,10 @@ const WeatherInfoDisplay: React.FC<{
   if (isAwaitingLocationData) {
     return (
       <div className="bg-gradient-to-r from-blue-50 to-teal-50 p-4 rounded-lg border-2 border-blue-200 shadow-sm">
-                 <div className="flex items-center justify-center space-x-3">
-                       <div className="w-6 h-6 bg-gradient-to-br from-blue-50 to-teal-100 rounded-full flex items-center justify-center shadow-sm animate-pulse">
-             <img 
-               src="/apple-touch-icon.png" 
-               alt="BoatTrip Planner Logo" 
-               className="w-4 h-4"
-             />
-           </div>
-           <span className="text-slate-700 font-medium">🌦️ Esperando información de ubicación para el pronóstico...</span>
-         </div>
+        <div className="flex items-center justify-center space-x-3">
+          <SailboatIcon className="w-6 h-6 text-blue-500 animate-pulse" />
+          <span className="text-slate-700 font-medium">🌦️ Esperando información de ubicación para el pronóstico...</span>
+        </div>
       </div>
     );
   }
@@ -198,12 +293,14 @@ const WeatherInfoDisplay: React.FC<{
     );
   }
 
+  // Usar el primer día de datos meteorológicos
+  const firstDayWeather = weatherData[0];
   let iconUrl: string = "";
 
-  let forecastDate = new Date(weatherData.date).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'short' });
+  let forecastDate = new Date(firstDayWeather.date).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'short' });
 
-  if (weatherData.accuWeatherDayIcon) {
-    iconUrl = getAccuWeatherIconUrl(weatherData.accuWeatherDayIcon);
+  if (firstDayWeather.accuWeatherDayIcon) {
+    iconUrl = getWeatherIconUrl(firstDayWeather.accuWeatherDayIcon);
   }
 
   return (
@@ -223,14 +320,14 @@ const WeatherInfoDisplay: React.FC<{
           {iconUrl && (
             <img 
               src={iconUrl} 
-              alt={weatherData.dayIconPhrase} 
+              alt={firstDayWeather.dayIconPhrase} 
               className="w-12 h-12" 
             />
           )}
           <div>
-            <div className="font-semibold text-slate-800">{weatherData.dayIconPhrase}</div>
+            <div className="font-semibold text-slate-800">{firstDayWeather.dayIconPhrase}</div>
             <div className="text-2xl font-bold text-blue-600">
-              {weatherData.temperatureMin}° / {weatherData.temperatureMax}°
+              {firstDayWeather.temperatureMin}° / {firstDayWeather.temperatureMax}°
             </div>
           </div>
         </div>
@@ -241,18 +338,18 @@ const WeatherInfoDisplay: React.FC<{
             <WindIcon className="w-5 h-5 mr-2 text-blue-600" />
             <span className="font-semibold text-slate-800">Condiciones de Viento</span>
           </div>
-          <div className="space-y-1 text-sm">
-            <div className="flex justify-between">
-              <span className="text-slate-600">Día:</span>
-              <span className="font-medium">{weatherData.dayWindSpeed} {weatherData.dayWindUnit} {weatherData.dayWindDirection || ''}</span>
-            </div>
-            {weatherData.nightWindSpeed !== undefined && (
+                      <div className="space-y-1 text-sm">
               <div className="flex justify-between">
-                <span className="text-slate-600">Noche:</span>
-                <span className="font-medium">{weatherData.nightWindSpeed} {weatherData.nightWindUnit} {weatherData.nightWindDirection || ''}</span>
+                <span className="text-slate-600">Día:</span>
+                <span className="font-medium">{firstDayWeather.dayWindSpeed} {firstDayWeather.dayWindUnit} {firstDayWeather.dayWindDirection || ''}</span>
               </div>
-            )}
-          </div>
+              {firstDayWeather.nightWindSpeed !== undefined && (
+                <div className="flex justify-between">
+                  <span className="text-slate-600">Noche:</span>
+                  <span className="font-medium">{firstDayWeather.nightWindSpeed} {firstDayWeather.nightWindUnit} {firstDayWeather.nightWindDirection || ''}</span>
+                </div>
+              )}
+            </div>
         </div>
       </div>
 
@@ -264,9 +361,9 @@ const WeatherInfoDisplay: React.FC<{
         </div>
         <div className="text-sm text-amber-700 space-y-1">
           {(() => {
-            const windSpeed = weatherData.dayWindSpeed;
-            const windDirection = weatherData.dayWindDirection || '';
-            const temp = weatherData.temperatureMax;
+            const windSpeed = firstDayWeather.dayWindSpeed;
+            const windDirection = firstDayWeather.dayWindDirection || '';
+            const temp = firstDayWeather.temperatureMax;
             
             let impact = [];
             
@@ -307,10 +404,10 @@ const WeatherInfoDisplay: React.FC<{
         </div>
       </div>
       
-      {weatherData.link && (
+      {firstDayWeather.link && (
         <div className="mt-3 pt-3 border-t border-blue-200">
           <a 
-            href={weatherData.link} 
+            href={firstDayWeather.link} 
             target="_blank" 
             rel="noopener noreferrer" 
             className="text-sm text-blue-600 hover:text-blue-800 hover:underline flex items-center"
@@ -338,18 +435,22 @@ const getNodeText = (node: React.ReactNode): string => {
     return '';
 };
 
-const RecommendationCard: React.FC<RecommendationCardProps> = ({
-    recommendation,
-    isLoading,
-    error,
-    onPrintPlan
+const RecommendationCard: React.FC<RecommendationCardProps> = ({ 
+  recommendation, 
+  isLoading, 
+  error, 
+  onPrintPlan 
 }) => {
   const [checkedAiItems, setCheckedAiItems] = useState<Record<string, boolean>>({});
   const [customChecklistItems, setCustomChecklistItems] = useState<CustomChecklistItem[]>([]);
   const [newCustomItemText, setNewCustomItemText] = useState('');
   const componentId = useId(); 
-  const userAffiliateLink = "https://amzn.to/4kVQPxk";
+  // userAffiliateLink removido - ahora usamos enlaces específicos por producto
   const [openAccordionId, setOpenAccordionId] = useState<string | null>(null);
+  
+  // Estado para almacenar ASINs encontrados dinámicamente
+  const [productAsins, setProductAsins] = useState<Record<string, string | null>>({});
+  const [loadingProducts, setLoadingProducts] = useState<Record<string, boolean>>({});
 
   const { mainTitle, introduction, sections } = useMemo(() => {
     if (!recommendation || !recommendation.text.trim()) {
@@ -524,8 +625,8 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
     h4: ({node, ...props}) => <h4 className="text-xl font-semibold text-slate-700 mt-6 mb-4 pb-3 border-b-2 border-slate-200" {...props} />,
     h5: ({node, ...props}) => <h5 className="text-md font-semibold text-slate-700 mt-3 mb-1" {...props} />,
     p: ({node, ...props}) => <p className="text-slate-800 mb-3 leading-relaxed" {...props} />,
-    ul: ({node, ...props}) => <ul className="list-disc list-inside pl-5 mb-4 space-y-2 text-slate-800" {...props} />,
-    ol: ({node, ...props}) => <ol className="list-decimal list-inside pl-5 mb-4 space-y-2 text-slate-800" {...props} />,
+    ul: ({node, ...props}) => <ul className="list-none pl-0 mb-4 space-y-2 text-slate-800" {...props} />,
+    ol: ({node, ...props}) => <ol className="list-none pl-0 mb-4 space-y-2 text-slate-800" {...props} />,
     li: ({node, ...props}) => <li className="mb-1" {...props} />,
     strong: ({node, ...props}) => <strong className="font-semibold text-slate-900" {...props} />,
     a: ({ node, children, ...props }) => {
@@ -548,7 +649,28 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
         return <li className="mb-1" {...props}>{children}</li>;
       }
       
-      const amazonLink = userAffiliateLink;
+      // Buscar producto dinámicamente si es comprable y no lo hemos buscado ya
+      React.useEffect(() => {
+        if (isPurchasable && !productAsins[itemKey] && !loadingProducts[itemKey]) {
+          setLoadingProducts(prev => ({ ...prev, [itemKey]: true }));
+          
+          findBestAmazonProduct(textContent)
+            .then(asin => {
+              setProductAsins(prev => ({ ...prev, [itemKey]: asin }));
+              setLoadingProducts(prev => ({ ...prev, [itemKey]: false }));
+            })
+            .catch(error => {
+              console.error('Error finding product:', error);
+              setProductAsins(prev => ({ ...prev, [itemKey]: null }));
+              setLoadingProducts(prev => ({ ...prev, [itemKey]: false }));
+            });
+        }
+      }, [isPurchasable, itemKey, textContent]);
+      
+      // Solo generar enlace si encontramos un ASIN válido
+      const specificAsin = productAsins[itemKey];
+      const amazonLink = specificAsin ? createAffiliateUrl(specificAsin, 'checklist', 'dynamic-product') : null;
+      const isLoadingProduct = loadingProducts[itemKey] || false;
 
       return (
         <li
@@ -576,18 +698,34 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
             {children}
           </label>
           {isPurchasable && (
-            <a
-              href={amazonLink} 
-              target="_blank"
-              rel="noopener noreferrer nofollow"
-              title={`Ver "${textContent}" en Amazon.es (afiliado)`} 
-              className="ml-2 p-1 text-amber-600 hover:text-amber-700 focus:outline-none focus:ring-1 focus:ring-amber-500 focus:ring-offset-1 rounded-sm flex-shrink-0"
-              onClick={(e) => e.stopPropagation()} 
-              data-amazon-link="true" 
-              aria-label={`Ver "${textContent}" en Amazon.es (enlace de afiliado)`}
-            >
-              <ShoppingCartIcon className="w-5 h-5" />
-            </a>
+            <>
+              {isLoadingProduct && (
+                <div className="ml-2 p-1 flex-shrink-0" title="Buscando producto en Amazon...">
+                  <div className="w-5 h-5 border-2 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
+              {!isLoadingProduct && amazonLink && (
+                <a
+                  href={amazonLink} 
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  title={`Ver producto verificado "${textContent}" en Amazon.es (enlace directo)`} 
+                  className="ml-2 p-1 text-amber-600 hover:text-amber-700 focus:outline-none focus:ring-1 focus:ring-amber-500 focus:ring-offset-1 rounded-sm flex-shrink-0"
+                  onClick={(e) => e.stopPropagation()} 
+                  data-amazon-link="true" 
+                  aria-label={`Ver producto verificado "${textContent}" en Amazon.es (disponible ahora)`}
+                >
+                  <ShoppingCartIcon className="w-5 h-5" />
+                </a>
+              )}
+              {!isLoadingProduct && !amazonLink && specificAsin === null && (
+                <div className="ml-2 p-1 flex-shrink-0" title="Producto no disponible en Amazon España">
+                  <div className="w-5 h-5 text-gray-400">
+                    <ShoppingCartIcon className="w-5 h-5" />
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </li>
       );
@@ -660,13 +798,6 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
   if (!recommendation || !recommendation.text.trim()) {
     return (
       <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center min-h-[300px] text-center w-full">
-                 <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-teal-100 rounded-full flex items-center justify-center shadow-lg mb-4">
-          <img 
-            src="/apple-touch-icon.png" 
-            alt="BoatTrip Planner Logo" 
-            className="w-8 h-8"
-          />
-        </div>
         <h3 className="text-xl font-semibold text-slate-700 mb-2">¿Listo para la Aventura?</h3>
         <p className="text-slate-600">¡Completa el formulario para obtener recomendaciones personalizadas de viajes en barco!</p>
       </div>
@@ -676,31 +807,16 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
   const remarkPlugins = [remarkGfm];
 
   return (
-    <div id="recommendation-content" className="recommendation-card bg-gradient-to-br from-white to-slate-50 p-4 sm:p-6 md:p-8 rounded-xl shadow-xl w-full break-words">
+    <div id="recommendation-content" className="recommendation-card bg-gradient-to-br from-white to-slate-50 p-3 sm:p-4 md:p-6 lg:p-8 rounded-xl shadow-xl w-full break-words">
       {/* Weather Information Display - Always show when available */}
       {(recommendation?.weatherData || recommendation?.weatherError || recommendation?.isFetchingWeather || recommendation?.isAwaitingLocationData) && (
-        <div className="mb-4 sm:mb-6">
+        <div className="mb-3 sm:mb-4 md:mb-6">
           <WeatherInfoDisplay
             weatherData={recommendation?.weatherData}
             weatherError={recommendation?.weatherError}
             isFetchingWeather={recommendation?.isFetchingWeather}
             isAwaitingLocationData={recommendation?.isAwaitingLocationData}
           />
-          
-          {/* Weather Adaptations Section */}
-          {recommendation?.weatherAdaptations && recommendation.weatherAdaptations.trim() && (
-            <div className="mt-4 bg-gradient-to-r from-teal-50 to-blue-50 p-4 rounded-lg border-2 border-teal-200 shadow-sm">
-              <div className="flex items-center mb-3">
-                <span className="text-teal-600 text-lg mr-2">🌤️</span>
-                <h4 className="font-semibold text-teal-800">Adaptaciones Meteorológicas</h4>
-              </div>
-              <div className="text-sm text-teal-700">
-                <ReactMarkdown remarkPlugins={remarkPlugins} components={baseMarkdownComponents}>
-                  {recommendation.weatherAdaptations}
-                </ReactMarkdown>
-              </div>
-            </div>
-          )}
         </div>
       )}
 
@@ -708,8 +824,8 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
       {(!recommendation?.isFetchingWeather && !recommendation?.isAwaitingLocationData) && (
         <>
           {mainTitle && (
-            <div className="mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-200">
-              <h2 className="recommendation-header text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 text-center">
+            <div className="mb-3 sm:mb-4 md:mb-6 pb-2 sm:pb-3 md:pb-4 border-b border-slate-200">
+              <h2 className="recommendation-header text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-slate-800 text-center px-2">
                  <ReactMarkdown remarkPlugins={remarkPlugins} components={{p: ({node, ...props}) => <span {...props} />}}>
                     {mainTitle}
                  </ReactMarkdown>
@@ -718,7 +834,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
           )}
 
           {introduction && (
-            <div className="recommendation-intro text-slate-700 mb-4 sm:mb-6 leading-relaxed bg-white/70 backdrop-blur-sm p-3 sm:p-4 rounded-md shadow-sm border border-slate-200">
+            <div className="recommendation-intro text-slate-700 mb-3 sm:mb-4 md:mb-6 leading-relaxed bg-white/70 backdrop-blur-sm p-2 sm:p-3 md:p-4 rounded-md shadow-sm border border-slate-200">
                <ReactMarkdown remarkPlugins={remarkPlugins} components={baseMarkdownComponents}>
                 {introduction}
               </ReactMarkdown>
@@ -726,7 +842,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
           )}
 
           {sections.length > 0 ? (
-            <div className="space-y-2 sm:space-y-3">
+            <div className="space-y-1 sm:space-y-2 md:space-y-3">
               {sections.map((section) => {
                 const isChecklistSection = section.title.toLowerCase().includes("checklist") || section.title.includes("✅");
                 
@@ -750,24 +866,24 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
                       {section.content}
                     </ReactMarkdown>
                 {isChecklistSection && (
-                  <div className="mt-6 pt-4 border-t border-slate-300">
-                    <h4 className="text-lg font-semibold text-teal-700 mb-3">✏️ Añadir artículos propios a la checklist:</h4>
+                  <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-slate-300">
+                    <h4 className="text-base sm:text-lg font-semibold text-teal-700 mb-2 sm:mb-3">✏️ Añadir artículos propios a la checklist:</h4>
                     {customChecklistItems.length > 0 && (
-                        <ul className="list-none p-0 m-0 space-y-0 mb-4">
+                        <ul className="list-none p-0 m-0 space-y-0 mb-3 sm:mb-4">
                         {customChecklistItems.map(item => (
-                          <li key={item.id} className={`flex items-start py-3 border-b border-slate-200/70 last:border-b-0 hover:bg-teal-50/70 transition-colors duration-150 rounded-sm -mx-1 px-1 ${item.checked ? 'opacity-60' : ''}`}>
+                          <li key={item.id} className={`flex items-start py-2 sm:py-3 border-b border-slate-200/70 last:border-b-0 hover:bg-teal-50/70 transition-colors duration-150 rounded-sm -mx-1 px-1 ${item.checked ? 'opacity-60' : ''}`}>
                             <input
                               type="checkbox"
                               id={item.id}
                               checked={item.checked}
                               onChange={() => handleToggleCustomItem(item.id)}
-                              className="h-5 w-5 text-teal-600 border-slate-400 rounded-sm focus:ring-2 focus:ring-teal-500/50 focus:ring-offset-1 mr-3 mt-0.5 flex-shrink-0 cursor-pointer"
+                              className="h-4 w-4 sm:h-5 sm:w-5 text-teal-600 border-slate-400 rounded-sm focus:ring-2 focus:ring-teal-500/50 focus:ring-offset-1 mr-2 sm:mr-3 mt-0.5 flex-shrink-0 cursor-pointer"
                               aria-labelledby={`${item.id}-label`}
                             />
                             <label
                                 id={`${item.id}-label`}
                                 htmlFor={item.id}
-                                className={`flex-grow cursor-pointer leading-normal ${item.checked ? 'line-through text-slate-500' : 'text-slate-800'}`}
+                                className={`flex-grow cursor-pointer leading-normal text-sm sm:text-base ${item.checked ? 'line-through text-slate-500' : 'text-slate-800'}`}
                             >
                               {item.text}
                             </label>
@@ -790,7 +906,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
                         type="submit"
                         variant="primary"
                         size="md"
-                        className="px-4 py-2.5 w-full sm:w-auto" 
+                        className="px-3 sm:px-4 py-2.5 w-full sm:w-auto" 
                         disabled={!newCustomItemText.trim()}
                       >
                         Añadir
@@ -804,7 +920,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
         </div>
       ) : (
         !mainTitle && !introduction && recommendation.text && (
-          <div className="bg-white p-4 rounded-lg shadow-md text-slate-700">
+          <div className="bg-white p-3 sm:p-4 rounded-lg shadow-md text-slate-700">
             <ReactMarkdown remarkPlugins={remarkPlugins} components={baseMarkdownComponents}>
               {recommendation.text}
             </ReactMarkdown>
@@ -813,55 +929,49 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
       )}
 
              {/* Simplified Action Buttons Section */}
-             <div className="mt-6 pt-4 border-t-2 border-slate-300/70 no-print">
-               <div className="text-center mb-4">
-                 <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-1">🚤 ¿Qué te gustaría hacer ahora?</h3>
-                 <p className="text-sm text-slate-600">Gestiona tu plan y continúa con tu aventura náutica</p>
+             <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t-2 border-slate-300/70 no-print">
+               <div className="text-center mb-3 sm:mb-4">
+                 <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 mb-1">🚤 ¿Qué te gustaría hacer ahora?</h3>
+                 <p className="text-xs sm:text-sm text-slate-600">Gestiona tu plan y continúa con tu aventura náutica</p>
                </div>
                
-               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+               <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-3 sm:mb-4">
                  <Button
                    onClick={handleModifyPreferences}
                    variant="secondary"
-                   className="w-full h-12 sm:h-14 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 border-2 border-blue-200 hover:border-blue-300 transition-all duration-200"
+                   className="w-full h-10 sm:h-12 md:h-14 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 border-2 border-blue-200 hover:border-blue-300 transition-all duration-200"
                    aria-label="Modificar mis preferencias y volver al formulario"
                  >
-                   <div className="text-lg sm:text-xl">🔄</div>
-                   <span className="text-xs sm:text-sm font-semibold text-slate-700 leading-tight">Modificar</span>
+                   <div className="text-sm sm:text-base md:text-lg lg:text-xl">🔄</div>
+                   <span className="text-xs font-semibold text-slate-700 leading-tight">Modificar</span>
                  </Button>
                  
                  <Button
                    onClick={onPrintPlan}
                    variant="secondary"
-                   className="w-full h-12 sm:h-14 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 border-2 border-purple-200 hover:border-purple-300 transition-all duration-200"
+                   className="w-full h-10 sm:h-12 md:h-14 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 border-2 border-purple-200 hover:border-purple-300 transition-all duration-200"
                    aria-label="Imprimir este plan"
                  >
-                   <div className="text-lg sm:text-xl">🖨️</div>
-                   <span className="text-xs sm:text-sm font-semibold text-slate-700 leading-tight">Imprimir</span>
+                   <div className="text-sm sm:text-base md:text-lg lg:text-xl">🖨️</div>
+                   <span className="text-xs font-semibold text-slate-700 leading-tight">Imprimir</span>
                  </Button>
                  
                  <Button
                    onClick={handleShareViaWhatsApp}
-                   className="w-full h-12 sm:h-14 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-2 border-green-400 hover:border-green-500 transition-all duration-200 shadow-md"
+                   className="w-full h-10 sm:h-12 md:h-14 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-2 border-green-400 hover:border-green-500 transition-all duration-200 shadow-md"
                    aria-label="Compartir plan por WhatsApp"
                  >
-                   <WhatsAppIcon className="w-5 h-5 sm:w-6 sm:h-6" />
-                   <span className="text-xs sm:text-sm font-semibold leading-tight">Compartir</span>
+                   <WhatsAppIcon className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
+                   <span className="text-xs font-semibold leading-tight">Compartir</span>
                  </Button>
                  
                  <Button
                    onClick={() => window.open(SAMBOAT_AFFILIATE_URL, '_blank', 'noopener,noreferrer')}
-                   className="w-full h-12 sm:h-14 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-2 border-orange-400 hover:border-orange-500 transition-all duration-200 shadow-md"
+                   className="w-full h-10 sm:h-12 md:h-14 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-2 border-orange-400 hover:border-orange-500 transition-all duration-200 shadow-md"
                    aria-label="Ver barcos en SamBoat (enlace externo)"
                  >
-                                       <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-blue-50 to-teal-100 rounded-full flex items-center justify-center shadow-sm">
-                      <img 
-                        src="/apple-touch-icon.png" 
-                        alt="BoatTrip Planner Logo" 
-                        className="w-3 h-3 sm:w-4 sm:h-4"
-                      />
-                    </div>
-                    <span className="text-xs sm:text-sm font-semibold leading-tight">Ver Barcos</span>
+                   <SailboatIcon className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
+                   <span className="text-xs font-semibold leading-tight">Ver Barcos</span>
                  </Button>
                </div>
                

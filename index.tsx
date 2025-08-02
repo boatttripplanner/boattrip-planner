@@ -1,5 +1,4 @@
 
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './src/index.css';
@@ -12,5 +11,6 @@ if (!rootElement) {
 
 const root = ReactDOM.createRoot(rootElement);
 root.render(
+  // React.StrictMode removido temporalmente para evitar doble renderizado en desarrollo
   <App />
 );

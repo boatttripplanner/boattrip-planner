@@ -13,44 +13,14 @@ export default defineConfig(({ mode }) => {
           input: {
             main: path.resolve(__dirname, 'index.html')
           },
-          treeshake: {
-            moduleSideEffects: true,
-            propertyReadSideEffects: true,
-            unknownGlobalSideEffects: true,
-            tryCatchDeoptimization: true
-          },
           output: {
-            manualChunks: (id) => {
+            manualChunks: {
               // Core React chunks
-              if (id.includes('react') && id.includes('react-dom')) {
-                return 'react-core';
-              }
-              // Router chunks
-              if (id.includes('react-router-dom')) {
-                return 'router';
-              }
+              'react-vendor': ['react', 'react-dom'],
               // AI/ML chunks
-              if (id.includes('@google/genai')) {
-                return 'ai-services';
-              }
+              'ai-vendor': ['@google/genai'],
               // UI/Markdown chunks
-              if (id.includes('react-markdown') || id.includes('remark-gfm')) {
-                return 'ui-components';
-              }
-              // Wizard steps chunks
-              if (id.includes('wizard/Step')) {
-                return 'wizard-steps';
-              }
-              // Stripe chunks
-              if (id.includes('@stripe')) {
-                return 'stripe-vendor';
-              }
-              // Vendor chunks for other libraries
-              if (id.includes('node_modules')) {
-                return 'vendor';
-              }
-              // Return undefined for other modules to let Rollup handle them
-              return undefined;
+              'ui-vendor': ['react-markdown', 'remark-gfm']
             },
             assetFileNames: (assetInfo) => {
               if (assetInfo.name?.endsWith('.css')) {
@@ -70,7 +40,7 @@ export default defineConfig(({ mode }) => {
         },
         cssCodeSplit: false,
         assetsInlineLimit: 4096,
-        target: ['es2020', 'safari11'],
+        target: 'es2020',
         chunkSizeWarningLimit: 1000,
         minify: isDevelopment ? false : 'terser',
         terserOptions: isDevelopment ? {} : {
@@ -78,42 +48,13 @@ export default defineConfig(({ mode }) => {
             drop_console: true,
             drop_debugger: true,
             pure_funcs: ['console.log', 'console.info', 'console.debug'],
-            passes: 1,
-            // Less aggressive optimizations to prevent runtime errors
-            dead_code: true,
-            hoist_funs: false,
-            hoist_vars: false,
-            if_return: true,
-            join_vars: true,
-            reduce_vars: false,
-            sequences: true,
-            side_effects: false,
-            unused: false,
-            collapse_vars: false,
-            evaluate: false,
-            inline: false,
-            loops: false,
-            negate_iife: false,
-            properties: false,
-            unsafe: false,
-            unsafe_comps: false,
-            unsafe_Function: false,
-            unsafe_math: false,
-            unsafe_methods: false,
-            unsafe_proto: false,
-            unsafe_regexp: false,
-            unsafe_undefined: false
+            passes: 2
           },
           mangle: {
-            safari10: true,
-            // Less aggressive mangling to prevent property access issues
-            toplevel: false,
-            properties: false,
-            reserved: ['__esModule', 'default', 'exports', 'module']
+            safari10: true
           },
           format: {
-            comments: false,
-            beautify: false
+            comments: false
           }
         },
         sourcemap: isDevelopment,
@@ -139,34 +80,33 @@ export default defineConfig(({ mode }) => {
           'remark-gfm'
         ],
         exclude: [],
-        force: isDevelopment,
-        // Pre-bundle dependencies for faster dev server
-        esbuildOptions: {
-          target: 'es2020'
-        }
+        // force: isDevelopment // Removido para evitar re-optimización frecuente
       },
       // Development server configuration
       server: {
-        headers: isDevelopment ? {
-          'Content-Type': 'application/javascript; charset=utf-8'
-        } : {
-          'Cache-Control': 'public, max-age=31536000, immutable',
-          'Content-Type': 'application/javascript; charset=utf-8'
+        headers: isDevelopment ? {} : {
+          'Cache-Control': 'public, max-age=31536000, immutable'
         },
         compress: !isDevelopment, // Disable compression in development
         fs: {
           strict: false
         },
-        // Add proper error handling
+        // Optimizar HMR para evitar recargas innecesarias
         hmr: {
-          overlay: true
+          overlay: true,
+          // Reducir la frecuencia de recargas
+          port: 24678,
+        },
+        // Configuración más estable
+        watch: {
+          // Ignorar archivos que no necesitan vigilancia
+          ignored: ['**/node_modules/**', '**/.git/**', '**/dist/**']
         }
       },
       // Preview configuration
       preview: {
         headers: {
-          'Cache-Control': 'public, max-age=31536000, immutable',
-          'Content-Type': 'application/javascript; charset=utf-8'
+          'Cache-Control': 'public, max-age=31536000, immutable'
         },
         compress: true
       },

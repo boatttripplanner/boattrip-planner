@@ -12,7 +12,7 @@ export const InputField: React.FC<InputFieldProps> = ({ label, id, ...props }) =
     </label>
     <input
       id={id}
-      className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base text-slate-900 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none placeholder:text-slate-500"
+      className="mt-1 block w-full px-3 py-2.5 sm:py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base text-slate-900 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none placeholder:text-slate-500"
       aria-required={props.required}
       {...props}
     />
@@ -31,7 +31,7 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({ label, id, ...prop
     </label>
     <textarea
       id={id}
-      className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base text-slate-900 placeholder:text-slate-500 disabled:bg-slate-50 disabled:text-slate-500"
+      className="mt-1 block w-full px-3 py-2.5 sm:py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base text-slate-900 placeholder:text-slate-500 disabled:bg-slate-50 disabled:text-slate-500"
       aria-required={props.required}
       {...props}
     />
@@ -56,7 +56,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({ label, id, options, va
       id={id}
       value={value}
       onChange={onChange}
-      className="mt-1 block w-full pl-3 py-2 text-base border-slate-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base rounded-md shadow-sm bg-white text-slate-900 disabled:bg-slate-50 disabled:text-slate-500"
+      className="mt-1 block w-full pl-3 py-2.5 sm:py-2 text-base border-slate-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base rounded-md shadow-sm bg-white text-slate-900 disabled:bg-slate-50 disabled:text-slate-500"
       aria-required={rest.required}
       {...rest}
     >
@@ -146,7 +146,7 @@ export const DateField: React.FC<DateFieldProps> = ({ label, id, ...props }) => 
     <input
       id={id}
       type="date"
-      className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base text-slate-900 placeholder:text-slate-500 disabled:bg-slate-50 disabled:text-slate-500"
+      className="mt-1 block w-full px-3 py-2.5 sm:py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base text-slate-900 placeholder:text-slate-500 disabled:bg-slate-50 disabled:text-slate-500"
       aria-required={props.required}
       {...props}
     />
@@ -188,7 +188,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({ label, name, options, se
             }}
             disabled={disabled}
             className={`
-              block w-full p-3 border-2 rounded-lg text-left transition-all duration-200
+              block w-full p-3 sm:p-3 border-2 rounded-lg text-left transition-all duration-200
               ${selectedValue === option.value 
                 ? 'border-teal-500 bg-teal-50 text-teal-700 shadow-sm' 
                 : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50'

@@ -1,82 +1,194 @@
 import React from 'react';
-import { Button } from './Button';
+import { CheckIcon } from './icons/CheckIcon';
+import { CONTACT_EMAIL } from '../constants';
 
 interface TermsOfServiceModalProps {
+  isOpen: boolean;
   onClose: () => void;
 }
 
-const TermsOfServiceModal: React.FC<TermsOfServiceModalProps> = ({ onClose }) => {
+const TermsOfServiceModal: React.FC<TermsOfServiceModalProps> = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
+
   return (
-    <div 
-        className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[60] p-4 no-print"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="terms-of-service-title"
-    >
-      <div className="bg-white p-6 md:p-8 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col">
-        <h2 id="terms-of-service-title" className="text-xl sm:text-2xl font-semibold text-slate-800 mb-4">Términos de Servicio</h2>
-        <div className="overflow-y-auto custom-scrollbar flex-grow pr-2 space-y-3 text-sm text-slate-700">
-          <p><strong>Última actualización:</strong> {new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-
-          <p>Bienvenido/a a BoatTrip Planner (la "Aplicación"). Estos Términos de Servicio ("Términos") rigen tu acceso y uso de la Aplicación. Por favor, lee estos Términos cuidadosamente.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">1. Aceptación de los Términos</h3>
-          <p>Al acceder o utilizar nuestra Aplicación, aceptas estar sujeto a estos Términos y a nuestra Política de Privacidad. Si no estás de acuerdo con alguna parte de los términos, no podrás acceder a la Aplicación.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">2. Uso de la Aplicación</h3>
-          <p>La Aplicación te permite ingresar preferencias para generar recomendaciones de viajes en barco. Estas recomendaciones son generadas por una inteligencia artificial (Google Gemini) y se proporcionan "tal cual", con fines informativos y de planificación.</p>
-          <ul className="list-disc list-inside pl-4">
-            <li>Eres responsable de la exactitud de la información que proporcionas.</li>
-            <li>El uso de la Aplicación es bajo tu propio riesgo. Las recomendaciones, incluyendo información sobre rutas, meteorología, o estado del mar, son sugerencias y deben ser verificadas con fuentes oficiales y tu propio juicio antes de tomar cualquier decisión de navegación.</li>
-            <li>No debes usar la Aplicación para ningún propósito ilegal o no autorizado.</li>
-          </ul>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">3. Contenido Generado por IA</h3>
-          <p>Las recomendaciones y respuestas de chat son generadas por un modelo de lenguaje de IA. Si bien nos esforzamos por la precisión, no podemos garantizar que el contenido generado sea siempre completo, exacto o actual. Es tu responsabilidad evaluar críticamente la información proporcionada.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">4. Servicios de Terceros</h3>
-          <p>La Aplicación utiliza varias API de terceros para su funcionamiento:</p>
-          <ul className="list-disc list-inside pl-4">
-            <li><strong>Google Gemini:</strong> Para la generación de recomendaciones y chat.</li>
-            <li><strong>AccuWeather:</strong> Para datos meteorológicos en destinos en España.</li>
-            <li><strong>Google AdSense:</strong> Para mostrar publicidad (con tu consentimiento).</li>
-          </ul>
-          <p>Tu uso de estos servicios a través de nuestra Aplicación también está sujeto a los términos y políticas de privacidad de dichos terceros. No somos responsables de las prácticas de estos terceros.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">5. Propiedad Intelectual y Restricciones de Uso</h3>
-          <p>La Aplicación, incluyendo pero no limitándose a su diseño, interfaz de usuario, texto (excluyendo el contenido generado específicamente para ti por la IA como parte de una recomendación), gráficos, iconos, imágenes, clips de audio y video, software subyacente, código fuente, algoritmos, bases de datos (como la lista de puertos si es de compilación propia) y la compilación, coordinación, selección y disposición de dicho contenido (colectivamente, el "Contenido de la Aplicación"), son y seguirán siendo propiedad exclusiva de los desarrolladores de BoatTrip Planner y sus licenciantes, protegidos por derechos de autor, marcas registradas y otras leyes de propiedad intelectual.</p>
-          <p>No se te concede ninguna licencia o derecho sobre el Contenido de la Aplicación más allá del uso personal y no comercial de la Aplicación según lo permitido por estos Términos.</p>
-          <p>Estás estrictamente prohibido de:</p>
-          <ul className="list-disc list-inside pl-4">
-            <li>Copiar, reproducir, modificar, distribuir, transmitir, mostrar, ejecutar, publicar, licenciar, crear trabajos derivados, transferir, vender o explotar comercialmente de cualquier otra manera cualquier parte de la Aplicación, su software o el Contenido de la Aplicación, excepto las recomendaciones generadas para tu uso personal.</li>
-            <li>Realizar ingeniería inversa, descompilar, desensamblar, traducir o intentar de cualquier otra manera descubrir el código fuente, los algoritmos o los secretos comerciales subyacentes de la Aplicación.</li>
-            <li>Utilizar cualquier sistema automatizado, incluyendo "robots", "spiders", "scrapers" o "offline readers", para acceder, monitorear, extraer o copiar cualquier parte de la Aplicación o su contenido, con el fin de crear directa o indirectamente una colección, compilación, base de datos o directorio, o para crear un producto o servicio derivado o competidor.</li>
-            <li>Eliminar, ocultar, alterar o modificar cualquier aviso de derechos de autor, marca registrada u otros avisos de derechos de propiedad contenidos en o accedidos en conexión con la Aplicación.</li>
-            <li>Utilizar la Aplicación o su contenido para cualquier propósito comercial no autorizado expresamente por escrito por los desarrolladores de BoatTrip Planner.</li>
-          </ul>
-          <p>El contenido generado por la IA para tu uso personal está sujeto a los términos de uso de Google Gemini. Todos los derechos no otorgados expresamente en estos Términos están reservados por los desarrolladores de BoatTrip Planner.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">6. Enlaces a Sitios de Terceros</h3>
-          <p>Nuestra Aplicación puede contener enlaces a sitios web o servicios de terceros que no son propiedad ni están controlados por nosotros (por ejemplo, SamBoat para alquiler de barcos, Amazon para productos). No tenemos control ni asumimos responsabilidad por el contenido, las políticas de privacidad o las prácticas de los sitios o servicios de terceros.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">7. Limitación de Responsabilidad</h3>
-          <p>En la máxima medida permitida por la ley aplicable, en ningún caso BoatTrip Planner, ni sus directores, empleados, socios, agentes, proveedores o afiliados, serán responsables de daños indirectos, incidentales, especiales, consecuentes o punitivos, incluyendo, entre otros, la pérdida de beneficios, datos, uso, buena voluntad u otras pérdidas intangibles, resultantes de (i) tu acceso o uso o incapacidad para acceder o usar la Aplicación; (ii) cualquier conducta o contenido de cualquier tercero en la Aplicación; (iii) cualquier contenido obtenido de la Aplicación; y (iv) el acceso no autorizado, uso o alteración de tus transmisiones o contenido, ya sea basado en garantía, contrato, agravio (incluida la negligencia) o cualquier otra teoría legal, hayamos sido informados o no de la posibilidad de tales daños.</p>
-          <p>Específicamente, no somos responsables de ninguna decisión que tomes basada en las recomendaciones o información proporcionada por la Aplicación. La navegación segura y la toma de decisiones son tu responsabilidad.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">8. Exclusión de Garantías</h3>
-          <p>Tu uso de la Aplicación es bajo tu único riesgo. La Aplicación se proporciona "TAL CUAL" y "SEGÚN DISPONIBILIDAD". La Aplicación se proporciona sin garantías de ningún tipo, ya sean expresas o implícitas, incluidas, entre otras, las garantías implícitas de comerciabilidad, idoneidad para un propósito particular, no infracción o curso de ejecución.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">9. Cambios a los Términos</h3>
-          <p>Nos reservamos el derecho, a nuestra sola discreción, de modificar o reemplazar estos Términos en cualquier momento. Si una revisión es material, intentaremos proporcionar un aviso con al menos 30 días de anticipación antes de que entren en vigor los nuevos términos. Lo que constituye un cambio material se determinará a nuestra sola discreción. Al continuar accediendo o utilizando nuestra Aplicación después de que esas revisiones entren en vigor, aceptas estar sujeto a los términos revisados.</p>
-          
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">10. Ley Aplicable</h3>
-          <p>Estos Términos se regirán e interpretarán de acuerdo con las leyes de España, sin tener en cuenta sus disposiciones sobre conflicto de leyes.</p>
-
-          <h3 className="text-lg font-semibold text-slate-700 mt-3">11. Contacto</h3>
-          <p>Si tienes alguna pregunta sobre estos Términos, por favor contáctanos en alemv.mlg@gmail.com.</p>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+          <h2 className="text-2xl font-bold text-gray-900">Términos de Uso</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors"
+            aria-label="Cerrar términos de uso"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
-        <div className="mt-6 text-right no-print">
-          <Button onClick={onClose} variant="primary">Cerrar</Button>
+
+        {/* Content */}
+        <div className="px-6 py-6 text-gray-700 leading-relaxed">
+          <div className="space-y-6">
+            {/* Introduction */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">1. Aceptación de los Términos</h3>
+              <p className="mb-3">
+                Al acceder y utilizar BoatTrip Planner ("el Servicio"), usted acepta estar sujeto a estos Términos de Uso. 
+                Si no está de acuerdo con alguna parte de estos términos, no debe utilizar nuestro servicio.
+              </p>
+              <p>
+                Estos términos se aplican a todos los usuarios del sitio, incluyendo sin limitación a usuarios que sean navegadores, 
+                proveedores de contenido, y contribuyentes de contenido.
+              </p>
+            </section>
+
+            {/* Service Description */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">2. Descripción del Servicio</h3>
+              <p className="mb-3">
+                BoatTrip Planner es una plataforma de planificación de viajes náuticos que utiliza inteligencia artificial para:
+              </p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Generar itinerarios personalizados de viajes en barco</li>
+                <li>Proporcionar recomendaciones de destinos náuticos</li>
+                <li>Ofrecer consejos de navegación y seguridad</li>
+                <li>Facilitar la planificación de rutas marítimas</li>
+                <li>Proporcionar información meteorológica y de puertos</li>
+              </ul>
+            </section>
+
+            {/* User Responsibilities */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">3. Responsabilidades del Usuario</h3>
+              <p className="mb-3">Como usuario de nuestro servicio, usted se compromete a:</p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Proporcionar información precisa y actualizada</li>
+                <li>Utilizar el servicio únicamente para fines legales y apropiados</li>
+                <li>No intentar acceder a sistemas o datos no autorizados</li>
+                <li>Respetar los derechos de propiedad intelectual</li>
+                <li>No transmitir contenido malicioso o spam</li>
+                <li>Mantener la confidencialidad de su cuenta</li>
+              </ul>
+            </section>
+
+            {/* Safety and Navigation */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">4. Seguridad Náutica</h3>
+              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+                <div className="flex">
+                  <CheckIcon className="w-5 h-5 text-blue-400 mt-0.5 mr-2 flex-shrink-0" />
+                  <div>
+                    <p className="text-blue-800 font-medium">Importante:</p>
+                    <p className="text-blue-700 text-sm">
+                      Las recomendaciones proporcionadas por nuestro servicio son informativas y no sustituyen la experiencia 
+                      profesional de navegación. Siempre consulte con autoridades marítimas locales y siga las regulaciones 
+                      de seguridad vigentes.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Verificar siempre la información meteorológica antes de navegar</li>
+                <li>Consultar cartas náuticas oficiales y actualizadas</li>
+                <li>Mantener equipos de seguridad en buen estado</li>
+                <li>Respetar las regulaciones marítimas locales</li>
+                <li>Contar con la documentación y licencias necesarias</li>
+              </ul>
+            </section>
+
+            {/* Intellectual Property */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">5. Propiedad Intelectual</h3>
+              <p className="mb-3">
+                El contenido del servicio, incluyendo pero no limitado a texto, gráficos, logos, iconos, imágenes, 
+                clips de audio, descargas digitales y compilaciones de datos, es propiedad de BoatTrip Planner o 
+                sus proveedores de contenido y está protegido por las leyes de propiedad intelectual.
+              </p>
+              <p>
+                Se prohíbe la reproducción, distribución, modificación o uso comercial de cualquier contenido sin 
+                autorización expresa por escrito.
+              </p>
+            </section>
+
+            {/* Privacy */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">6. Privacidad</h3>
+              <p>
+                Su privacidad es importante para nosotros. Nuestro uso de la información personal está regido por 
+                nuestra Política de Privacidad, que forma parte de estos términos. Al utilizar nuestro servicio, 
+                usted acepta el uso de su información de acuerdo con nuestra Política de Privacidad.
+              </p>
+            </section>
+
+            {/* Disclaimers */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">7. Limitaciones de Responsabilidad</h3>
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                <div className="flex">
+                  <CheckIcon className="w-5 h-5 text-yellow-400 mt-0.5 mr-2 flex-shrink-0" />
+                  <div>
+                    <p className="text-yellow-800 font-medium">Descargo de Responsabilidad:</p>
+                    <p className="text-yellow-700 text-sm">
+                      BoatTrip Planner no se hace responsable por daños directos, indirectos, incidentales, 
+                      especiales o consecuentes que puedan resultar del uso de nuestro servicio.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>La información proporcionada es "tal como está" sin garantías de ningún tipo</li>
+                <li>No garantizamos la precisión, completitud o actualidad de la información</li>
+                <li>No somos responsables por decisiones de navegación basadas en nuestras recomendaciones</li>
+                <li>El usuario asume toda la responsabilidad por su seguridad y la de su tripulación</li>
+              </ul>
+            </section>
+
+            {/* Affiliate Links */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">8. Enlaces de Afiliados</h3>
+              <p className="mb-3">
+                Nuestro servicio puede contener enlaces de afiliados a productos y servicios de terceros. 
+                Como afiliado, podemos recibir una comisión por las compras realizadas a través de estos enlaces.
+              </p>
+              <p>
+                Los precios y disponibilidad de los productos pueden cambiar sin previo aviso. 
+                Recomendamos verificar la información actualizada directamente con los proveedores.
+              </p>
+            </section>
+
+            {/* Modifications */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">9. Modificaciones de los Términos</h3>
+              <p>
+                Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios entrarán 
+                en vigor inmediatamente después de su publicación en el sitio. Su uso continuado del servicio 
+                después de cualquier cambio constituye su aceptación de los nuevos términos.
+              </p>
+            </section>
+
+            {/* Contact Information */}
+            <section>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">10. Información de Contacto</h3>
+              <p className="mb-3">
+                Si tiene preguntas sobre estos Términos de Uso, puede contactarnos en:
+              </p>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="font-medium">Email: <a href={`mailto:${CONTACT_EMAIL}`} className="text-teal-600 hover:text-teal-700">{CONTACT_EMAIL}</a></p>
+                <p className="text-sm text-gray-600 mt-1">Última actualización: {new Date().toLocaleDateString('es-ES')}</p>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 px-6 py-4 flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+          >
+            Entendido
+          </button>
         </div>
       </div>
     </div>

@@ -1,20 +1,26 @@
 {
-  "name": "BoatTrip Planner - Planificador de Viajes en Barco",
+  "name": "BoatTrip Planner - Planificador de Viajes Náuticos",
   "short_name": "BoatTrip",
-  "description": "Planifica tu viaje en barco perfecto con IA avanzada. Funciona offline y sincroniza automáticamente.",
-  "start_url": "/",
+  "description": "Planifica tu viaje en barco perfecto con IA. Recomendaciones personalizadas, itinerarios náuticos y consejos expertos para alquiler de barcos.",
+  "start_url": ".",
+  "scope": ".",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#0d9488",
-  "orientation": "portrait-primary",
-  "scope": "/",
+  "categories": ["travel", "navigation", "lifestyle"],
   "lang": "es",
   "dir": "ltr",
-  "categories": ["travel", "navigation", "lifestyle", "utilities"],
   "icons": [
     {
-      "src": "/apple-touch-icon.png",
+      "src": "/favicon-96x96.png",
       "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-96x96.png",
+      "sizes": "180x180",
       "type": "image/png",
       "purpose": "any maskable"
     },
@@ -31,116 +37,26 @@
       "purpose": "any maskable"
     }
   ],
-  "shortcuts": [
-    {
-      "name": "Nuevo Viaje",
-      "short_name": "Viaje",
-      "description": "Crear un nuevo plan de viaje",
-      "url": "/wizard",
-      "icons": [
-        {
-          "src": "/web-app-manifest-192x192.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Mis Viajes",
-      "short_name": "Viajes",
-      "description": "Ver historial de viajes",
-      "url": "/history",
-      "icons": [
-        {
-          "src": "/web-app-manifest-192x192.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Estado Offline",
-      "short_name": "Offline",
-      "description": "Gestionar modo offline y sincronización",
-      "url": "/offline",
-      "icons": [
-        {
-          "src": "/web-app-manifest-192x192.png",
-          "sizes": "192x192"
-        }
-      ]
-    }
-  ],
   "screenshots": [
     {
-      "src": "/screenshots/desktop-1.png",
-      "sizes": "1280x720",
+      "src": "/favicon-96x96.png",
+      "sizes": "96x96",
       "type": "image/png",
-      "form_factor": "wide",
-      "label": "Pantalla principal de BoatTrip Planner"
-    },
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
     {
-      "src": "/screenshots/mobile-1.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Vista móvil del planificador"
+      "name": "Planificar Viaje", 
+      "short_name": "Planificar",
+      "description": "Crear un nuevo plan de viaje náutico",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/favicon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
     }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false,
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-  "launch_handler": {
-    "client_mode": "navigate-existing"
-  },
-  "protocol_handlers": [
-    {
-      "protocol": "web+boattrip",
-      "url": "/?route=%s"
-    }
-  ],
-  "file_handlers": [
-    {
-      "action": "/upload",
-      "accept": {
-        "application/json": [".json"],
-        "text/csv": [".csv"]
-      }
-    }
-  ],
-  "share_target": {
-    "action": "/share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  },
-  "handle_links": "preferred",
-  "capture_links": "existing-client-navigate",
-  "permissions": [
-    "notifications",
-    "background-sync",
-    "periodic-background-sync"
-  ],
-  "background": {
-    "service_worker": "/sw.js",
-    "type": "module"
-  },
-  "features": [
-    "Cross Platform",
-    "Offline Support",
-    "Push Notifications",
-    "Background Sync",
-    "Installable",
-    "Responsive Design"
-  ],
-  "developer": {
-    "name": "BoatTrip Team",
-    "url": "https://boattrip-planner.com"
-  },
-  "version": "2.0.0",
-  "minimum_version": "1.0.0"
+  ]
 }

@@ -6,9 +6,12 @@ import { BlogPostPageProps, ParsedMarkdownPost } from '../../types';
 import { allBlogPosts } from '../blogData';
 import { Button } from '../../components/Button';
 import NotFoundPage from '../../components/NotFoundPage';
-import { AMAZON_AFFILIATE_LINK_PLACEHOLDER } from '../../constants';
-import { ShoppingCartIcon } from '../../components/icons/ShoppingCartIcon';
+// import { AMAZON_AFFILIATE_LINK_PLACEHOLDER } from '../../constants'; // Removido - ya no se usa
+// import { ShoppingCartIcon } from '../../components/icons/ShoppingCartIcon'; // Removido - ahora se usa en AmazonCTAButton
 import { WhatsAppIcon } from '../../components/icons/WhatsAppIcon';
+// import RealAmazonRecommendations from '../../components/RealAmazonRecommendations'; // Temporalmente deshabilitado
+import { getRecommendedProductsForEntry } from '../../data/productRecommendations';
+import { AmazonCTAButton, PremiumAmazonCTA, UrgentAmazonCTA, BestsellerAmazonCTA } from '../../components/AmazonCTAButton';
 
 // Hook para manejar metadatos SEO dinámicos
 const useSEO = (post: ParsedMarkdownPost | null) => {
@@ -333,7 +336,7 @@ const ScrollToTopButton: React.FC<{ isVisible: boolean }> = ({ isVisible }) => (
   </button>
 );
 
-const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex, onNavigateHome, onNavigateToPost }) => {
+const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex, onNavigateHome, onNavigateToPost, showAppInstallBanner = false }) => {
   const [readingProgress, setReadingProgress] = useState(0);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -446,6 +449,11 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
     return finalRelatedPosts;
   }, [post]);
 
+  const recommendedProducts = useMemo(() => {
+    if (!post || !post.frontmatter.tags) return [];
+    return getRecommendedProductsForEntry(post.frontmatter.tags);
+  }, [post]);
+
   // Efecto para calcular el progreso de lectura
   useEffect(() => {
     const handleScroll = () => {
@@ -515,6 +523,78 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
   }
 
   const postUrl = `${window.location.origin}/?view=blog_post&slug=${post.frontmatter.slug}`;
+
+  // Función helper para obtener texto de nodos React
+  const getNodeTextContent = (node: React.ReactNode): string => {
+    if (typeof node === 'string') return node;
+    if (typeof node === 'number') return node.toString();
+    if (Array.isArray(node)) return node.map(getNodeTextContent).join('');
+    if (React.isValidElement(node)) {
+      const element = node as React.ReactElement<{ children?: React.ReactNode }>;
+      if (element.props && element.props.children) {
+        return getNodeTextContent(element.props.children);
+      }
+    }
+    return '';
+  };
+
+  // Función para detectar y categorizar enlaces de Amazon
+  const getAmazonLinkInfo = (href: string, children: React.ReactNode): { 
+    isAmazon: boolean; 
+    variant: 'primary' | 'secondary' | 'premium' | 'urgent' | 'bestseller';
+    text: string;
+    price?: string;
+    discount?: string;
+    badge?: string;
+  } => {
+    if (!href || !href.includes('amazon.es')) {
+      return { isAmazon: false, variant: 'primary', text: '' };
+    }
+
+    const text = typeof children === 'string' ? children : 
+                 React.Children.toArray(children).join('').toLowerCase();
+
+    // Detectar tipo de CTA por el texto
+    let variant: 'primary' | 'secondary' | 'premium' | 'urgent' | 'bestseller' = 'primary';
+    let badge = '';
+    let price = '';
+    let discount = '';
+
+    if (text.includes('premium') || text.includes('recomendación') || text.includes('mejor')) {
+      variant = 'premium';
+      badge = 'TOP';
+    } else if (text.includes('oferta') || text.includes('descuento') || text.includes('limitada') || text.includes('antes que se agote')) {
+      variant = 'urgent';
+      badge = 'OFERTA';
+      // Extraer descuento si está presente
+      const discountMatch = text.match(/(\d+)%/);
+      if (discountMatch) {
+        discount = discountMatch[1] + '%';
+      }
+    } else if (text.includes('bestseller') || text.includes('más vendido') || text.includes('número uno')) {
+      variant = 'bestseller';
+      badge = '#1';
+    } else if (text.includes('comprar') || text.includes('ver en amazon')) {
+      variant = 'primary';
+    } else {
+      variant = 'secondary';
+    }
+
+    // Extraer precio si está presente
+    const priceMatch = text.match(/€?(\d+[.,]\d{2})/);
+    if (priceMatch) {
+      price = '€' + priceMatch[1].replace(',', '.');
+    }
+
+    return { 
+      isAmazon: true, 
+      variant, 
+      text: text,
+      price: price || undefined,
+      discount: discount || undefined,
+      badge: badge || undefined
+    };
+  };
 
   const markdownComponents: Components = {
     h1: ({ children }) => {
@@ -595,25 +675,75 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       );
     },
     a: ({ href, children }) => {
-      if (href?.includes(AMAZON_AFFILIATE_LINK_PLACEHOLDER)) {
+      if (!href) {
+        return <span>{children}</span>;
+      }
+
+      const amazonInfo = getAmazonLinkInfo(href, children);
+
+      // Si es un enlace de Amazon, renderizar con botón atractivo
+      if (amazonInfo.isAmazon) {
+        const text = React.Children.toArray(children).join('');
+        
+        // CTAs especiales para contenido destacado
+        if (text.includes('🛒') && text.includes('**')) {
+          const cleanText = text.replace(/[🛒\*\!]/g, '').trim();
+          
+          if (amazonInfo.variant === 'premium') {
+            return (
+              <div className="my-6">
+                <PremiumAmazonCTA href={href} price={amazonInfo.price} discount={amazonInfo.discount}>
+                  {cleanText}
+                </PremiumAmazonCTA>
+              </div>
+            );
+          } else if (amazonInfo.variant === 'urgent') {
+            return (
+              <div className="my-6">
+                <UrgentAmazonCTA href={href} price={amazonInfo.price} discount={amazonInfo.discount}>
+                  {cleanText}
+                </UrgentAmazonCTA>
+              </div>
+            );
+          } else if (amazonInfo.variant === 'bestseller') {
+            return (
+              <div className="my-6">
+                <BestsellerAmazonCTA href={href} price={amazonInfo.price} discount={amazonInfo.discount}>
+                  {cleanText}
+                </BestsellerAmazonCTA>
+              </div>
+            );
+          }
+        }
+
+        // CTA normal para enlaces inline
         return (
-          <a
-            href={href} 
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-teal-600 hover:text-teal-700 underline"
+          <AmazonCTAButton 
+            href={href}
+            variant={amazonInfo.variant}
+            size="sm"
+            price={amazonInfo.price}
+            discount={amazonInfo.discount}
+            badge={amazonInfo.badge}
+            className="mx-1"
           >
             {children}
-            <ShoppingCartIcon className="w-4 h-4" />
-          </a>
+          </AmazonCTAButton>
         );
       }
-            return (
+
+      // Enlaces normales (no Amazon)
+      const isExternal = href.startsWith('http') && !href.includes(window.location.hostname);
+      
+      return (
         <a 
-          href={href} 
-          className="text-teal-600 hover:text-teal-700 underline"
-              >
-                {children}
+          href={href}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+          className="text-teal-600 hover:text-teal-700 underline font-medium transition-colors duration-200"
+        >
+          {children}
+          {isExternal && <span className="ml-1 text-xs opacity-75">↗</span>}
         </a>
       );
     },
@@ -634,7 +764,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       {/* Botón volver arriba */}
       <ScrollToTopButton isVisible={showScrollToTop} />
       
-      <div className={`w-full max-w-6xl mx-auto transition-colors duration-300 ${darkMode ? 'dark' : ''}`}>
+              <div className={`w-full max-w-6xl mx-auto transition-all duration-300 ease-out ${darkMode ? 'dark' : ''} ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''}`}>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Tabla de contenidos - Solo visible en desktop */}
           <div className="hidden lg:block lg:col-span-1">
@@ -709,6 +839,25 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
             {post.content}
           </ReactMarkdown>
         </article>
+
+          {/* Productos de Amazon temporalmente deshabilitados */}
+          {/* 
+          <RealAmazonRecommendations 
+            query={post.frontmatter.tags?.join(' ')}
+            category="nautical"
+            title={`🛒 Productos Reales de Amazon para: ${post.frontmatter.title.split(' ').slice(0, 3).join(' ')}...`}
+            maxProducts={4}
+            showRealTimePricing={true}
+          />
+
+          <RealAmazonRecommendations 
+            showTrending={true}
+            category="nautical"
+            title="🔥 Los Más Vendidos en Amazon - Náutica"
+            maxProducts={4}
+            showRealTimePricing={true}
+          />
+          */}
 
           {/* Acciones sociales unificadas */}
           <div className={`mb-8 pt-6 border-t ${darkMode ? 'border-slate-600' : 'border-slate-200'}`}>
@@ -821,6 +970,25 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
                     ))}
                 </div>
             </div>
+        )}
+        {/* Productos recomendados automáticos */}
+        {recommendedProducts.length > 0 && (
+          <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-600">
+            <h3 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-slate-800'}`}>Productos recomendados</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {recommendedProducts.map(product => (
+                <div key={product.asin} className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
+                  <img src={product.imageUrl} alt={product.title} className="w-32 h-32 object-contain mb-2" />
+                  <div className="font-semibold text-center mb-1">{product.title}</div>
+                  <div className="text-green-700 font-bold mb-2">€{product.price}</div>
+                  <a href={product.affiliateUrl} target="_blank" rel="noopener noreferrer" className="w-full">
+                    <button className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-all">Ver en Amazon</button>
+                  </a>
+                </div>
+              ))}
+            </div>
+            <div className="text-xs text-slate-500 mt-2">* Enlaces de afiliado. Ayudas a mantener el blog.</div>
+          </div>
         )}
       </div>
     </div>

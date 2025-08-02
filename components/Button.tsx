@@ -13,7 +13,7 @@ export const Button: React.FC<ButtonProps> = ({
   size = 'md',
   ...props 
 }) => {
-  const coreStyles = "font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all ease-in-out duration-200 transform hover:-translate-y-0.5 disabled:transform-none";
+  const coreStyles = "font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all ease-in-out duration-200 transform hover:-translate-y-0.5 disabled:transform-none touch-friendly inline-flex items-center justify-center";
   
   const variantStyles = {
     primary: "bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white focus:ring-teal-400 disabled:from-teal-400 disabled:to-teal-500 disabled:opacity-70",
@@ -21,8 +21,8 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const sizeSpecificStyles = {
-    md: "py-2 px-4",
-    sm: "py-1.5 px-3 text-sm",
+    md: "py-2.5 sm:py-2 px-3 sm:px-4 text-sm sm:text-base",
+    sm: "py-2 sm:py-1.5 px-2.5 sm:px-3 text-xs sm:text-sm",
   };
 
   return (

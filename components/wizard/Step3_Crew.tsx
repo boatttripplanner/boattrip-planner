@@ -9,17 +9,11 @@ const Step3Crew: React.FC<WizardStepProps> = ({ data, updateData }) => {
   const [showExperienceTooltip, setShowExperienceTooltip] = useState(false);
   const experienceTooltipId = 'experience-tooltip-content-wizard';
 
-  const currentExperienceOptions = data.planningMode === PlanningMode.OWN_BOAT
-    ? experienceLevelOptions.filter(opt => 
-        opt.value === ExperienceLevel.EXPERIENCED_WITH_LICENSE_NO_SKIPPER ||
-        opt.value === ExperienceLevel.EXPERT_ADVANCED_LICENSE
-      )
-    : experienceLevelOptions;
+  const currentExperienceOptions = experienceLevelOptions;
 
   const showBoatingLicenseField = 
     data.experience === ExperienceLevel.EXPERIENCED_WITH_LICENSE_NO_SKIPPER ||
-    data.experience === ExperienceLevel.EXPERT_ADVANCED_LICENSE ||
-    data.planningMode === PlanningMode.OWN_BOAT;
+    data.experience === ExperienceLevel.EXPERT_ADVANCED_LICENSE;
 
   return (
     <div className="space-y-8 animate-fade-in">

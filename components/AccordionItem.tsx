@@ -16,12 +16,12 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, i
     <div id={id} className="bg-white rounded-lg shadow-md overflow-hidden border border-slate-200/80">
       <button
         onClick={onToggle}
-        className="accordion-header flex items-center justify-between w-full p-5 text-left text-slate-800 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500 transition-colors duration-150"
+        className="accordion-header flex items-center justify-between w-full p-3 sm:p-4 md:p-5 text-left text-slate-800 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500 transition-colors duration-150"
         aria-expanded={isOpen}
       >
-        <span className="flex items-center gap-x-4">
+        <span className="flex items-center gap-x-2 sm:gap-x-3 md:gap-x-4">
           {icon && <span className="flex-shrink-0">{icon}</span>}
-          <h3 className="text-lg font-semibold leading-tight">{title}</h3>
+          <h3 className="text-base sm:text-lg font-semibold leading-tight">{title}</h3>
         </span>
         <ChevronIcon isOpen={isOpen} aria-hidden="true" />
       </button>
@@ -32,7 +32,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, i
         aria-hidden={!isOpen}
       >
         <div className="overflow-hidden"> {/* This inner div is crucial for the grid animation */}
-          <div className="accordion-content p-5 pt-2 text-slate-800">
+          <div className="accordion-content p-3 sm:p-4 md:p-5 pt-2 text-slate-800">
             {children}
           </div>
         </div>

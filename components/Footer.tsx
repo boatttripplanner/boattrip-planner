@@ -1,179 +1,268 @@
 
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { SAMBOAT_AFFILIATE_URL, AMAZON_AFFILIATE_LINK_PLACEHOLDER } from '../constants';
-import { TikTokIcon } from './icons/TikTokIcon';
+import { SAMBOAT_AFFILIATE_URL, AMAZON_AFFILIATE_LINK_PLACEHOLDER, CONTACT_EMAIL } from '../constants';
+import { FooterProps } from '../types'; 
 
-const Footer: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
-  const [showTermsOfService, setShowTermsOfService] = useState(false);
+import { BoatOutlineIcon } from './icons/BoatOutlineIcon';
+import { MapPinIcon } from './icons/MapPinIcon';
+import { PhoneIcon } from './icons/PhoneIcon';
+import { SparklesIcon } from './icons/SparklesIcon';
+import { UsersIcon } from './icons/UsersIcon';
+import { DocumentTextIcon } from './icons/DocumentTextIcon';
+import { ShoppingCartIcon } from './icons/ShoppingCartIcon';
+import { InfoIcon } from './icons/InfoIcon';
+
+const Footer: React.FC<FooterProps> = ({ 
+  onShowPrivacyPolicy, 
+  onShowTermsOfService,
+  onNavigateToMainApp,
+  onNavigateToBlogIndex,
+}) => {
+
   
-  const linkStyle = "hover:text-teal-400 focus:text-teal-400 transition-colors duration-200 focus:outline-none focus:ring-1 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-slate-900 rounded-sm px-1";
-  
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Aquí se implementaría la lógica para suscribir al newsletter
-    alert('¡Gracias por suscribirte! Te mantendremos informado sobre las últimas novedades náuticas.');
-    setEmail('');
-  };
+  const linkStyle = "group flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-white/10 hover:text-white transition-all duration-200 text-slate-200 hover:shadow-sm";
   
   return (
-    <footer className="relative bg-slate-900 text-slate-400 pt-24 pb-8 no-print">
+    <footer className="relative bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 text-white pt-20 pb-8 no-print overflow-hidden border-t-4 border-ocean-500">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }}></div>
+      </div>
+
       {/* Animated Waves */}
       <div className="absolute top-0 left-0 w-full overflow-hidden leading-none" style={{ transform: 'translateY(1px)' }}>
-          <svg className="relative block w-full h-[100px] sm:h-[150px]" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
-              <defs>
-                  <path id="gentle-wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-              </defs>
-              <g className="waves">
-                  <use xlinkHref="#gentle-wave-path" x="48" y="0" className="fill-slate-800 opacity-70 animate-gentle-wave" />
-                  <use xlinkHref="#gentle-wave-path" x="48" y="3" className="fill-slate-800 opacity-50 animate-gentle-wave-2" />
-                  <use xlinkHref="#gentle-wave-path" x="48" y="5" className="fill-slate-800 opacity-30 animate-gentle-wave-3" />
-                  <use xlinkHref="#gentle-wave-path" x="48" y="7" className="fill-slate-900" />
-              </g>
-          </svg>
+        <svg className="relative block w-full h-[120px] sm:h-[180px]" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
+          <defs>
+            <path id="gentle-wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+          </defs>
+          <g className="waves">
+            <use xlinkHref="#gentle-wave-path" x="48" y="0" className="fill-slate-600 opacity-80 animate-gentle-wave" />
+            <use xlinkHref="#gentle-wave-path" x="48" y="3" className="fill-slate-500 opacity-60 animate-gentle-wave-2" />
+            <use xlinkHref="#gentle-wave-path" x="48" y="5" className="fill-slate-400 opacity-40 animate-gentle-wave-3" />
+            <use xlinkHref="#gentle-wave-path" x="48" y="7" className="fill-slate-700" />
+          </g>
+        </svg>
       </div>
       
       {/* Footer Content */}
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8 text-left">
+        {/* Main Footer Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           
-          {/* Column 1: Brand */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-teal-100 rounded-full flex items-center justify-center shadow-lg mr-3">
-                <img 
-                  src="/apple-touch-icon.png" 
-                  alt="BoatTrip Planner Logo" 
-                  className="w-6 h-6"
-                />
+          {/* Brand Section */}
+          <div className="lg:col-span-1">
+            <div className="mb-6">
+              <div className="mb-4">
+                <h3 className="text-xl font-bold text-white">BoatTrip Planner</h3>
+                <p className="text-sm text-slate-200">Planificador Náutico IA</p>
               </div>
-              <span className="text-2xl font-bold text-white">BoatTrip Planner</span>
+              <p className="text-sm leading-relaxed text-slate-100 mb-6">
+                Tu planificador de viajes náuticos inteligente, potenciado por IA. 
+                Trazamos tu rumbo real para aventuras inolvidables en el mar.
+              </p>
+              
+              {/* Features */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm text-slate-200">
+                  <SparklesIcon className="w-4 h-4 text-ocean-300" />
+                  <span>Planificación inteligente</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-slate-200">
+                  <MapPinIcon className="w-4 h-4 text-sea-300" />
+                  <span>Destinos exclusivos</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-slate-200">
+                  <UsersIcon className="w-4 h-4 text-teal-300" />
+                  <span>Comunidad náutica</span>
+                </div>
+              </div>
             </div>
-            <p className="text-sm mb-4 leading-relaxed">
-              Tu planificador de viajes náuticos inteligente, potenciado por IA. 
-              Trazamos tu rumbo ideal para aventuras inolvidables en el mar.
-            </p>
-            
-            {/* Newsletter */}
-            <div className="mb-4">
-              <h4 className="text-sm font-semibold text-white mb-2">📧 Newsletter Náutico</h4>
-              <p className="text-xs text-slate-400 mb-3">Recibe consejos, destinos y novedades náuticas</p>
-              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-2">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="tu@email.com"
-                  className="flex-1 px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium rounded-lg transition-colors duration-200 sm:w-auto w-full"
-                >
-                  Suscribir
+          </div>
+
+          {/* Navigation Section */}
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-ocean-500/30 to-sea-500/30 rounded-lg flex items-center justify-center border border-ocean-400/30">
+                <BoatOutlineIcon className="w-4 h-4 text-ocean-300" />
+              </div>
+              Navegación
+            </h3>
+            <ul className="space-y-1">
+              <li>
+                <button onClick={onNavigateToMainApp} className={linkStyle}>
+                  <div className="w-2 h-2 bg-ocean-400 rounded-full group-hover:bg-ocean-300 transition-colors"></div>
+                  Planificador IA
                 </button>
-              </form>
-            </div>
-          </div>
-
-          {/* Column 2: Explore */}
-          <div>
-            <h3 className="text-md font-semibold text-white mb-4 tracking-wider">🚤 Explora</h3>
-            <ul className="space-y-3">
-              <li><Link to="/" className={linkStyle}>Planificador IA</Link></li>
-              <li><Link to="/blog" className={linkStyle}>Blog Náutico</Link></li>
-              <li><Link to="/about" className={linkStyle}>Sobre Nosotros</Link></li>
-              <li><Link to="/how-it-works" className={linkStyle}>Cómo Funciona</Link></li>
+              </li>
+              {onNavigateToBlogIndex && (
+                <li>
+                  <button onClick={onNavigateToBlogIndex} className={linkStyle}>
+                    <div className="w-2 h-2 bg-sea-400 rounded-full group-hover:bg-sea-300 transition-colors"></div>
+                    Blog Náutico
+                  </button>
+                </li>
+              )}
+              <li>
+                <a href="/?view=blog_index&category=Destinos" className={linkStyle}>
+                  <div className="w-2 h-2 bg-teal-400 rounded-full group-hover:bg-teal-300 transition-colors"></div>
+                  Destinos
+                </a>
+              </li>
+              <li>
+                <a href="/?view=blog_index&category=Equipamiento" className={linkStyle}>
+                  <div className="w-2 h-2 bg-purple-400 rounded-full group-hover:bg-purple-300 transition-colors"></div>
+                  Equipamiento
+                </a>
+              </li>
+              <li>
+                <a href="/?view=blog_index&category=Consejos" className={linkStyle}>
+                  <div className="w-2 h-2 bg-amber-400 rounded-full group-hover:bg-amber-300 transition-colors"></div>
+                  Consejos
+                </a>
+              </li>
             </ul>
           </div>
 
-          {/* Column 3: Recursos */}
+          {/* Resources Section */}
           <div>
-            <h3 className="text-md font-semibold text-white mb-4 tracking-wider">📚 Recursos</h3>
-            <ul className="space-y-3">
-              <li><a href={SAMBOAT_AFFILIATE_URL} target="_blank" rel="noopener noreferrer" className={linkStyle}>Alquiler de Barcos</a></li>
-              <li><a href={AMAZON_AFFILIATE_LINK_PLACEHOLDER} target="_blank" rel="noopener noreferrer" className={linkStyle}>Equipamiento</a></li>
-              <li><a href="https://www.meteored.com" target="_blank" rel="noopener noreferrer" className={linkStyle}>Meteorología</a></li>
-              <li><a href="https://www.puertos.es" target="_blank" rel="noopener noreferrer" className={linkStyle}>Puertos</a></li>
+            <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-lg flex items-center justify-center border border-purple-400/30">
+                <ShoppingCartIcon className="w-4 h-4 text-purple-300" />
+              </div>
+              Recursos
+            </h3>
+            <ul className="space-y-1">
+              <li>
+                <a href={AMAZON_AFFILIATE_LINK_PLACEHOLDER} target="_blank" rel="noopener noreferrer" className={linkStyle}>
+                  <div className="w-2 h-2 bg-orange-400 rounded-full group-hover:bg-orange-300 transition-colors"></div>
+                  Equipamiento Amazon
+                </a>
+              </li>
+              <li>
+                <a href={SAMBOAT_AFFILIATE_URL} target="_blank" rel="noopener noreferrer" className={linkStyle}>
+                  <div className="w-2 h-2 bg-blue-400 rounded-full group-hover:bg-blue-300 transition-colors"></div>
+                  Alquiler de Barcos
+                </a>
+              </li>
             </ul>
           </div>
 
-          {/* Column 4: Social & Legal */}
+          {/* Contact & Social Section */}
           <div>
-            <h3 className="text-md font-semibold text-white mb-4 tracking-wider">🔗 Social</h3>
-            <div className="flex space-x-3 mb-4">
-              <a href="https://tiktok.com/@boattripplanner" target="_blank" rel="noopener noreferrer" className="tiktok-link text-slate-400 hover:text-teal-400 transition-colors duration-200">
-                <TikTokIcon className="w-6 h-6" />
-              </a>
-              <a href="https://wa.me/34600000000" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-teal-400 transition-colors duration-200">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
-                </svg>
-              </a>
-            </div>
-            
-            <div className="space-y-2">
-              <button onClick={() => setShowPrivacyPolicy(true)} className={linkStyle}>Política de Privacidad</button>
-              <button onClick={() => setShowTermsOfService(true)} className={linkStyle}>Términos de Servicio</button>
+            <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-pink-500/30 to-red-500/30 rounded-lg flex items-center justify-center border border-pink-400/30">
+                <PhoneIcon className="w-4 h-4 text-pink-300" />
+              </div>
+              Contacto
+            </h3>
+            <ul className="space-y-1 mb-6">
+              <li>
+                <a 
+                  href={`mailto:${CONTACT_EMAIL}?subject=Consulta%20BoatTrip%20Planner`} 
+                  className={linkStyle}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Enviar email a ${CONTACT_EMAIL}`}
+                  onClick={(e) => {
+                    // Fallback para dispositivos que no soportan mailto:
+                    if (!navigator.userAgent.includes('Mobile') && !window.navigator.userAgent.includes('Android') && !window.navigator.userAgent.includes('iPhone')) {
+                      // En desktop, intentar abrir el cliente de correo
+                      return;
+                    }
+                    // En móvil, copiar el email al portapapeles como fallback
+                    e.preventDefault();
+                    navigator.clipboard.writeText(CONTACT_EMAIL).then(() => {
+                      alert(`Email copiado al portapapeles: ${CONTACT_EMAIL}`);
+                    }).catch(() => {
+                      // Si no se puede copiar, mostrar el email
+                      alert(`Email de contacto: ${CONTACT_EMAIL}`);
+                    });
+                  }}
+                >
+                  <div className="w-2 h-2 bg-green-400 rounded-full group-hover:bg-green-300 transition-colors"></div>
+                  Email
+                </a>
+              </li>
+              <li>
+                <button onClick={onShowPrivacyPolicy} className={linkStyle}>
+                  <div className="w-2 h-2 bg-indigo-400 rounded-full group-hover:bg-indigo-300 transition-colors"></div>
+                  Política de Privacidad
+                </button>
+              </li>
+              <li>
+                <button onClick={onShowTermsOfService} className={linkStyle}>
+                  <div className="w-2 h-2 bg-cyan-400 rounded-full group-hover:bg-cyan-300 transition-colors"></div>
+                  Términos de Uso
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        {/* Divider */}
+        <div className="relative mb-8">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t-2 border-ocean-500/30"></div>
+          </div>
+          <div className="relative flex justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-white/90 to-slate-100/90 rounded-full flex items-center justify-center border-2 border-ocean-400/50 overflow-hidden shadow-lg">
+              <img 
+                src="/apple-touch-icon.png" 
+                alt="BoatTrip Planner Logo" 
+                className="w-8 h-8 object-contain"
+              />
             </div>
           </div>
         </div>
-
+        
         {/* Bottom Bar */}
-        <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <div className="flex items-center mb-4 md:mb-0">
-            <span className="text-sm">© 2024 BoatTrip Planner. Navegando hacia el futuro.</span>
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+          {/* Copyright & Features */}
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-sm">
+            <p className="text-center sm:text-left text-white font-medium">
+              &copy; {new Date().getFullYear()} BoatTrip Planner. Todos los derechos reservados.
+            </p>
+            <div className="flex items-center gap-4 text-xs text-slate-200">
+              <span className="hidden sm:inline text-ocean-400">•</span>
+              <span className="flex items-center gap-1">
+                <SparklesIcon className="w-3 h-3 text-ocean-300" />
+                <span>Planificación inteligente</span>
+              </span>
+              <span className="hidden sm:inline text-ocean-400">•</span>
+              <span className="flex items-center gap-1">
+                <DocumentTextIcon className="w-3 h-3 text-sea-300" />
+                <span>Potenciado por IA</span>
+              </span>
+            </div>
           </div>
           
-          <div className="flex items-center space-x-4 text-xs">
-            <span className="text-slate-500">v1.0.0</span>
-            <span className="text-slate-500">•</span>
-            <span className="text-slate-500">Made with ❤️ for sailors</span>
+          {/* Affiliate & Status */}
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-xs">
+            <div className="flex items-center gap-2 text-slate-200">
+              <InfoIcon className="w-3 h-3 text-amber-300" />
+              <span>
+                Como afiliado, ganamos con las compras que califican. 
+                <a 
+                  href={SAMBOAT_AFFILIATE_URL} 
+                  target="_blank" 
+                  rel="noopener noreferrer sponsored" 
+                  className="font-semibold text-ocean-300 hover:text-ocean-200 transition-colors ml-1 underline decoration-dotted underline-offset-2"
+                  aria-label="Más información sobre nuestra afiliación (enlace externo)"
+                >
+                  Saber más
+                </a>
+              </span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full border border-green-400/30 shadow-sm">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-green-200 font-medium">Online</span>
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Privacy Policy Modal */}
-      {showPrivacyPolicy && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6">
-            <h2 className="text-2xl font-bold mb-4">Política de Privacidad</h2>
-            <p className="text-gray-700 mb-4">
-              Tu privacidad es importante para nosotros. Esta política describe cómo recopilamos, 
-              usamos y protegemos tu información personal.
-            </p>
-            <button 
-              onClick={() => setShowPrivacyPolicy(false)}
-              className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Terms of Service Modal */}
-      {showTermsOfService && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6">
-            <h2 className="text-2xl font-bold mb-4">Términos de Servicio</h2>
-            <p className="text-gray-700 mb-4">
-              Al usar BoatTrip Planner, aceptas estos términos de servicio que rigen 
-              el uso de nuestra plataforma.
-            </p>
-            <button 
-              onClick={() => setShowTermsOfService(false)}
-              className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      )}
     </footer>
   );
 };

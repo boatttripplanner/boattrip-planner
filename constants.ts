@@ -13,7 +13,9 @@ export const BLOG_INDEX_DESCRIPTION = "Explora nuestro blog para obtener consejo
 
 
 // AccuWeather Configuration
-export const ACCUWEATHER_API_KEY = import.meta.env.VITE_ACCUWEATHER_API_KEY || "cwAyQwpxcukFk4zVbtjUDmMI7WGpa8GE"; 
+// Weather Service Configuration
+export const WEATHER_SERVICE_ENABLED = true;
+export const ACCUWEATHER_API_KEY = import.meta.env.VITE_ACCUWEATHER_API_KEY;
 export const ACCUWEATHER_BASE_URL = "https://dataservice.accuweather.com";
 
 // AdSense Configuration
@@ -23,9 +25,63 @@ export const AD_SLOT_ID_FOOTER = "YOUR_AD_SLOT_ID_FOOTER"; // Replace with your 
 
 
 export const SAMBOAT_AFFILIATE_URL = "https://www.samboat.com/?utm_source=affilae&utm_medium=cpa&utm_campaign=Sailway%20Adventures&ae=1582";
-export const AMAZON_AFFILIATE_LINK_PLACEHOLDER = "https://amzn.to/45codtL";
-export const AMAZON_AFFILIATE_TAG = "boattrippl07-21"; // Replace with your actual Amazon Affiliate Tag
+
+// Amazon Affiliate Configuration - Enhanced for better monetization
+export const AMAZON_AFFILIATE_TAG = "explorashop18-21"; // Your Amazon Affiliate Tag
 export const AMAZON_SEARCH_BASE_URL = "https://www.amazon.es/s";
+
+// Amazon API Credentials (from user's account)
+export const AMAZON_API_CONFIG = {
+  accessKeyId: "AKPAXD3F0H1753982397",
+  secretAccessKey: "UUY08lWjgs40wYKps1NGLx8RjA2zAXYoQ5e6fw33",
+  associateTag: "explorashop18-21",
+  region: "eu-west-1",
+  marketplace: "amazon.es"
+};
+
+// Enhanced Amazon affiliate links for specific product categories
+export const AMAZON_AFFILIATE_LINKS = {
+  // Nautical Equipment
+  snorkel_gear: `https://www.amazon.es/s?k=equipo+snorkel+completo&tag=${AMAZON_AFFILIATE_TAG}`,
+  life_jackets: `https://www.amazon.es/s?k=chaleco+salvavidas+nautico&tag=${AMAZON_AFFILIATE_TAG}`,
+  nautical_tools: `https://www.amazon.es/s?k=herramientas+nauticas&tag=${AMAZON_AFFILIATE_TAG}`,
+  gps_nautical: `https://www.amazon.es/s?k=gps+nautico&tag=${AMAZON_AFFILIATE_TAG}`,
+  nautical_books: `https://www.amazon.es/s?k=libros+navegacion&tag=${AMAZON_AFFILIATE_TAG}`,
+  
+  // Safety Equipment
+  safety_equipment: `https://www.amazon.es/s?k=equipamiento+seguridad+nautica&tag=${AMAZON_AFFILIATE_TAG}`,
+  first_aid_kit: `https://www.amazon.es/s?k=botiquin+primeros+auxilios&tag=${AMAZON_AFFILIATE_TAG}`,
+  flares: `https://www.amazon.es/s?k=bengalas+nauticas&tag=${AMAZON_AFFILIATE_TAG}`,
+  
+  // Comfort & Lifestyle
+  sun_protection: `https://www.amazon.es/s?k=proteccion+solar+resistente+agua&tag=${AMAZON_AFFILIATE_TAG}`,
+  beach_gear: `https://www.amazon.es/s?k=equipamiento+playa&tag=${AMAZON_AFFILIATE_TAG}`,
+  coolers: `https://www.amazon.es/s?k=nevera+portatil&tag=${AMAZON_AFFILIATE_TAG}`,
+  water_sports: `https://www.amazon.es/s?k=deportes+acuaticos&tag=${AMAZON_AFFILIATE_TAG}`,
+  
+  // Technology & Gadgets
+  waterproof_cameras: `https://www.amazon.es/s?k=camara+sumergible&tag=${AMAZON_AFFILIATE_TAG}`,
+  portable_speakers: `https://www.amazon.es/s?k=altavoz+portatil+resistente+agua&tag=${AMAZON_AFFILIATE_TAG}`,
+  solar_chargers: `https://www.amazon.es/s?k=cargador+solar+portatil&tag=${AMAZON_AFFILIATE_TAG}`,
+  
+  // Clothing & Accessories
+  nautical_clothing: `https://www.amazon.es/s?k=ropa+nautica&tag=${AMAZON_AFFILIATE_TAG}`,
+  sailing_shoes: `https://www.amazon.es/s?k=zapatos+nauticos&tag=${AMAZON_AFFILIATE_TAG}`,
+  hats_caps: `https://www.amazon.es/s?k=gorras+nauticas&tag=${AMAZON_AFFILIATE_TAG}`,
+  
+  // Food & Beverages
+  boat_food: `https://www.amazon.es/s?k=comida+barco+conservas&tag=${AMAZON_AFFILIATE_TAG}`,
+  water_containers: `https://www.amazon.es/s?k=bidones+agua+portatil&tag=${AMAZON_AFFILIATE_TAG}`,
+  
+  // General placeholder (fallback)
+  general: `https://www.amazon.es/?tag=${AMAZON_AFFILIATE_TAG}`
+};
+
+// Legacy placeholder for backward compatibility
+export const AMAZON_AFFILIATE_LINK_PLACEHOLDER = AMAZON_AFFILIATE_LINKS.general;
+
+// Contact Information
+export const CONTACT_EMAIL = "boattripplanner@gmail.com";
 
 
 export const budgetLevelOptions: { value: BudgetLevel | ''; label: string }[] = [ 
@@ -89,7 +145,7 @@ Este párrafo sirve como una bienvenida rápida. El contenido detallado y las ju
 A continuación, las secciones principales del plan, cada una iniciada con un encabezado H3, preferiblemente comenzando con un emoji relevante:
 
 1.  **### 🧭 Itinerario Detallado**
-    *Instrucción de formato: Utiliza un encabezado H3. Para cada día, un subtítulo H4 descriptivo con emoji (ej. \`#### Día 1: Explorando Calas Vírgenes 🏝️ y Sabores Locales 🍽️\`). Dentro de cada día, detalla actividades y navegación usando etiquetas en negrita y emojis. Para información destacada, consejos, o sugerencias específicas (ej. un fondeadero especial, un restaurante, un punto de interés), usa una "caja" (blockquote de Markdown \`> \`) precedida por un emoji como 💡, 💎, ⚓, 🍽️, 📸, ⚠️.*
+    *Instrucción de formato: Utiliza un encabezado H3. Para cada día, un subtítulo H4 descriptivo con emoji. IMPORTANTE: Solo usa "Día X:" en el subtítulo cuando sea un viaje de varios días (MULTI_DAY). Para viajes de un solo día, usa directamente un título descriptivo (ej. \`#### Explorando Calas Vírgenes 🏝️ y Sabores Locales 🍽️\` para 1 día, o \`#### Día 1: Explorando Calas Vírgenes 🏝️ y Sabores Locales 🍽️\` para varios días). Dentro de cada día, detalla actividades y navegación usando etiquetas en negrita y emojis. Para información destacada, consejos, o sugerencias específicas (ej. un fondeadero especial, un restaurante, un punto de interés), usa una "caja" (blockquote de Markdown \`> \`) precedida por un emoji como 💡, 💎, ⚓, 🍽️, 📸, ⚠️.*
     
     **INSTRUCCIÓN CRÍTICA SOBRE EL NÚMERO DE DÍAS:**
     *   **DEBES GENERAR EXACTAMENTE el número de días especificado por el usuario:**
@@ -143,10 +199,52 @@ A continuación, las secciones principales del plan, cada una iniciada con un en
       *   \`**Noche:** 🌙 [Sugerencia. Ej: Fondeo seguro en Bahía Tranquila / Amarre en Marina Beta (VHF: Ch 12, Tel: +34 987 654321).]\`
     *   **Nota General sobre Meteorología:** Finaliza con una frase tipo: "Recuerda: Las condiciones meteorológicas pueden cambiar..."
 
-2.  **### 🚤 Tipo de Embarcación Recomendada**
-    *Instrucción de formato: Encabezado H3. Basándote en las preferencias del usuario (número de personas, actividades, experiencia, presupuesto, tipo de experiencia), sugiere el tipo de embarcación más adecuado. Incluye justificación y características principales.*
+2.  **### 🚤 Tipo de Embarcación Recomendada / 🔧 Revisión del Barco Antes de la Salida**
+    *Instrucción de formato: Encabezado H3. Esta sección es CONDICIONAL según si el usuario ha especificado un modelo de barco.*
     
-    **INSTRUCCIÓN DE PERSONALIZACIÓN DE EMBARCACIÓN:**
+    **LÓGICA CONDICIONAL:**
+    *   **SI el usuario ha especificado un modelo de barco (boatTransferDetails.model existe):**
+        *   **MOSTRAR:** "🔧 Revisión del Barco Antes de la Salida"
+        *   **CONTENIDO:** Checklist específico de revisión para el modelo de barco especificado
+    *   **SI NO ha especificado modelo de barco:**
+        *   **MOSTRAR:** "🚤 Tipo de Embarcación Recomendada"
+        *   **CONTENIDO:** Sugerencia de tipo de embarcación basada en preferencias
+    
+    **A) CUANDO HAY MODELO DE BARCO ESPECIFICADO - 🔧 Revisión del Barco Antes de la Salida:**
+    *   **INSTRUCCIÓN:** Basándote en el modelo de barco especificado, proporciona una revisión técnica específica antes de la salida.
+    *   **ADAPTA LA REVISIÓN** a las características específicas del barco:
+        *   **Motor:** Revisión de aceite, filtros, refrigerante, correas
+        *   **Sistema eléctrico:** Baterías, luces de navegación, radio VHF
+        *   **Sistema de combustible:** Nivel de combustible, filtros, posibles fugas
+        *   **Sistema de agua:** Tanque de agua dulce, bomba de achique
+        *   **Equipamiento de seguridad:** Chalecos salvavidas, bengalas, extintores
+        *   **Navegación:** GPS, cartas náuticas, compás
+        *   **Amarre y fondeo:** Ancla, cadena, cabos
+        *   **Características específicas del modelo:** Consideraciones particulares según el tipo de barco
+    
+    *Formato para revisión del barco:*
+    \`#### 🔧 Revisión del Barco Antes de la Salida:\`
+    \`**Modelo:** [Modelo especificado por el usuario]\`
+    \`**Tipo:** [Velero, Motovelero, Lancha, Catamarán, etc.]\`
+    \`**Eslora:** [Longitud del barco]\`
+    \`**Capacidad de combustible:** [Capacidad del depósito]\`
+    \`**Velocidad de crucero:** [Velocidad óptima]\`
+    \`**Consumo medio:** [Consumo de combustible]\`
+    \`\`
+    \`**📋 Checklist de Revisión Técnica:\`
+    \`*   **Motor:** [Revisión específica del motor]\`
+    \`*   **Sistema eléctrico:** [Revisión de baterías y electricidad]\`
+    \`*   **Combustible:** [Verificación de combustible y autonomía]\`
+    \`*   **Seguridad:** [Equipamiento de seguridad requerido]\`
+    \`*   **Navegación:** [Equipos de navegación necesarios]\`
+    \`*   **Amarre:** [Sistema de fondeo y amarre]\`
+    \`\`
+    \`> ⚠️ **Consideraciones específicas para este modelo:** [Aspectos particulares del barco]\`
+    \`> 🛠️ **Mantenimiento recomendado:** [Sugerencias de mantenimiento]\`
+    \`> ⛽ **Autonomía estimada:** [Cálculo basado en consumo y capacidad]\`
+    
+    **B) CUANDO NO HAY MODELO DE BARCO ESPECIFICADO - 🚤 Tipo de Embarcación Recomendada:**
+    *   **INSTRUCCIÓN:** Basándote en las preferencias del usuario (número de personas, actividades, experiencia, presupuesto, tipo de experiencia), sugiere el tipo de embarcación más adecuado.
     *   **ADAPTA LA SUGERENCIA** a las características específicas del usuario:
         *   **Número de personas:** Considera la capacidad necesaria (mínimo 2 personas más de las especificadas para comodidad)
         *   **Actividades:** Si seleccionó "Snorkel/Buceo": Sugiere barcos con plataforma de baño o escalera de baño
@@ -163,7 +261,7 @@ A continuación, las secciones principales del plan, cada una iniciada con un en
             - "Varios Días": Barcos con cabinas y equipamiento para pernocta
             - "Traslado": **OMITE ESTA SECCIÓN COMPLETAMENTE** - No es relevante para un servicio de transporte
     
-    *Formato sugerido:*
+    *Formato para recomendación de embarcación:*
     \`#### 🎯 Embarcación Ideal para tu Viaje:\`
     \`**Tipo recomendado:** [Velero, Motovelero, Lancha, Catamarán, etc.]\`
     \`**Tamaño sugerido:** [Eslora aproximada y capacidad]\`

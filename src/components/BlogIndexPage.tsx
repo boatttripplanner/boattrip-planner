@@ -22,50 +22,152 @@ const calculateReadingTime = (content: string): number => {
   return Math.max(1, readingTime); // Mínimo 1 minuto
 };
 
-// Función para obtener imagen destacada basada en el slug
-const getFeaturedImage = (slug: string): string => {
-  // Para desarrollo, usamos imágenes de placeholder atractivas
-  const imageMap: { [key: string]: string } = {
-    'bienvenida-al-blog': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
-    'consejos-vencer-mareo-barco': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center',
-    'con-patron-o-sin-patron-claves-elegir-aventura-barco': 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=400&h=300&fit=crop&crop=center',
-    'navegacion-sostenible-protege-mar-mientras-disfrutas': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-    'que-es-un-catamaran-ventajas-desventajas-aventura-nautica': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center',
-    'alquiler-barcos-por-horas-explora-mar-a-tu-ritmo': 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=400&h=300&fit=crop&crop=center',
-    'navegar-en-familia-crea-recuerdos-inolvidables': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-    'el-diario-de-abordo-captura-cada-momento-aventura-marina': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
-    'mejores-destinos-aventura-barco-espana': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center',
-    'mejor-aliado-alquilar-barco-nuestra-experiencia': 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=400&h=300&fit=crop&crop=center',
-    'guia-completa-viajar-barco-mascotas': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-    'si-llueve-viaje-barco-planes-alternativos-dia-brillante': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
-    'guia-pesca-desde-barco-principiantes': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center',
-    'cala-macarella-macarelleta-menorca-paraiso-escondido': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-    'alquilar-velero-experiencia-pura-navegar-a-vela': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center',
-    'alquilar-barco-a-motor-velocidad-confort': 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=400&h=300&fit=crop&crop=center',
-    'posidonia-oceanica-tesoro-submarino-proteger-navegar': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-    'rumbovivo-escuela-nautica-patrones-exigentes': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
-    'banderas-de-cortesia-simbolo-respeto-puerto': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center',
-    'navegar-en-ibiza-descubre-isla-magica': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-    'gps-nautico-navegador-indispensable': 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=400&h=300&fit=crop&crop=center',
-    'el-paddle-surf-sup-explora-mar-ritmo-fortalece-cuerpo': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center',
-    'navegar-costa-brava-explora-encanto-mediterraneo': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-    'como-planificar-viaje-nautico-con-ia-boattrip-planner': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
-    'patente-de-navegacion-primer-paso-capitan': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center',
-    'patron-de-navegacion-basica-pnb-siguiente-nivel': 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=400&h=300&fit=crop&crop=center',
-    'fuera-pajaros-protege-tu-barco-visitantes-alados': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-    'el-ancla-tu-fiel-guardian-en-cada-fondeo': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
-    'el-traje-de-neopreno-tu-aliado-indispensable': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center',
-    'como-elegir-mejor-chaleco-salvavidas': 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=400&h=300&fit=crop&crop=center',
-    'cressi-rondinella-aletas-snorkel-review': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-    'gadgets-nauticos-siglo-xxi': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
-    'samboat-review-plataforma-alquiler-barcos': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center',
-    'mejores-destinos-windsurf-kitesurf-espana': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-    'menorca-en-barco-paraiso-calas-turquesas': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center',
-    'mejores-libros-navegacion': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center',
-    'review-garmin-echomap-uhd-mejor-plotter-sonda': 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=400&h=300&fit=crop&crop=center',
+// Función para obtener imagen destacada basada en el slug y tags
+const getFeaturedImage = (slug: string, tags?: string[]): string => {
+  // Mapeo específico de imágenes temáticas y de alta calidad
+  const specificImageMap: { [key: string]: string } = {
+    // MASCOTAS & PERROS 🐕
+    'los-7-productos-esenciales-navegar-perro-seguro': 'https://images.unsplash.com/photo-1551717743-49959800b1f6?w=400&h=300&fit=crop&crop=center', // Golden Retriever en barco
+    'guia-completa-viajar-barco-mascotas': 'https://images.unsplash.com/photo-1544378730-6afe9b3bc4ad?w=400&h=300&fit=crop&crop=center', // Perro con chaleco salvavidas
+    
+    // REVIEWS Y COMPARATIVAS 📊
+    'mejores-gps-marinos-2024-comparativa-completa': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center', // GPS marino en cockpit de velero
+    
+    // SOSTENIBILIDAD Y ECO-FRIENDLY 🌱
+    'navegacion-sostenible-guia-completa-barco-ecologico': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Velero con paneles solares navegando
+    
+    // FAMILIA Y NIÑOS 👨‍👩‍👧‍👦
+    'navegar-en-familia-guia-completa-aventuras-nauticas': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Familia en velero con velas desplegadas
+    
+    // PRODUCTOS Y REVIEWS 🛒
+    'mejores-ctas-productos-nauticos-2024': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center', // Barco moderno con equipamiento visible
+    
+    // DESTINOS ESPECÍFICOS 🗺️
+    'islas-columbretes-paraiso-secreto-mediterraneo-navegantes': 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=300&fit=crop&crop=center', // Velero navegando hacia islas volcánicas
+    'cala-macarella-macarelleta-menorca-paraiso-escondido': 'https://images.unsplash.com/photo-1558618666-8647a1e1e4f8?w=400&h=300&fit=crop&crop=center', // Barco anclado en cala turquesa
+    'navegar-en-ibiza-descubre-isla-magica': 'https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?w=400&h=300&fit=crop&crop=center', // Ibiza sunset sailing - MANTENER (tiene barco)
+    'navegar-costa-brava-explora-encanto-mediterraneo': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Velero navegando por Costa Brava
+    'menorca-en-barco-paraiso-calas-turquesas': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Catamarán en aguas turquesas de Menorca
+    'mejores-destinos-aventura-barco-espana': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Velero en costa española
+    
+    // TIPOS DE BARCOS ⛵
+    'que-es-un-catamaran-ventajas-desventajas-aventura-nautica': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Catamarán navegando - MUY CLARO
+    'alquilar-velero-experiencia-pura-navegar-a-vela': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Velero clásico - MANTENER (perfecto)
+    'alquilar-barco-a-motor-velocidad-confort': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center', // Yate a motor moderno - MANTENER (perfecto)
+    
+    // ACTIVIDADES ESPECÍFICAS 🎣
+    'guia-pesca-desde-barco-principiantes': 'https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?w=400&h=300&fit=crop&crop=center', // Pescando desde barco - MANTENER (perfecto)
+    'el-paddle-surf-sup-explora-mar-ritmo-fortalece-cuerpo': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center', // SUP desde barco como base
+    'mejores-destinos-windsurf-kitesurf-espana': 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=300&fit=crop&crop=center', // Barco en zona de windsurf
+    'deportes-acuaticos-barco-guia-completa': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Barco con deportes acuáticos
+    
+    // EQUIPAMIENTO & TECH 📱
+    'gps-nautico-navegador-indispensable': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center', // GPS en panel de barco moderno
+    'review-garmin-echomap-uhd-mejor-plotter-sonda': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center', // Panel electrónico en barco
+    'gadgets-nauticos-siglo-xxi': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Barco moderno con tecnología
+    'como-elegir-mejor-chaleco-salvavidas': 'https://images.unsplash.com/photo-1551717743-49959800b1f6?w=400&h=300&fit=crop&crop=center', // Personas con chalecos en barco
+    'el-traje-de-neopreno-tu-aliado-indispensable': 'https://images.unsplash.com/photo-1544378730-6afe9b3bc4ad?w=400&h=300&fit=crop&crop=center', // Buceador desde barco - MANTENER
+    'cressi-rondinella-aletas-snorkel-review': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Snorkel desde velero
+    
+    // FAMILIA & EXPERIENCIAS 👨‍👩‍👧‍👦
+    'navegar-en-familia-crea-recuerdos-inolvidables': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Familia navegando en velero
+    'con-patron-o-sin-patron-claves-elegir-aventura-barco': 'https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?w=400&h=300&fit=crop&crop=center', // Capitán al timón - MANTENER (perfecto)
+    'alquiler-barcos-por-horas-explora-mar-a-tu-ritmo': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Barco alquilado navegando
+    
+    // SOSTENIBILIDAD & MEDIO AMBIENTE 🌍
+    'navegacion-sostenible-protege-mar-mientras-disfrutas': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Velero eco-friendly navegando
+    'posidonia-oceanica-tesoro-submarino-proteger-navegar': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Barco sobre aguas cristalinas protegidas
+    
+    // TÉCNICAS & EDUCACIÓN 📚
+    'mejores-libros-navegacion': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center', // Cartas náuticas en barco moderno
+    'patente-de-navegacion-primer-paso-capitan': 'https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?w=400&h=300&fit=crop&crop=center', // Capitán aprendiendo - MANTENER (perfecto)
+    'patron-de-navegacion-basica-pnb-siguiente-nivel': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Navegación avanzada en velero
+    'el-diario-de-abordo-captura-cada-momento-aventura-marina': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Escribiendo diario en velero
+    'rumbovivo-escuela-nautica-patrones-exigentes': 'https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?w=400&h=300&fit=crop&crop=center', // Escuela náutica - MANTENER (perfecto)
+    
+    // PROBLEMAS & SOLUCIONES 🔧
+    'consejos-vencer-mareo-barco': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Persona tranquila en barco
+    'si-llueve-viaje-barco-planes-alternativos-dia-brillante': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Barco bajo la lluvia
+    'fuera-pajaros-protege-tu-barco-visitantes-alados': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center', // Mantenimiento de barco - MANTENER
+    'el-ancla-tu-fiel-guardian-en-cada-fondeo': 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=300&fit=crop&crop=center', // Barco anclado - ancla visible
+    'guia-supervivencia-mar-tecnicas-basicas': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Seguridad marítima en velero
+    
+    // SERVICIOS & REVIEWS 💼
+    'samboat-review-plataforma-alquiler-barcos': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Plataforma de alquiler - barco visible
+    'mejor-aliado-alquilar-barco-nuestra-experiencia': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center', // Alquiler de lujo - MANTENER (perfecto)
+    
+    // PRODUCTOS & AMAZON 🛒
+    'productos-reales-amazon-nautica-2024': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center', // Productos en barco moderno
+    'top-10-productos-nauticos-mas-vendidos-amazon': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center', // Equipamiento en barco - MANTENER (perfecto)
+    'equipamiento-nautico-esencial-aventura-mar': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Equipamiento esencial en velero
+    
+    // TECH & PLANIFICACIÓN 🤖
+    'como-planificar-viaje-nautico-con-ia-boattrip-planner': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center', // Planificación con IA en barco moderno
+    'banderas-de-cortesia-simbolo-respeto-puerto': 'https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?w=400&h=300&fit=crop&crop=center', // Banderas marítimas - MANTENER (perfecto)
+    
+    // BIENVENIDA 👋
+    'bienvenida-al-blog': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Bienvenida con velero navegando
   };
   
-  return imageMap[slug] || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center';
+  // Si existe imagen específica, la usamos
+  if (specificImageMap[slug]) {
+    return specificImageMap[slug];
+  }
+  
+  // Sistema de fallback basado en tags
+  if (tags && tags.length > 0) {
+    const tagImageMap: { [key: string]: string } = {
+      // Mascotas
+      'mascotas': 'https://images.unsplash.com/photo-1544378730-6afe9b3bc4ad?w=400&h=300&fit=crop&crop=center',
+      'perros': 'https://images.unsplash.com/photo-1551717743-49959800b1f6?w=400&h=300&fit=crop&crop=center',
+      
+      // Destinos
+      'destinos': 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop&crop=center',
+      'columbretes': 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&h=300&fit=crop&crop=center',
+      'islas': 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&h=300&fit=crop&crop=center',
+      'reserva natural': 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&h=300&fit=crop&crop=center',
+      'baleares': 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=400&h=300&fit=crop&crop=center',
+      'menorca': 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop&crop=center',
+      'ibiza': 'https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?w=400&h=300&fit=crop&crop=center',
+      'castellón': 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&h=300&fit=crop&crop=center',
+      
+      // Equipamiento
+      'equipamiento': 'https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=400&h=300&fit=crop&crop=center',
+      'seguridad': 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop&crop=center',
+      'gps': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center',
+      
+      // Actividades
+      'pesca': 'https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?w=400&h=300&fit=crop&crop=center',
+      'snorkel': 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop&crop=center',
+      'deportes': 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=400&h=300&fit=crop&crop=center',
+      
+      // Sostenibilidad
+      'sostenibilidad': 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop&crop=center',
+      'medio ambiente': 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=400&h=300&fit=crop&crop=center',
+      
+      // Familia
+      'familia': 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=400&h=300&fit=crop&crop=center',
+      'niños': 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=400&h=300&fit=crop&crop=center',
+      
+      // Amazon/Productos
+      'amazon': 'https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=400&h=300&fit=crop&crop=center',
+      'productos': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center',
+      'reviews': 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop&crop=center',
+    };
+    
+    // Buscar la primera tag que coincida
+    for (const tag of tags) {
+      const lowerTag = tag.toLowerCase();
+      for (const [key, imageUrl] of Object.entries(tagImageMap)) {
+        if (lowerTag.includes(key)) {
+          return imageUrl;
+        }
+      }
+    }
+  }
+  
+  // Imagen por defecto - vista aérea del mar
+  return 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center';
 };
 
 // Función para obtener categorías de artículos
@@ -183,7 +285,7 @@ const sortedBlogPosts = [...allBlogPosts].sort((a, b) => {
 
 const POSTS_PER_PAGE = 8; // Display 8 posts per page for a cleaner grid layout
 
-const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavigateHome }) => {
+const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavigateHome, showAppInstallBanner = false }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -257,14 +359,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
     return Array.from(tagsSet).sort();
   }, []);
   
-  const tagOptions = useMemo(() => {
-    const options = [{ value: '', label: 'Ver todas las etiquetas' }];
-    allTags.forEach(tag => {
-        const capitalizedTag = tag.charAt(0).toUpperCase() + tag.slice(1);
-        options.push({ value: tag, label: capitalizedTag });
-    });
-    return options;
-  }, [allTags]);
+
 
   // Opciones para filtros avanzados
   const categoryOptions = useMemo(() => {
@@ -410,9 +505,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
     }
   };
   
-  const handleTagClick = (tag: string | null) => {
-    setActiveTag(tag);
-  };
+
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -549,7 +642,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
   };
 
   return (
-    <div className={`w-full max-w-5xl mx-auto transition-colors duration-300 ${darkMode ? 'dark' : ''}`}>
+            <div className={`w-full max-w-5xl mx-auto transition-all duration-300 ease-out ${darkMode ? 'dark' : ''} ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''}`}>
       <div className={`${darkMode ? 'bg-slate-800 text-white' : 'bg-white'} p-4 sm:p-6 md:p-8 rounded-lg shadow-xl transition-colors duration-300`}>
         <div className="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-200 dark:border-slate-600">
           <h1 className={`text-2xl sm:text-3xl md:text-4xl font-bold ${darkMode ? 'text-white' : 'text-slate-800'} mb-3 sm:mb-0 text-center sm:text-left`}>
@@ -741,7 +834,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
               {currentPostsToDisplay.map((post) => {
                 const readingTime = calculateReadingTime(post.content);
-                const featuredImage = getFeaturedImage(post.frontmatter.slug);
+                const featuredImage = getFeaturedImage(post.frontmatter.slug, post.frontmatter.tags);
                 const category = post.frontmatter.tags ? getArticleCategory(post.frontmatter.tags) : 'General';
                 const difficulty = post.frontmatter.tags ? getDifficultyLevel(post.frontmatter.tags, post.content) : 'Intermedio';
                 const isPostFavorite = favorites.includes(post.frontmatter.slug);

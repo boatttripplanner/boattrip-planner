@@ -1,27 +1,17 @@
 
-import React, { useState, useMemo, Suspense, lazy } from 'react';
+import React, { useState, useMemo } from 'react';
 import { UserPreferences, PlanningMode, DesiredExperienceType, ExperienceLevel, CookieConsentStatus, UserInputFormProps } from '../types';
 import { Button } from './Button';
 import ProgressStepper from './wizard/ProgressStepper';
+import Step1Experience from './wizard/Step1_Experience';
+import Step2Route from './wizard/Step2_Route';
+import Step3Crew from './wizard/Step3_Crew';
+import Step4Preferences from './wizard/Step4_Preferences';
+import Step5BoatDetails from './wizard/Step5_BoatDetails';
+import Step6Review from './wizard/Step6_Review';
 import WizardNavigation from './wizard/WizardNavigation';
 
-// Lazy load wizard steps for better performance
-const Step1Experience = lazy(() => import('./wizard/Step1_Experience'));
-const Step2Route = lazy(() => import('./wizard/Step2_Route'));
-const Step3Crew = lazy(() => import('./wizard/Step3_Crew'));
-const Step4Preferences = lazy(() => import('./wizard/Step4_Preferences'));
-const Step5BoatDetails = lazy(() => import('./wizard/Step5_BoatDetails'));
-const Step6Review = lazy(() => import('./wizard/Step6_Review'));
-
-// Loading component for wizard steps
-const StepLoadingFallback = () => (
-  <div className="flex items-center justify-center p-8">
-    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
-    <span className="ml-3 text-slate-600">Cargando...</span>
-  </div>
-);
-
-const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cookieConsent, onReconsiderCookies }) => {
+const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cookieConsent, onReconsiderCookies, showAppInstallBanner = false }) => {
   const [currentStep, setCurrentStep] = useState(1);
   
   const [formData, setFormData] = useState<UserPreferences>({
@@ -50,23 +40,29 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
 
   // Determinar si mostrar el paso del barco
   const shouldShowBoatStep = useMemo(() => {
-    const result = (
-      formData.planningMode === PlanningMode.OWN_BOAT ||
-      (formData.planningMode === PlanningMode.RENTAL && 
-       (formData.experience === ExperienceLevel.EXPERIENCED_WITH_LICENSE_NO_SKIPPER ||
-        formData.experience === ExperienceLevel.EXPERT_ADVANCED_LICENSE))
-    );
-    console.log('🔍 DEBUG - shouldShowBoatStep:', {
-      planningMode: formData.planningMode,
-      experience: formData.experience,
-      OWN_BOAT: PlanningMode.OWN_BOAT,
-      RENTAL: PlanningMode.RENTAL,
-      EXPERIENCED: ExperienceLevel.EXPERIENCED_WITH_LICENSE_NO_SKIPPER,
-      EXPERT: ExperienceLevel.EXPERT_ADVANCED_LICENSE,
-      result
-    });
-    return result;
-  }, [formData.planningMode, formData.experience]);
+    // Para OWN_BOAT siempre mostrar (tiene su propio barco)
+    if (formData.planningMode === PlanningMode.OWN_BOAT) {
+      console.log('🔍 DEBUG - shouldShowBoatStep: OWN_BOAT = true');
+      return true;
+    }
+    
+    // Para RENTAL solo mostrar si tiene experiencia suficiente (no necesita patrón)
+    if (formData.planningMode === PlanningMode.RENTAL) {
+      const hasEnoughExperience = formData.experience === ExperienceLevel.EXPERIENCED_WITH_LICENSE_NO_SKIPPER || 
+                                 formData.experience === ExperienceLevel.EXPERT_ADVANCED_LICENSE;
+      console.log('🔍 DEBUG - shouldShowBoatStep:', {
+        planningMode: formData.planningMode,
+        experience: formData.experience,
+        hasEnoughExperience,
+        EXPERIENCED_WITH_LICENSE_NO_SKIPPER: ExperienceLevel.EXPERIENCED_WITH_LICENSE_NO_SKIPPER,
+        EXPERT_ADVANCED_LICENSE: ExperienceLevel.EXPERT_ADVANCED_LICENSE
+      });
+      return hasEnoughExperience;
+    }
+    
+    console.log('🔍 DEBUG - shouldShowBoatStep: false (no conditions met)');
+    return false;
+  }, [formData.planningMode, formData.desiredExperienceType, formData.experience]);
 
   // Crear los steps dinámicamente
   const steps = useMemo(() => {
@@ -136,7 +132,7 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
             alert("El número de personas debe ser mayor que 0.");
             return;
         }
-        const needsLicense = formData.experience === ExperienceLevel.EXPERIENCED_WITH_LICENSE_NO_SKIPPER || formData.experience === ExperienceLevel.EXPERT_ADVANCED_LICENSE || formData.planningMode === PlanningMode.OWN_BOAT;
+        const needsLicense = formData.experience === ExperienceLevel.EXPERIENCED_WITH_LICENSE_NO_SKIPPER || formData.experience === ExperienceLevel.EXPERT_ADVANCED_LICENSE;
         if (needsLicense && !formData.boatingLicense) {
             alert("Por favor, selecciona tu titulación náutica.");
             return;
@@ -149,7 +145,16 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
     } else if (currentStep === 5 && shouldShowBoatStep) { // Barco
         const details = formData.boatTransferDetails;
         if (formData.planningMode === PlanningMode.OWN_BOAT) {
-            // Solo validar si es barco propio (obligatorio)
+            // Para OWN_BOAT siempre obligatorio
+            if (!details?.model?.trim()) { alert("Por favor, introduce el modelo de tu barco."); return; }
+            if (!details?.length?.trim()) { alert("Por favor, introduce la eslora de tu barco."); return; }
+            if (!details?.beam?.trim()) { alert("Por favor, introduce la manga de tu barco."); return; }
+            if (!details?.draft?.trim()) { alert("Por favor, introduce el calado de tu barco."); return; }
+            if (!details?.cruisingSpeed?.trim()) { alert("Por favor, introduce la velocidad de crucero."); return; }
+            if (!details?.tankCapacity?.trim()) { alert("Por favor, introduce la capacidad del depósito."); return; }
+            if (!details?.averageConsumption?.trim()) { alert("Por favor, introduce el consumo medio."); return; }
+        } else if (formData.planningMode === PlanningMode.RENTAL && formData.desiredExperienceType === DesiredExperienceType.TRANSFER) {
+            // Para RENTAL + TRANSFER también obligatorio
             if (!details?.model?.trim()) { alert("Por favor, introduce el modelo de tu barco."); return; }
             if (!details?.length?.trim()) { alert("Por favor, introduce la eslora de tu barco."); return; }
             if (!details?.beam?.trim()) { alert("Por favor, introduce la manga de tu barco."); return; }
@@ -158,7 +163,7 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
             if (!details?.tankCapacity?.trim()) { alert("Por favor, introduce la capacidad del depósito."); return; }
             if (!details?.averageConsumption?.trim()) { alert("Por favor, introduce el consumo medio."); return; }
         }
-        // Si es alquiler, no validar nada (es opcional)
+        // Si es RENTAL sin TRANSFER, no validar nada (es opcional)
     }
 
     if (currentStep < totalSteps) {
@@ -221,50 +226,22 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
 
     switch (currentStep) {
       case 1:
-        return (
-          <Suspense fallback={<StepLoadingFallback />}>
-            <Step1Experience {...stepProps} />
-          </Suspense>
-        );
+        return <Step1Experience {...stepProps} />;
       case 2:
-        return (
-          <Suspense fallback={<StepLoadingFallback />}>
-            <Step2Route {...stepProps} />
-          </Suspense>
-        );
+        return <Step2Route {...stepProps} />;
       case 3:
-        return (
-          <Suspense fallback={<StepLoadingFallback />}>
-            <Step3Crew {...stepProps} />
-          </Suspense>
-        );
+        return <Step3Crew {...stepProps} />;
       case 4:
-        return (
-          <Suspense fallback={<StepLoadingFallback />}>
-            <Step4Preferences {...stepProps} />
-          </Suspense>
-        );
+        return <Step4Preferences {...stepProps} />;
       case 5:
         if (shouldShowBoatStep) {
-          return (
-            <Suspense fallback={<StepLoadingFallback />}>
-              <Step5BoatDetails {...stepProps} />
-            </Suspense>
-          );
+          return <Step5BoatDetails {...stepProps} />;
         } else {
-          return (
-            <Suspense fallback={<StepLoadingFallback />}>
-              <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />
-            </Suspense>
-          );
+          return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
         }
       case 6:
         if (shouldShowBoatStep) {
-          return (
-            <Suspense fallback={<StepLoadingFallback />}>
-              <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />
-            </Suspense>
-          );
+          return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
         }
         break;
       default:
@@ -273,35 +250,52 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 sm:p-6 rounded-lg shadow-2xl space-y-6 w-full">
-      <ProgressStepper 
-        key={`steps-${steps.length}-${formData.planningMode}`}
-        steps={steps.map(s => s.name)} 
-        currentStep={currentStep} 
-      />
-      <div className="mt-6 transition-all duration-300">
-        {renderStep()}
+    <div className={`w-full max-w-4xl mx-auto transition-all duration-300 ease-out ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''}`}>
+      {/* Enhanced Header */}
+      <div className="text-center mb-6 sm:mb-8 animate-fade-in">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 mb-3 sm:mb-4">
+          Planifica tu{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-ocean-600 to-sea-600">
+            Aventura Náutica
+          </span>
+        </h1>
+        <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-2">
+          Completa los siguientes pasos para generar tu itinerario personalizado
+        </p>
       </div>
 
-      {currentStep < totalSteps ? (
-        <WizardNavigation
-          currentStep={currentStep}
-          totalSteps={totalSteps}
-          onNext={handleNext}
-          onBack={handleBack}
-          isLoading={isLoading}
+      {/* Enhanced Progress Stepper */}
+      <div className="mb-6 sm:mb-8 animate-slide-up">
+        <ProgressStepper 
+          steps={steps} 
+          currentStep={currentStep} 
+          onStepClick={goToStep}
         />
-      ) : (
-        <div className="flex justify-between items-center pt-5 border-t border-slate-200">
-          <Button type="button" onClick={handleBack} variant="secondary">
-            &larr; Atrás
-          </Button>
-          <Button type="submit" disabled={isLoading || isPrimaryInputDisabled} className="w-auto animate-subtle-pulse disabled:animate-none">
-            {isLoading ? 'Trazando Rumbo...' : 'Obtener Recomendaciones'}
-          </Button>
+      </div>
+
+      {/* Enhanced Form Container */}
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-soft border border-slate-200 overflow-hidden animate-fade-in">
+        {/* Form Content */}
+        <div className="p-4 sm:p-6 md:p-8">
+          {renderStep()}
         </div>
-      )}
-    </form>
+
+        {/* Enhanced Navigation */}
+        <div className="bg-gradient-to-r from-slate-50 to-ocean-50 px-4 sm:px-6 md:px-8 py-4 sm:py-6 border-t border-slate-200">
+          <WizardNavigation
+            currentStep={currentStep}
+            totalSteps={totalSteps}
+            onBack={handleBack}
+            onNext={handleNext}
+            onFinish={handleSubmit}
+            isLoading={isLoading}
+            isPrimaryInputDisabled={isPrimaryInputDisabled}
+          />
+        </div>
+      </div>
+
+
+    </div>
   );
 };
 

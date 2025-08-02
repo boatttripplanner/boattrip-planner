@@ -36,6 +36,37 @@
   html {
     scroll-behavior: smooth;
   }
+
+  /* Mobile-specific improvements */
+  @media (max-width: 768px) {
+    /* Improve touch targets */
+    button, 
+    input[type="button"], 
+    input[type="submit"], 
+    input[type="reset"],
+    select,
+    a {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Improve form elements */
+    input, 
+    textarea, 
+    select {
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
+
+    /* Better spacing for mobile */
+    .mobile-optimized {
+      padding: 0.75rem;
+    }
+
+    /* Improve scrolling */
+    .smooth-scroll {
+      -webkit-overflow-scrolling: touch;
+    }
+  }
 }
 
 /* Performance optimizations */
@@ -50,5 +81,23 @@
   /* Optimize animations */
   .animate-optimized {
     will-change: transform, opacity;
+  }
+
+  /* Mobile-specific utilities */
+  .touch-friendly {
+    @apply cursor-pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-padding {
+    @apply px-3 sm:px-4 md:px-6;
+  }
+
+  .mobile-text {
+    @apply text-sm sm:text-base md:text-lg;
+  }
+
+  .mobile-spacing {
+    @apply space-y-3 sm:space-y-4 md:space-y-6;
   }
 } 

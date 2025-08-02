@@ -167,7 +167,7 @@ const Step2Route: React.FC<WizardStepProps> = ({ data, updateData, isPrimaryInpu
                   id="multiDayTripNotes"
                   value={data.multiDayTripNotes || ''}
                   onChange={(e) => updateData({ multiDayTripNotes: e.target.value })}
-                  placeholder="Ej: Preferimos fondeos tranquilos, evitar puertos grandes, etc."
+                  placeholder="Ej: Describir la ruta que quieres hacer, preferencias de fondeo (tranquilo, cerca de playas, etc.), sitios específicos que quieres visitar, etc."
                   rows={2}
               />
             </div>

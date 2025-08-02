@@ -74,7 +74,7 @@ export interface WeatherData {
 export interface Recommendation {
   text: string;
   chatHistory?: ChatMessage[]; 
-  weatherData?: WeatherData | null;
+  weatherData?: WeatherData[] | null;
   weatherError?: string | null;
   isFetchingWeather?: boolean;
   isAwaitingLocationData?: boolean;
@@ -190,6 +190,12 @@ export interface CustomChecklistItem {
 }
 
 // AccuWeather API specific types
+// Weather data interfaces
+export interface WeatherServiceConfig {
+  enabled: boolean;
+  useSimulatedData: boolean;
+}
+
 export interface AccuWeatherLocationResponse {
   Key: string;
   LocalizedName: string;
@@ -224,6 +230,7 @@ export enum AppView {
   NOT_FOUND = 'not_found',
   BLOG_INDEX = 'blog_index',
   BLOG_POST = 'blog_post',
+
 }
 
 // Cookie Consent Status
@@ -237,7 +244,8 @@ export interface UserInputFormProps {
   onSubmit: (preferences: UserPreferences) => void;
   isLoading: boolean;
   cookieConsent: CookieConsentStatus;
-  onReconsiderCookies: () => void; // Added
+  onReconsiderCookies: () => void;
+  showAppInstallBanner?: boolean;
 }
 
 export interface WizardStepProps {
@@ -275,6 +283,7 @@ export interface FooterProps {
 
 export interface NotFoundPageProps {
   onNavigateHome: () => void;
+  showAppInstallBanner?: boolean;
 }
 
 // Blog specific types
@@ -296,6 +305,7 @@ export interface ParsedMarkdownPost {
 export interface BlogIndexPageProps {
   onNavigateToPost: (slug: string) => void;
   onNavigateHome: () => void;
+  showAppInstallBanner?: boolean;
 }
 
 export interface BlogPostPageProps {
@@ -303,4 +313,7 @@ export interface BlogPostPageProps {
   onNavigateToBlogIndex: () => void;
   onNavigateHome: () => void;
   onNavigateToPost: (slug: string) => void;
+  showAppInstallBanner?: boolean;
 }
+
+

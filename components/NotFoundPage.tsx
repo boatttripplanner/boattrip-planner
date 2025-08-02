@@ -6,7 +6,7 @@ import { MapPinIcon } from './icons/MapPinIcon';
 import { WindIcon } from './icons/WindIcon';
 import { NotFoundPageProps } from '../types';
 
-const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigateHome }) => {
+const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigateHome, showAppInstallBanner = false }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -70,7 +70,7 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigateHome }) => {
         ))}
       </div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-4">
+              <div className={`relative z-10 flex flex-col items-center justify-center min-h-screen p-4 transition-all duration-300 ease-out ${showAppInstallBanner ? 'pt-20 sm:pt-24' : ''}`}>
         <div className="w-full max-w-4xl mx-auto">
           {/* Header con información náutica */}
           <div className="text-center mb-8">
@@ -94,13 +94,7 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigateHome }) => {
             {/* Icono y título principal */}
             <div className="text-center mb-8">
               <div className="relative inline-block mb-6">
-                <div className="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-blue-50 to-teal-100 rounded-full flex items-center justify-center shadow-lg animate-bounce">
-                  <img 
-                    src="/apple-touch-icon.png" 
-                    alt="BoatTrip Planner Logo" 
-                    className="w-12 h-12 md:w-16 md:h-16"
-                  />
-                </div>
+                <SailboatIcon className="w-24 h-24 md:w-32 md:h-32 text-teal-500 animate-bounce" />
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold animate-pulse">
                   404
                 </div>
@@ -193,13 +187,7 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigateHome }) => {
                 className="text-lg px-8 py-4 bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
                 aria-label="Volver al planificador principal"
               >
-                <div className="w-6 h-6 bg-gradient-to-br from-blue-50 to-teal-100 rounded-full flex items-center justify-center shadow-sm mr-2">
-                  <img 
-                    src="/apple-touch-icon.png" 
-                    alt="BoatTrip Planner Logo" 
-                    className="w-4 h-4"
-                  />
-                </div>
+                <SailboatIcon className="w-6 h-6 mr-2" />
                 ⛵ Navegar al Planificador Principal
               </Button>
             </div>

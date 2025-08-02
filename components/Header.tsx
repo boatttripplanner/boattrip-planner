@@ -1,173 +1,116 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
+import { AppView } from '../types';
+import { Button } from './Button';
 
-const Header: React.FC = () => {
-  const location = useLocation();
-  const isBlogView = location.pathname.startsWith('/blog');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  // Asegurar que el menú se cierre cuando cambie la ruta
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [location.pathname]);
-  
-  const getPageTitle = () => {
-    switch (location.pathname) {
-      case '/':
-        return 'BoatTrip Planner';
-      case '/about':
-        return 'Sobre Nosotros';
-      case '/how-it-works':
-        return 'Cómo Funciona';
-      case '/blog':
-        return 'Blog';
-      default:
-        if (location.pathname.startsWith('/blog/')) {
-          return 'Blog';
-        }
-        return 'BoatTrip Planner';
-    }
-  };
+interface HeaderProps {
+  title: string;
+  onNavigateHome: () => void;
+  onNavigateToBlogIndex: () => void;
+  currentView: AppView;
+  showAppInstallBanner?: boolean;
+}
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
-  const navItems = [
-    { to: '/about', label: 'Sobre Nosotros', isActive: location.pathname === '/about' },
-    { to: '/how-it-works', label: 'Cómo Funciona', isActive: location.pathname === '/how-it-works' },
-    { to: '/blog', label: 'Blog', isActive: isBlogView }
-  ];
-
+const Header: React.FC<HeaderProps> = ({ 
+  title, 
+  onNavigateHome, 
+  onNavigateToBlogIndex,
+  currentView,
+  showAppInstallBanner = false
+}) => {
   return (
-    <>
-      <header className="bg-slate-100 text-slate-800 shadow-lg no-print relative z-30">
-        <div className="container mx-auto px-4 py-3 md:py-4 md:px-8 flex items-center justify-between gap-x-3 sm:gap-x-4">
-          {/* Logo/Title */}
-          <Link
-            to="/"
-            className="group focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-slate-100 rounded-lg px-2 py-2 sm:px-4 border-2 border-slate-300 hover:border-slate-400 hover:bg-slate-200/60 transition-colors duration-150 flex-shrink min-w-0"
-            aria-label={`Ir a la página principal de ${getPageTitle()}`}
-            onClick={closeMenu}
-          >
-            <h1 className="text-base sm:text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-slate-800 group-hover:text-slate-700 transition-colors duration-150 break-words">
-              {getPageTitle()}
-            </h1>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={`px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-slate-100 flex-shrink-0
-                          ${item.isActive
-                            ? 'bg-teal-600 text-white shadow-md ring-2 ring-teal-300/70'
-                            : 'bg-slate-200 hover:bg-slate-300 text-slate-700 hover:text-slate-800'
-                          }`}
-                aria-current={item.isActive ? 'page' : undefined}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Mobile Hamburger Button - GitHub Style */}
-          <button
-            onClick={toggleMenu}
-            className="md:hidden p-2 rounded-lg bg-slate-200 hover:bg-slate-300 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-slate-100"
-            aria-label="Abrir menú de navegación"
-            aria-expanded={isMenuOpen}
-          >
-            <svg 
-              aria-hidden="true" 
-              height="16" 
-              viewBox="0 0 16 16" 
-              version="1.1" 
-              width="16" 
-              className="text-slate-700"
-            >
-              <path 
-                d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"
-                fill="currentColor"
-              />
-            </svg>
-          </button>
-        </div>
-      </header>
-
-      {/* Backdrop - Semi-transparent overlay */}
-      {isMenuOpen && (
-        <div 
-          className="md:hidden fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm z-40"
-          onClick={closeMenu}
-          aria-hidden="true"
-        />
-      )}
-
-      {/* Mobile Navigation Menu - Side Panel */}
-      <div className={`md:hidden fixed top-0 right-0 h-full w-80 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-50 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ display: isMenuOpen ? 'block' : 'none' }}>
-        <div className="flex flex-col h-full">
-          {/* Menu Header */}
-          <div className="flex items-center justify-between p-4 border-b border-slate-200">
-            <h2 className="text-lg font-semibold text-slate-800">Menú</h2>
+    <header className={`bg-white/90 backdrop-blur-md border-b border-slate-200 sticky z-40 shadow-soft transition-all duration-300 ease-out ${showAppInstallBanner ? 'top-16 sm:top-20' : 'top-0'}`}>
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+        <div className="flex justify-between items-center h-14 sm:h-16">
+          {/* Logo and Title */}
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <button
-              onClick={closeMenu}
-              className="p-3 rounded-lg hover:bg-slate-100 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-teal-500"
-              aria-label="Cerrar menú"
+              onClick={onNavigateHome}
+              className="flex items-center space-x-2 sm:space-x-3 group hover:opacity-80 transition-opacity duration-200"
             >
-              <svg 
-                aria-hidden="true" 
-                height="20" 
-                viewBox="0 0 16 16" 
-                version="1.1" 
-                width="20" 
-                className="text-slate-600"
-              >
-                <path 
-                  d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"
-                  fill="currentColor"
-                />
-              </svg>
+              <div className="hidden sm:block">
+                <h1 className="text-lg sm:text-xl font-bold text-slate-800 group-hover:text-ocean-600 transition-colors duration-200">
+                  {title}
+                </h1>
+                <p className="text-xs text-slate-500">Planificador Náutico IA</p>
+              </div>
+              <div className="sm:hidden">
+                <h1 className="text-lg font-bold text-slate-800 group-hover:text-ocean-600 transition-colors duration-200">
+                  {title}
+                </h1>
+              </div>
             </button>
           </div>
 
-          {/* Menu Items */}
-          <nav className="flex-1 p-4">
-            <div className="flex flex-col space-y-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className={`px-4 py-3 rounded-lg text-base font-medium transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-white
-                            ${item.isActive
-                              ? 'bg-teal-600 text-white shadow-md'
-                              : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
-                            }`}
-                  aria-current={item.isActive ? 'page' : undefined}
-                  onClick={closeMenu}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
+          {/* Navigation */}
+          <nav className="hidden md:flex items-center space-x-1">
+            <Button
+              onClick={onNavigateHome}
+              variant={currentView === AppView.MAIN_APP ? "primary" : "secondary"}
+              className={`px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 ${
+                currentView === AppView.MAIN_APP 
+                  ? 'bg-gradient-to-r from-ocean-500 to-sea-500 text-white shadow-medium' 
+                  : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-ocean-600 border border-slate-200 hover:border-ocean-200'
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                <span>🧭</span>
+                <span className="hidden lg:inline">Planificador</span>
+              </span>
+            </Button>
+            
+            <Button
+              onClick={onNavigateToBlogIndex}
+              variant={currentView === AppView.BLOG_INDEX || currentView === AppView.BLOG_POST ? "primary" : "secondary"}
+              className={`px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 ${
+                currentView === AppView.BLOG_INDEX || currentView === AppView.BLOG_POST
+                  ? 'bg-gradient-to-r from-ocean-500 to-sea-500 text-white shadow-medium' 
+                  : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-ocean-600 border border-slate-200 hover:border-ocean-200'
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                <span>📝</span>
+                <span className="hidden lg:inline">Blog</span>
+              </span>
+            </Button>
           </nav>
 
-          {/* Menu Footer */}
-          <div className="p-4 border-t border-slate-200">
-            <div className="text-sm text-slate-500">
-              <p>BoatTrip Planner</p>
-              <p className="text-xs mt-1">Tu planificador náutico inteligente</p>
+          {/* Mobile Navigation */}
+          <div className="md:hidden flex items-center space-x-2">
+            <Button
+              onClick={onNavigateHome}
+              variant={currentView === AppView.MAIN_APP ? "primary" : "secondary"}
+              className={`px-2 py-1.5 rounded-md transition-all duration-200 text-xs ${
+                currentView === AppView.MAIN_APP 
+                  ? 'bg-gradient-to-r from-ocean-500 to-sea-500 text-white shadow-medium' 
+                  : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-ocean-600 border border-slate-200 hover:border-ocean-200'
+              }`}
+            >
+              🧭
+            </Button>
+            
+            <Button
+              onClick={onNavigateToBlogIndex}
+              variant={currentView === AppView.BLOG_INDEX || currentView === AppView.BLOG_POST ? "primary" : "secondary"}
+              className={`px-2 py-1.5 rounded-md transition-all duration-200 text-xs ${
+                currentView === AppView.BLOG_INDEX || currentView === AppView.BLOG_POST
+                  ? 'bg-gradient-to-r from-ocean-500 to-sea-500 text-white shadow-medium' 
+                  : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-ocean-600 border border-slate-200 hover:border-ocean-200'
+              }`}
+            >
+              📝
+            </Button>
+          </div>
+
+          {/* Status Indicator */}
+          <div className="hidden sm:flex items-center space-x-2">
+            <div className="flex items-center space-x-2 px-2 sm:px-3 py-1 bg-gradient-to-r from-sea-50 to-ocean-50 rounded-full border border-sea-200">
+              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-sea-500 rounded-full animate-pulse"></div>
+              <span className="text-xs font-medium text-sea-700">Online</span>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </header>
   );
 };
 
