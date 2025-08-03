@@ -55,9 +55,20 @@ const Footer: React.FC<FooterProps> = ({
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <div className="mb-6">
-              <div className="mb-4">
-                <h3 className="text-xl font-bold text-white">BoatTrip Planner</h3>
-                <p className="text-sm text-slate-200">Planificador Náutico IA</p>
+              <div className="mb-4 flex items-center gap-3">
+                <img 
+                  src="/favicon.svg" 
+                  alt="BoatTrip Planner Logo" 
+                  className="w-10 h-10"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = '/favicon-96x96.png';
+                  }}
+                />
+                <div>
+                  <h3 className="text-xl font-bold text-white">BoatTrip Planner</h3>
+                  <p className="text-sm text-slate-200">Planificador Náutico IA</p>
+                </div>
               </div>
               <p className="text-sm leading-relaxed text-slate-100 mb-6">
                 Tu planificador de viajes náuticos inteligente, potenciado por IA. 

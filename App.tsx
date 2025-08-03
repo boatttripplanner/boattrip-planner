@@ -98,6 +98,24 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const recommendationRef = useRef<HTMLDivElement>(null);
   const [activeChatSession, setActiveChatSession] = useState<AppChatSession | null>(null);
+
+  // Efecto para actualizar el favicon dinámicamente
+  useEffect(() => {
+    const updateFavicon = () => {
+      const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+      if (favicon) {
+        favicon.href = '/favicon.svg?v=2025';
+      }
+      
+      // Actualizar también el shortcut icon
+      const shortcutIcon = document.querySelector('link[rel="shortcut icon"]') as HTMLLinkElement;
+      if (shortcutIcon) {
+        shortcutIcon.href = '/favicon.ico?v=2025';
+      }
+    };
+
+    updateFavicon();
+  }, []);
   
   const initialNavigationState = getViewAndSlugFromLocation();
   const [currentView, setCurrentView] = useState<AppView>(initialNavigationState.view);

@@ -12,7 +12,6 @@ import { WhatsAppIcon } from '../../components/icons/WhatsAppIcon';
 // import RealAmazonRecommendations from '../../components/RealAmazonRecommendations'; // Temporalmente deshabilitado
 import { getRecommendedProductsForEntry } from '../../data/productRecommendations';
 import { AmazonCTAButton, PremiumAmazonCTA, UrgentAmazonCTA, BestsellerAmazonCTA } from '../../components/AmazonCTAButton';
-import { trackAffiliateClick } from '../../services/affiliateTracking';
 
 // Hook para manejar metadatos SEO dinámicos
 const useSEO = (post: ParsedMarkdownPost | null) => {
@@ -762,29 +761,8 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       {/* Barra de progreso */}
       <ReadingProgressBar progress={readingProgress} />
       
-              {/* Botón volver arriba */}
-        <ScrollToTopButton isVisible={showScrollToTop} />
-        
-        {/* Botón de prueba de tracking - SOLO PARA DESARROLLO */}
-        {process.env.NODE_ENV === 'development' && (
-          <div className="fixed bottom-20 right-4 z-50">
-            <button
-              onClick={() => {
-                trackAffiliateClick(
-                  'B09M47HFCQ',
-                  'Garmin fēnix 7 - Test',
-                  'gps',
-                  'blog_post',
-                  post?.slug || 'unknown'
-                );
-                alert('Click de prueba registrado! Revisa la consola.');
-              }}
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm"
-            >
-              🧪 Test Tracking
-            </button>
-          </div>
-        )}
+      {/* Botón volver arriba */}
+      <ScrollToTopButton isVisible={showScrollToTop} />
       
               <div className={`w-full max-w-6xl mx-auto transition-all duration-300 ease-out ${darkMode ? 'dark' : ''} ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''}`}>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
