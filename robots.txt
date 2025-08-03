@@ -42,10 +42,12 @@ Allow: /blog/*
 # Entradas de blog destacadas (alta prioridad SEO)
 Allow: /blog/energia-solar-sostenible-barcos-paneles-solares-marinos-2024
 Allow: /blog/los-7-productos-esenciales-navegar-perro-seguro
-Allow: /blog/islas-columbretes-paraiso-secreto-mediterraneo-navegantes
 Allow: /blog/navegar-en-familia-guia-completa-aventuras-nauticas
 Allow: /blog/navegacion-sostenible-guia-completa-barco-ecologico
 Allow: /blog/mejores-gps-marinos-2024-comparativa-completa
+Allow: /blog/seguridad-nautica-accidentes-evitable
+Allow: /blog/mascotas-nauticas-seguridad-equipamiento-perros-gatos-barco-2025
+Allow: /blog/islas-baleares-guia-completa-navegacion
 
 # URLs con parámetros de consulta para el blog
 Allow: /*?view=BLOG_INDEX
@@ -104,5 +106,6 @@ Host: https://boattrip-planner.com
 # Información adicional para desarrolladores
 # Este robots.txt está optimizado para SEO y permite
 # la indexación completa del contenido público de BoatTrip Planner
-# Última actualización: 2025-01-31
-# Nuevas entradas agregadas: Mascotas, Destinos, Familia, Sostenibilidad, Reviews GPS
+# Última actualización: 2025-08-03
+# Nuevas entradas agregadas: Seguridad Náutica, Mascotas, Baleares, Sostenibilidad, Reviews GPS
+# Total de entradas de blog: 60
