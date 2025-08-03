@@ -104,13 +104,13 @@ const App: React.FC = () => {
     const updateFavicon = () => {
       const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
       if (favicon) {
-        favicon.href = '/favicon.svg?v=2025';
+        favicon.href = '/favicon-96x96.png?v=2025';
       }
       
       // Actualizar también el shortcut icon
       const shortcutIcon = document.querySelector('link[rel="shortcut icon"]') as HTMLLinkElement;
       if (shortcutIcon) {
-        shortcutIcon.href = '/favicon.ico?v=2025';
+        shortcutIcon.href = '/favicon-96x96.png?v=2025';
       }
     };
 
