@@ -80,13 +80,13 @@
       });
     </script>
     
-    <!-- 🚤 FAVICON PRINCIPAL - CONFIGURACIÓN ROBUSTA -->
+    <!-- 🚤 FAVICON PRINCIPAL - CONFIGURACIÓN ROBUSTA PARA WWW Y NO-WWW -->
     <!-- Favicon PNG principal - favicon-96x96.png como estándar universal -->
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png?v=2025" />
     <link rel="shortcut icon" href="/favicon-96x96.png?v=2025" />
     <!-- Favicon principal para todos los navegadores -->
     <link rel="icon" href="/favicon-96x96.png?v=2025" />
-    <!-- Fallbacks adicionales -->
+    <!-- Fallbacks adicionales para máxima compatibilidad -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2025" />
     <link rel="icon" href="/favicon.ico?v=2025" />
     <link rel="icon" href="/apple-touch-icon.png?v=2025" />
@@ -95,6 +95,11 @@
     <!-- Apple Touch Icons (iOS, macOS) - Usando favicon-96x96.png --> 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon-96x96.png?v=2025" />
     <link rel="apple-touch-icon" href="/favicon-96x96.png?v=2025" />
+    
+    <!-- Microsoft Tiles para Windows -->
+    <meta name="msapplication-TileImage" content="/favicon-96x96.png?v=2025" />
+    <meta name="msapplication-TileColor" content="#0d9488" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="/site.webmanifest" />
