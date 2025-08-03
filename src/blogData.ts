@@ -1315,15 +1315,7 @@ El mar está esperando a tu familia. La aventura de toda una vida puede comenzar
 
 *La navegación familiar requiere preparación específica y equipamiento adecuado para cada edad. Los enlaces incluidos te ayudan a encontrar productos específicamente seleccionados para navegación familiar segura y divertida.*`,
   },
-  {
-    frontmatter: {
-      slug: 'mejores-ctas-productos-nauticos-2024',
-      title: '🛒 Los 5 Productos Náuticos Más Vendidos en 2024: ¡Reviews y Ofertas Exclusivas!',
-      date: getTodayDate(0),
-      author: 'Experto en Equipamiento Náutico',
-      summary: 'Descubre los productos náuticos más vendidos de 2024 con nuestras reviews exclusivas, ofertas especiales y CTAs renovados. Desde GPS Garmin hasta kits completos de snorkel.',
-      tags: ['productos', 'reviews', 'ofertas', 'equipamiento náutico', 'bestsellers', '2024'],
-    },
+
     content: `# Los 5 Productos Náuticos Más Vendidos en 2024
 
 ¡Bienvenido navegante! Hemos renovado completamente nuestras **llamadas a la acción** para que tengas la mejor experiencia comprando equipamiento náutico. 
