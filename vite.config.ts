@@ -1,10 +1,49 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
+import { copyFileSync, existsSync } from 'fs'
+import { join } from 'path'
+
+// Plugin para copiar archivos estáticos importantes
+const copyStaticFiles = () => {
+  return {
+    name: 'copy-static-files',
+    writeBundle() {
+      const filesToCopy = [
+        'sitemap.xml',
+        'robots.txt',
+        'browserconfig.xml',
+        'site.webmanifest',
+        'favicon.ico',
+        'favicon-96x96.png',
+        'favicon.svg',
+        'apple-touch-icon.png',
+        'web-app-manifest-192x192.png',
+        'web-app-manifest-512x512.png'
+      ];
+      
+      filesToCopy.forEach(file => {
+        // Buscar en public primero, luego en la raíz
+        let sourcePath = join(__dirname, 'public', file);
+        if (!existsSync(sourcePath)) {
+          sourcePath = join(__dirname, file);
+        }
+        const destPath = join(__dirname, 'dist', file);
+        
+        if (existsSync(sourcePath)) {
+          copyFileSync(sourcePath, destPath);
+          console.log(`✅ Copiado: ${file}`);
+        } else {
+          console.log(`⚠️ No encontrado: ${file}`);
+        }
+      });
+    }
+  };
+};
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), copyStaticFiles()],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
@@ -37,12 +76,13 @@ export default defineConfig({
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.')
+          const name = assetInfo.name || 'asset';
+          const info = name.split('.')
           const ext = info[info.length - 1]
-          if (/\.(css)$/.test(assetInfo.name)) {
+          if (/\.(css)$/.test(name)) {
             return `assets/style.css`
           }
-          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name)) {
+          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(name)) {
             return `assets/images/[name]-[hash][extname]`
           }
           return `assets/[name]-[hash][extname]`
