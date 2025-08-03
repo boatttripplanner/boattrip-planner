@@ -27,19 +27,6 @@ const Header: React.FC<HeaderProps> = ({
               onClick={onNavigateHome}
               className="flex items-center space-x-2 sm:space-x-3 group hover:opacity-80 transition-opacity duration-200"
             >
-              {/* Favicon Logo */}
-              <div className="flex-shrink-0">
-                <img 
-                  src="/favicon.svg" 
-                  alt="BoatTrip Planner Logo" 
-                  className="w-8 h-8 sm:w-10 sm:h-10"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = '/favicon-96x96.png';
-                  }}
-                />
-              </div>
-              
               <div className="hidden sm:block">
                 <h1 className="text-lg sm:text-xl font-bold text-slate-800 group-hover:text-ocean-600 transition-colors duration-200">
                   {title}

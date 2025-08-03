@@ -55,20 +55,9 @@ const Footer: React.FC<FooterProps> = ({
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <div className="mb-6">
-              <div className="mb-4 flex items-center gap-3">
-                <img 
-                  src="/favicon.svg" 
-                  alt="BoatTrip Planner Logo" 
-                  className="w-10 h-10"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = '/favicon-96x96.png';
-                  }}
-                />
-                <div>
-                  <h3 className="text-xl font-bold text-white">BoatTrip Planner</h3>
-                  <p className="text-sm text-slate-200">Planificador Náutico IA</p>
-                </div>
+              <div className="mb-4">
+                <h3 className="text-xl font-bold text-white">BoatTrip Planner</h3>
+                <p className="text-sm text-slate-200">Planificador Náutico IA</p>
               </div>
               <p className="text-sm leading-relaxed text-slate-100 mb-6">
                 Tu planificador de viajes náuticos inteligente, potenciado por IA. 
@@ -217,15 +206,6 @@ const Footer: React.FC<FooterProps> = ({
         <div className="relative mb-8">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t-2 border-ocean-500/30"></div>
-          </div>
-          <div className="relative flex justify-center">
-            <div className="w-12 h-12 bg-gradient-to-br from-white/90 to-slate-100/90 rounded-full flex items-center justify-center border-2 border-ocean-400/50 overflow-hidden shadow-lg">
-              <img 
-                src="/apple-touch-icon.png" 
-                alt="BoatTrip Planner Logo" 
-                className="w-8 h-8 object-contain"
-              />
-            </div>
           </div>
         </div>
         
