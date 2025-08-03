@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { affiliateTracking, AffiliateStats } from '../services/affiliateTracking';
+import { affiliateTracking, AffiliateStats, trackAffiliateClick } from '../services/affiliateTracking';
 import { PRODUCT_RECOMMENDATIONS } from '../src/blogData';
 import { Button } from './Button';
 
@@ -13,6 +13,18 @@ const AffiliateDashboard: React.FC = () => {
 
   const refreshStats = () => {
     setStats(affiliateTracking.getStats());
+  };
+
+  const testTracking = () => {
+    // Simular clicks de prueba
+    trackAffiliateClick('B09M47HFCQ', 'Garmin fēnix 7', 'gps', 'blog_post', 'test-post');
+    trackAffiliateClick('B0B1T4TVTS', 'Chaleco Salvavidas', 'safety', 'product_recommendations');
+    trackAffiliateClick('garmin+echomap+uhd+gps+nautico', 'GPS Náutico Garmin', 'gps', 'blog_post', 'test-post');
+    
+    // Actualizar estadísticas
+    setTimeout(() => {
+      setStats(affiliateTracking.getStats());
+    }, 100);
   };
 
   const exportData = () => {
@@ -43,6 +55,9 @@ const AffiliateDashboard: React.FC = () => {
           <div className="flex gap-2">
             <Button onClick={refreshStats} variant="secondary" size="sm">
               🔄 Actualizar
+            </Button>
+            <Button onClick={testTracking} variant="secondary" size="sm">
+              🧪 Probar Tracking
             </Button>
             <Button onClick={exportData} variant="primary" size="sm">
               📥 Exportar

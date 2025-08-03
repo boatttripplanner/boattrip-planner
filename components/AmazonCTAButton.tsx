@@ -1,5 +1,44 @@
 import React from 'react';
 import { ShoppingCartIcon } from './icons/ShoppingCartIcon';
+import { trackAffiliateClick } from '../services/affiliateTracking';
+
+// Función helper para extraer información del enlace de Amazon
+const extractAmazonInfo = (href: string, children: React.ReactNode) => {
+  try {
+    const url = new URL(href);
+    let asin = 'unknown';
+    let productName = typeof children === 'string' ? children : 'Amazon Product';
+    
+    // Extraer ASIN de diferentes formatos de URL
+    if (url.pathname.includes('/dp/')) {
+      asin = url.pathname.split('/dp/')[1]?.split('?')[0] || 'unknown';
+    } else if (url.searchParams.get('k')) {
+      // Para búsquedas, usar el término de búsqueda como identificador
+      asin = url.searchParams.get('k') || 'unknown';
+    }
+    
+    // Determinar categoría basada en el texto del enlace
+    let category = 'general';
+    const text = typeof children === 'string' ? children.toLowerCase() : '';
+    
+    if (text.includes('gps') || text.includes('nautico') || text.includes('navegacion')) category = 'gps';
+    else if (text.includes('chaleco') || text.includes('salvavidas') || text.includes('seguridad')) category = 'safety';
+    else if (text.includes('snorkel') || text.includes('buceo') || text.includes('submarino')) category = 'snorkel';
+    else if (text.includes('pesca') || text.includes('caña') || text.includes('carrete')) category = 'fishing';
+    else if (text.includes('herramienta') || text.includes('kit') || text.includes('destornillador')) category = 'tools';
+    else if (text.includes('camera') || text.includes('gopro') || text.includes('foto')) category = 'technology';
+    else if (text.includes('nevera') || text.includes('cooler') || text.includes('hielo')) category = 'comfort';
+    else if (text.includes('solar') || text.includes('cargador') || text.includes('bateria')) category = 'technology';
+    else if (text.includes('paddle') || text.includes('surf') || text.includes('acuatico')) category = 'water_sports';
+    else if (text.includes('ropa') || text.includes('traje') || text.includes('neopreno')) category = 'clothing';
+    else if (text.includes('comida') || text.includes('conserva') || text.includes('bebida')) category = 'food';
+    
+    return { asin, productName, category };
+  } catch (error) {
+    console.warn('Error extracting Amazon info:', error);
+    return { asin: 'unknown', productName: 'Amazon Product', category: 'general' };
+  }
+};
 
 interface AmazonCTAButtonProps {
   href: string;
@@ -39,7 +78,19 @@ export const AmazonCTAButton: React.FC<AmazonCTAButtonProps> = ({
   };
 
   const handleClick = (e: React.MouseEvent) => {
-    // Track affiliate click
+    // Extraer información del enlace de Amazon
+    const { asin, productName, category } = extractAmazonInfo(href, children);
+    
+    // Track affiliate click con nuestro sistema
+    trackAffiliateClick(
+      asin,
+      productName,
+      category,
+      'blog_post',
+      window.location.pathname.split('/').pop() || 'unknown'
+    );
+    
+    // También track con Google Analytics
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'affiliate_click', {
         'event_category': 'ecommerce',
@@ -47,6 +98,8 @@ export const AmazonCTAButton: React.FC<AmazonCTAButtonProps> = ({
         'value': price ? parseFloat(price.replace(/[€,$]/g, '')) : 0
       });
     }
+    
+    console.log('Amazon affiliate click tracked:', { asin, productName, category, href });
   };
 
   return (
