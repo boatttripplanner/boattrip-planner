@@ -35,23 +35,23 @@ function generateFaviconSVG(size) {
   const scale = size / 100; // El SVG base es 100x100
   
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="${size}" height="${size}">
-  <!-- Fondo circular de agua -->
-  <circle cx="50" cy="50" r="45" fill="${themeColors.accent}" stroke="none"/>
+  <!-- Fondo blanco -->
+  <rect width="100" height="100" fill="white"/>
   
-  <!-- Elemento de agua/onda -->
-  <path d="M 15 65 Q 25 45 35 50 Q 45 55 50 50 Q 55 45 65 50 Q 75 55 85 50 L 85 65 Z" fill="${themeColors.accent}" stroke="none"/>
+  <!-- Elemento de agua/onda circular (azul claro) -->
+  <path d="M 10 70 Q 20 30 30 40 Q 40 50 50 40 Q 60 30 70 40 Q 80 50 90 40 L 90 70 Z" fill="${themeColors.accent}" stroke="none"/>
   
-  <!-- Vela trasera (más oscura) -->
-  <path d="M 45 25 L 45 60 L 35 60 Z" fill="${themeColors.primary}" stroke="none"/>
+  <!-- Vela trasera (azul oscuro) -->
+  <path d="M 40 20 L 40 60 L 30 60 Z" fill="${themeColors.primary}" stroke="none"/>
   
-  <!-- Vela delantera (más oscura) -->
-  <path d="M 55 20 L 55 60 L 45 60 Z" fill="${themeColors.primary}" stroke="none"/>
+  <!-- Vela delantera (azul oscuro) -->
+  <path d="M 50 15 L 50 60 L 40 60 Z" fill="${themeColors.primary}" stroke="none"/>
   
   <!-- Casco del barco (azul claro) -->
-  <path d="M 30 60 Q 50 70 70 60 L 70 65 Q 50 75 30 65 Z" fill="${themeColors.secondary}" stroke="none"/>
+  <path d="M 25 60 Q 50 75 75 60 L 75 65 Q 50 80 25 65 Z" fill="${themeColors.secondary}" stroke="none"/>
   
   <!-- Detalle del casco -->
-  <path d="M 35 62 Q 50 68 65 62" stroke="#3B82F6" stroke-width="1" fill="none"/>
+  <path d="M 30 62 Q 50 70 70 62" stroke="#3B82F6" stroke-width="1" fill="none"/>
 </svg>`;
 }
 
