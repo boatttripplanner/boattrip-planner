@@ -13,6 +13,9 @@ import { WhatsAppIcon } from '../../components/icons/WhatsAppIcon';
 import { getRecommendedProductsForEntry } from '../../data/productRecommendations';
 import AmazonCTAButton from '../../components/AmazonCTAButton';
 import ProductRecommendations from '../../components/ProductRecommendations';
+// Importar componentes de Unsplash
+import UnsplashImage from '../../components/UnsplashImage';
+import UnsplashImageGallery from '../../components/UnsplashImageGallery';
 
 // Estilos CSS personalizados para mejorar la apariencia
 const customStyles = `
@@ -97,6 +100,7 @@ const customStyles = `
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
+    margin-top: 2rem;
   }
   
 
@@ -652,6 +656,29 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
   };
 
   const markdownComponents: Components = {
+    // Componente personalizado para UnsplashImage
+    UnsplashImage: ({ searchQuery, width, height, alt, className }) => (
+      <div className="my-8">
+        <UnsplashImage
+          searchQuery={searchQuery || "nautical sailing"}
+          width={width || 800}
+          height={height || 400}
+          alt={alt || "Imagen náutica"}
+          className={className || "rounded-2xl shadow-2xl"}
+        />
+      </div>
+    ),
+    // Componente personalizado para UnsplashImageGallery
+    UnsplashImageGallery: ({ searchQuery, count, title, className }) => (
+      <div className="my-8">
+        <UnsplashImageGallery
+          searchQuery={searchQuery || "nautical sailing"}
+          count={count || 3}
+          title={title || "Galería de imágenes"}
+          className={className || "rounded-2xl shadow-2xl"}
+        />
+      </div>
+    ),
     h1: ({ children }) => {
       const text = getNodeTextContent(children);
       const id = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
@@ -832,21 +859,39 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
         </a>
       );
     },
-    img: ({ src, alt }) => (
-      <div className="my-8 relative group">
-        <img 
-          src={src} 
-          alt={alt} 
-          className="max-w-full h-auto rounded-2xl shadow-2xl transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-3xl"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        {alt && (
-          <div className="absolute bottom-4 left-4 right-4 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            {alt}
+    img: ({ src, alt }) => {
+      // Si es una imagen de Unsplash, usar el componente UnsplashImage
+      if (src && src.includes('unsplash')) {
+        return (
+          <div className="my-8">
+            <UnsplashImage
+              searchQuery={alt || "nautical sailing"}
+              width={800}
+              height={400}
+              alt={alt || "Imagen náutica"}
+              className="rounded-2xl shadow-2xl"
+            />
           </div>
-        )}
-      </div>
-    ),
+        );
+      }
+      
+      // Imagen normal
+      return (
+        <div className="my-8 relative group">
+          <img 
+            src={src} 
+            alt={alt} 
+            className="max-w-full h-auto rounded-2xl shadow-2xl transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-3xl"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          {alt && (
+            <div className="absolute bottom-4 left-4 right-4 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {alt}
+            </div>
+          )}
+        </div>
+      );
+    },
   };
 
   return (
@@ -958,11 +1003,11 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       </div>
       
       {/* Contenido principal */}
-      <div className={`w-full max-w-6xl mx-auto transition-all duration-300 ease-out ${darkMode ? 'dark' : ''} ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''} -mt-20 relative z-20 px-4`}>
+      <div className={`w-full max-w-6xl mx-auto transition-all duration-300 ease-out ${darkMode ? 'dark' : ''} ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''} relative z-10 px-4`}>
         <div className="w-full max-w-4xl mx-auto blog-layout overflow-hidden">
           {/* Contenido principal */}
           <div className="w-full main-content min-w-0">
-            <div className={`${darkMode ? 'bg-slate-800/95 backdrop-blur-sm text-white' : 'bg-white/95 backdrop-blur-sm'} p-6 md:p-8 rounded-2xl shadow-2xl transition-all duration-300 border ${darkMode ? 'border-slate-700/50' : 'border-white/50'} relative z-10`}>
+            <div className={`${darkMode ? 'bg-slate-800/95 backdrop-blur-sm text-white' : 'bg-white/95 backdrop-blur-sm'} p-6 md:p-8 rounded-2xl shadow-2xl transition-all duration-300 border ${darkMode ? 'border-slate-700/50' : 'border-white/50'} relative z-5`}>
           {/* Controles de navegación */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b border-slate-200/50 dark:border-slate-600/50">
             <div className="flex-1">

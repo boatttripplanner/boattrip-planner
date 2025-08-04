@@ -319,4 +319,114 @@ export interface BlogPostPageProps {
   showAppInstallBanner?: boolean;
 }
 
+// Unsplash Integration Types
+export interface UnsplashImage {
+  id: string;
+  urls: {
+    small: string;
+    regular: string;
+    full: string;
+  };
+  alt_description: string;
+  description: string;
+  user: {
+    name: string;
+    username: string;
+  };
+  links: {
+    html: string;
+  };
+}
+
+export interface UnsplashSearchResult {
+  results: UnsplashImage[];
+  total: number;
+  total_pages: number;
+}
+
+export type UnsplashCategory = 'destinations' | 'boats' | 'sailing' | 'ports' | 'sunset' | 'crew';
+
+export interface UnsplashImageProps {
+  category?: UnsplashCategory;
+  searchQuery?: string;
+  width?: number;
+  height?: number;
+  quality?: number;
+  showAttribution?: boolean;
+  className?: string;
+  alt?: string;
+  fallbackSrc?: string;
+}
+
+export interface UnsplashImageGalleryProps {
+  category?: UnsplashCategory;
+  searchQuery?: string;
+  count?: number;
+  title?: string;
+  showAttribution?: boolean;
+  className?: string;
+}
+
+// Tipos para automatización de blog
+export interface BlogContentRequest {
+  topic: string;
+  category: 'destinos' | 'equipamiento' | 'técnicas' | 'reviews' | 'sostenibilidad' | 'familia' | 'aventuras';
+  targetAudience: 'principiantes' | 'intermedios' | 'expertos';
+  contentType: 'guia' | 'review' | 'destino' | 'tutorial' | 'noticias';
+  targetLength: 'corta' | 'media' | 'larga';
+  includeProducts: boolean;
+  includeImages: boolean;
+  seoKeywords: string[];
+  affiliateFocus?: string[];
+}
+
+export interface GeneratedBlogContent {
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  images: BlogImage[];
+  products: BlogProduct[];
+  seoData: SEOData;
+  readingTime: number;
+  publishDate: string;
+  tags: string[];
+  category: string;
+}
+
+export interface BlogImage {
+  url: string;
+  alt: string;
+  caption?: string;
+  width: number;
+  height: number;
+  position: 'header' | 'inline' | 'gallery';
+  unsplashId?: string;
+  photographer?: string;
+}
+
+export interface BlogProduct {
+  asin: string;
+  title: string;
+  price: string;
+  rating: number;
+  reviewCount: number;
+  imageUrl: string;
+  affiliateUrl: string;
+  category: string;
+  description: string;
+  pros: string[];
+  cons: string[];
+  position: 'inline' | 'sidebar' | 'gallery';
+}
+
+export interface SEOData {
+  title: string;
+  description: string;
+  keywords: string[];
+  ogImage: string;
+  canonicalUrl: string;
+  structuredData: any;
+}
+
 

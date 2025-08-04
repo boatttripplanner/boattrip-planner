@@ -13,6 +13,12 @@
   "dir": "ltr",
   "icons": [
     {
+      "src": "/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
       "src": "/alex5.svg",
       "sizes": "96x96",
       "type": "image/svg+xml",

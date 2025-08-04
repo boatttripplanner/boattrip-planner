@@ -175,6 +175,7 @@ const getArticleCategory = (tags: string[]): string => {
   const categoryMap: { [key: string]: string } = {
     'destinos': 'Destinos',
     'destino': 'Destinos',
+    'croacia': 'Destinos',
     'baleares': 'Destinos',
     'menorca': 'Destinos',
     'ibiza': 'Destinos',
