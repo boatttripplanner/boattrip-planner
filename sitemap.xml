@@ -766,4 +766,28 @@
       <image:title>🛟 Seguridad Náutica: ¿Por Qué el 90% de los Accidentes Marinos Son Evitables? 2025 ⚓</image:title>
     </image:image>
   </url>
+  
+  <!-- Entrada de blog: 🎯 Reviews Reales: Los 3 Productos Náuticos que Realmente Funcionan (Testeados por 8 Meses) -->
+  <url>
+    <loc>https://boattrip-planner.com/blog/reviews-reales-productos-nauticos-testeados</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
+      <image:title>🎯 Reviews Reales: Los 3 Productos Náuticos que Realmente Funcionan (Testeados por 8 Meses)</image:title>
+    </image:image>
+  </url>
+
+  <!-- Entrada de blog: 🌱 Productos Sostenibles para Navegantes: Guía de Compra Responsable 2024 -->
+  <url>
+    <loc>https://boattrip-planner.com/blog/productos-sostenibles-navegantes-guia-compra</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
+      <image:title>🌱 Productos Sostenibles para Navegantes: Guía de Compra Responsable 2024</image:title>
+    </image:image>
+  </url>
 </urlset>

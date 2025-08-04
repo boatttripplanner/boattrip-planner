@@ -233,7 +233,7 @@ export enum AppView {
   NOT_FOUND = 'not_found',
   BLOG_INDEX = 'blog_index',
   BLOG_POST = 'blog_post',
-
+  ABOUT_US = 'about_us',
 }
 
 // Cookie Consent Status

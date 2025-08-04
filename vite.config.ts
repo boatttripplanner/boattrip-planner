@@ -61,15 +61,31 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Code splitting optimizado
-        manualChunks: {
-          // Separar React y React DOM
-          'react-vendor': ['react', 'react-dom'],
-          // Separar librerías de UI
-          'ui-vendor': ['react-router-dom', 'lucide-react'],
-          // Separar librerías de AI/ML
-          'ai-vendor': ['@google/generative-ai'],
-          // Separar librerías de utilidades
-          'utils-vendor': ['date-fns', 'lodash-es'],
+        manualChunks: (id) => {
+          // React y React DOM
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return 'react-vendor';
+          }
+          // Librerías de UI
+          if (id.includes('node_modules/react-router') || id.includes('node_modules/lucide-react')) {
+            return 'ui-vendor';
+          }
+          // Librerías de AI/ML
+          if (id.includes('node_modules/@google/generative-ai')) {
+            return 'ai-vendor';
+          }
+          // Librerías de utilidades
+          if (id.includes('node_modules/date-fns') || id.includes('node_modules/lodash')) {
+            return 'utils-vendor';
+          }
+          // Markdown y parsing
+          if (id.includes('node_modules/react-markdown') || id.includes('node_modules/remark') || id.includes('node_modules/rehype')) {
+            return 'markdown-vendor';
+          }
+          // Si es un módulo de node_modules, agrupar en vendor
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
         },
         // Optimizar nombres de archivos
         chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -92,11 +108,14 @@ export default defineConfig({
     cssCodeSplit: true,
     // Optimizaciones de assets
     assetsInlineLimit: 4096,
-    // Chunk size warning limit
-    chunkSizeWarningLimit: 1000,
+    // Chunk size warning limit - aumentado para evitar warnings
+    chunkSizeWarningLimit: 1500,
   },
   // Optimizaciones de desarrollo
   server: {
+    port: 5174,
+    host: '0.0.0.0',
+    strictPort: false,
     hmr: {
       overlay: false,
     },

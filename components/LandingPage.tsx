@@ -28,8 +28,25 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
             : 'pt-12 sm:pt-16 md:pt-20 lg:pt-24'
         }`}>
           <div className="text-center">
+            {/* Logo Section - Entre Header y Título */}
+            <div className="animate-slide-up mb-6 sm:mb-8 md:mb-10 lg:mb-12" style={{ animationDelay: '0.1s' }}>
+              <div className="flex justify-center">
+                <div className="relative">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 bg-gradient-to-br from-ocean-500 via-sea-500 to-sunset-500 rounded-full flex items-center justify-center shadow-2xl hover:shadow-ocean-500/25 transition-all duration-300 transform hover:scale-105">
+                    <img 
+                      src="/alex5.svg" 
+                      alt="BoatTrip Planner Logo" 
+                      className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18"
+                    />
+                  </div>
+                  <div className="absolute inset-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 border-2 border-ocean-300 rounded-full animate-ping opacity-20"></div>
+                  <div className="absolute inset-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 border-2 border-sea-300 rounded-full animate-ping opacity-20" style={{ animationDelay: '1s' }}></div>
+                </div>
+              </div>
+            </div>
+            
             {/* Enhanced Typography - Optimizado para móvil */}
-            <div className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <div className="animate-slide-up" style={{ animationDelay: '0.3s' }}>
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-7xl font-bold text-slate-800 mb-2 sm:mb-3 md:mb-4 lg:mb-6 leading-tight px-2">
                 Planifica tu
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-ocean-600 via-sea-600 to-sunset-600 animate-pulse-slow">
@@ -38,7 +55,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
               </h1>
             </div>
             
-            <div className="animate-slide-up" style={{ animationDelay: '0.4s' }}>
+            <div className="animate-slide-up" style={{ animationDelay: '0.5s' }}>
               <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-slate-600 mb-3 sm:mb-4 md:mb-6 lg:mb-8 max-w-4xl mx-auto leading-relaxed px-3 sm:px-4">
                 Genera itinerarios personalizados para viajes en barco con inteligencia artificial, 
                 adaptados a tus preferencias y condiciones meteorológicas
@@ -46,7 +63,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
             </div>
             
             {/* Enhanced CTA Button - Optimizado para móvil */}
-            <div className="animate-slide-up" style={{ animationDelay: '0.6s' }}>
+            <div className="animate-slide-up" style={{ animationDelay: '0.7s' }}>
               <Button
                 onClick={onStartPlanning}
                 variant="primary"
@@ -57,7 +74,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
             </div>
 
             {/* Trust Indicators - Optimizado para móvil */}
-            <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-12 animate-fade-in" style={{ animationDelay: '0.8s' }}>
+            <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-12 animate-fade-in" style={{ animationDelay: '0.9s' }}>
               <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-6 xl:gap-8 text-xs sm:text-sm text-slate-500 px-3 sm:px-4">
                 <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                   <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-sea-500 rounded-full animate-pulse"></div>

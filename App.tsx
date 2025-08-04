@@ -15,11 +15,12 @@ import NotFoundPage from './components/NotFoundPage';
 import BlogIndexPage from './src/components/BlogIndexPage';
 import BlogPostPage from './src/components/BlogPostPage';
 import ScrollToTopButton from './components/ScrollToTopButton';
-import AndroidCompatibilityAlert from './components/AndroidCompatibilityAlert';
+
 import LoadingOverlay from './components/LoadingOverlay';
 import LandingPage from './components/LandingPage';
 import AppInstallBanner from './components/AppInstallBanner';
-import AppInstallTab from './components/AppInstallTab';
+
+import AboutUsPage from './components/AboutUsPage';
 
 
 import { generateBoatTripRecommendationStream, constructPrompt } from './services/geminiService';
@@ -82,6 +83,8 @@ const getViewAndSlugFromLocation = (): { view: AppView; slug: string | null } =>
       return { view: AppView.BLOG_INDEX, slug: null };
     case AppView.MAIN_APP:
       return { view: AppView.MAIN_APP, slug: null };
+    case AppView.ABOUT_US:
+      return { view: AppView.ABOUT_US, slug: null };
     case AppView.NOT_FOUND:
       return { view: AppView.NOT_FOUND, slug: null};
     default:
@@ -147,15 +150,7 @@ const App: React.FC = () => {
   const [currentLoadingMessage, setCurrentLoadingMessage] = useState(loadingMessages[0]);
   const [showAppInstallBanner, setShowAppInstallBanner] = useState(false);
 
-  const handleReopenAppInstallBanner = useCallback(() => {
-    setShowAppInstallBanner(true);
-  }, []);
 
-  const handleTabClose = useCallback(() => {
-    // Cuando se cierra la pestaña, centrar el contenido
-    // Esto se maneja automáticamente con las transiciones CSS existentes
-    console.log('Pestaña de instalación cerrada - centrando contenido');
-  }, []);
 
   // Manejar la lógica del banner de instalación
   useEffect(() => {
@@ -1023,9 +1018,7 @@ const App: React.FC = () => {
       case AppView.MAIN_APP:
         return (
           <>
-            <div className="w-full max-w-2xl no-print mb-4 sm:mb-6">
-              <AndroidCompatibilityAlert />
-            </div>
+
             <div
               className="w-full max-w-2xl no-print"
               style={{ position: 'relative', zIndex: 20 }}
@@ -1065,6 +1058,8 @@ const App: React.FC = () => {
                   onNavigateToPost={handleNavigateToBlogPost} 
                   showAppInstallBanner={showAppInstallBanner}
                 />;
+      case AppView.ABOUT_US:
+        return <AboutUsPage />;
 
       case AppView.NOT_FOUND:
         return <NotFoundPage onNavigateHome={handleNavigateToMainApp} showAppInstallBanner={showAppInstallBanner} />;
@@ -1082,7 +1077,7 @@ const App: React.FC = () => {
           localStorage.setItem('appInstallBannerClosed', 'true');
         }} />
       )}
-      {!showLandingPage && (
+      {(currentView !== AppView.MAIN_APP || !showLandingPage) && (
         <Header 
           title={APP_TITLE} 
           onNavigateHome={handleNavigateToMainApp}
@@ -1092,13 +1087,13 @@ const App: React.FC = () => {
         />
       )}
 
-      <main className={`flex-grow transition-all duration-300 ease-out ${showLandingPage ? '' : 'container mx-auto px-3 sm:px-4 md:px-8 py-4 sm:py-6 md:py-8'} ${showAppInstallBanner && !showLandingPage ? 'pt-16 sm:pt-20' : ''}`}>
-        <div className={`${showLandingPage ? '' : 'flex flex-col items-center gap-4 sm:gap-6 md:gap-8'}`}>
+      <main className={`flex-grow transition-all duration-300 ease-out ${showLandingPage && currentView === AppView.MAIN_APP ? '' : 'container mx-auto px-3 sm:px-4 md:px-8 py-4 sm:py-6 md:py-8'} ${showAppInstallBanner && !showLandingPage ? 'pt-16 sm:pt-20' : ''}`}>
+        <div className={`${showLandingPage && currentView === AppView.MAIN_APP ? '' : 'flex flex-col items-center gap-4 sm:gap-6 md:gap-8'}`}>
           {renderContent()}
         </div>
       </main>
       
-      {!showLandingPage && (
+      {(currentView !== AppView.MAIN_APP || !showLandingPage) && (
         <Footer
           onShowPrivacyPolicy={() => setShowPrivacyModal(true)}
           onShowTermsOfService={() => setShowTermsModal(true)}
@@ -1124,10 +1119,7 @@ const App: React.FC = () => {
       )}
       {(currentView === AppView.BLOG_INDEX || currentView === AppView.BLOG_POST || currentView === AppView.MAIN_APP) && <ScrollToTopButton />}
       
-      {/* Pestaña para reabrir el banner de instalación - solo mostrar si el banner está cerrado */}
-      {!showAppInstallBanner && (
-        <AppInstallTab onShowBanner={handleReopenAppInstallBanner} onTabClose={handleTabClose} />
-      )}
+      
     </div>
   );
 };

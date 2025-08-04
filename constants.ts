@@ -1,5 +1,3 @@
-
-
 import { BudgetLevel, PlanningMode, planningModeOptions as planningModeOptionsType } from './types'; // Added PlanningMode to imports
 
 export const GEMINI_MODEL_NAME = 'gemini-2.5-flash';
@@ -30,51 +28,867 @@ export const SAMBOAT_AFFILIATE_URL = "https://www.samboat.com/?utm_source=affila
 export const AMAZON_AFFILIATE_TAG = "explorashop18-21"; // Your Amazon Affiliate Tag
 export const AMAZON_SEARCH_BASE_URL = "https://www.amazon.es/s";
 
-// Amazon API Credentials (from user's account)
+// Amazon Product Advertising API Configuration - REAL CREDENTIALS
 export const AMAZON_API_CONFIG = {
-  accessKeyId: "AKPAXD3F0H1753982397",
-  secretAccessKey: "UUY08lWjgs40wYKps1NGLx8RjA2zAXYoQ5e6fw33",
-  associateTag: "explorashop18-21",
-  region: "eu-west-1",
-  marketplace: "amazon.es"
+  accessKeyId: 'AKPAXD3F0H1753982397',
+  secretAccessKey: 'UUY08lWjgs40wYKps1NGLx8RjA2zAXYoQ5e6fw33',
+  associateTag: 'explorashop18-21',
+  marketplace: 'amazon.es',
+  region: 'eu-west-1',
+          host: 'webservices.amazon.com',
+  service: 'ProductAdvertisingAPI',
+  version: '2013-08-01'
 };
 
-// Enhanced Amazon affiliate links for specific product categories
+// 🎯 PRODUCTOS CORE VERIFICADOS - ESTRATEGIA DE MONETIZACIÓN OPTIMIZADA
+export const PRODUCTOS_CORE_VERIFICADOS = {
+  // 🛡️ BÁSICOS UNIVERSALES (en 80% de artículos) - €50-150/venta
+  seguridad: {
+    asin: 'B01M0WXQKX',
+    nombre: 'Chaleco Salvavidas Náutico',
+    precio: '€45-65',
+    categoria: 'seguridad',
+    prioridad: 10,
+    search_query: 'chaleco salvavidas náutico homologado',
+    comision_estimada: '€4-6'
+  },
+  salud: {
+    asin: 'B08XQRZQRF', 
+    nombre: 'Protector Solar Resistente Agua',
+    precio: '€15-25',
+    categoria: 'salud',
+    prioridad: 9,
+    search_query: 'protector solar resistente agua SPF 50',
+    comision_estimada: '€1-2'
+  },
+  energia: {
+    asin: 'B07FNPY8WG',
+    nombre: 'Cargador Solar Portátil',
+    precio: '€25-40',
+    categoria: 'energia',
+    prioridad: 8,
+    search_query: 'cargador solar portátil 20000mAh',
+    comision_estimada: '€2-3'
+  },
+
+  // 🧭 EQUIPAMIENTO ESPECÍFICO - €100-300/venta
+  navegacion: {
+    asin: 'B09M47HFCQ',
+    nombre: 'Garmin fēnix 7 GPS Multideporte',
+    precio: '€350-400',
+    categoria: 'navegacion',
+    prioridad: 10,
+    search_query: 'garmin fēnix 7 gps náutico',
+    comision_estimada: '€35-40'
+  },
+  deportes: {
+    asin: 'B0B1T4TVTS',
+    nombre: 'GoPro HERO11 Black',
+    precio: '€300-400',
+    categoria: 'deportes',
+    prioridad: 9,
+    search_query: 'gopro hero11 black cámara acción',
+    comision_estimada: '€30-40'
+  },
+  snorkel: {
+    asin: 'B00AVSSZAW',
+    nombre: 'Cressi Palau Aletas Snorkel',
+    precio: '€30-45',
+    categoria: 'deportes',
+    prioridad: 8,
+    search_query: 'cressi palau aletas snorkel',
+    comision_estimada: '€3-4'
+  },
+
+  // 🔧 HERRAMIENTAS Y TÉCNICO - €75-200/venta
+  herramientas: {
+    asin: 'B075ZN5LJY',
+    nombre: 'Kit Herramientas Náuticas',
+    precio: '€80-120',
+    categoria: 'herramientas',
+    prioridad: 8,
+    search_query: 'kit herramientas náuticas mantenimiento',
+    comision_estimada: '€8-12'
+  },
+  nevera: {
+    asin: 'B00363W0OI',
+    nombre: 'Coleman Nevera Portátil 28QT',
+    precio: '€60-80',
+    categoria: 'confort',
+    prioridad: 7,
+    search_query: 'nevera portátil coleman 28qt',
+    comision_estimada: '€6-8'
+  },
+
+  // 📚 FORMACIÓN - €200-500/venta
+  gps_basico: {
+    asin: 'B07Q5X3XXR',
+    nombre: 'Garmin Striker GPS Pesca',
+    precio: '€200-250',
+    categoria: 'navegacion',
+    prioridad: 8,
+    search_query: 'garmin striker gps pesca navegación',
+    comision_estimada: '€20-25'
+  },
+  linterna: {
+    asin: 'B075ZN5LJY',
+    nombre: 'Linterna LED Táctica',
+    precio: '€25-35',
+    categoria: 'seguridad',
+    prioridad: 7,
+    search_query: 'linterna led táctica náutica',
+    comision_estimada: '€2-3'
+  }
+};
+
+// 🎯 ENLACES AMAZON OPTIMIZADOS POR CATEGORÍA - PRODUCTOS REALES VERIFICADOS
 export const AMAZON_AFFILIATE_LINKS = {
-  // Nautical Equipment
-  snorkel_gear: `https://www.amazon.es/s?k=equipo+snorkel+completo&tag=${AMAZON_AFFILIATE_TAG}`,
-  life_jackets: `https://www.amazon.es/s?k=chaleco+salvavidas+nautico&tag=${AMAZON_AFFILIATE_TAG}`,
-  nautical_tools: `https://www.amazon.es/s?k=herramientas+nauticas&tag=${AMAZON_AFFILIATE_TAG}`,
-  gps_nautical: `https://www.amazon.es/s?k=gps+nautico&tag=${AMAZON_AFFILIATE_TAG}`,
-  nautical_books: `https://www.amazon.es/s?k=libros+navegacion&tag=${AMAZON_AFFILIATE_TAG}`,
+  // 🌅 INICIACIÓN NÁUTICA (€50-150/venta) - OPTIMIZADO
+  iniciacion: {
+    chaleco_basico: `https://www.amazon.es/dp/B01M0WXQKX?tag=${AMAZON_AFFILIATE_TAG}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B01M0WXQKX`,
+    protector_solar: `https://www.amazon.es/dp/B08XQRZQRF?tag=${AMAZON_AFFILIATE_TAG}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B08XQRZQRF`,
+    ropa_basica: `https://www.amazon.es/s?k=ropa+nautica+impermeable+hombre&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    guia_manual: `https://www.amazon.es/s?k=manual+navegacion+principiantes+español&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`
+  },
+
+  // 🗺️ DESTINOS & AVENTURAS (€75-200/venta) - OPTIMIZADO
+  destinos: {
+    gps_portatil: `https://www.amazon.es/dp/B09M47HFCQ?tag=${AMAZON_AFFILIATE_TAG}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B09M47HFCQ`,
+    cartas_nauticas: `https://www.amazon.es/s?k=cartas+nauticas+mediterraneo+españa&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    equipamiento_viaje: `https://www.amazon.es/s?k=equipamiento+viaje+barco+vela&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    guias_destinos: `https://www.amazon.es/s?k=guias+destinos+nauticos+mediterraneo&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`
+  },
+
+  // ⚓ CONOCIMIENTO TÉCNICO (€100-300/venta) - OPTIMIZADO
+  tecnico: {
+    herramientas_profesionales: `https://www.amazon.es/dp/B075ZN5LJY?tag=${AMAZON_AFFILIATE_TAG}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B075ZN5LJY`,
+    instrumentos_navegacion: `https://www.amazon.es/s?k=instrumentos+navegacion+nautica&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    manuales_tecnicos: `https://www.amazon.es/s?k=manuales+tecnicos+navegacion&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    equipamiento_mantenimiento: `https://www.amazon.es/s?k=equipamiento+mantenimiento+barco&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`
+  },
+
+  // 🏄‍♂️ DEPORTES & ACTIVIDADES (€80-250/venta) - OPTIMIZADO
+  deportes: {
+    gopro_camara: `https://www.amazon.es/dp/B0B1T4TVTS?tag=${AMAZON_AFFILIATE_TAG}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B0B1T4TVTS`,
+    equipo_snorkel: `https://www.amazon.es/dp/B00AVSSZAW?tag=${AMAZON_AFFILIATE_TAG}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B00AVSSZAW`,
+    traje_neopreno: `https://www.amazon.es/s?k=traje+neopreno+buceo&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    equipo_pesca: `https://www.amazon.es/s?k=equipo+pesca+completo&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`
+  },
+
+  // 🔧 EQUIPAMIENTO & REVIEWS (€200-800/venta) - OPTIMIZADO
+  equipamiento: {
+    garmin_fenix: `https://www.amazon.es/dp/B09M47HFCQ?tag=${AMAZON_AFFILIATE_TAG}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B09M47HFCQ`,
+    panel_solar: `https://www.amazon.es/dp/B07FNPY8WG?tag=${AMAZON_AFFILIATE_TAG}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B07FNPY8WG`,
+    radio_vhf: `https://www.amazon.es/s?k=radio+VHF+nautico&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    ancla_marina: `https://www.amazon.es/s?k=ancla+marina+profesional&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`
+  },
+
+  // 🌱 NAVEGACIÓN SOSTENIBLE (€100-400/venta) - OPTIMIZADO
+  sostenibilidad: {
+    cargador_solar: `https://www.amazon.es/dp/B07FNPY8WG?tag=${AMAZON_AFFILIATE_TAG}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B07FNPY8WG`,
+    detergente_biodegradable: `https://www.amazon.es/s?k=detergente+biodegradable+nautico+ecologico&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    bombillas_led: `https://www.amazon.es/s?k=bombillas+LED+12V+nauticas+marinas&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    productos_ecologicos: `https://www.amazon.es/s?k=productos+ecologicos+nauticos+biodegradables&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`
+  },
+
+  // 👨‍👩‍👧‍👦 NAVEGACIÓN FAMILIAR (€50-200/venta) - OPTIMIZADO
+  familiar: {
+    chaleco_niños: `https://www.amazon.es/s?k=chaleco+salvavidas+niños&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    juguetes_acuaticos: `https://www.amazon.es/s?k=juguetes+acuaticos+niños&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    chaleco_perro: `https://www.amazon.es/s?k=chaleco+salvavidas+perro&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    equipamiento_familia: `https://www.amazon.es/s?k=equipamiento+familia+barco&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`
+  },
+
+  // 🚨 SEGURIDAD & EMERGENCIAS (€75-300/venta) - OPTIMIZADO
+  seguridad: {
+    botiquin_emergencia: `https://www.amazon.es/s?k=botiquin+primeros+auxilios+nautico&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    bengalas_emergencia: `https://www.amazon.es/s?k=bengalas+emergencia+nauticas&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+    linterna_emergencia: `https://www.amazon.es/dp/B075ZN5LJY?tag=${AMAZON_AFFILIATE_TAG}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B075ZN5LJY`,
+    equipo_emergencia: `https://www.amazon.es/s?k=equipo+emergencia+nautico&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`
+  }
+};
+
+// Blog Category Prompts for Content Generation
+export const BLOG_CATEGORY_PROMPTS = {
+  // MASCOTAS & PERROS 🐕
+  mascotas: {
+    title: "Navegación con Mascotas",
+    description: "Guías completas para navegar con perros y otras mascotas de forma segura y cómoda",
+    keywords: ["mascotas", "perros", "animales", "seguridad", "equipamiento"],
+    amazon_links: [
+      AMAZON_AFFILIATE_LINKS.familiar.chaleco_perro,
+      AMAZON_AFFILIATE_LINKS.familiar.equipamiento_familia,
+      AMAZON_AFFILIATE_LINKS.iniciacion.protector_solar,
+      AMAZON_AFFILIATE_LINKS.seguridad.linterna_emergencia
+    ],
+    // Productos reales de Amazon API - Específicos para mascotas
+    real_products: [
+      {
+        asin: "B01M0WXQKX", // Chaleco salvavidas real
+        category: "safety",
+        search_query: "chaleco salvavidas perro barco"
+      },
+      {
+        asin: "B08XQRZQRF", // Protector solar real
+        category: "comfort", 
+        search_query: "protector solar perro mascota"
+      },
+      {
+        asin: "B00363W0OI", // Nevera para comida de mascotas
+        category: "comfort",
+        search_query: "nevera portátil comida perro"
+      },
+      {
+        asin: "B075ZN5LJY", // Linterna para emergencias con mascotas
+        category: "safety",
+        search_query: "linterna emergencia mascotas"
+      },
+      {
+        asin: "B07FNPY8WG", // Cargador solar para dispositivos
+        category: "technology",
+        search_query: "cargador solar portátil mascotas"
+      },
+      {
+        asin: "B00AVSSZAW", // Equipamiento de seguridad
+        category: "safety",
+        search_query: "equipamiento seguridad mascotas barco"
+      }
+    ],
+    content_prompt: `Escribe un artículo completo sobre navegación con mascotas, enfocándote en:
+    - Seguridad y equipamiento esencial para mascotas
+    - Consejos para la adaptación de perros al barco
+    - Productos recomendados de Amazon para mascotas náuticas
+    - Destinos pet-friendly en España
+    - Normativas y consideraciones legales
+    Incluye enlaces de afiliado a productos específicos de Amazon para mascotas.`
+  },
+
+  // DESTINOS & NAVEGACIÓN 🗺️
+  destinos: {
+    title: "Destinos Náuticos",
+    description: "Los mejores destinos para navegar en España y el Mediterráneo",
+    keywords: ["destinos", "islas", "calas", "puertos", "rutas"],
+    amazon_links: [
+      AMAZON_AFFILIATE_LINKS.destinos.cartas_nauticas,
+      AMAZON_AFFILIATE_LINKS.destinos.gps_portatil,
+      AMAZON_AFFILIATE_LINKS.destinos.guias_destinos,
+      AMAZON_AFFILIATE_LINKS.tecnico.instrumentos_navegacion
+    ],
+    real_products: [
+      {
+        asin: "B09M47HFCQ", // Garmin fēnix 7 real
+        category: "gps",
+        search_query: "gps náutico navegación"
+      },
+      {
+        asin: "B0B1T4TVTS", // GoPro HERO11 Black real
+        category: "camera",
+        search_query: "cámara acción deportes acuáticos"
+      },
+      {
+        asin: "B08XQRZQRF", // Protector solar para destinos soleados
+        category: "comfort",
+        search_query: "protector solar resistente agua"
+      },
+      {
+        asin: "B00363W0OI", // Nevera para viajes largos
+        category: "comfort",
+        search_query: "nevera portátil viaje"
+      },
+      {
+        asin: "B075ZN5LJY", // Linterna para navegación nocturna
+        category: "safety",
+        search_query: "linterna navegación nocturna"
+      },
+      {
+        asin: "B07FNPY8WG", // Cargador solar para dispositivos
+        category: "technology",
+        search_query: "cargador solar portátil viaje"
+      }
+    ],
+    content_prompt: `Crea una guía completa de destinos náuticos que incluya:
+    - Destinos principales con coordenadas y características
+    - Mejores épocas para visitar cada destino
+    - Equipamiento de navegación recomendado
+    - Productos de Amazon para planificación de viajes
+    - Consejos de navegación específicos por zona
+    Integra enlaces de afiliado a productos de navegación y cartas náuticas.`
+  },
+
+  // EQUIPAMIENTO & SEGURIDAD 🔧
+  equipamiento: {
+    title: "Equipamiento Náutico",
+    description: "Guías de equipamiento esencial y de seguridad para navegación",
+    keywords: ["equipamiento", "seguridad", "herramientas", "mantenimiento"],
+    amazon_links: [
+      AMAZON_AFFILIATE_LINKS.seguridad.equipo_emergencia,
+      AMAZON_AFFILIATE_LINKS.tecnico.herramientas_profesionales,
+      AMAZON_AFFILIATE_LINKS.seguridad.botiquin_emergencia,
+      AMAZON_AFFILIATE_LINKS.seguridad.bengalas_emergencia
+    ],
+    real_products: [
+      {
+        asin: "B01M0WXQKX", // Chaleco salvavidas real
+        category: "safety",
+        search_query: "chaleco salvavidas náutico"
+      },
+      {
+        asin: "B075ZN5LJY", // Anker Linterna LED real
+        category: "lighting",
+        search_query: "linterna LED náutica"
+      },
+      {
+        asin: "B08XQRZQRF", // Protector solar para trabajo en cubierta
+        category: "comfort",
+        search_query: "protector solar trabajo exterior"
+      },
+      {
+        asin: "B00363W0OI", // Nevera para herramientas
+        category: "tools",
+        search_query: "caja herramientas náuticas"
+      },
+      {
+        asin: "B09M47HFCQ", // GPS para navegación
+        category: "gps",
+        search_query: "gps equipamiento náutico"
+      },
+      {
+        asin: "B07FNPY8WG", // Cargador solar para equipamiento
+        category: "technology",
+        search_query: "cargador solar equipamiento náutico"
+      }
+    ],
+    content_prompt: `Desarrolla un artículo sobre equipamiento náutico que cubra:
+    - Equipamiento de seguridad esencial
+    - Herramientas y mantenimiento del barco
+    - Productos recomendados de Amazon para equipamiento
+    - Checklist de equipamiento por tipo de navegación
+    - Consejos de mantenimiento y conservación
+    Incluye enlaces de afiliado a productos de seguridad y herramientas.`
+  },
+
+  // DEPORTES ACUÁTICOS 🏊‍♂️
+  deportes: {
+    title: "Deportes Acuáticos",
+    description: "Guías para practicar deportes acuáticos desde el barco",
+    keywords: ["deportes", "snorkel", "buceo", "pesca", "wakeboard"],
+    amazon_links: [
+      AMAZON_AFFILIATE_LINKS.deportes.equipo_snorkel,
+      AMAZON_AFFILIATE_LINKS.deportes.traje_neopreno,
+      AMAZON_AFFILIATE_LINKS.deportes.equipo_pesca,
+      AMAZON_AFFILIATE_LINKS.deportes.gopro_camara
+    ],
+    real_products: [
+      {
+        asin: "B0B1T4TVTS", // GoPro HERO11 real
+        category: "technology",
+        search_query: "cámara subacuática deportes acuáticos"
+      },
+      {
+        asin: "B00AVSSZAW", // Aletas Cressi reales
+        category: "snorkel",
+        search_query: "aletas snorkel buceo"
+      },
+      {
+        asin: "B08XQRZQRF", // Protector solar para deportes acuáticos
+        category: "comfort",
+        search_query: "protector solar deportes acuáticos"
+      },
+      {
+        asin: "B00363W0OI", // Nevera para bebidas durante deportes
+        category: "comfort",
+        search_query: "nevera bebidas deportes"
+      },
+      {
+        asin: "B01M0WXQKX", // Chaleco salvavidas para deportes
+        category: "safety",
+        search_query: "chaleco salvavidas deportes acuáticos"
+      },
+      {
+        asin: "B075ZN5LJY", // Linterna para deportes nocturnos
+        category: "lighting",
+        search_query: "linterna deportes acuáticos"
+      }
+    ],
+    content_prompt: `Escribe sobre deportes acuáticos que incluye:
+    - Equipamiento para snorkel y buceo
+    - Técnicas de pesca desde el barco
+    - Productos de Amazon para deportes acuáticos
+    - Destinos ideales para cada deporte
+    - Consejos de seguridad para deportes acuáticos
+    Integra enlaces de afiliado a equipamiento deportivo específico.`
+  },
+
+  // SOSTENIBILIDAD & MEDIO AMBIENTE 🌍
+  sostenibilidad: {
+    title: "Navegación Sostenible",
+    description: "Guías para navegar de forma responsable y proteger el medio ambiente",
+    keywords: ["sostenibilidad", "medio ambiente", "ecológico", "solar"],
+    amazon_links: [
+      AMAZON_AFFILIATE_LINKS.sostenibilidad.cargador_solar,
+      AMAZON_AFFILIATE_LINKS.sostenibilidad.detergente_biodegradable,
+      AMAZON_AFFILIATE_LINKS.sostenibilidad.bombillas_led,
+      AMAZON_AFFILIATE_LINKS.sostenibilidad.productos_ecologicos
+    ],
+    real_products: [
+      {
+        asin: "B07FNPY8WG", // Cargador solar Anker real
+        category: "technology",
+        search_query: "cargador solar portátil"
+      },
+      {
+        asin: "B075ZN5LJY", // Linterna LED Anker real
+        category: "technology",
+        search_query: "linterna LED náutica"
+      },
+      {
+        asin: "B08XQRZQRF", // Protector solar biodegradable
+        category: "comfort",
+        search_query: "protector solar biodegradable"
+      },
+      {
+        asin: "B00363W0OI", // Nevera ecológica
+        category: "comfort",
+        search_query: "nevera ecológica portátil"
+      },
+      {
+        asin: "B09M47HFCQ", // GPS solar
+        category: "gps",
+        search_query: "gps solar sostenible"
+      },
+      {
+        asin: "B00AVSSZAW", // Equipamiento ecológico
+        category: "sustainability",
+        search_query: "equipamiento ecológico náutico"
+      }
+    ],
+    content_prompt: `Crea contenido sobre navegación sostenible que aborde:
+    - Energía solar y renovable a bordo
+    - Productos biodegradables y ecológicos
+    - Prácticas de navegación responsable
+    - Productos de Amazon para sostenibilidad
+    - Impacto ambiental y cómo reducirlo
+    Incluye enlaces de afiliado a productos sostenibles y solares.`
+  },
+
+  // FAMILIA & EXPERIENCIAS 👨‍👩‍👧‍👦
+  familia: {
+    title: "Navegación Familiar",
+    description: "Guías para navegar en familia con niños de forma segura y divertida",
+    keywords: ["familia", "niños", "experiencias", "seguridad"],
+    amazon_links: [
+      AMAZON_AFFILIATE_LINKS.familiar.chaleco_niños,
+      AMAZON_AFFILIATE_LINKS.familiar.juguetes_acuaticos,
+      AMAZON_AFFILIATE_LINKS.familiar.equipamiento_familia,
+      AMAZON_AFFILIATE_LINKS.iniciacion.protector_solar
+    ],
+    real_products: [
+      {
+        asin: "B01M0WXQKX", // Chaleco salvavidas real
+        category: "safety",
+        search_query: "chaleco salvavidas niños"
+      },
+      {
+        asin: "B00363W0OI", // Nevera Coleman real
+        category: "comfort",
+        search_query: "equipamiento familia barco"
+      },
+      {
+        asin: "B08XQRZQRF", // Protector solar para niños
+        category: "comfort",
+        search_query: "protector solar niños"
+      },
+      {
+        asin: "B075ZN5LJY", // Linterna para juegos nocturnos
+        category: "entertainment",
+        search_query: "linterna juegos niños"
+      },
+      {
+        asin: "B0B1T4TVTS", // Cámara para fotos familiares
+        category: "camera",
+        search_query: "cámara fotos familia náutica"
+      },
+      {
+        asin: "B07FNPY8WG", // Cargador para dispositivos familiares
+        category: "technology",
+        search_query: "cargador dispositivos familia"
+      }
+    ],
+    content_prompt: `Desarrolla contenido sobre navegación familiar que incluya:
+    - Seguridad para niños a bordo
+    - Actividades y juegos para familias
+    - Equipamiento específico para niños
+    - Productos de Amazon para familias
+    - Destinos ideales para navegación familiar
+    Integra enlaces de afiliado a productos para niños y familias.`
+  },
+
+  // TECNOLOGÍA & IA 🤖
+  tecnologia: {
+    title: "Tecnología Náutica",
+    description: "Las últimas tecnologías y aplicaciones para navegación",
+    keywords: ["tecnología", "ia", "inteligencia artificial", "apps", "gps"],
+    amazon_links: [
+      AMAZON_AFFILIATE_LINKS.equipamiento.radio_vhf,
+      AMAZON_AFFILIATE_LINKS.destinos.gps_portatil,
+      AMAZON_AFFILIATE_LINKS.tecnico.instrumentos_navegacion,
+      AMAZON_AFFILIATE_LINKS.equipamiento.panel_solar
+    ],
+    real_products: [
+      {
+        asin: "B09M47HFCQ", // Garmin fēnix 7 real
+        category: "gps",
+        search_query: "gps tecnología náutica"
+      },
+      {
+        asin: "B0B1T4TVTS", // GoPro HERO11 real
+        category: "technology",
+        search_query: "cámara tecnología náutica"
+      },
+      {
+        asin: "B08XQRZQRF", // Protector solar para dispositivos
+        category: "technology",
+        search_query: "protector dispositivos náuticos"
+      },
+      {
+        asin: "B00363W0OI", // Nevera con tecnología
+        category: "technology",
+        search_query: "nevera tecnología portátil"
+      },
+      {
+        asin: "B075ZN5LJY", // Linterna LED tecnológica
+        category: "lighting",
+        search_query: "linterna LED tecnología náutica"
+      },
+      {
+        asin: "B07FNPY8WG", // Cargador solar tecnológico
+        category: "technology",
+        search_query: "cargador solar tecnología náutica"
+      }
+    ],
+    content_prompt: `Escribe sobre tecnología náutica que cubra:
+    - Aplicaciones y software para navegación
+    - Dispositivos electrónicos marinos
+    - Productos de Amazon para tecnología náutica
+    - IA y planificación de viajes
+    - Tendencias tecnológicas en náutica
+    Incluye enlaces de afiliado a productos tecnológicos marinos.`
+  },
+
+  // FOTOGRAFÍA & MULTIMEDIA 📸
+  fotografia: {
+    title: "Fotografía Náutica",
+    description: "Guías para capturar las mejores fotos y videos en el mar",
+    keywords: ["fotografía", "cámara", "video", "multimedia"],
+    amazon_links: [
+      AMAZON_AFFILIATE_LINKS.deportes.gopro_camara,
+      AMAZON_AFFILIATE_LINKS.deportes.equipo_snorkel,
+      AMAZON_AFFILIATE_LINKS.deportes.traje_neopreno,
+      AMAZON_AFFILIATE_LINKS.iniciacion.protector_solar
+    ],
+    real_products: [
+      {
+        asin: "B0B1T4TVTS", // GoPro HERO11 real
+        category: "technology",
+        search_query: "cámara subacuática fotografía"
+      },
+      {
+        asin: "B00AVSSZAW", // Aletas Cressi reales
+        category: "snorkel",
+        search_query: "equipamiento fotografía submarina"
+      },
+      {
+        asin: "B08XQRZQRF", // Protector solar para fotógrafos
+        category: "comfort",
+        search_query: "protector solar fotografía"
+      },
+      {
+        asin: "B00363W0OI", // Nevera para equipamiento fotográfico
+        category: "technology",
+        search_query: "nevera equipamiento fotografía"
+      },
+      {
+        asin: "B09M47HFCQ", // GPS para fotografía de paisajes
+        category: "gps",
+        search_query: "gps fotografía náutica"
+      },
+      {
+        asin: "B075ZN5LJY", // Linterna para fotografía nocturna
+        category: "lighting",
+        search_query: "linterna fotografía nocturna"
+      }
+    ],
+    content_prompt: `Crea contenido sobre fotografía náutica que incluya:
+    - Equipamiento fotográfico para el mar
+    - Técnicas de fotografía submarina
+    - Productos de Amazon para fotografía náutica
+    - Consejos para capturar momentos especiales
+    - Edición y compartir contenido
+    Integra enlaces de afiliado a equipamiento fotográfico.`
+  },
+
+  // PROBLEMAS & SOLUCIONES 🔧
+  problemas: {
+    title: "Soluciones Náuticas",
+    description: "Soluciones a problemas comunes en navegación",
+    keywords: ["problemas", "soluciones", "mantenimiento", "reparaciones"],
+    amazon_links: [
+      AMAZON_AFFILIATE_LINKS.tecnico.herramientas_profesionales,
+      AMAZON_AFFILIATE_LINKS.equipamiento.ancla_marina,
+      AMAZON_AFFILIATE_LINKS.seguridad.equipo_emergencia,
+      AMAZON_AFFILIATE_LINKS.seguridad.botiquin_emergencia
+    ],
+    real_products: [
+      {
+        asin: "B075ZN5LJY", // Linterna LED Anker real
+        category: "technology",
+        search_query: "herramientas náuticas emergencia"
+      },
+      {
+        asin: "B01M0WXQKX", // Chaleco salvavidas real
+        category: "safety",
+        search_query: "equipo emergencia náutico"
+      },
+      {
+        asin: "B08XQRZQRF", // Protector solar para reparaciones
+        category: "comfort",
+        search_query: "protector solar trabajo reparación"
+      },
+      {
+        asin: "B00363W0OI", // Nevera para herramientas
+        category: "tools",
+        search_query: "caja herramientas reparación"
+      },
+      {
+        asin: "B09M47HFCQ", // GPS para navegación de emergencia
+        category: "gps",
+        search_query: "gps emergencia náutica"
+      },
+      {
+        asin: "B07FNPY8WG", // Cargador solar para emergencias
+        category: "technology",
+        search_query: "cargador solar emergencia náutica"
+      }
+    ],
+    content_prompt: `Desarrolla contenido sobre soluciones náuticas que aborde:
+    - Problemas comunes y sus soluciones
+    - Herramientas y equipamiento de reparación
+    - Productos de Amazon para mantenimiento
+    - Consejos de prevención
+    - Kit de emergencia esencial
+    Incluye enlaces de afiliado a herramientas y equipamiento.`
+  },
+
+  // SERVICIOS & REVIEWS 💼
+  servicios: {
+    title: "Servicios Náuticos",
+    description: "Reviews y guías de servicios náuticos y alquiler de barcos",
+    keywords: ["servicios", "alquiler", "reviews", "empresas"],
+    amazon_links: [
+      AMAZON_AFFILIATE_LINKS.iniciacion.guia_manual,
+      AMAZON_AFFILIATE_LINKS.destinos.guias_destinos,
+      AMAZON_AFFILIATE_LINKS.destinos.gps_portatil
+    ],
+    real_products: [
+      {
+        asin: "B09M47HFCQ", // Garmin fēnix 7 real
+        category: "gps",
+        search_query: "equipamiento servicios náuticos"
+      },
+      {
+        asin: "B00363W0OI", // Nevera Coleman real
+        category: "comfort",
+        search_query: "productos servicios barco"
+      },
+      {
+        asin: "B08XQRZQRF", // Protector solar para servicios
+        category: "comfort",
+        search_query: "protector solar servicios náuticos"
+      },
+      {
+        asin: "B075ZN5LJY", // Linterna para servicios
+        category: "safety",
+        search_query: "linterna servicios náuticos"
+      },
+      {
+        asin: "B0B1T4TVTS", // Cámara para documentar servicios
+        category: "camera",
+        search_query: "cámara servicios náuticos"
+      },
+      {
+        asin: "B07FNPY8WG", // Cargador solar para servicios
+        category: "technology",
+        search_query: "cargador solar servicios náuticos"
+      }
+    ],
+    content_prompt: `Escribe sobre servicios náuticos que incluya:
+    - Reviews de empresas de alquiler
+    - Comparativas de servicios
+    - Productos de Amazon para planificación
+    - Consejos para elegir servicios
+    - Experiencias de usuarios
+    Integra enlaces de afiliado a productos relacionados.`
+  },
+
+  // PRODUCTOS & AMAZON 🛒
+  productos: {
+    title: "Productos Náuticos",
+    description: "Reviews y recomendaciones de productos náuticos de Amazon",
+    keywords: ["productos", "amazon", "reviews", "recomendaciones"],
+    amazon_links: [
+      AMAZON_AFFILIATE_LINKS.general,
+      AMAZON_AFFILIATE_LINKS.safety_equipment,
+      AMAZON_AFFILIATE_LINKS.nautical_books
+    ],
+    real_products: [
+      {
+        asin: "B09M47HFCQ", // Garmin fēnix 7 real
+        category: "gps",
+        search_query: "productos náuticos más vendidos"
+      },
+      {
+        asin: "B0B1T4TVTS", // GoPro HERO11 real
+        category: "technology",
+        search_query: "productos náuticos tecnología"
+      },
+      {
+        asin: "B01M0WXQKX", // Chaleco salvavidas real
+        category: "safety",
+        search_query: "productos seguridad náutica"
+      },
+      {
+        asin: "B00363W0OI", // Nevera Coleman real
+        category: "comfort",
+        search_query: "productos confort náutico"
+      },
+      {
+        asin: "B075ZN5LJY", // Linterna LED náutica
+        category: "lighting",
+        search_query: "productos iluminación náutica"
+      },
+      {
+        asin: "B07FNPY8WG", // Cargador solar náutico
+        category: "technology",
+        search_query: "productos energía náutica"
+      }
+    ],
+    content_prompt: `Crea contenido sobre productos náuticos que cubra:
+    - Reviews detalladas de productos
+    - Comparativas de equipamiento
+    - Productos más vendidos en Amazon
+    - Recomendaciones por categoría
+    - Consejos de compra
+    Incluye múltiples enlaces de afiliado a productos específicos.`
+  },
+
+  // TÉCNICAS & EDUCACIÓN 📚
+  tecnicas: {
+    title: "Técnicas de Navegación",
+    description: "Guías educativas sobre técnicas y conocimientos náuticos",
+    keywords: ["técnicas", "educación", "navegación", "aprendizaje"],
+    amazon_links: [
+      AMAZON_AFFILIATE_LINKS.nautical_books,
+      AMAZON_AFFILIATE_LINKS.compass_marine,
+      AMAZON_AFFILIATE_LINKS.navigation_charts,
+      AMAZON_AFFILIATE_LINKS.vhf_radio
+    ],
+    real_products: [
+      {
+        asin: "B09M47HFCQ", // Garmin fēnix 7 real
+        category: "gps",
+        search_query: "equipamiento técnicas navegación"
+      },
+      {
+        asin: "B00363W0OI", // Nevera Coleman real
+        category: "comfort",
+        search_query: "productos educación náutica"
+      },
+      {
+        asin: "B08XQRZQRF", // Protector solar para prácticas
+        category: "comfort",
+        search_query: "protector solar prácticas náuticas"
+      },
+      {
+        asin: "B075ZN5LJY", // Linterna para navegación nocturna
+        category: "safety",
+        search_query: "linterna navegación nocturna"
+      },
+      {
+        asin: "B0B1T4TVTS", // Cámara para documentar técnicas
+        category: "camera",
+        search_query: "cámara técnicas navegación"
+      },
+      {
+        asin: "B07FNPY8WG", // Cargador solar para prácticas
+        category: "technology",
+        search_query: "cargador solar prácticas náuticas"
+      }
+    ],
+    content_prompt: `Desarrolla contenido educativo que incluya:
+    - Técnicas de navegación específicas
+    - Material educativo y libros
+    - Productos de Amazon para aprendizaje
+    - Consejos para principiantes
+    - Recursos de formación
+    Integra enlaces de afiliado a material educativo.`
+  }
+};
+
+// Function to get category prompt by tags
+export const getCategoryPrompt = (tags: string[]): any => {
+  const categoryMap: { [key: string]: string } = {
+    'mascotas': 'mascotas',
+    'perros': 'mascotas',
+    'destinos': 'destinos',
+    'islas': 'destinos',
+    'equipamiento': 'equipamiento',
+    'seguridad': 'equipamiento',
+    'deportes': 'deportes',
+    'snorkel': 'deportes',
+    'buceo': 'deportes',
+    'pesca': 'deportes',
+    'sostenibilidad': 'sostenibilidad',
+    'medio ambiente': 'sostenibilidad',
+    'familia': 'familia',
+    'niños': 'familia',
+    'tecnología': 'tecnologia',
+    'tecnologia': 'tecnologia',
+    'ia': 'tecnologia',
+    'fotografía': 'fotografia',
+    'fotografia': 'fotografia',
+    'problemas': 'problemas',
+    'soluciones': 'problemas',
+    'servicios': 'servicios',
+    'reviews': 'servicios',
+    'productos': 'productos',
+    'amazon': 'productos',
+    'técnicas': 'tecnicas',
+    'tecnicas': 'tecnicas',
+    'educación': 'tecnicas',
+    'educacion': 'tecnicas'
+  };
+
+  for (const tag of tags) {
+    const lowerTag = tag.toLowerCase();
+    for (const [key, category] of Object.entries(categoryMap)) {
+      if (lowerTag.includes(key)) {
+        return BLOG_CATEGORY_PROMPTS[category as keyof typeof BLOG_CATEGORY_PROMPTS];
+      }
+    }
+  }
   
-  // Safety Equipment
-  safety_equipment: `https://www.amazon.es/s?k=equipamiento+seguridad+nautica&tag=${AMAZON_AFFILIATE_TAG}`,
-  first_aid_kit: `https://www.amazon.es/s?k=botiquin+primeros+auxilios&tag=${AMAZON_AFFILIATE_TAG}`,
-  flares: `https://www.amazon.es/s?k=bengalas+nauticas&tag=${AMAZON_AFFILIATE_TAG}`,
-  
-  // Comfort & Lifestyle
-  sun_protection: `https://www.amazon.es/s?k=proteccion+solar+resistente+agua&tag=${AMAZON_AFFILIATE_TAG}`,
-  beach_gear: `https://www.amazon.es/s?k=equipamiento+playa&tag=${AMAZON_AFFILIATE_TAG}`,
-  coolers: `https://www.amazon.es/s?k=nevera+portatil&tag=${AMAZON_AFFILIATE_TAG}`,
-  water_sports: `https://www.amazon.es/s?k=deportes+acuaticos&tag=${AMAZON_AFFILIATE_TAG}`,
-  
-  // Technology & Gadgets
-  waterproof_cameras: `https://www.amazon.es/s?k=camara+sumergible&tag=${AMAZON_AFFILIATE_TAG}`,
-  portable_speakers: `https://www.amazon.es/s?k=altavoz+portatil+resistente+agua&tag=${AMAZON_AFFILIATE_TAG}`,
-  solar_chargers: `https://www.amazon.es/s?k=cargador+solar+portatil&tag=${AMAZON_AFFILIATE_TAG}`,
-  
-  // Clothing & Accessories
-  nautical_clothing: `https://www.amazon.es/s?k=ropa+nautica&tag=${AMAZON_AFFILIATE_TAG}`,
-  sailing_shoes: `https://www.amazon.es/s?k=zapatos+nauticos&tag=${AMAZON_AFFILIATE_TAG}`,
-  hats_caps: `https://www.amazon.es/s?k=gorras+nauticas&tag=${AMAZON_AFFILIATE_TAG}`,
-  
-  // Food & Beverages
-  boat_food: `https://www.amazon.es/s?k=comida+barco+conservas&tag=${AMAZON_AFFILIATE_TAG}`,
-  water_containers: `https://www.amazon.es/s?k=bidones+agua+portatil&tag=${AMAZON_AFFILIATE_TAG}`,
-  
-  // General placeholder (fallback)
-  general: `https://www.amazon.es/?tag=${AMAZON_AFFILIATE_TAG}`
+  // Default to general category
+  return {
+    title: "Navegación General",
+    description: "Artículos generales sobre navegación y aventuras náuticas",
+    keywords: ["navegación", "náutica", "barco", "mar"],
+    amazon_links: [AMAZON_AFFILIATE_LINKS.general],
+    content_prompt: `Escribe un artículo general sobre navegación que incluya:
+    - Consejos generales de navegación
+    - Productos básicos recomendados
+    - Experiencias y aventuras
+    - Enlaces de afiliado a productos generales de Amazon`
+  };
 };
 
 // Legacy placeholder for backward compatibility

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { affiliateTracking, AffiliateStats } from '../services/affiliateTracking';
-import { PRODUCT_RECOMMENDATIONS } from '../src/blogData';
+import { productRecommendations } from '../src/blogData';
 import { Button } from './Button';
 
 const AffiliateDashboard: React.FC = () => {
@@ -95,7 +95,7 @@ const AffiliateDashboard: React.FC = () => {
           <h2 className="text-xl font-semibold mb-4">Productos Más Populares</h2>
           <div className="bg-slate-50 rounded-lg p-4">
             {topProducts.map((product, index) => {
-              const productInfo = PRODUCT_RECOMMENDATIONS.find(p => p.id === product.productId);
+              const productInfo = productRecommendations.find(p => p.id === product.productId);
               return (
                 <div key={product.productId} className="flex justify-between items-center py-2 border-b border-slate-200 last:border-b-0">
                   <div className="flex items-center gap-3">

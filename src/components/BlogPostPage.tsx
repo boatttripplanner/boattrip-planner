@@ -11,7 +11,110 @@ import NotFoundPage from '../../components/NotFoundPage';
 import { WhatsAppIcon } from '../../components/icons/WhatsAppIcon';
 // import RealAmazonRecommendations from '../../components/RealAmazonRecommendations'; // Temporalmente deshabilitado
 import { getRecommendedProductsForEntry } from '../../data/productRecommendations';
-import { AmazonCTAButton, PremiumAmazonCTA, UrgentAmazonCTA, BestsellerAmazonCTA } from '../../components/AmazonCTAButton';
+import AmazonCTAButton from '../../components/AmazonCTAButton';
+import ProductRecommendations from '../../components/ProductRecommendations';
+
+// Estilos CSS personalizados para mejorar la apariencia
+const customStyles = `
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  .animate-slide-in-left {
+    animation: slideInLeft 0.6s ease-out;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .shadow-3xl {
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .backdrop-blur-sm {
+    backdrop-filter: blur(8px);
+  }
+  
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .gradient-text-hero {
+    background: linear-gradient(135deg, #ffffff, #e0f2fe, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Estilos para evitar solapamiento */
+  .blog-layout {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .table-of-contents {
+    position: sticky;
+    top: 1rem;
+    z-index: 10;
+  }
+  
+  .main-content {
+    position: relative;
+    z-index: 5;
+  }
+  
+  /* Asegurar que el contenido no se solape en móviles */
+  @media (max-width: 1024px) {
+    .table-of-contents {
+      position: static;
+      margin-bottom: 2rem;
+    }
+  }
+`;
 
 // Hook para manejar metadatos SEO dinámicos
 const useSEO = (post: ParsedMarkdownPost | null) => {
@@ -178,15 +281,15 @@ const RatingStars: React.FC<{
   };
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center justify-center gap-1">
       {[1, 2, 3, 4, 5].map((star) => (
         <button
           key={star}
           onClick={() => interactive && onRate && onRate(star)}
           disabled={!interactive}
-          className={`${interactive ? 'cursor-pointer hover:scale-110' : 'cursor-default'} transition-transform duration-200`}
+          className={`${interactive ? 'cursor-pointer hover:scale-110' : 'cursor-default'} transition-transform duration-200 flex items-center justify-center`}
         >
-          <span className={`${sizeClasses[size]} ${star <= rating ? 'text-yellow-400' : 'text-gray-300'}`}>
+          <span className={`${sizeClasses[size]} ${star <= rating ? 'text-yellow-400' : 'text-gray-300'} flex items-center justify-center`}>
             ★
           </span>
         </button>
@@ -601,8 +704,12 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       const text = getNodeTextContent(children);
       const id = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
       return (
-        <h1 id={id} className={`text-3xl font-bold mb-6 mt-8 ${darkMode ? 'text-white' : 'text-slate-800'} scroll-mt-20`}>
-          {children}
+        <h1 id={id} className={`text-4xl font-bold mb-8 mt-12 ${darkMode ? 'text-white' : 'text-slate-800'} scroll-mt-20 relative group`}>
+          <div className="absolute -left-8 top-0 w-2 h-full bg-gradient-to-b from-teal-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <span className="relative">
+            {children}
+            <div className="absolute -bottom-2 left-0 w-0 h-1 bg-gradient-to-r from-teal-500 to-blue-500 rounded-full group-hover:w-full transition-all duration-500"></div>
+          </span>
         </h1>
       );
     },
@@ -610,8 +717,12 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       const text = getNodeTextContent(children);
       const id = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
       return (
-        <h2 id={id} className={`text-2xl font-semibold mb-4 mt-6 ${darkMode ? 'text-white' : 'text-slate-800'} scroll-mt-20`}>
-          {children}
+        <h2 id={id} className={`text-3xl font-semibold mb-6 mt-10 ${darkMode ? 'text-white' : 'text-slate-800'} scroll-mt-20 relative group`}>
+          <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-teal-400 to-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <span className="relative">
+            {children}
+            <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-teal-400 to-blue-400 rounded-full group-hover:w-full transition-all duration-500"></div>
+          </span>
         </h2>
       );
     },
@@ -619,29 +730,34 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       const text = getNodeTextContent(children);
       const id = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
       return (
-        <h3 id={id} className={`text-xl font-semibold mb-3 mt-5 ${darkMode ? 'text-white' : 'text-slate-800'} scroll-mt-20`}>
-          {children}
+        <h3 id={id} className={`text-2xl font-semibold mb-4 mt-8 ${darkMode ? 'text-white' : 'text-slate-800'} scroll-mt-20 relative group`}>
+          <div className="absolute -left-4 top-0 w-0.5 h-full bg-gradient-to-b from-teal-300 to-blue-300 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <span className="relative">
+            {children}
+            <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-teal-300 to-blue-300 rounded-full group-hover:w-full transition-all duration-500"></div>
+          </span>
         </h3>
       );
     },
     p: ({ children }) => (
-      <p className={`mb-4 leading-relaxed ${darkMode ? 'text-slate-200' : 'text-slate-700'}`}>
+      <p className={`mb-6 leading-relaxed text-lg ${darkMode ? 'text-slate-200' : 'text-slate-700'}`}>
         {children}
       </p>
     ),
     ul: ({ children }) => (
-      <ul className={`mb-4 pl-6 space-y-2 ${darkMode ? 'text-slate-200' : 'text-slate-700'}`}>
+      <ul className={`mb-6 pl-8 space-y-3 ${darkMode ? 'text-slate-200' : 'text-slate-700'}`}>
         {children}
       </ul>
     ),
     ol: ({ children }) => (
-      <ol className={`mb-4 pl-6 space-y-2 ${darkMode ? 'text-slate-200' : 'text-slate-700'}`}>
+      <ol className={`mb-6 pl-8 space-y-3 ${darkMode ? 'text-slate-200' : 'text-slate-700'}`}>
         {children}
       </ol>
     ),
     li: ({ children }) => (
-      <li className="mb-1">
-        {children}
+      <li className="mb-2 relative">
+        <div className="absolute -left-6 top-3 w-2 h-2 bg-teal-500 rounded-full"></div>
+        <span className="relative">{children}</span>
       </li>
     ),
     strong: ({ children }) => (
@@ -655,8 +771,9 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       </em>
     ),
     blockquote: ({ children }) => (
-      <blockquote className={`border-l-4 border-teal-500 pl-4 py-2 my-4 italic ${darkMode ? 'bg-slate-700 text-slate-200' : 'bg-slate-50 text-slate-700'}`}>
-        {children}
+      <blockquote className={`border-l-4 border-teal-500 pl-6 py-4 my-8 italic relative ${darkMode ? 'bg-gradient-to-r from-slate-700/50 to-slate-600/50 text-slate-200' : 'bg-gradient-to-r from-slate-50 to-blue-50 text-slate-700'} rounded-r-lg`}>
+        <div className="absolute top-4 left-4 text-4xl opacity-20">💡</div>
+        <div className="relative z-10">{children}</div>
       </blockquote>
     ),
     code: ({ children, className }) => {
@@ -692,25 +809,43 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
           if (amazonInfo.variant === 'premium') {
             return (
               <div className="my-6">
-                <PremiumAmazonCTA href={href} price={amazonInfo.price} discount={amazonInfo.discount}>
-                  {cleanText}
-                </PremiumAmazonCTA>
+                <AmazonCTAButton 
+                  productName={cleanText}
+                  variant="primary"
+                  size="lg"
+                  className="w-full"
+                  trackingLabel="premium_cta"
+                >
+                  🏆 {cleanText}
+                </AmazonCTAButton>
               </div>
             );
           } else if (amazonInfo.variant === 'urgent') {
             return (
               <div className="my-6">
-                <UrgentAmazonCTA href={href} price={amazonInfo.price} discount={amazonInfo.discount}>
-                  {cleanText}
-                </UrgentAmazonCTA>
+                <AmazonCTAButton 
+                  productName={cleanText}
+                  variant="secondary"
+                  size="lg"
+                  className="w-full"
+                  trackingLabel="urgent_cta"
+                >
+                  🔥 {cleanText}
+                </AmazonCTAButton>
               </div>
             );
           } else if (amazonInfo.variant === 'bestseller') {
             return (
               <div className="my-6">
-                <BestsellerAmazonCTA href={href} price={amazonInfo.price} discount={amazonInfo.discount}>
-                  {cleanText}
-                </BestsellerAmazonCTA>
+                <AmazonCTAButton 
+                  productName={cleanText}
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  trackingLabel="bestseller_cta"
+                >
+                  ⭐ {cleanText}
+                </AmazonCTAButton>
               </div>
             );
           }
@@ -719,13 +854,11 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
         // CTA normal para enlaces inline
         return (
           <AmazonCTAButton 
-            href={href}
+            productName={amazonInfo.text}
             variant={amazonInfo.variant}
             size="sm"
-            price={amazonInfo.price}
-            discount={amazonInfo.discount}
-            badge={amazonInfo.badge}
             className="mx-1"
+            trackingLabel="inline_cta"
           >
             {children}
           </AmazonCTAButton>
@@ -748,27 +881,136 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       );
     },
     img: ({ src, alt }) => (
-      <img 
-        src={src} 
-        alt={alt} 
-        className="max-w-full h-auto rounded-lg shadow-md my-4"
-      />
+      <div className="my-8 relative group">
+        <img 
+          src={src} 
+          alt={alt} 
+          className="max-w-full h-auto rounded-2xl shadow-2xl transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-3xl"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        {alt && (
+          <div className="absolute bottom-4 left-4 right-4 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {alt}
+          </div>
+        )}
+      </div>
     ),
   };
 
   return (
     <>
+      {/* Estilos CSS personalizados */}
+      <style dangerouslySetInnerHTML={{ __html: customStyles }} />
+      
       {/* Barra de progreso */}
       <ReadingProgressBar progress={readingProgress} />
       
       {/* Botón volver arriba */}
       <ScrollToTopButton isVisible={showScrollToTop} />
       
-              <div className={`w-full max-w-6xl mx-auto transition-all duration-300 ease-out ${darkMode ? 'dark' : ''} ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''}`}>
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      {/* Hero Section con imagen de fondo mejorada */}
+      <div className="relative min-h-[70vh] bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 overflow-hidden">
+        {/* Imagen de fondo con overlay mejorado */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105"
+          style={{
+            backgroundImage: `url(${post.frontmatter.featuredImage})`,
+            filter: 'brightness(0.2) contrast(1.3) saturate(1.2)'
+          }}
+        />
+        
+        {/* Overlay gradiente mejorado */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+        
+        {/* Patrón de ondas animado mejorado */}
+        <div className="absolute inset-0 opacity-30">
+          <svg className="w-full h-full" viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,300 Q300,200 600,300 T1200,300 V600 H0 Z" fill="currentColor" className="text-blue-400">
+              <animate attributeName="d" dur="15s" repeatCount="indefinite"
+                values="M0,300 Q300,200 600,300 T1200,300 V600 H0 Z;
+                        M0,300 Q300,400 600,300 T1200,300 V600 H0 Z;
+                        M0,300 Q300,200 600,300 T1200,300 V600 H0 Z" />
+            </path>
+            <path d="M0,350 Q300,250 600,350 T1200,350 V600 H0 Z" fill="currentColor" className="text-teal-400" opacity="0.5">
+              <animate attributeName="d" dur="12s" repeatCount="indefinite"
+                values="M0,350 Q300,250 600,350 T1200,350 V600 H0 Z;
+                        M0,350 Q300,450 600,350 T1200,350 V600 H0 Z;
+                        M0,350 Q300,250 600,350 T1200,350 V600 H0 Z" />
+            </path>
+          </svg>
+        </div>
+        
+        {/* Partículas flotantes */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 left-10 w-2 h-2 bg-white/30 rounded-full animate-pulse" style={{animationDelay: '0s'}}></div>
+          <div className="absolute top-40 right-20 w-1 h-1 bg-blue-300/40 rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
+          <div className="absolute top-60 left-1/4 w-1.5 h-1.5 bg-teal-300/50 rounded-full animate-pulse" style={{animationDelay: '4s'}}></div>
+          <div className="absolute top-80 right-1/3 w-1 h-1 bg-white/20 rounded-full animate-pulse" style={{animationDelay: '6s'}}></div>
+        </div>
+        
+        {/* Contenido del hero mejorado */}
+        <div className="relative z-10 flex items-center justify-center min-h-[70vh] px-4">
+          <div className="text-center max-w-5xl mx-auto animate-fade-in-up">
+            {/* Badge de categoría mejorado */}
+            <div className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-white/25 to-white/15 backdrop-blur-md border border-white/40 mb-8 shadow-lg">
+              <span className="text-white text-sm font-semibold tracking-wide">
+                {post.frontmatter.tags?.[0] || 'Náutica'}
+              </span>
+            </div>
+            
+            {/* Título principal mejorado */}
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight text-shadow-lg gradient-text-hero">
+              {post.frontmatter.title}
+            </h1>
+            
+            {/* Descripción mejorada */}
+            <p className="text-xl md:text-2xl text-blue-100 mb-10 max-w-4xl mx-auto leading-relaxed font-light">
+              {post.frontmatter.summary}
+            </p>
+            
+            {/* Meta información mejorada */}
+            <div className="flex flex-wrap items-center justify-center gap-8 text-blue-100 animate-slide-in-left">
+              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+                <span className="text-2xl">👨‍💻</span>
+                <span className="font-medium">{post.frontmatter.author || 'Equipo BoatTrip'}</span>
+              </div>
+              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+                <span className="text-2xl">📅</span>
+                <span className="font-medium">{formatDate(post.frontmatter.date)}</span>
+              </div>
+              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+                <span className="text-2xl">⏱️</span>
+                <span className="font-medium">{readingTime} min de lectura</span>
+              </div>
+            </div>
+            
+            {/* Botones de acción */}
+            <div className="flex flex-wrap justify-center gap-4 mt-10">
+              <button 
+                onClick={() => document.querySelector('article')?.scrollIntoView({behavior: 'smooth'})}
+                className="px-8 py-3 bg-gradient-to-r from-teal-500 to-blue-500 text-white font-semibold rounded-full hover:from-teal-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
+                📖 Leer Artículo
+              </button>
+              <button 
+                onClick={onNavigateToBlogIndex}
+                className="px-8 py-3 bg-white/20 backdrop-blur-sm text-white font-semibold rounded-full border border-white/30 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
+              >
+                📚 Ver Más Artículos
+              </button>
+            </div>
+          </div>
+        </div>
+        
+
+      </div>
+      
+      {/* Contenido principal */}
+      <div className={`w-full max-w-6xl mx-auto transition-all duration-300 ease-out ${darkMode ? 'dark' : ''} ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''} -mt-20 relative z-20 px-4`}>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start blog-layout">
           {/* Tabla de contenidos - Solo visible en desktop */}
           <div className="hidden lg:block lg:col-span-1">
-            <div className="sticky top-4">
+            <div className="table-of-contents">
               <TableOfContents 
                 headings={headings} 
                 activeHeading={activeHeading} 
@@ -778,162 +1020,226 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
           </div>
           
           {/* Contenido principal */}
-          <div className="lg:col-span-3">
-            <div className={`${darkMode ? 'bg-slate-800 text-white' : 'bg-white'} p-6 md:p-8 rounded-lg shadow-xl transition-colors duration-300`}>
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b border-slate-200 dark:border-slate-600">
+          <div className="lg:col-span-3 w-full main-content">
+            <div className={`${darkMode ? 'bg-slate-800/95 backdrop-blur-sm text-white' : 'bg-white/95 backdrop-blur-sm'} p-6 md:p-8 rounded-2xl shadow-2xl transition-all duration-300 border ${darkMode ? 'border-slate-700/50' : 'border-white/50'} relative z-10`}>
+          {/* Controles de navegación */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b border-slate-200/50 dark:border-slate-600/50">
             <div className="flex-1">
-              <h1 className={`text-3xl sm:text-4xl font-bold ${darkMode ? 'text-white' : 'text-slate-800'} mb-2`}>
-                {post.frontmatter.title}
-              </h1>
-              <div className={`flex flex-wrap items-center gap-4 text-sm ${darkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                <span>{formatDate(post.frontmatter.date)}</span>
-                <span>•</span>
-                <span>⏱️ {readingTime} min de lectura</span>
-                {post.frontmatter.author && (
-                  <>
-                    <span>•</span>
-                    <span>Por {post.frontmatter.author}</span>
-                  </>
-                )}
+              <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">🏠</span>
+                  <button 
+                    onClick={onNavigateHome}
+                    className="hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-200"
+                  >
+                    Inicio
+                  </button>
+                </div>
+                <span className="text-slate-300">→</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">📚</span>
+                  <button 
+                    onClick={onNavigateToBlogIndex}
+                    className="hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-200"
+                  >
+                    Blog
+                  </button>
+                </div>
+                <span className="text-slate-300">→</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">📖</span>
+                  <span className="text-slate-600 dark:text-slate-300 font-medium">
+                    {post.frontmatter.title.split(' ').slice(0, 3).join(' ')}...
+                  </span>
+                </div>
               </div>
             </div>
-            <div className="flex gap-2 mt-4 sm:mt-0">
+            <div className="flex gap-3 mt-4 sm:mt-0">
               <Button 
                 onClick={toggleDarkMode} 
                 variant="secondary" 
                 size="sm" 
-                className="w-auto"
+                className="w-auto hover:scale-105 transition-transform duration-200"
               >
                 {darkMode ? '☀️' : '🌙'}
               </Button>
-              <Button onClick={onNavigateToBlogIndex} variant="secondary" size="sm" className="w-auto">
+              <Button 
+                onClick={onNavigateToBlogIndex} 
+                variant="secondary" 
+                size="sm" 
+                className="w-auto hover:scale-105 transition-transform duration-200"
+              >
                 ← Volver al Blog
               </Button>
-              <Button onClick={onNavigateHome} variant="secondary" size="sm" className="w-auto">
-                Ir al Planificador
+              <Button 
+                onClick={onNavigateHome} 
+                variant="primary" 
+                size="sm" 
+                className="w-auto hover:scale-105 transition-transform duration-200"
+              >
+                🚢 Ir al Planificador
               </Button>
             </div>
           </div>
 
-          {/* Etiquetas */}
-            {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-6">
-              {post.frontmatter.tags.map((tag) => (
-                <span 
-                  key={tag}
-                  className={`text-xs px-3 py-1 rounded-full ${darkMode ? 'bg-teal-600 text-white' : 'bg-teal-100 text-teal-800'}`}
-                >
-                  {tag}
+          {/* Etiquetas con diseño mejorado */}
+          {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
+            <div className="mb-8">
+              <div className="flex flex-wrap gap-3">
+                {post.frontmatter.tags.map((tag, index) => (
+                  <span 
+                    key={tag}
+                    className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                      darkMode 
+                        ? 'bg-gradient-to-r from-teal-500 to-blue-500 text-white shadow-lg shadow-teal-500/25' 
+                        : 'bg-gradient-to-r from-teal-100 to-blue-100 text-teal-800 border border-teal-200'
+                    }`}
+                    style={{
+                      animationDelay: `${index * 100}ms`
+                    }}
+                  >
+                    <span className="mr-2">
+                      {tag === 'mascotas' ? '🐕' : 
+                       tag === 'destinos' ? '🗺️' : 
+                       tag === 'equipamiento' ? '🔧' : 
+                       tag === 'deportes' ? '🏊‍♂️' : 
+                       tag === 'sostenibilidad' ? '🌍' : 
+                       tag === 'familia' ? '👨‍👩‍👧‍👦' : 
+                       tag === 'tecnología' ? '🤖' : 
+                       tag === 'fotografía' ? '📸' : 
+                       tag === 'problemas' ? '🔧' : 
+                       tag === 'servicios' ? '💼' : 
+                       tag === 'productos' ? '🛒' : 
+                       tag === 'técnicas' ? '📚' : '🏴‍☠️'}
+                    </span>
+                    {tag}
                   </span>
                 ))}
               </div>
-            )}
+            </div>
+          )}
 
-          {/* Contenido del artículo */}
+          {/* Contenido del artículo con diseño mejorado */}
           <article className={`prose prose-lg max-w-none ${darkMode ? 'prose-invert' : ''} mb-8`}>
-            <ReactMarkdown 
-              remarkPlugins={[remarkGfm]} 
-              components={markdownComponents}
-            >
-            {post.content}
-          </ReactMarkdown>
-        </article>
+            <div className="relative">
+              {/* Indicador de lectura */}
+              <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-teal-500 to-blue-500 rounded-full opacity-20"></div>
+              
+              <div className="pl-6">
+                <ReactMarkdown 
+                  remarkPlugins={[remarkGfm]} 
+                  components={markdownComponents}
+                >
+                  {post.content}
+                </ReactMarkdown>
+              </div>
+            </div>
+          </article>
 
-          {/* Productos de Amazon temporalmente deshabilitados */}
-          {/* 
-          <RealAmazonRecommendations 
-            query={post.frontmatter.tags?.join(' ')}
-            category="nautical"
-            title={`🛒 Productos Reales de Amazon para: ${post.frontmatter.title.split(' ').slice(0, 3).join(' ')}...`}
-            maxProducts={4}
-            showRealTimePricing={true}
-          />
+          {/* Productos Recomendados de Amazon con diseño mejorado - ELIMINADO */}
+          {/* {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
+            <div className="mb-12">
+              <div className="text-center mb-8">
+                <h2 className={`text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                  🛒 Productos Recomendados
+                </h2>
+                <p className={`text-lg ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                  Basándote en este artículo, te recomendamos estos productos de Amazon
+                </p>
+              </div>
+              <ProductRecommendations 
+                tags={post.frontmatter.tags}
+                title=""
+                showTitle={false}
+                maxProducts={6}
+                content={post.content}
+                postTitle={post.frontmatter.title}
+              />
+            </div>
+          )} */}
 
-          <RealAmazonRecommendations 
-            showTrending={true}
-            category="nautical"
-            title="🔥 Los Más Vendidos en Amazon - Náutica"
-            maxProducts={4}
-            showRealTimePricing={true}
-          />
-          */}
+          {/* Acciones sociales con diseño mejorado */}
+          <div className={`mb-12 pt-8 border-t ${darkMode ? 'border-slate-600/50' : 'border-slate-200/50'}`}>
+            <div className="text-center mb-8">
+              <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                ¿Te gustó este artículo?
+              </h3>
+              <p className={`text-lg ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                Compártelo y ayúdanos a llegar a más navegantes
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Valoración */}
+              <div className={`text-center p-6 rounded-2xl ${darkMode ? 'bg-slate-700/50' : 'bg-slate-50'} border ${darkMode ? 'border-slate-600/50' : 'border-slate-200/50'}`}>
+                <div className="text-4xl mb-4">⭐</div>
+                <h4 className={`font-semibold mb-3 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                  Valora este artículo
+                </h4>
+                <RatingStars 
+                  rating={userRating} 
+                  onRate={handleRating} 
+                  interactive={true}
+                  size="lg"
+                />
+              </div>
 
-          {/* Acciones sociales unificadas */}
-          <div className={`mb-8 pt-6 border-t ${darkMode ? 'border-slate-600' : 'border-slate-200'}`}>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              {/* Sección izquierda: Valoración y favorito */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                {/* Valoración */}
-                <div className="flex items-center gap-3">
-                  <span className={`text-sm font-medium ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                    ¿Te gustó?
-                  </span>
-                  <RatingStars 
-                    rating={userRating} 
-                    onRate={handleRating} 
-                    interactive={true}
-                    size="md"
-                  />
-                </div>
-
-                {/* Favorito */}
+              {/* Favorito */}
+              <div className={`text-center p-6 rounded-2xl ${darkMode ? 'bg-slate-700/50' : 'bg-slate-50'} border ${darkMode ? 'border-slate-600/50' : 'border-slate-200/50'}`}>
+                <div className="text-4xl mb-4">{isFavorite ? '❤️' : '🤍'}</div>
+                <h4 className={`font-semibold mb-3 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                  {isFavorite ? 'Guardado en favoritos' : 'Guardar en favoritos'}
+                </h4>
                 <button
                   onClick={toggleFavorite}
-                  className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105 ${
                     isFavorite 
-                      ? 'bg-red-100 text-red-700 hover:bg-red-200' 
-                      : `${darkMode ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`
+                      ? 'bg-red-500 text-white hover:bg-red-600' 
+                      : `${darkMode ? 'bg-slate-600 text-slate-300 hover:bg-slate-500' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`
                   }`}
                 >
-                  {isFavorite ? '❤️' : '🤍'} {isFavorite ? 'Guardado' : 'Guardar'}
+                  {isFavorite ? '❤️ Guardado' : '🤍 Guardar'}
                 </button>
               </div>
 
-              {/* Sección derecha: Compartir */}
-              <div className="flex items-center gap-2">
-                <span className={`text-sm font-medium ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                  Compartir:
-                </span>
-                <div className="flex gap-2">
-                  {/* WhatsApp */}
+              {/* Compartir */}
+              <div className={`text-center p-6 rounded-2xl ${darkMode ? 'bg-slate-700/50' : 'bg-slate-50'} border ${darkMode ? 'border-slate-600/50' : 'border-slate-200/50'}`}>
+                <div className="text-4xl mb-4">📤</div>
+                <h4 className={`font-semibold mb-3 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                  Compartir artículo
+                </h4>
+                <div className="flex justify-center gap-3">
                   <button
-            onClick={handleShareViaWhatsApp} 
-                    className="p-2 rounded-lg bg-green-500 hover:bg-green-600 text-white transition-colors duration-200"
+                    onClick={handleShareViaWhatsApp} 
+                    className="p-3 rounded-full bg-green-500 hover:bg-green-600 text-white transition-all duration-200 hover:scale-110"
                     title="Compartir en WhatsApp"
                   >
-                    <WhatsAppIcon className="w-4 h-4" />
+                    <WhatsAppIcon className="w-5 h-5" />
                   </button>
-
-                  {/* Twitter */}
                   <button
                     onClick={() => {
                       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.frontmatter.title)}&url=${encodeURIComponent(postUrl)}`;
                       window.open(twitterUrl, '_blank', 'noopener,noreferrer');
                     }}
-                    className="p-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition-colors duration-200"
+                    className="p-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white transition-all duration-200 hover:scale-110"
                     title="Compartir en Twitter"
                   >
                     🐦
                   </button>
-
-                  {/* Facebook */}
                   <button
                     onClick={() => {
                       const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
                       window.open(facebookUrl, '_blank', 'noopener,noreferrer');
                     }}
-                    className="p-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-200"
+                    className="p-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 hover:scale-110"
                     title="Compartir en Facebook"
                   >
                     📘
                   </button>
-
-                  {/* Imprimir */}
                   <button
-            onClick={handlePrint}
-                    className={`p-2 rounded-lg transition-colors duration-200 ${
-                      darkMode ? 'bg-slate-700 hover:bg-slate-600 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                    onClick={handlePrint}
+                    className={`p-3 rounded-full transition-all duration-200 hover:scale-110 ${
+                      darkMode ? 'bg-slate-600 hover:bg-slate-500 text-slate-300' : 'bg-slate-200 hover:bg-slate-300 text-slate-700'
                     }`}
                     title="Imprimir artículo"
                   >
@@ -971,8 +1277,8 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
                 </div>
             </div>
         )}
-        {/* Productos recomendados automáticos */}
-        {recommendedProducts.length > 0 && (
+        {/* Productos recomendados automáticos - ELIMINADO */}
+        {/* {recommendedProducts.length > 0 && (
           <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-600">
             <h3 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-slate-800'}`}>Productos recomendados</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -989,7 +1295,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
             </div>
             <div className="text-xs text-slate-500 mt-2">* Enlaces de afiliado. Ayudas a mantener el blog.</div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
         </div>

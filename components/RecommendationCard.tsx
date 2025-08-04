@@ -671,7 +671,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
     return items;
   };
   
-  // 🚨 NUEVO useEffect PARA PROCESAR BÚSQUEDA DINÁMICA DE PRODUCTOS
+  // 🚨 NUEVO useEffect PARA PROCESAR BÚSQUEDA DINÁMICA DE PRODUCTOS - OPTIMIZADO
   useEffect(() => {
     const processProductSearchQueue = async () => {
       if (productSearchQueue.length === 0) return;
@@ -683,13 +683,19 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
       setLoadingProducts(prev => ({ ...prev, [itemKey]: true }));
       
       try {
-        // Buscar producto dinámicamente
-        const asin = await searchDynamicAmazonProduct(currentItem);
+        // PRIMERO: Intentar con el sistema optimizado de productos verificados
+        const optimizedProduct = getOptimizedChecklistProduct(currentItem);
         
-        // Guardar resultado
-        setProductAsins(prev => ({ ...prev, [itemKey]: asin }));
-        
-        console.log(`✅ Producto encontrado para "${currentItem}": ${asin}`);
+        if (optimizedProduct && optimizedProduct.isDirectLink && optimizedProduct.asin) {
+          // Producto verificado encontrado - usar ASIN directo
+          setProductAsins(prev => ({ ...prev, [itemKey]: optimizedProduct.asin }));
+          console.log(`✅ Producto VERIFICADO encontrado para "${currentItem}": ${optimizedProduct.name} (ASIN: ${optimizedProduct.asin})`);
+        } else {
+          // Buscar producto dinámicamente con la API (fallback)
+          const asin = await searchDynamicAmazonProduct(currentItem);
+          setProductAsins(prev => ({ ...prev, [itemKey]: asin }));
+          console.log(`✅ Producto DINÁMICO encontrado para "${currentItem}": ${asin}`);
+        }
         
       } catch (error) {
         console.error(`❌ Error buscando producto para "${currentItem}":`, error);
@@ -706,12 +712,35 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
     processProductSearchQueue();
   }, [productSearchQueue]);
   
-  // 🚨 FUNCIÓN PARA AÑADIR ITEM A LA COLA DE BÚSQUEDA
+  // 🚨 FUNCIÓN PARA AÑADIR ITEM A LA COLA DE BÚSQUEDA - OPTIMIZADA
   const addToProductSearchQueue = (itemKey: string, itemText: string) => {
     // Solo añadir si no está ya en la cola o ya procesado
     if (!productSearchQueue.includes(itemKey) && !productAsins[itemKey] && !loadingProducts[itemKey]) {
+      console.log(`🔄 Añadiendo a cola de búsqueda: "${itemText}"`);
       setProductSearchQueue(prev => [...prev, itemText]);
     }
+  };
+
+  // 🎯 FUNCIÓN PARA PROCESAR CHECKLIST DINÁMICAMENTE
+  const processDynamicChecklist = (checklistItems: string[]) => {
+    console.log(`🎯 Procesando checklist dinámico con ${checklistItems.length} items`);
+    
+    checklistItems.forEach((item, index) => {
+      // Detectar si el item es potencialmente comprable
+      if (isItemPotentiallyPurchasable(item)) {
+        console.log(`🛒 Item potencialmente comprable detectado: "${item}"`);
+        
+        // Intentar primero con productos verificados
+        const optimizedProduct = getOptimizedChecklistProduct(item);
+        if (optimizedProduct && optimizedProduct.asin) {
+          console.log(`✅ Producto optimizado encontrado: ${optimizedProduct.name}`);
+          setProductAsins(prev => ({ ...prev, [item]: optimizedProduct.asin }));
+        } else {
+          // Añadir a la cola para búsqueda dinámica
+          addToProductSearchQueue(item, item);
+        }
+      }
+    });
   };
 
   // 🎉 FUNCIÓN DE CELEBRACIÓN
@@ -725,10 +754,17 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
     }
   };
 
-  // 🎯 EFECTO ESPECIAL CUANDO SE GENERA UNA RECOMENDACIÓN
+  // 🎯 EFECTO ESPECIAL CUANDO SE GENERA UNA RECOMENDACIÓN - CON PROCESAMIENTO DINÁMICO
   useEffect(() => {
     if (recommendation?.text && !isLoading) {
       celebrateRecommendation();
+      
+      // 🚀 PROCESAR CHECKLIST DINÁMICAMENTE
+      const checklistItems = extractChecklistItemsFromRecommendation(recommendation.text);
+      if (checklistItems.length > 0) {
+        console.log(`🎯 Checklist detectado con ${checklistItems.length} items`);
+        processDynamicChecklist(checklistItems);
+      }
     }
   }, [recommendation?.text, isLoading]);
 
@@ -902,20 +938,42 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
                   <div className="w-5 h-5 border-2 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
                 </div>
               )}
-              {!isLoadingProduct && amazonLink && (
-                <a
-                  href={amazonLink} 
-                  target="_blank"
+                            {!isLoadingProduct && amazonLink && (
+                <a 
+                  href={generateDynamicAmazonLink(textContent, specificAsin)} 
+                  target="_blank" 
                   rel="noopener noreferrer nofollow"
-                  title={`Ver producto verificado "${textContent}" en Amazon.es (enlace directo)`} 
+                  title={`Ver producto DINÁMICO "${textContent}" en Amazon.es (${specificAsin ? 'enlace directo' : 'búsqueda optimizada'})`} 
                   className="ml-2 p-1 text-amber-600 hover:text-amber-700 focus:outline-none focus:ring-1 focus:ring-amber-500 focus:ring-offset-1 rounded-sm flex-shrink-0 transition-all duration-200 hover:scale-110 hover:shadow-lg transform hover:-translate-y-1"
                   onClick={(e) => {
                     e.stopPropagation();
-                    // 🎉 Efecto especial al hacer clic
-                    console.log(`🚀 ¡Producto clickeado! "${textContent}" → Amazon`);
+                    // 🎉 Efecto especial al hacer clic + Tracking optimizado
+                    console.log(`🚀 ¡Producto DINÁMICO clickeado! "${textContent}" → Amazon`);
+                    
+                    // Google Analytics tracking
+                    if (typeof window !== 'undefined' && (window as any).gtag) {
+                      (window as any).gtag('event', 'click', {
+                        'event_category': 'amazon_affiliate_dynamic_checklist',
+                        'event_label': textContent,
+                        'value': 1,
+                        'custom_parameter': {
+                          'product_name': textContent,
+                          'asin': specificAsin,
+                          'category': 'dynamic_checklist_recommendation'
+                        }
+                      });
+                    }
+
+                    // Facebook Pixel tracking
+                    if (typeof window !== 'undefined' && (window as any).fbq) {
+                      (window as any).fbq('track', 'Lead', {
+                        content_name: textContent,
+                        content_category: 'dynamic_checklist_recommendation'
+                      });
+                    }
                   }} 
                   data-amazon-link="true" 
-                  aria-label={`Ver producto verificado "${textContent}" en Amazon.es (disponible ahora)`}
+                  aria-label={`Ver producto DINÁMICO "${textContent}" en Amazon.es (${specificAsin ? 'enlace directo' : 'búsqueda optimizada'})`}
                 >
                   <ShoppingCartIcon className="w-5 h-5 animate-pulse" />
                 </a>
@@ -1198,108 +1256,114 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
   );
 };
 
-// 🎯 SISTEMA DE BÚSQUEDA DIRECTA EN AMAZON
-// URLs de búsqueda que funcionan 100% del tiempo
+// 🎯 SISTEMA DE BÚSQUEDA DIRECTA EN AMAZON - OPTIMIZADO
+// URLs de búsqueda optimizadas con tracking avanzado
 const AMAZON_SEARCH_URLS = {
-  // 🏖️ PROTECCIÓN SOLAR
+  // 🏖️ PROTECCIÓN SOLAR - OPTIMIZADO
   'protector_solar': {
-    searchUrl: 'https://www.amazon.es/s?k=protector+solar+resistente+agua&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/dp/B08XQRZQRF?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B08XQRZQRF&linkId=nautical_guide_proteccion',
     name: 'Protector Solar Resistente al Agua',
     category: 'protección solar',
-    keywords: ['crema solar', 'protector solar', 'solar', 'spf', 'biodegradable']
+    keywords: ['crema solar', 'protector solar', 'solar', 'spf', 'biodegradable'],
+    asin: 'B08XQRZQRF'
   },
   
-  // 🥽 EQUIPO SNORKEL
+  // 🥽 EQUIPO SNORKEL - OPTIMIZADO
   'aletas_snorkel': {
-    searchUrl: 'https://www.amazon.es/s?k=aletas+snorkel+cressi&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/dp/B00AVSSZAW?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B00AVSSZAW&linkId=nautical_guide_snorkel',
     name: 'Equipo de Snorkel Cressi',
     category: 'equipo snorkel',
-    keywords: ['snorkel', 'máscara', 'aletas', 'buceo', 'equipo snorkel']
+    keywords: ['snorkel', 'máscara', 'aletas', 'buceo', 'equipo snorkel'],
+    asin: 'B00AVSSZAW'
   },
   
-  // 🦺 SEGURIDAD
+  // 🦺 SEGURIDAD - OPTIMIZADO
   'chaleco_salvavidas': {
-    searchUrl: 'https://www.amazon.es/s?k=chaleco+salvavidas+homologado&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/dp/B01M0WXQKX?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B01M0WXQKX&linkId=nautical_guide_seguridad',
     name: 'Chaleco Salvavidas Homologado',
     category: 'seguridad',
-    keywords: ['chaleco salvavidas', 'chaleco', 'salvavidas', 'seguridad', 'linterna']
+    keywords: ['chaleco salvavidas', 'chaleco', 'salvavidas', 'seguridad', 'linterna'],
+    asin: 'B01M0WXQKX'
   },
   
-  // 🧭 GPS/NAVEGACIÓN
+  // 🧭 GPS/NAVEGACIÓN - OPTIMIZADO
   'gps_garmin': {
-    searchUrl: 'https://www.amazon.es/s?k=garmin+fenix+7&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/dp/B09M47HFCQ?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B09M47HFCQ&linkId=nautical_guide_gps',
     name: 'Garmin fēnix 7 - Smartwatch GPS',
     category: 'gps navegación',
-    keywords: ['gps', 'garmin', 'plotter', 'navegación', 'smartwatch']
+    keywords: ['gps', 'garmin', 'plotter', 'navegación', 'smartwatch'],
+    asin: 'B09M47HFCQ'
   },
   
-  // 📱 TECNOLOGÍA
+  // 📱 TECNOLOGÍA - OPTIMIZADO
   'gopro_camera': {
-    searchUrl: 'https://www.amazon.es/s?k=gopro+hero+11&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/dp/B0B1T4TVTS?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B0B1T4TVTS&linkId=nautical_guide_tecnologia',
     name: 'GoPro HERO11 Black',
     category: 'tecnología',
-    keywords: ['gopro', 'cámara', 'fotos', 'videos']
+    keywords: ['gopro', 'cámara', 'fotos', 'videos'],
+    asin: 'B0B1T4TVTS'
   },
   
-  // 🧊 NEVERA/COOLER
+  // 🧊 NEVERA/COOLER - OPTIMIZADO
   'nevera_coleman': {
-    searchUrl: 'https://www.amazon.es/s?k=nevera+portatil+coleman&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/dp/B00363W0OI?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B00363W0OI&linkId=nautical_guide_nevera',
     name: 'Nevera Portátil Coleman',
     category: 'nevera cooler',
-    keywords: ['nevera', 'cooler', 'coleman', 'hielo']
+    keywords: ['nevera', 'cooler', 'coleman', 'hielo'],
+    asin: 'B00363W0OI'
   },
   
-  // 🏥 BOTIQUÍN
+  // 🏥 BOTIQUÍN - OPTIMIZADO
   'botiquin_emergencia': {
-    searchUrl: 'https://www.amazon.es/s?k=botiquin+primeros+auxilios&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/s?k=botiquin+primeros+auxilios+nautico&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_botiquin&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=botiquin',
     name: 'Botiquín Primeros Auxilios',
     category: 'botiquín',
     keywords: ['botiquín', 'primeros auxilios', 'medicación', 'mareo']
   },
   
-  // 🕶️ GAFAS DE SOL
+  // 🕶️ GAFAS DE SOL - OPTIMIZADO
   'gafas_polarizadas': {
-    searchUrl: 'https://www.amazon.es/s?k=gafas+sol+polarizadas&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/s?k=gafas+sol+polarizadas+nauticas&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_gafas&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=gafas',
     name: 'Gafas de Sol Polarizadas',
     category: 'gafas sol',
     keywords: ['gafas de sol', 'polarizadas', 'sombrero', 'gorra']
   },
   
-  // 🏄‍♂️ DEPORTES ACUÁTICOS
+  // 🏄‍♂️ DEPORTES ACUÁTICOS - OPTIMIZADO
   'deportes_acuaticos': {
-    searchUrl: 'https://www.amazon.es/s?k=equipo+deportes+acuaticos&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/s?k=equipo+deportes+acuaticos+nauticos&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_deportes&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=deportes',
     name: 'Equipo Deportes Acuáticos',
     category: 'deportes acuáticos',
     keywords: ['deportes acuáticos', 'wakeboard', 'esquís', 'donut', 'cabo']
   },
   
-  // 👕 ROPA Y ACCESORIOS
+  // 👕 ROPA Y ACCESORIOS - OPTIMIZADO
   'ropa_nautica': {
-    searchUrl: 'https://www.amazon.es/s?k=ropa+nautica&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/s?k=ropa+nautica+impermeable&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_ropa&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=ropa',
     name: 'Ropa Náutica y Accesorios',
     category: 'ropa accesorios',
     keywords: ['ropa de baño', 'toallas', 'ropa cómoda', 'calzado']
   },
   
-  // 🥤 BEBIDAS Y COMIDA
+  // 🥤 BEBIDAS Y COMIDA - OPTIMIZADO
   'comida_barco': {
-    searchUrl: 'https://www.amazon.es/s?k=comida+barco+conservas&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/s?k=comida+barco+conservas+nauticas&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_comida&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=comida',
     name: 'Comida y Bebidas para Barco',
     category: 'comida bebidas',
     keywords: ['agua potable', 'bebidas', 'snacks', 'comida', 'almuerzo']
   },
   
-  // 🗑️ LIMPIEZA
+  // 🗑️ LIMPIEZA - OPTIMIZADO
   'limpieza_barco': {
-    searchUrl: 'https://www.amazon.es/s?k=productos+limpieza+barco&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/s?k=productos+limpieza+barco+biodegradables&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_limpieza&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=limpieza',
     name: 'Productos Limpieza Barco',
     category: 'limpieza',
     keywords: ['bolsas para basura', 'basura', 'limpieza']
   },
   
-  // 📄 DOCUMENTACIÓN
+  // 📄 DOCUMENTACIÓN - OPTIMIZADO
   'documentacion_nautica': {
-    searchUrl: 'https://www.amazon.es/s?k=documentacion+nautica&tag=explorashop18-21',
+    searchUrl: 'https://www.amazon.es/s?k=documentacion+nautica+manuales&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_documentacion&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=documentacion',
     name: 'Documentación Náutica',
     category: 'documentación',
     keywords: ['documentación', 'dni', 'pasaporte', 'licencia']
@@ -1327,18 +1391,19 @@ const generateProductASIN = (itemText: string): { asin: string; name: string; ca
   return null; // No hay un ASIN específico para este fallback
 };
 
-// 🚀 FUNCIÓN INTELIGENTE PARA GENERAR URLs DE BÚSQUEDA
-const generateProductSearchUrl = (itemText: string): { searchUrl: string; name: string; category: string } | null => {
+// 🚀 FUNCIÓN INTELIGENTE PARA GENERAR URLs DE BÚSQUEDA - OPTIMIZADA
+const generateProductSearchUrl = (itemText: string): { searchUrl: string; name: string; category: string; asin?: string } | null => {
   const lowerText = itemText.toLowerCase();
   
   // Buscar coincidencia exacta en la base de datos
   for (const [productKey, product] of Object.entries(AMAZON_SEARCH_URLS)) {
     if (product.keywords.some(keyword => lowerText.includes(keyword))) {
-      console.log(`🎯 Producto encontrado: "${itemText}" → ${product.name} (URL de búsqueda)`);
+      console.log(`🎯 Producto OPTIMIZADO encontrado: "${itemText}" → ${product.name} (${product.asin ? 'ASIN directo' : 'URL de búsqueda'})`);
       return {
         searchUrl: product.searchUrl,
         name: product.name,
-        category: product.category
+        category: product.category,
+        asin: product.asin
       };
     }
   }
@@ -1360,9 +1425,70 @@ const generateProductSearchUrl = (itemText: string): { searchUrl: string; name: 
     return AMAZON_SEARCH_URLS.gps_garmin;
   }
   
+  if (lowerText.includes('gopro') || lowerText.includes('cámara') || lowerText.includes('fotos')) {
+    return AMAZON_SEARCH_URLS.gopro_camera;
+  }
+  
+  if (lowerText.includes('nevera') || lowerText.includes('cooler') || lowerText.includes('hielo')) {
+    return AMAZON_SEARCH_URLS.nevera_coleman;
+  }
+  
   // Fallback por defecto
-  console.log(`ℹ️ No se encontró producto específico para: "${itemText}" - usando fallback`);
+  console.log(`ℹ️ No se encontró producto específico para: "${itemText}" - usando fallback optimizado`);
   return AMAZON_SEARCH_URLS.protector_solar; // Fallback seguro
 };
+
+// 🚀 FUNCIÓN PARA GENERAR ENLACES OPTIMIZADOS DEL CHECKLIST
+const generateOptimizedAmazonLink = (itemText: string, asin?: string): string => {
+  const affiliateTag = "explorashop18-21";
+  
+  if (asin) {
+    // Enlace directo al producto con ASIN y tracking optimizado
+    return `https://www.amazon.es/dp/${asin}?tag=${affiliateTag}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=${asin}&linkId=nautical_guide_checklist_${asin}`;
+  } else {
+    // Enlace de búsqueda optimizado con UTM parameters
+    const searchTerm = itemText.replace(/\s+/g, '+');
+    const utmParams = `utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=checklist&utm_term=${searchTerm}`;
+    return `https://www.amazon.es/s?k=${searchTerm}&tag=${affiliateTag}&linkCode=ur2&linkId=nautical_guide_checklist_search&camp=3638&creative=24630&ref=as_li_ss_tl&${utmParams}`;
+  }
+};
+
+  // 🎯 FUNCIÓN PARA OBTENER PRODUCTO OPTIMIZADO DEL CHECKLIST
+  const getOptimizedChecklistProduct = (itemText: string): { 
+    searchUrl: string; 
+    name: string; 
+    category: string; 
+    asin?: string;
+    isDirectLink: boolean;
+  } | null => {
+    const product = generateProductSearchUrl(itemText);
+    
+    if (product) {
+      return {
+        searchUrl: product.searchUrl,
+        name: product.name,
+        category: product.category,
+        asin: product.asin,
+        isDirectLink: !!product.asin
+      };
+    }
+    
+    return null;
+  };
+
+  // 🚀 FUNCIÓN PARA GENERAR ENLACE DINÁMICO OPTIMIZADO
+  const generateDynamicAmazonLink = (itemText: string, asin?: string): string => {
+    const affiliateTag = "explorashop18-21";
+    
+    if (asin && asin !== 'direct_link' && asin !== 'optimized_link') {
+      // Enlace directo al producto con ASIN y tracking optimizado
+      return `https://www.amazon.es/dp/${asin}?tag=${affiliateTag}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=${asin}&linkId=nautical_guide_dynamic_${asin}`;
+    } else {
+      // Enlace de búsqueda optimizado con UTM parameters dinámicos
+      const searchTerm = itemText.replace(/\s+/g, '+');
+      const utmParams = `utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=dynamic_checklist&utm_term=${searchTerm}`;
+      return `https://www.amazon.es/s?k=${searchTerm}&tag=${affiliateTag}&linkCode=ur2&linkId=nautical_guide_dynamic_search&camp=3638&creative=24630&ref=as_li_ss_tl&${utmParams}`;
+    }
+  };
 
 export default RecommendationCard;

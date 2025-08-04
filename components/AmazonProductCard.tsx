@@ -1,207 +1,164 @@
-import React, { useState, useEffect } from 'react';
-import { AmazonProduct } from '../services/amazonApi';
-import { AmazonRealProduct, getRealProductImages } from '../services/amazonRealApi';
-import { trackAffiliateClick } from '../services/affiliateTracking';
-import { Button } from './Button';
+import React from 'react';
+import { AMAZON_AFFILIATE_TAG } from '../constants';
 
 interface AmazonProductCardProps {
-  product: AmazonProduct | AmazonRealProduct;
+  productName: string;
+  asin?: string;
+  price?: string;
+  rating?: number;
+  reviewCount?: number;
+  imageUrl?: string;
+  category?: string;
+  description?: string;
+  isPrime?: boolean;
+  discount?: string;
+  originalPrice?: string;
   className?: string;
-  showGallery?: boolean;
 }
 
 const AmazonProductCard: React.FC<AmazonProductCardProps> = ({
-  product,
-  className = "",
-  showGallery = false
+  productName,
+  asin,
+  price = 'Ver precio',
+  rating = 0,
+  reviewCount = 0,
+  imageUrl,
+  category = 'general',
+  description,
+  isPrime = false,
+  discount,
+  originalPrice,
+  className = ''
 }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [images, setImages] = useState<string[]>([product.imageUrl]);
-  const [imageLoading, setImageLoading] = useState(true);
-
-  useEffect(() => {
-    const loadProductImages = async () => {
-      try {
-        setImageLoading(true);
-        
-        // Si el producto ya tiene imágenes cargadas (AmazonRealProduct)
-        if ('images' in product && product.images.length > 0) {
-          setImages(product.images);
-        } else {
-          // Cargar imágenes usando la API real con el título del producto
-          const productImages = await getRealProductImages(product.asin, product.title);
-          setImages(productImages);
-        }
-      } catch (error) {
-        console.error('Error loading product images:', error);
-        setImages([product.imageUrl]);
-      } finally {
-        setImageLoading(false);
-      }
-    };
-
-    loadProductImages();
-  }, [product.asin, product.imageUrl, product.title]);
-
-  const handleProductClick = () => {
-    // Track the click
-    trackAffiliateClick(
-      product.asin,
-      product.title,
-      product.category,
-      'product_card'
-    );
+  // Generar enlace optimizado de Amazon
+  const generateAmazonLink = () => {
+    const affiliateTag = AMAZON_AFFILIATE_TAG;
     
-    // Open Amazon link
-    window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
+    if (asin) {
+      // Enlace directo al producto con ASIN
+      return `https://www.amazon.es/dp/${asin}?tag=${affiliateTag}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=${asin}&linkId=nautical_guide_${category}`;
+    } else {
+      // Enlace de búsqueda optimizado
+      const searchTerm = productName.replace(/\s+/g, '+');
+      const utmParams = `utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=${category}`;
+      return `https://www.amazon.es/s?k=${searchTerm}&tag=${affiliateTag}&linkCode=ur2&linkId=nautical_guide_${category}&camp=3638&creative=24630&ref=as_li_ss_tl&${utmParams}`;
+    }
   };
 
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
-
-  const getCategoryIcon = (category: string): string => {
-    const icons: { [key: string]: string } = {
-      snorkel: '🤿',
-      gps: '🗺️',
-      safety: '🛟',
-      comfort: '🧊',
-      technology: '📱',
-      nautical: '⚓',
-      summer: '☀️'
-    };
-    return icons[category] || '🛥️';
+  // Generar estrellas de rating
+  const generateStars = (rating: number) => {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 !== 0;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    
+    return (
+      <div className="flex items-center">
+        {[...Array(fullStars)].map((_, i) => (
+          <span key={i} className="text-yellow-400">★</span>
+        ))}
+        {hasHalfStar && <span className="text-yellow-400">☆</span>}
+        {[...Array(emptyStars)].map((_, i) => (
+          <span key={i} className="text-gray-300">☆</span>
+        ))}
+        <span className="ml-1 text-sm text-gray-600">({reviewCount})</span>
+      </div>
+    );
   };
 
   return (
-    <div className={`bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group ${className}`}>
-      {/* Product Image */}
-      <div className="relative h-48 overflow-hidden">
-        {imageLoading ? (
-          <div className="w-full h-full bg-gray-200 animate-pulse flex items-center justify-center">
-            <div className="text-gray-400">Cargando imagen...</div>
-          </div>
+    <div className={`bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 overflow-hidden ${className}`}>
+      {/* Imagen del producto */}
+      <div className="relative">
+        {imageUrl ? (
+          <img 
+            src={imageUrl} 
+            alt={productName}
+            className="w-full h-48 object-cover"
+            loading="lazy"
+          />
         ) : (
-          <>
-            <img 
-              src={images[currentImageIndex]} 
-              alt={product.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = '/images/products/default-product.svg';
-              }}
-            />
-            
-            {/* Image Gallery Navigation */}
-            {showGallery && images.length > 1 && (
-              <>
-                <button
-                  onClick={prevImage}
-                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 rounded-full hover:bg-opacity-70 transition-all"
-                >
-                  ←
-                </button>
-                <button
-                  onClick={nextImage}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 rounded-full hover:bg-opacity-70 transition-all"
-                >
-                  →
-                </button>
-                
-                {/* Image Indicators */}
-                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1">
-                  {images.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`w-2 h-2 rounded-full ${
-                        index === currentImageIndex ? 'bg-white' : 'bg-white bg-opacity-50'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-          </>
+          <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+            <span className="text-gray-400">Imagen no disponible</span>
+          </div>
         )}
         
         {/* Badges */}
         <div className="absolute top-2 left-2 flex flex-col gap-1">
-          {product.prime && (
-            <span className="bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium">
+          {isPrime && (
+            <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
               Prime
             </span>
           )}
-          {product.originalPrice && (
-            <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium">
-              Oferta
+          {discount && (
+            <span className="bg-red-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
+              -{discount}
             </span>
           )}
         </div>
-        
-        {/* Rating */}
-        <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
-          ⭐ {product.rating.toFixed(1)} ({product.reviewCount})
-        </div>
-        
-        {/* Availability */}
-        <div className="absolute bottom-2 right-2">
-          <span className={`px-2 py-1 rounded text-xs font-medium ${
-            product.availability === 'En stock' 
-              ? 'bg-green-600 text-white' 
-              : 'bg-red-600 text-white'
-          }`}>
-            {product.availability}
-          </span>
-        </div>
       </div>
-      
+
+      {/* Contenido */}
       <div className="p-4">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-lg">{getCategoryIcon(product.category)}</span>
-          <h4 className="font-semibold text-slate-800 line-clamp-2 text-sm">
-            {product.title}
-          </h4>
-        </div>
-        
-        <div className="flex items-center justify-between mb-3">
+        {/* Título */}
+        <h3 className="font-semibold text-gray-900 text-sm line-clamp-2 mb-2">
+          {productName}
+        </h3>
+
+        {/* Rating */}
+        {rating > 0 && (
+          <div className="mb-2">
+            {generateStars(rating)}
+          </div>
+        )}
+
+        {/* Precio */}
+        <div className="mb-3">
           <div className="flex items-center gap-2">
-            <span className="text-lg font-bold text-teal-600">
-              {product.price}
+            <span className="text-lg font-bold text-green-600">
+              {price}
             </span>
-            {product.originalPrice && (
-              <span className="text-sm text-slate-500 line-through">
-                {product.originalPrice}
+            {originalPrice && originalPrice !== price && (
+              <span className="text-sm text-gray-500 line-through">
+                {originalPrice}
               </span>
             )}
           </div>
         </div>
-        
-        {/* Features */}
-        {product.features.length > 0 && (
-          <div className="mb-3">
-            <ul className="text-xs text-slate-600 space-y-1">
-              {product.features.slice(0, 2).map((feature, index) => (
-                <li key={index} className="flex items-center gap-1">
-                  <span className="text-green-500">✓</span>
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </div>
+
+        {/* Descripción */}
+        {description && (
+          <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+            {description}
+          </p>
         )}
-        
-        <button
-          onClick={handleProductClick}
-          className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-all"
+
+        {/* Botón de compra */}
+        <a
+          href={generateAmazonLink()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
+          onClick={() => {
+            // Tracking de clics (puedes integrar con Google Analytics)
+            if (typeof window !== 'undefined' && (window as any).gtag) {
+              (window as any).gtag('event', 'click', {
+                'event_category': 'amazon_affiliate',
+                'event_label': productName,
+                'value': 1
+              });
+            }
+          }}
         >
-          Ver en Amazon
-        </button>
+          <span>Ver en Amazon</span>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+
+        {/* Disclaimer */}
+        <p className="text-xs text-gray-500 mt-2 text-center">
+          Como afiliado de Amazon, ganamos comisiones por compras calificadas
+        </p>
       </div>
     </div>
   );
