@@ -3,7 +3,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { BlogPostPageProps, ParsedMarkdownPost } from '../../types';
-import { allBlogPosts } from '../blogData';
+import { existingBlogPosts_definitions_only as allBlogPosts } from '../blogData';
 import { Button } from '../../components/Button';
 import NotFoundPage from '../../components/NotFoundPage';
 // import { AMAZON_AFFILIATE_LINK_PLACEHOLDER } from '../../constants'; // Removido - ya no se usa
