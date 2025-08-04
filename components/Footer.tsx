@@ -73,7 +73,7 @@ const Footer: React.FC = () => {
               </div>
               
               {/* Enhanced Features - Optimizado para móvil */}
-              <div className="space-y-2 sm:space-y-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
                 <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-white/5 rounded-lg sm:rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group">
                   <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-ocean-500/30 to-blue-500/30 rounded-md sm:rounded-lg flex items-center justify-center border border-ocean-400/30 group-hover:scale-110 transition-transform">
                     <SparklesIcon className="w-3 h-3 sm:w-4 sm:h-4 text-ocean-300" />
