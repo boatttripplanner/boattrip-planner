@@ -1,355 +1,280 @@
 
 
 import React, { useState } from 'react';
-import { SAMBOAT_AFFILIATE_URL, AMAZON_AFFILIATE_LINK_PLACEHOLDER, CONTACT_EMAIL } from '../constants';
-import { FooterProps } from '../types'; 
-
 import { BoatOutlineIcon } from './icons/BoatOutlineIcon';
-import { MapPinIcon } from './icons/MapPinIcon';
-import { PhoneIcon } from './icons/PhoneIcon';
 import { SparklesIcon } from './icons/SparklesIcon';
+import { MapPinIcon } from './icons/MapPinIcon';
 import { UsersIcon } from './icons/UsersIcon';
-import { DocumentTextIcon } from './icons/DocumentTextIcon';
 import { ShoppingCartIcon } from './icons/ShoppingCartIcon';
-import { InfoIcon } from './icons/InfoIcon';
+import { PhoneIcon } from './icons/PhoneIcon';
 import { CheckCircleIcon } from './icons/CheckCircleIcon';
 import { StarOutlineIcon } from './icons/StarOutlineIcon';
 import ShieldCheckIcon from './icons/ShieldCheckIcon';
 import { WhatsAppIcon } from './icons/WhatsAppIcon';
+import { MapRouteIcon } from './icons/MapRouteIcon';
 
-const Footer: React.FC<FooterProps> = ({ 
-  onShowPrivacyPolicy, 
-  onShowTermsOfService,
-  onNavigateToMainApp,
-  onNavigateToBlogIndex,
-}) => {
-  // Estados para controlar los desplegables
-  const [expandedSections, setExpandedSections] = useState({
-    navigation: false,
-    resources: false,
-    contact: false
+const Footer: React.FC = () => {
+  const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({
+    navegacion: false,
+    recursos: false,
+    contacto: false
   });
 
-  const toggleSection = (section: keyof typeof expandedSections) => {
+  const toggleSection = (section: string) => {
     setExpandedSections(prev => ({
       ...prev,
       [section]: !prev[section]
     }));
   };
 
-  const linkStyle = "group flex items-center gap-3 py-2.5 px-3 rounded-xl hover:bg-white/10 hover:text-white transition-all duration-300 text-slate-200 hover:shadow-lg hover:scale-105 transform";
-  
+  const linkStyle = "group flex items-center gap-2 sm:gap-3 py-2 sm:py-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl hover:bg-white/10 hover:text-white transition-all duration-300 text-slate-200 hover:shadow-lg hover:scale-105 transform";
+
   return (
-    <footer className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white pt-16 pb-8 no-print overflow-hidden border-t-4 border-ocean-500">
+    <footer className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
       {/* Enhanced Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
+      <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M40 40c0-22.091 17.909-40 40-40v80c-22.091 0-40-17.909-40-40zm0 0c0 22.091-17.909 40-40 40V0c22.091 0 40 17.909 40 40z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }}></div>
       </div>
-
-      {/* Enhanced Animated Waves */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-none" style={{ transform: 'translateY(1px)' }}>
-        <svg className="relative block w-full h-[140px] sm:h-[200px]" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
-          <defs>
-            <path id="gentle-wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-          </defs>
-          <g className="waves">
-            <use xlinkHref="#gentle-wave-path" x="48" y="0" className="fill-ocean-600 opacity-90 animate-gentle-wave" />
-            <use xlinkHref="#gentle-wave-path" x="48" y="3" className="fill-sea-500 opacity-70 animate-gentle-wave-2" />
-            <use xlinkHref="#gentle-wave-path" x="48" y="5" className="fill-teal-400 opacity-50 animate-gentle-wave-3" />
-            <use xlinkHref="#gentle-wave-path" x="48" y="7" className="fill-slate-700" />
-          </g>
-        </svg>
-      </div>
       
-      {/* Footer Content */}
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
-          
-          {/* Enhanced Brand Section */}
-          <div className="lg:col-span-1">
-            <div className="mb-6">
-              <div className="mb-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-ocean-500 to-sea-500 rounded-xl flex items-center justify-center shadow-lg">
-                    <BoatOutlineIcon className="w-6 h-6 text-white" />
+      {/* Animated Waves */}
+      <div className="absolute bottom-0 left-0 right-0 h-16 sm:h-20 md:h-24 overflow-hidden">
+        <div className="absolute bottom-0 left-0 right-0 h-full">
+          <svg className="w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" className="fill-ocean-600"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" className="fill-sea-500"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" className="fill-sunset-400"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div className="relative z-10">
+        {/* Main Footer Content - Optimizado para móvil */}
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8 md:py-12 lg:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12">
+            
+            {/* Enhanced Brand Section - Optimizado para móvil */}
+            <div className="lg:col-span-1">
+              <div className="mb-4 sm:mb-6">
+                <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-br from-ocean-500 to-sea-500 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg">
+                    <BoatOutlineIcon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-white">BoatTrip Planner</h3>
-                    <p className="text-sm text-ocean-200 font-medium">Planificador Náutico IA</p>
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white">BoatTrip Planner</h3>
+                    <p className="text-xs sm:text-sm text-ocean-200 font-medium">Planificador Náutico IA</p>
                   </div>
                 </div>
-                <p className="text-sm leading-relaxed text-slate-200 mb-6">
+                <p className="text-xs sm:text-sm leading-relaxed text-slate-200 mb-4 sm:mb-6">
                   Tu planificador de viajes náuticos inteligente, potenciado por IA. 
                   Trazamos tu rumbo real para aventuras inolvidables en el mar.
                 </p>
               </div>
               
-              {/* Enhanced Features */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group">
-                  <div className="w-8 h-8 bg-gradient-to-br from-ocean-500/30 to-blue-500/30 rounded-lg flex items-center justify-center border border-ocean-400/30 group-hover:scale-110 transition-transform">
-                    <SparklesIcon className="w-4 h-4 text-ocean-300" />
+              {/* Enhanced Features - Optimizado para móvil */}
+              <div className="space-y-2 sm:space-y-3">
+                <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-white/5 rounded-lg sm:rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-ocean-500/30 to-blue-500/30 rounded-md sm:rounded-lg flex items-center justify-center border border-ocean-400/30 group-hover:scale-110 transition-transform">
+                    <SparklesIcon className="w-3 h-3 sm:w-4 sm:h-4 text-ocean-300" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-white">Planificación inteligente</div>
+                    <div className="text-xs sm:text-sm font-medium text-white">Planificación inteligente</div>
                     <div className="text-xs text-slate-300">IA avanzada para rutas óptimas</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group">
-                  <div className="w-8 h-8 bg-gradient-to-br from-sea-500/30 to-teal-500/30 rounded-lg flex items-center justify-center border border-sea-400/30 group-hover:scale-110 transition-transform">
-                    <MapPinIcon className="w-4 h-4 text-sea-300" />
+                <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-white/5 rounded-lg sm:rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-sea-500/30 to-teal-500/30 rounded-md sm:rounded-lg flex items-center justify-center border border-sea-400/30 group-hover:scale-110 transition-transform">
+                    <MapPinIcon className="w-3 h-3 sm:w-4 sm:h-4 text-sea-300" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-white">Destinos exclusivos</div>
+                    <div className="text-xs sm:text-sm font-medium text-white">Destinos exclusivos</div>
                     <div className="text-xs text-slate-300">Lugares únicos del Mediterráneo</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group">
-                  <div className="w-8 h-8 bg-gradient-to-br from-teal-500/30 to-cyan-500/30 rounded-lg flex items-center justify-center border border-teal-400/30 group-hover:scale-110 transition-transform">
-                    <UsersIcon className="w-4 h-4 text-teal-300" />
+                <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-white/5 rounded-lg sm:rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-teal-500/30 to-cyan-500/30 rounded-md sm:rounded-lg flex items-center justify-center border border-teal-400/30 group-hover:scale-110 transition-transform">
+                    <UsersIcon className="w-3 h-3 sm:w-4 sm:h-4 text-teal-300" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-white">Comunidad náutica</div>
+                    <div className="text-xs sm:text-sm font-medium text-white">Comunidad náutica</div>
                     <div className="text-xs text-slate-300">Conecta con otros navegantes</div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Enhanced Navigation Section */}
-          <div>
-            <button 
-              onClick={() => toggleSection('navigation')}
-              className="w-full text-left mb-4 flex items-center justify-between group hover:bg-white/10 rounded-xl p-3 transition-all duration-300 border border-white/5 hover:border-white/20"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-ocean-500/40 to-sea-500/40 rounded-xl flex items-center justify-center border border-ocean-400/40 group-hover:scale-110 transition-transform">
-                  <BoatOutlineIcon className="w-5 h-5 text-ocean-300" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white group-hover:text-ocean-200 transition-colors">
-                    Navegación
-                  </h3>
-                  <p className="text-xs text-slate-300">Explora nuestra plataforma</p>
-                </div>
-              </div>
-              <div className="text-xs text-ocean-300 opacity-60 group-hover:opacity-100 transition-opacity font-medium">
-                {expandedSections.navigation ? 'Ocultar' : 'Ver más'}
-              </div>
-            </button>
-            <ul className={`space-y-2 overflow-hidden transition-all duration-500 ${
-              expandedSections.navigation ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-            }`}>
-              <li>
-                <button onClick={onNavigateToMainApp} className={linkStyle}>
-                  <div className="w-3 h-3 bg-gradient-to-r from-ocean-400 to-blue-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-medium">Planificador IA</span>
-                </button>
-              </li>
-              {onNavigateToBlogIndex && (
-                <li>
-                  <button onClick={onNavigateToBlogIndex} className={linkStyle}>
-                    <div className="w-3 h-3 bg-gradient-to-r from-sea-400 to-teal-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                    <span className="font-medium">Blog Náutico</span>
-                  </button>
-                </li>
-              )}
-              <li>
-                <a href="/?view=blog_index&category=Destinos" className={linkStyle}>
-                  <div className="w-3 h-3 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-medium">Destinos</span>
-                </a>
-              </li>
-              <li>
-                <a href="/?view=blog_index&category=Equipamiento" className={linkStyle}>
-                  <div className="w-3 h-3 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-medium">Equipamiento</span>
-                </a>
-              </li>
-              <li>
-                <a href="/?view=blog_index&category=Consejos" className={linkStyle}>
-                  <div className="w-3 h-3 bg-gradient-to-r from-amber-400 to-orange-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-medium">Consejos</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Enhanced Resources Section */}
-          <div>
-            <button 
-              onClick={() => toggleSection('resources')}
-              className="w-full text-left mb-4 flex items-center justify-between group hover:bg-white/10 rounded-xl p-3 transition-all duration-300 border border-white/5 hover:border-white/20"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-purple-500/40 to-pink-500/40 rounded-xl flex items-center justify-center border border-purple-400/40 group-hover:scale-110 transition-transform">
-                  <ShoppingCartIcon className="w-5 h-5 text-purple-300" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white group-hover:text-purple-200 transition-colors">
-                    Recursos
-                  </h3>
-                  <p className="text-xs text-slate-300">Productos y servicios</p>
-                </div>
-              </div>
-              <div className="text-xs text-purple-300 opacity-60 group-hover:opacity-100 transition-opacity font-medium">
-                {expandedSections.resources ? 'Ocultar' : 'Ver más'}
-              </div>
-            </button>
-            <ul className={`space-y-2 overflow-hidden transition-all duration-500 ${
-              expandedSections.resources ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-            }`}>
-              <li>
-                <a href={AMAZON_AFFILIATE_LINK_PLACEHOLDER} target="_blank" rel="noopener noreferrer" className={linkStyle}>
-                  <div className="w-3 h-3 bg-gradient-to-r from-orange-400 to-red-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-medium">Equipamiento Amazon</span>
-                  <StarOutlineIcon className="w-3 h-3 text-amber-400 ml-auto" />
-                </a>
-              </li>
-              <li>
-                <a href={SAMBOAT_AFFILIATE_URL} target="_blank" rel="noopener noreferrer" className={linkStyle}>
-                  <div className="w-3 h-3 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-medium">Alquiler de Barcos</span>
-                  <CheckCircleIcon className="w-3 h-3 text-green-400 ml-auto" />
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Enhanced Contact & Social Section */}
-          <div>
-            <button 
-              onClick={() => toggleSection('contact')}
-              className="w-full text-left mb-4 flex items-center justify-between group hover:bg-white/10 rounded-xl p-3 transition-all duration-300 border border-white/5 hover:border-white/20"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-pink-500/40 to-red-500/40 rounded-xl flex items-center justify-center border border-pink-400/40 group-hover:scale-110 transition-transform">
-                  <PhoneIcon className="w-5 h-5 text-pink-300" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white group-hover:text-pink-200 transition-colors">
-                    Contacto
-                  </h3>
-                  <p className="text-xs text-slate-300">Estamos aquí para ayudarte</p>
-                </div>
-              </div>
-              <div className="text-xs text-pink-300 opacity-60 group-hover:opacity-100 transition-opacity font-medium">
-                {expandedSections.contact ? 'Ocultar' : 'Ver más'}
-              </div>
-            </button>
-            <ul className={`space-y-2 mb-6 overflow-hidden transition-all duration-500 ${
-              expandedSections.contact ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-            }`}>
-              <li>
-                <a 
-                  href={`mailto:${CONTACT_EMAIL}?subject=Consulta%20BoatTrip%20Planner`} 
-                  className={linkStyle}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Enviar email a ${CONTACT_EMAIL}`}
-                  onClick={(e) => {
-                    if (!navigator.userAgent.includes('Mobile') && !window.navigator.userAgent.includes('Android') && !window.navigator.userAgent.includes('iPhone')) {
-                      return;
-                    }
-                    e.preventDefault();
-                    navigator.clipboard.writeText(CONTACT_EMAIL).then(() => {
-                      alert(`Email copiado al portapapeles: ${CONTACT_EMAIL}`);
-                    }).catch(() => {
-                      alert(`Email de contacto: ${CONTACT_EMAIL}`);
-                    });
-                  }}
+            {/* Collapsible Sections - Optimizado para móvil */}
+            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              
+              {/* Navegación Section - Optimizado para móvil */}
+              <div className="space-y-2 sm:space-y-3">
+                <button
+                  onClick={() => toggleSection('navegacion')}
+                  className="flex items-center justify-between w-full p-2 sm:p-3 bg-white/5 rounded-lg sm:rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group"
                 >
-                  <div className="w-3 h-3 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-medium">Email</span>
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="https://wa.me/34600000000?text=Hola,%20tengo%20una%20consulta%20sobre%20BoatTrip%20Planner" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className={linkStyle}
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-500/30 to-indigo-500/30 rounded-md sm:rounded-lg flex items-center justify-center border border-blue-400/30 group-hover:scale-110 transition-transform">
+                      <MapRouteIcon className="w-3 h-3 sm:w-4 sm:h-4 text-blue-300" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm sm:text-base font-semibold text-white">Navegación</h4>
+                      <p className="text-xs text-slate-300">Explora nuestra plataforma</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full"></div>
+                    <span className="text-xs text-slate-300">
+                      {expandedSections.navegacion ? 'Ocultar' : 'Ver más'}
+                    </span>
+                  </div>
+                </button>
+                
+                <div className={`space-y-1 sm:space-y-2 transition-all duration-500 ease-in-out ${
+                  expandedSections.navegacion ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                }`}>
+                  <a href="/" className={linkStyle}>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full"></div>
+                    <span className="text-xs sm:text-sm">Inicio</span>
+                  </a>
+                  <a href="/?view=wizard" className={linkStyle}>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full"></div>
+                    <span className="text-xs sm:text-sm">Planificador</span>
+                  </a>
+                  <a href="/?view=blog" className={linkStyle}>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full"></div>
+                    <span className="text-xs sm:text-sm">Blog</span>
+                  </a>
+                  <a href="/?view=about" className={linkStyle}>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full"></div>
+                    <span className="text-xs sm:text-sm">Sobre Nosotros</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Recursos Section - Optimizado para móvil */}
+              <div className="space-y-2 sm:space-y-3">
+                <button
+                  onClick={() => toggleSection('recursos')}
+                  className="flex items-center justify-between w-full p-2 sm:p-3 bg-white/5 rounded-lg sm:rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group"
                 >
-                  <div className="w-3 h-3 bg-gradient-to-r from-green-400 to-teal-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-medium">WhatsApp</span>
-                  <WhatsAppIcon className="w-3 h-3 text-green-400 ml-auto" />
-                </a>
-              </li>
-              <li>
-                <button onClick={onShowPrivacyPolicy} className={linkStyle}>
-                  <div className="w-3 h-3 bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-medium">Política de Privacidad</span>
-                  <ShieldCheckIcon className="w-3 h-3 text-indigo-400 ml-auto" />
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-md sm:rounded-lg flex items-center justify-center border border-purple-400/30 group-hover:scale-110 transition-transform">
+                      <ShoppingCartIcon className="w-3 h-3 sm:w-4 sm:h-4 text-purple-300" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm sm:text-base font-semibold text-white">Recursos</h4>
+                      <p className="text-xs text-slate-300">Herramientas y productos</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
+                    <span className="text-xs text-slate-300">
+                      {expandedSections.recursos ? 'Ocultar' : 'Ver más'}
+                    </span>
+                  </div>
                 </button>
-              </li>
-              <li>
-                <button onClick={onShowTermsOfService} className={linkStyle}>
-                  <div className="w-3 h-3 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-medium">Términos de Uso</span>
-                  <DocumentTextIcon className="w-3 h-3 text-cyan-400 ml-auto" />
+                
+                <div className={`space-y-1 sm:space-y-2 transition-all duration-500 ease-in-out ${
+                  expandedSections.recursos ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                }`}>
+                  <a href="/?view=products" className={linkStyle}>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
+                    <span className="text-xs sm:text-sm">Productos Náuticos</span>
+                  </a>
+                  <a href="/?view=guides" className={linkStyle}>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
+                    <span className="text-xs sm:text-sm">Guías de Navegación</span>
+                  </a>
+                  <a href="/?view=destinations" className={linkStyle}>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
+                    <span className="text-xs sm:text-sm">Destinos</span>
+                  </a>
+                  <a href="/?view=reviews" className={linkStyle}>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
+                    <span className="text-xs sm:text-sm">Reviews</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Contacto Section - Optimizado para móvil */}
+              <div className="space-y-2 sm:space-y-3">
+                <button
+                  onClick={() => toggleSection('contacto')}
+                  className="flex items-center justify-between w-full p-2 sm:p-3 bg-white/5 rounded-lg sm:rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group"
+                >
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-red-500/30 to-pink-500/30 rounded-md sm:rounded-lg flex items-center justify-center border border-red-400/30 group-hover:scale-110 transition-transform">
+                      <PhoneIcon className="w-3 h-3 sm:w-4 sm:h-4 text-red-300" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm sm:text-base font-semibold text-white">Contacto</h4>
+                      <p className="text-xs text-slate-300">Conecta con nosotros</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-gradient-to-r from-red-400 to-pink-400 rounded-full"></div>
+                    <span className="text-xs text-slate-300">
+                      {expandedSections.contacto ? 'Ocultar' : 'Ver más'}
+                    </span>
+                  </div>
                 </button>
-              </li>
-            </ul>
+                
+                <div className={`space-y-1 sm:space-y-2 transition-all duration-500 ease-in-out ${
+                  expandedSections.contacto ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                }`}>
+                  <a href="mailto:info@boattrip-planner.com" className={linkStyle}>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-red-400 to-pink-400 rounded-full"></div>
+                    <span className="text-xs sm:text-sm">Email</span>
+                  </a>
+                  <a href="https://wa.me/34600000000" target="_blank" rel="noopener noreferrer" className={linkStyle}>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-red-400 to-pink-400 rounded-full"></div>
+                    <WhatsAppIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                    <span className="text-xs sm:text-sm">WhatsApp</span>
+                  </a>
+                  <a href="/?view=privacy" className={linkStyle}>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-red-400 to-pink-400 rounded-full"></div>
+                    <span className="text-xs sm:text-sm">Privacidad</span>
+                  </a>
+                  <a href="/?view=terms" className={linkStyle}>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-red-400 to-pink-400 rounded-full"></div>
+                    <span className="text-xs sm:text-sm">Términos</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        
-        {/* Enhanced Divider */}
-        <div className="relative mb-10">
+
+        {/* Enhanced Divider - Optimizado para móvil */}
+        <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t-2 border-gradient-to-r from-ocean-500/30 via-sea-500/30 to-teal-500/30"></div>
+            <div className="w-full border-t border-gradient-to-r from-transparent via-white/20 to-transparent"></div>
           </div>
           <div className="relative flex justify-center">
-            <div className="px-6 py-2 bg-gradient-to-r from-ocean-500/20 to-sea-500/20 rounded-full border border-ocean-400/30">
-              <BoatOutlineIcon className="w-5 h-5 text-ocean-300" />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-ocean-500 to-sea-500 rounded-full flex items-center justify-center shadow-lg">
+              <BoatOutlineIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
           </div>
         </div>
-        
-        {/* Enhanced Bottom Bar */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-          {/* Copyright & Features */}
-          <div className="flex flex-col sm:flex-row items-center gap-6 text-sm">
-            <p className="text-center sm:text-left text-white font-medium">
-              &copy; {new Date().getFullYear()} BoatTrip Planner. Todos los derechos reservados.
-            </p>
-            <div className="flex items-center gap-6 text-xs text-slate-200">
-              <span className="hidden sm:inline text-ocean-400">•</span>
-              <span className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">
-                <SparklesIcon className="w-3 h-3 text-ocean-300" />
-                <span>Planificación inteligente</span>
-              </span>
-              <span className="hidden sm:inline text-ocean-400">•</span>
-              <span className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">
-                <DocumentTextIcon className="w-3 h-3 text-sea-300" />
-                <span>Potenciado por IA</span>
-              </span>
+
+        {/* Bottom Bar - Optimizado para móvil */}
+        <div className="px-3 sm:px-4 lg:px-8 py-3 sm:py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4">
+            <div className="text-center sm:text-left">
+              <p className="text-xs sm:text-sm text-slate-300">
+                © 2025 BoatTrip Planner. Todos los derechos reservados.
+              </p>
             </div>
-          </div>
-          
-          {/* Enhanced Affiliate & Status */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 text-xs">
-            <div className="flex items-center gap-2 text-slate-200 px-4 py-2 bg-white/5 rounded-full border border-white/10">
-              <InfoIcon className="w-3 h-3 text-amber-300" />
-              <span>
-                Como afiliado, ganamos con las compras que califican. 
-                <a 
-                  href={SAMBOAT_AFFILIATE_URL} 
-                  target="_blank" 
-                  rel="noopener noreferrer sponsored" 
-                  className="font-semibold text-ocean-300 hover:text-ocean-200 transition-colors ml-1 underline decoration-dotted underline-offset-2"
-                  aria-label="Más información sobre nuestra afiliación (enlace externo)"
-                >
-                  Saber más
-                </a>
-              </span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full border border-green-400/30 shadow-lg">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-green-200 font-medium">Online</span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-white/5 rounded-full border border-white/10">
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-xs text-slate-300">Online</span>
+              </div>
+              <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-white/5 rounded-full border border-white/10">
+                <ShieldCheckIcon className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
+                <span className="text-xs text-slate-300">Seguro</span>
+              </div>
             </div>
           </div>
         </div>
