@@ -90,14 +90,58 @@ const customStyles = `
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
   
-  /* Estilos para evitar solapamiento */
+  /* Estilos para evitar solapamiento y problemas de layout */
   .blog-layout {
     position: relative;
     z-index: 1;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
   
   .table-of-contents {
     position: sticky;
+    top: 1rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .main-content {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Fix para Safari y Chrome */
+  @supports (-webkit-touch-callout: none) {
+    .blog-layout {
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
+    }
+    
+    .table-of-contents {
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
+    }
+  }
+  
+  /* Fix para problemas de grid en diferentes navegadores */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 2rem;
+  }
+  
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: 1fr 3fr;
+    }
+  }
     top: 1rem;
     z-index: 10;
   }
@@ -1007,10 +1051,10 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       
       {/* Contenido principal */}
       <div className={`w-full max-w-6xl mx-auto transition-all duration-300 ease-out ${darkMode ? 'dark' : ''} ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''} -mt-20 relative z-20 px-4`}>
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start blog-layout">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start blog-layout overflow-hidden">
           {/* Tabla de contenidos - Solo visible en desktop */}
-          <div className="hidden lg:block lg:col-span-1">
-            <div className="table-of-contents">
+          <div className="hidden lg:block lg:col-span-1 sticky top-4">
+            <div className="table-of-contents max-h-screen overflow-y-auto">
               <TableOfContents 
                 headings={headings} 
                 activeHeading={activeHeading} 
@@ -1020,7 +1064,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
           </div>
           
           {/* Contenido principal */}
-          <div className="lg:col-span-3 w-full main-content">
+          <div className="lg:col-span-3 w-full main-content min-w-0">
             <div className={`${darkMode ? 'bg-slate-800/95 backdrop-blur-sm text-white' : 'bg-white/95 backdrop-blur-sm'} p-6 md:p-8 rounded-2xl shadow-2xl transition-all duration-300 border ${darkMode ? 'border-slate-700/50' : 'border-white/50'} relative z-10`}>
           {/* Controles de navegación */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b border-slate-200/50 dark:border-slate-600/50">

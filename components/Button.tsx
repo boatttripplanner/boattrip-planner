@@ -2,7 +2,7 @@ import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'outline' | 'premium' | 'urgent' | 'bestseller';
   size?: 'sm' | 'md';
 }
 
@@ -18,6 +18,10 @@ export const Button: React.FC<ButtonProps> = ({
   const variantStyles = {
     primary: "bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white focus:ring-teal-400 disabled:from-teal-400 disabled:to-teal-500 disabled:opacity-70",
     secondary: "bg-slate-200 hover:bg-slate-300 text-slate-800 focus:ring-teal-500 disabled:bg-slate-100 disabled:text-slate-400",
+    outline: "bg-transparent border-2 border-teal-500 text-teal-600 hover:bg-teal-500 hover:text-white focus:ring-teal-400 disabled:border-teal-300 disabled:text-teal-300",
+    premium: "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white focus:ring-purple-400 disabled:from-purple-400 disabled:to-pink-400 disabled:opacity-70",
+    urgent: "bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white focus:ring-red-400 disabled:from-red-400 disabled:to-orange-400 disabled:opacity-70",
+    bestseller: "bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white focus:ring-yellow-400 disabled:from-yellow-300 disabled:to-orange-300 disabled:opacity-70",
   };
 
   const sizeSpecificStyles = {
