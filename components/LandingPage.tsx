@@ -12,7 +12,7 @@ interface LandingPageProps {
 
 const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInstallBanner = false }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-ocean-50 via-white to-sea-50 relative overflow-hidden transition-all duration-500 ease-in-out">
+    <div className="min-h-screen bg-gradient-to-br from-ocean-50 via-white to-sea-50 relative overflow-hidden transition-all duration-500 ease-in-out safari-gpu">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-ocean-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
@@ -21,7 +21,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
       </div>
 
       {/* Hero Section - Optimizado para móvil */}
-      <div className="relative z-10">
+      <div className="relative z-10 hero-section">
         <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8 md:pb-12 lg:pb-16 transition-all duration-300 ease-out ${
           showAppInstallBanner 
             ? 'pt-20 sm:pt-24 md:pt-28 lg:pt-32' 

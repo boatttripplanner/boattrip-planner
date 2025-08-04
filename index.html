@@ -135,42 +135,46 @@
     <meta name="msapplication-TileColor" content="#0d9488" />
     <meta name="msapplication-tap-highlight" content="no" />
     
-    <!-- 🚨 SAFARI COMPATIBILITY FIXES -->
+    <!-- 🚨 SAFARI-ANDROID CONSISTENCY FIXES -->
     <script>
-      // Safari-specific fixes
-      if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
-        // Fix for Safari viewport issues
-        document.addEventListener('DOMContentLoaded', function() {
-          // Force viewport recalculation
-          setTimeout(function() {
-            const viewport = document.querySelector('meta[name=viewport]');
-            if (viewport) {
-              viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
-            }
-          }, 100);
-        });
+      // Enhanced Safari-Android consistency fixes
+      document.addEventListener('DOMContentLoaded', function() {
+        // Force consistent viewport behavior across all browsers
+        const viewport = document.querySelector('meta[name=viewport]');
+        if (viewport) {
+          viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover');
+        }
         
-        // Fix for Safari touch events
-        document.addEventListener('touchstart', function() {}, {passive: true});
-        document.addEventListener('touchmove', function() {}, {passive: true});
-      }
-      
-      // Chrome mobile fixes
-      if (navigator.userAgent.includes('Chrome') && /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        // Fix for Chrome mobile viewport
-        document.addEventListener('DOMContentLoaded', function() {
+        // Safari-specific fixes
+        if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
+          // Fix for Safari viewport issues
           setTimeout(function() {
-            const viewport = document.querySelector('meta[name=viewport]');
             if (viewport) {
-              viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
+              viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover');
             }
           }, 100);
-        });
-      }
-      
-      // iOS Safari specific fixes
-      if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-        document.addEventListener('DOMContentLoaded', function() {
+          
+          // Fix for Safari touch events
+          document.addEventListener('touchstart', function() {}, {passive: true});
+          document.addEventListener('touchmove', function() {}, {passive: true});
+          
+          // Force Safari to render like Chrome
+          document.documentElement.style.setProperty('--webkit-font-smoothing', 'antialiased');
+          document.documentElement.style.setProperty('--moz-osx-font-smoothing', 'grayscale');
+        }
+        
+        // Chrome mobile fixes
+        if (navigator.userAgent.includes('Chrome') && /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+          // Fix for Chrome mobile viewport
+          setTimeout(function() {
+            if (viewport) {
+              viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover');
+            }
+          }, 100);
+        }
+        
+        // iOS Safari specific fixes
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
           // Fix for iOS Safari 100vh issue
           const setVH = () => {
             const vh = window.innerHeight * 0.01;
@@ -180,8 +184,21 @@
           setVH();
           window.addEventListener('resize', setVH);
           window.addEventListener('orientationchange', setVH);
-        });
-      }
+          
+          // Force consistent rendering
+          document.body.style.webkitTextSizeAdjust = '100%';
+          document.body.style.webkitTapHighlightColor = 'transparent';
+          document.body.style.webkitTouchCallout = 'none';
+          document.body.style.webkitUserSelect = 'none';
+        }
+        
+        // Android Chrome specific fixes
+        if (/Android/.test(navigator.userAgent) && navigator.userAgent.includes('Chrome')) {
+          // Ensure Android Chrome renders consistently
+          document.documentElement.style.setProperty('--webkit-font-smoothing', 'antialiased');
+          document.documentElement.style.setProperty('--moz-osx-font-smoothing', 'grayscale');
+        }
+      });
     </script>
     
     <!-- PWA Service Worker Registration -->

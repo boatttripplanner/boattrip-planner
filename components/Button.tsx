@@ -13,7 +13,7 @@ export const Button: React.FC<ButtonProps> = ({
   size = 'md',
   ...props 
 }) => {
-  const coreStyles = "font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all ease-in-out duration-200 transform hover:-translate-y-0.5 disabled:transform-none touch-friendly inline-flex items-center justify-center";
+  const coreStyles = "font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all ease-in-out duration-200 transform hover:-translate-y-0.5 disabled:transform-none touch-friendly inline-flex items-center justify-center safari-button";
   
   const variantStyles = {
     primary: "bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white focus:ring-teal-400 disabled:from-teal-400 disabled:to-teal-500 disabled:opacity-70",
