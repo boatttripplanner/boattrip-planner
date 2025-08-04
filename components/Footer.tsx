@@ -136,15 +136,15 @@ const Footer: React.FC = () => {
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full"></div>
                     <span className="text-xs sm:text-sm">Inicio</span>
                   </a>
-                  <a href="/?view=wizard" className={linkStyle}>
+                  <a href="/?view=main_app" className={linkStyle}>
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full"></div>
                     <span className="text-xs sm:text-sm">Planificador</span>
                   </a>
-                  <a href="/?view=blog" className={linkStyle}>
+                  <a href="/?view=blog_index" className={linkStyle}>
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full"></div>
                     <span className="text-xs sm:text-sm">Blog</span>
                   </a>
-                  <a href="/?view=about" className={linkStyle}>
+                  <a href="/?view=main_app" className={linkStyle}>
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full"></div>
                     <span className="text-xs sm:text-sm">Sobre Nosotros</span>
                   </a>
@@ -177,19 +177,19 @@ const Footer: React.FC = () => {
                 <div className={`space-y-1 sm:space-y-2 transition-all duration-500 ease-in-out ${
                   expandedSections.recursos ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
                 }`}>
-                  <a href="/?view=products" className={linkStyle}>
+                  <a href="/?view=main_app" className={linkStyle}>
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
                     <span className="text-xs sm:text-sm">Productos Náuticos</span>
                   </a>
-                  <a href="/?view=guides" className={linkStyle}>
+                  <a href="/?view=blog_index" className={linkStyle}>
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
                     <span className="text-xs sm:text-sm">Guías de Navegación</span>
                   </a>
-                  <a href="/?view=destinations" className={linkStyle}>
+                  <a href="/?view=blog_index" className={linkStyle}>
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
                     <span className="text-xs sm:text-sm">Destinos</span>
                   </a>
-                  <a href="/?view=reviews" className={linkStyle}>
+                  <a href="/?view=blog_index" className={linkStyle}>
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
                     <span className="text-xs sm:text-sm">Reviews</span>
                   </a>
@@ -226,11 +226,11 @@ const Footer: React.FC = () => {
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-red-400 to-pink-400 rounded-full"></div>
                     <span className="text-xs sm:text-sm">Email</span>
                   </a>
-                  <a href="/?view=privacy" className={linkStyle}>
+                  <a href="/?view=main_app" className={linkStyle}>
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-red-400 to-pink-400 rounded-full"></div>
                     <span className="text-xs sm:text-sm">Privacidad</span>
                   </a>
-                  <a href="/?view=terms" className={linkStyle}>
+                  <a href="/?view=main_app" className={linkStyle}>
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-red-400 to-pink-400 rounded-full"></div>
                     <span className="text-xs sm:text-sm">Términos</span>
                   </a>
