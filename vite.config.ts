@@ -17,7 +17,6 @@ const copyStaticFiles = () => {
         'favicon.ico',
         'favicon-96x96.png',
         'favicon.svg',
-        'apple-touch-icon.png',
         'web-app-manifest-192x192.png',
         'web-app-manifest-512x512.png'
       ];
