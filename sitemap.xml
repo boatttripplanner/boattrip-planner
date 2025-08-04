@@ -6,26 +6,27 @@
   <!-- Página principal - Máxima prioridad -->
   <url>
     <loc>https://boattrip-planner.com/</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
       <image:title>BoatTrip Planner - Planificador de Viajes en Barco</image:title>
+      <image:caption>Planificador inteligente de viajes náuticos con IA</image:caption>
     </image:image>
   </url>
   
   <!-- Páginas principales de la aplicación -->
   <url>
     <loc>https://boattrip-planner.com/about</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://boattrip-planner.com/how-it-works</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -33,7 +34,7 @@
   <!-- Blog principal - Alta prioridad -->
   <url>
     <loc>https://boattrip-planner.com/blog</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -41,7 +42,7 @@
   <!-- Página 404 personalizada - Baja prioridad pero rastreable -->
   <url>
     <loc>https://boattrip-planner.com/404</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -49,7 +50,7 @@
   <!-- Entrada de blog: 🏝️ Los 7 Destinos Náuticos Secretos del Mediterráneo que Debes Descubrir -->
   <url>
     <loc>https://boattrip-planner.com/blog/destinos-nauticos-secretos-mediterraneo</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -61,7 +62,7 @@
   <!-- Entrada de blog: Los 5 Mejores GPS Marinos de 2024: Comparativa Real y Análisis Profundo -->
   <url>
     <loc>https://boattrip-planner.com/blog/mejores-gps-marinos-2024-comparativa-completa</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -73,7 +74,7 @@
   <!-- Entrada de blog: 🌱 Navegación Sostenible 2024: Convierte tu Barco en 100% Ecológico (Guía Completa + Productos) -->
   <url>
     <loc>https://boattrip-planner.com/blog/navegacion-sostenible-guia-completa-barco-ecologico</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -85,7 +86,7 @@
   <!-- Entrada de blog: 👨‍👩‍👧‍👦 Navegar en Familia: La Guía Completa para Aventuras Náuticas Seguras y Divertidas -->
   <url>
     <loc>https://boattrip-planner.com/blog/navegar-en-familia-guia-completa-aventuras-nauticas</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -97,7 +98,7 @@
   <!-- Entrada de blog: Cómo Navegar con tu Perro Sin Arriesgar su Vida: La Guía Definitiva para Navegación Canina Segura -->
   <url>
     <loc>https://boattrip-planner.com/blog/los-7-productos-esenciales-navegar-perro-seguro</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -109,7 +110,7 @@
   <!-- Entrada de blog: Cómo Tu Acampada en la Playa Puede Salvar el Océano: La Guía Definitiva del Camping Sostenible Marino -->
   <url>
     <loc>https://boattrip-planner.com/blog/acampada-sostenible-playa-guia-completa-equipo-ecologico</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -121,7 +122,7 @@
   <!-- Entrada de blog: Los Mejores Productos Náuticos de Amazon: ¡Imágenes Reales y Precios Actualizados! 🛥️🛒 -->
   <url>
     <loc>https://boattrip-planner.com/blog/productos-reales-amazon-nautica-2024</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -133,7 +134,7 @@
   <!-- Entrada de blog: Los 10 Productos Náuticos Más Vendidos en Amazon: ¡Descubre lo que Todos los Navegantes Están Comprando! 🛥️🔥 -->
   <url>
     <loc>https://boattrip-planner.com/blog/top-10-productos-nauticos-mas-vendidos-amazon</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -145,7 +146,7 @@
   <!-- Entrada de blog: Equipamiento Náutico Esencial: ¡Todo lo que Necesitas para tu Próxima Aventura en el Mar! 🛥️⚓ -->
   <url>
     <loc>https://boattrip-planner.com/blog/equipamiento-nautico-esencial-aventura-mar</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -157,7 +158,7 @@
   <!-- Entrada de blog: ¡Bienvenido al Blog de Aventuras Náuticas de BoatTrip Planner! -->
   <url>
     <loc>https://boattrip-planner.com/blog/bienvenida-al-blog</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -169,7 +170,7 @@
   <!-- Entrada de blog: ¿Y si el Mar te Mareara? ¡Consejos Expertos para Vencer el Mareo a Bordo! 🤢⚓ -->
   <url>
     <loc>https://boattrip-planner.com/blog/consejos-vencer-mareo-barco</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -181,7 +182,7 @@
   <!-- Entrada de blog: ¿Con Patrón o Sin Patrón? ¡Claves para Elegir tu Mejor Aventura en Barco! 🧑‍✈️⛵ -->
   <url>
     <loc>https://boattrip-planner.com/blog/con-patron-o-sin-patron-claves-elegir-aventura-barco</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -193,7 +194,7 @@
   <!-- Entrada de blog: Navegación Sostenible: ¡Protege el Mar Mientras Disfrutas de Él! 🌍♻️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/navegacion-sostenible-protege-mar-mientras-disfrutas</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -205,7 +206,7 @@
   <!-- Entrada de blog: ¿Qué es un Catamarán? ¡Ventajas y Desventajas para tu Próxima Aventura Náutica! ⛵ catamaran -->
   <url>
     <loc>https://boattrip-planner.com/blog/que-es-un-catamaran-ventajas-desventajas-aventura-nautica</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -217,7 +218,7 @@
   <!-- Entrada de blog: Alquiler de Barcos por Horas: ¡Explora el Mar a tu Ritmo! ⏱️⚓ -->
   <url>
     <loc>https://boattrip-planner.com/blog/alquiler-barcos-por-horas-explora-mar-a-tu-ritmo</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -229,7 +230,7 @@
   <!-- Entrada de blog: Navegar en Familia: ¡Crea Recuerdos Inolvidables en Alta Mar! 👨‍👩‍👧‍👦⚓ -->
   <url>
     <loc>https://boattrip-planner.com/blog/navegar-en-familia-crea-recuerdos-inolvidables</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -241,7 +242,7 @@
   <!-- Entrada de blog: El Diario de Abordo: ¡Captura Cada Momento de tu Aventura Marina! ✍️🗺️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/el-diario-de-abordo-captura-cada-momento-aventura-marina</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -253,7 +254,7 @@
   <!-- Entrada de blog: ¡Los 5 Mejores Destinos para tu Próxima Aventura en Barco en España! 🇪🇸⚓ -->
   <url>
     <loc>https://boattrip-planner.com/blog/mejores-destinos-aventura-barco-espana</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -265,7 +266,7 @@
   <!-- Entrada de blog: Guía Completa para Viajar en Barco con Mascotas: ¡Tu Mejor Amigo a Bordo! 🐶🐱⚓ -->
   <url>
     <loc>https://boattrip-planner.com/blog/guia-completa-viajar-barco-mascotas</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -277,7 +278,7 @@
   <!-- Entrada de blog: La Pesca desde Barco: ¡Una Guía para Principiantes y Amantes del Mar! 🎣🚤 -->
   <url>
     <loc>https://boattrip-planner.com/blog/guia-pesca-desde-barco-principiantes</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -289,7 +290,7 @@
   <!-- Entrada de blog: Cala Macarella y Macarelleta (Menorca): ¡El Paraíso Escondido que Debes Explorar en Barco! 💎💙 -->
   <url>
     <loc>https://boattrip-planner.com/blog/cala-macarella-macarelleta-menorca-paraiso-escondido</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -301,7 +302,7 @@
   <!-- Entrada de blog: ¿Y si Alquilas un Velero? ¡La Experiencia Pura de Navegar a Vela! 🌬️⛵ -->
   <url>
     <loc>https://boattrip-planner.com/blog/alquilar-velero-experiencia-pura-navegar-a-vela</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -313,7 +314,7 @@
   <!-- Entrada de blog: ¿Y si Alquilas un Barco a Motor? ¡Velocidad, Confort y Flexibilidad en el Mar! 💨🛥️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/alquilar-barco-a-motor-velocidad-confort</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -325,7 +326,7 @@
   <!-- Entrada de blog: ¿Qué es la Posidonia Oceánica? ¡Un Tesoro Submarino que Debes Proteger al Navegar! 🌿💙 -->
   <url>
     <loc>https://boattrip-planner.com/blog/posidonia-oceanica-tesoro-submarino-proteger-navegar</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -337,7 +338,7 @@
   <!-- Entrada de blog: Rumbovivo.com: Tu Escuela Náutica Personalizada para Patrones Exigentes ⚓🎓 -->
   <url>
     <loc>https://boattrip-planner.com/blog/rumbovivo-escuela-nautica-patrones-exigentes</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -349,7 +350,7 @@
   <!-- Entrada de blog: Las Banderas de Cortesía: Un Símbolo de Respeto en Cada Puerto 🏴‍☠️🇪🇸 -->
   <url>
     <loc>https://boattrip-planner.com/blog/banderas-de-cortesia-simbolo-respeto-puerto</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -361,7 +362,7 @@
   <!-- Entrada de blog: Navegar en Ibiza: ¡Descubre la Isla Mágica desde tu Propio Barco! ☀️🛥️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/navegar-en-ibiza-descubre-isla-magica</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -373,7 +374,7 @@
   <!-- Entrada de blog: El GPS Náutico: Tu Navegador Indispensable en Cada Travesía 🛰️🗺️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/gps-nautico-navegador-indispensable</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -385,7 +386,7 @@
   <!-- Entrada de blog: El Paddle Surf (SUP): ¡Explora el Mar a tu Ritmo y Fortalece tu Cuerpo! 🏄‍♀️🧘‍♂️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/el-paddle-surf-sup-explora-mar-ritmo-fortalece-cuerpo</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -397,7 +398,7 @@
   <!-- Entrada de blog: Navegar en la Costa Brava: ¡Explora el Salvaje Encanto Mediterráneo en Barco! 🌊⚓ -->
   <url>
     <loc>https://boattrip-planner.com/blog/navegar-costa-brava-explora-encanto-mediterraneo</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -409,7 +410,7 @@
   <!-- Entrada de blog: Cómo Planificar tu Viaje Náutico con IA: ¡Paso a Paso con Boattrip-Planner! 🤖🗺️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/como-planificar-viaje-nautico-con-ia-boattrip-planner</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -421,7 +422,7 @@
   <!-- Entrada de blog: La Patente de Navegación: ¡Tu Primer Paso para Ser Capitán de tu Propia Aventura! ⛵🎓 -->
   <url>
     <loc>https://boattrip-planner.com/blog/patente-de-navegacion-primer-paso-capitan</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -433,7 +434,7 @@
   <!-- Entrada de blog: El PNB (Patrón de Navegación Básica): ¡Tu Siguiente Nivel en la Autonomía Marina! ⚓🎓 -->
   <url>
     <loc>https://boattrip-planner.com/blog/patron-de-navegacion-basica-pnb-siguiente-nivel</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -445,7 +446,7 @@
   <!-- Entrada de blog: ¡Fuera Pájaros! Protege tu Barco de los Visitantes Alados 🐦🛥️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/fuera-pajaros-protege-tu-barco-visitantes-alados</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -457,7 +458,7 @@
   <!-- Entrada de blog: El Ancla: ¡Tu Fiel Guardián en Cada Fondeo! ⚓️🛡️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/el-ancla-tu-fiel-guardian-en-cada-fondeo</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -469,7 +470,7 @@
   <!-- Entrada de blog: El Traje de Neopreno: Tu Aliado Indispensable en el Mar (¡y Más Allá!) 🌊🤿 -->
   <url>
     <loc>https://boattrip-planner.com/blog/el-traje-de-neopreno-tu-aliado-indispensable</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -481,7 +482,7 @@
   <!-- Entrada de blog: Cómo Elegir el Mejor Chaleco Salvavidas: ¡Tu Seguridad Flotante a Bordo! 🛟✅ -->
   <url>
     <loc>https://boattrip-planner.com/blog/como-elegir-mejor-chaleco-salvavidas</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -493,7 +494,7 @@
   <!-- Entrada de blog: Review: ¡Las Aletas de Snorkel Cressi Rondinella! Tu Mejor Aliada para Explorar el Mundo Submarino 🐠🧜‍♀️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/cressi-rondinella-aletas-snorkel-review</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -505,7 +506,7 @@
   <!-- Entrada de blog: ¡Los 5 Mejores Gadgets Náuticos para una Navegación del Siglo XXI! 📲🛥️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/gadgets-nauticos-siglo-xxi</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -517,7 +518,7 @@
   <!-- Entrada de blog: Review: ¡Samboat, tu Plataforma para Alquilar Barcos: ¿La Mejor Opción? 🤔🛥️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/samboat-review-plataforma-alquiler-barcos</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -529,7 +530,7 @@
   <!-- Entrada de blog: Descubre Menorca en Barco: ¡El Paraíso Escondido de las Calas Turquesas! 🏝️💙 -->
   <url>
     <loc>https://boattrip-planner.com/blog/menorca-en-barco-paraiso-calas-turquesas</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -541,7 +542,7 @@
   <!-- Entrada de blog: Los 5 Mejores Libros de Navegación: ¡Tu Brújula de Conocimiento en el Mar! 📚⚓ -->
   <url>
     <loc>https://boattrip-planner.com/blog/mejores-libros-navegacion</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -553,7 +554,7 @@
   <!-- Entrada de blog: ¿Tu Mejor Aliado para Alquilar un Barco? ¡Nuestra Experiencia! ⭐🛥️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/mejor-aliado-alquilar-barco-nuestra-experiencia</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -565,7 +566,7 @@
   <!-- Entrada de blog: ¿Y si Llueve en tu Viaje en Barco? ¡Planes Alternativos para un Día Brillante! ☔🛥️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/si-llueve-viaje-barco-planes-alternativos-dia-brillante</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -577,7 +578,7 @@
   <!-- Entrada de blog: Deportes Acuáticos desde tu Barco: ¡La Guía Completa para la Aventura Total! 🏄‍♂️⛵ -->
   <url>
     <loc>https://boattrip-planner.com/blog/deportes-acuaticos-barco-guia-completa</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -589,7 +590,7 @@
   <!-- Entrada de blog: Guía de Supervivencia en el Mar: Técnicas Básicas que Todo Navegante Debe Conocer 🆘🌊 -->
   <url>
     <loc>https://boattrip-planner.com/blog/guia-supervivencia-mar-tecnicas-basicas</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -601,7 +602,7 @@
   <!-- Entrada de blog: Review: ¡Garmin EchoMAP UHD Series! ¿El Mejor Plotter/Sonda para tu Barco? 🐠🗺️ -->
   <url>
     <loc>https://boattrip-planner.com/blog/review-garmin-echomap-uhd-mejor-plotter-sonda</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -613,7 +614,7 @@
   <!-- Entrada de blog: 🏝️ Los 10 Mejores Destinos de Navegación en el Mediterráneo: ¡Tu Guía Definitiva! -->
   <url>
     <loc>https://boattrip-planner.com/blog/mejores-destinos-navegacion-mediterraneo</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -625,7 +626,7 @@
   <!-- Entrada de blog: 🛡️ Equipamiento Esencial para una Navegación Segura: ¡No Salgas sin Esto! -->
   <url>
     <loc>https://boattrip-planner.com/blog/equipamiento-esencial-navegacion-segura</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -637,7 +638,7 @@
   <!-- Entrada de blog: 🏄‍♂️ Deportes Acuáticos desde tu Barco: ¡La Aventura Total! -->
   <url>
     <loc>https://boattrip-planner.com/blog/deportes-acuaticos-barco-actividades-aventura</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -649,7 +650,7 @@
   <!-- Entrada de blog: 🎓 Titulaciones Náuticas: Tu Camino hacia la Libertad en el Mar -->
   <url>
     <loc>https://boattrip-planner.com/blog/titulaciones-nauticas-guia-completa</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -661,7 +662,7 @@
   <!-- Entrada de blog: ⭐ Reviews de Equipamiento Náutico: Las Mejores Opciones del Mercado -->
   <url>
     <loc>https://boattrip-planner.com/blog/reviews-equipamiento-nautico-mejores-opciones</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -673,7 +674,7 @@
   <!-- Entrada de blog: 🔥 Black Friday 2024: Las Mejores Ofertas en Productos Náuticos de Amazon ¡No te las Pierdas! 🛥️💰 -->
   <url>
     <loc>https://boattrip-planner.com/blog/black-friday-ofertas-productos-nauticos-amazon-2024</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -685,7 +686,7 @@
   <!-- Entrada de blog: Guía Definitiva para Comprar el Mejor GPS Náutico en Amazon 2024 🗺️⚓ -->
   <url>
     <loc>https://boattrip-planner.com/blog/guia-compra-gps-nautico-amazon-2024</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -697,7 +698,7 @@
   <!-- Entrada de blog: Por Qué la Energía Solar Marina Cambió Para Siempre Mi Relación con el Mar: La Ciencia de la Independencia Energética -->
   <url>
     <loc>https://boattrip-planner.com/blog/energia-solar-sostenible-barcos-paneles-solares-marinos-2024</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -709,7 +710,7 @@
   <!-- Entrada de blog: Mascotas a Bordo 2025: Guía Completa de Seguridad y Equipamiento Náutico para Perros y Gatos -->
   <url>
     <loc>https://boattrip-planner.com/blog/mascotas-nauticas-seguridad-equipamiento-perros-gatos-barco-2025</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -721,7 +722,7 @@
   <!-- Entrada de blog: 🌱 Navegar Sostenible: 10 Claves para una Aventura Náutica Eco-Friendly ⛵ -->
   <url>
     <loc>https://boattrip-planner.com/blog/navegacion-sostenible-eco-barco</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -733,7 +734,7 @@
   <!-- Entrada de blog: 🏝️ Islas Baleares: Guía Completa de Navegación para Descubrir el Paraíso Mediterráneo -->
   <url>
     <loc>https://boattrip-planner.com/blog/islas-baleares-guia-completa-navegacion</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -745,7 +746,7 @@
   <!-- Entrada de blog: 🐕 Consejos Prácticos para Viajar con Mascotas en Barco: Vacaciones Sin Estrés 🐱⚓ -->
   <url>
     <loc>https://boattrip-planner.com/blog/consejos-practicos-mascotas-barco-vacaciones</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -757,7 +758,7 @@
   <!-- Entrada de blog: 🛟 Seguridad Náutica: ¿Por Qué el 90% de los Accidentes Marinos Son Evitables? 2025 ⚓ -->
   <url>
     <loc>https://boattrip-planner.com/blog/seguridad-nautica-accidentes-evitable</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>

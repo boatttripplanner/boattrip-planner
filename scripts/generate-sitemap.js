@@ -60,6 +60,7 @@ const generateSitemap = () => {
     <image:image>
       <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
       <image:title>BoatTrip Planner - Planificador de Viajes en Barco</image:title>
+      <image:caption>Planificador inteligente de viajes náuticos con IA</image:caption>
     </image:image>
   </url>
   

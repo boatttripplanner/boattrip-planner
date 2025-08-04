@@ -100,8 +100,22 @@ Sitemap: https://boattrip-planner.com/sitemap.xml
 # Sitemap: https://boattrip-planner.com/sitemap-images.xml
 # Sitemap: https://boattrip-planner.com/sitemap-videos.xml
 
-# Host canónico
+# Host canónico - Optimizado para ambos dominios
 Host: https://boattrip-planner.com
+
+# Configuración adicional para SEO
+# Permitir indexación completa del contenido
+Allow: /
+
+# Configuración específica para Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Configuración específica para Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
 
 # Información adicional para desarrolladores
 # Este robots.txt está optimizado para SEO y permite
