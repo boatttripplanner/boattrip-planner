@@ -26,7 +26,7 @@ import { generateBoatTripRecommendationStream, constructPrompt } from './service
 
 import { getWeatherData } from './services/weatherService';
 import { GoogleGenAI } from "@google/genai";
-import { allBlogPosts } from './src/blogData';
+import { existingBlogPosts_definitions_only as allBlogPosts } from './src/blogData';
 
 
 interface LocationForWeather {
