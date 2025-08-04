@@ -14,7 +14,7 @@ import { ShoppingCartIcon } from './icons/ShoppingCartIcon';
 import { InfoIcon } from './icons/InfoIcon';
 import { CheckCircleIcon } from './icons/CheckCircleIcon';
 import { StarOutlineIcon } from './icons/StarOutlineIcon';
-import { ShieldCheckIcon } from './icons/ShieldCheckIcon';
+import ShieldCheckIcon from './icons/ShieldCheckIcon';
 import { WhatsAppIcon } from './icons/WhatsAppIcon';
 
 const Footer: React.FC<FooterProps> = ({ 
