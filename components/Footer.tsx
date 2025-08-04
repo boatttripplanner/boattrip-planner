@@ -13,18 +13,31 @@ import { DocumentTextIcon } from './icons/DocumentTextIcon';
 import { ShoppingCartIcon } from './icons/ShoppingCartIcon';
 import { InfoIcon } from './icons/InfoIcon';
 
+
 const Footer: React.FC<FooterProps> = ({ 
   onShowPrivacyPolicy, 
   onShowTermsOfService,
   onNavigateToMainApp,
   onNavigateToBlogIndex,
 }) => {
+  // Estados para controlar los desplegables
+  const [expandedSections, setExpandedSections] = useState({
+    navigation: false,
+    resources: false,
+    contact: false
+  });
 
-  
+  const toggleSection = (section: keyof typeof expandedSections) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
   const linkStyle = "group flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-white/10 hover:text-white transition-all duration-200 text-slate-200 hover:shadow-sm";
   
   return (
-    <footer className="relative bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 text-white pt-20 pb-8 no-print overflow-hidden border-t-4 border-ocean-500">
+    <footer className="relative bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 text-white pt-12 pb-6 no-print overflow-hidden border-t-4 border-ocean-500">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
@@ -50,7 +63,7 @@ const Footer: React.FC<FooterProps> = ({
       {/* Footer Content */}
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           
           {/* Brand Section */}
           <div className="lg:col-span-1">
@@ -84,13 +97,26 @@ const Footer: React.FC<FooterProps> = ({
 
           {/* Navigation Section */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-ocean-500/30 to-sea-500/30 rounded-lg flex items-center justify-center border border-ocean-400/30">
-                <BoatOutlineIcon className="w-4 h-4 text-ocean-300" />
+            <button 
+              onClick={() => toggleSection('navigation')}
+              className="w-full text-left mb-4 flex items-center justify-between group hover:bg-white/5 rounded-lg p-2 transition-all duration-200"
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-br from-ocean-500/30 to-sea-500/30 rounded-lg flex items-center justify-center border border-ocean-400/30">
+                  <BoatOutlineIcon className="w-4 h-4 text-ocean-300" />
+                </div>
+                <h3 className="text-lg font-semibold text-white group-hover:text-ocean-200 transition-colors">
+                  Navegación
+                </h3>
               </div>
-              Navegación
-            </h3>
-            <ul className="space-y-1">
+              <div className="text-xs text-ocean-300 opacity-60 group-hover:opacity-100 transition-opacity">
+                {expandedSections.navigation ? 'Ocultar' : 'Ver más'}
+              </div>
+
+            </button>
+            <ul className={`space-y-1 overflow-hidden transition-all duration-300 ${
+              expandedSections.navigation ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            }`}>
               <li>
                 <button onClick={onNavigateToMainApp} className={linkStyle}>
                   <div className="w-2 h-2 bg-ocean-400 rounded-full group-hover:bg-ocean-300 transition-colors"></div>
@@ -128,13 +154,26 @@ const Footer: React.FC<FooterProps> = ({
 
           {/* Resources Section */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-lg flex items-center justify-center border border-purple-400/30">
-                <ShoppingCartIcon className="w-4 h-4 text-purple-300" />
+            <button 
+              onClick={() => toggleSection('resources')}
+              className="w-full text-left mb-4 flex items-center justify-between group hover:bg-white/5 rounded-lg p-2 transition-all duration-200"
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-lg flex items-center justify-center border border-purple-400/30">
+                  <ShoppingCartIcon className="w-4 h-4 text-purple-300" />
+                </div>
+                <h3 className="text-lg font-semibold text-white group-hover:text-purple-200 transition-colors">
+                  Recursos
+                </h3>
               </div>
-              Recursos
-            </h3>
-            <ul className="space-y-1">
+              <div className="text-xs text-purple-300 opacity-60 group-hover:opacity-100 transition-opacity">
+                {expandedSections.resources ? 'Ocultar' : 'Ver más'}
+              </div>
+
+            </button>
+            <ul className={`space-y-1 overflow-hidden transition-all duration-300 ${
+              expandedSections.resources ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            }`}>
               <li>
                 <a href={AMAZON_AFFILIATE_LINK_PLACEHOLDER} target="_blank" rel="noopener noreferrer" className={linkStyle}>
                   <div className="w-2 h-2 bg-orange-400 rounded-full group-hover:bg-orange-300 transition-colors"></div>
@@ -152,13 +191,26 @@ const Footer: React.FC<FooterProps> = ({
 
           {/* Contact & Social Section */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-pink-500/30 to-red-500/30 rounded-lg flex items-center justify-center border border-pink-400/30">
-                <PhoneIcon className="w-4 h-4 text-pink-300" />
+            <button 
+              onClick={() => toggleSection('contact')}
+              className="w-full text-left mb-4 flex items-center justify-between group hover:bg-white/5 rounded-lg p-2 transition-all duration-200"
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-br from-pink-500/30 to-red-500/30 rounded-lg flex items-center justify-center border border-pink-400/30">
+                  <PhoneIcon className="w-4 h-4 text-pink-300" />
+                </div>
+                <h3 className="text-lg font-semibold text-white group-hover:text-pink-200 transition-colors">
+                  Contacto
+                </h3>
               </div>
-              Contacto
-            </h3>
-            <ul className="space-y-1 mb-6">
+              <div className="text-xs text-pink-300 opacity-60 group-hover:opacity-100 transition-opacity">
+                {expandedSections.contact ? 'Ocultar' : 'Ver más'}
+              </div>
+
+            </button>
+            <ul className={`space-y-1 mb-6 overflow-hidden transition-all duration-300 ${
+              expandedSections.contact ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            }`}>
               <li>
                 <a 
                   href={`mailto:${CONTACT_EMAIL}?subject=Consulta%20BoatTrip%20Planner`} 

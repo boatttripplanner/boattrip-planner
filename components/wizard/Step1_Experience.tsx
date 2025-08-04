@@ -2,7 +2,7 @@
 import React, { useMemo } from 'react';
 import { WizardStepProps, PlanningMode, DesiredExperienceType, planningModeOptions, desiredExperienceTypeOptions } from '../../types';
 import { RadioGroup, SelectField } from '../FormControls';
-import { GuidanceSailIcon } from '../icons/GuidanceSailIcon';
+import { UserAvatarIcon } from '../icons/UserAvatarIcon';
 
 const Step1Experience: React.FC<WizardStepProps> = ({ data, updateData }) => {
   // Filtrar opciones de experiencia según el modo de planificación
@@ -21,7 +21,7 @@ const Step1Experience: React.FC<WizardStepProps> = ({ data, updateData }) => {
     <div className="space-y-6 sm:space-y-8 animate-fade-in">
         <div className="text-center">
             <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-xl">
-                <GuidanceSailIcon className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
+                <UserAvatarIcon className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
             </div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 mb-2 sm:mb-3">
                 Comencemos tu

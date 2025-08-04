@@ -3,6 +3,7 @@ import React from 'react';
 import { UserPreferences, desiredExperienceTypeOptions, experienceLevelOptions, planningModeOptions } from '../../types';
 import { budgetLevelOptions } from '../../constants';
 
+import { ChecklistIcon } from '../icons/ChecklistIcon';
 import { CheckCircleIcon } from '../icons/CheckCircleIcon';
 
 interface Step6ReviewProps {
@@ -107,7 +108,7 @@ const Step6Review: React.FC<Step6ReviewProps> = ({ data, goToStep, showBoatSpecs
     <div className="space-y-8 animate-fade-in">
       <div className="text-center">
         <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
-            <CheckCircleIcon className="h-10 w-10 text-white" />
+            <ChecklistIcon className="h-10 w-10 text-white" />
         </div>
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
             Revisa tu

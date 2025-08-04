@@ -13,15 +13,15 @@
   "dir": "ltr",
   "icons": [
     {
-      "src": "/favicon-96x96.png",
+      "src": "/alex5.svg",
       "sizes": "96x96",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "/favicon-96x96.png",
+      "src": "/alex5.svg",
       "sizes": "180x180",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
@@ -37,7 +37,7 @@
       "purpose": "any maskable"
     },
     {
-      "src": "/favicon.svg",
+      "src": "/alex5.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
@@ -45,9 +45,9 @@
   ],
   "screenshots": [
     {
-      "src": "/favicon-96x96.png",
+      "src": "/alex5.svg",
       "sizes": "96x96",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "form_factor": "wide"
     }
   ],
@@ -59,7 +59,7 @@
       "url": "/",
       "icons": [
         {
-          "src": "/favicon-96x96.png",
+          "src": "/alex5.svg",
           "sizes": "96x96"
         }
       ]

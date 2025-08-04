@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { WizardStepProps, ExperienceLevel, BoatingLicenseType, experienceLevelOptions, boatingLicenseTypeOptions, PlanningMode } from '../../types';
 import { InputField, SelectField } from '../FormControls';
 import { InfoIcon } from '../icons/InfoIcon';
-import { CrewIcon } from '../icons/CrewIcon';
+import { CrewMembersIcon } from '../icons/CrewMembersIcon';
 
 const Step3Crew: React.FC<WizardStepProps> = ({ data, updateData }) => {
   const [showExperienceTooltip, setShowExperienceTooltip] = useState(false);
@@ -19,7 +19,7 @@ const Step3Crew: React.FC<WizardStepProps> = ({ data, updateData }) => {
     <div className="space-y-8 animate-fade-in">
         <div className="text-center">
             <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
-                <CrewIcon className="h-10 w-10 text-white" />
+                <CrewMembersIcon className="h-10 w-10 text-white" />
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
                 Tu Tripulación

@@ -9,21 +9,14 @@ const DYNAMIC_CACHE = 'dynamic-v1.2.0';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/assets/style.css',
-  '/assets/js/main-CXE_PG7D.js',
-  '/assets/js/react-vendor-BXDmVgKW.js',
-  '/assets/js/ui-vendor-BAE1vNJg.js',
-  '/favicon.ico',
-  '/manifest.json',
-  '/images/logo.png',
-  '/images/hero-bg.jpg'
+  '/alex5.svg',
+  '/site.webmanifest',
+  '/browserconfig.xml'
 ];
 
 // Recursos de terceros para cache
 const THIRD_PARTY_ASSETS = [
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
-  'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center'
+  'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap'
 ];
 
 // Estrategia: Cache First para recursos estáticos
@@ -90,16 +83,22 @@ self.addEventListener('install', (event) => {
   
   event.waitUntil(
     Promise.all([
-      // Cachear recursos estáticos
+      // Cachear recursos estáticos (con manejo de errores)
       caches.open(STATIC_CACHE).then(cache => {
         console.log('Caching static assets...');
-        return cache.addAll(STATIC_ASSETS);
+        return cache.addAll(STATIC_ASSETS).catch(error => {
+          console.warn('Some static assets failed to cache:', error);
+          return Promise.resolve();
+        });
       }),
       
-      // Cachear recursos de terceros
+      // Cachear recursos de terceros (con manejo de errores)
       caches.open(DYNAMIC_CACHE).then(cache => {
         console.log('Caching third-party assets...');
-        return cache.addAll(THIRD_PARTY_ASSETS);
+        return cache.addAll(THIRD_PARTY_ASSETS).catch(error => {
+          console.warn('Some third-party assets failed to cache:', error);
+          return Promise.resolve();
+        });
       })
     ])
   );
@@ -205,8 +204,8 @@ self.addEventListener('push', (event) => {
     const data = event.data.json();
     const options = {
       body: data.body,
-      icon: '/images/logo.png',
-      badge: '/images/badge.png',
+      icon: '/alex5.svg',
+      badge: '/alex5.svg',
       vibrate: [100, 50, 100],
       data: {
         dateOfArrival: Date.now(),
@@ -216,12 +215,12 @@ self.addEventListener('push', (event) => {
         {
           action: 'explore',
           title: 'Ver más',
-          icon: '/images/checkmark.png'
+          icon: '/alex5.svg'
         },
         {
           action: 'close',
           title: 'Cerrar',
-          icon: '/images/xmark.png'
+          icon: '/alex5.svg'
         }
       ]
     };

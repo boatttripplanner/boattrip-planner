@@ -28,6 +28,26 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
             : 'pt-16 sm:pt-20 md:pt-24 lg:pt-28'
         }`}>
           <div className="text-center">
+            {/* Favicon Logo Section */}
+            <div className="animate-slide-up mb-6 sm:mb-8 md:mb-10" style={{ animationDelay: '0.1s' }}>
+              <div className="flex justify-center">
+                <div className="relative">
+                  {/* Logo Container with Gradient Background */}
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-gradient-to-br from-ocean-500 via-sea-500 to-sunset-500 rounded-full flex items-center justify-center shadow-strong hover:shadow-glow-strong transform hover:scale-105 transition-all duration-300 overflow-hidden">
+                    {/* Favicon Image - Circular */}
+                    <img 
+                      src="/alex5.svg" 
+                      alt="BoatTrip Planner Logo" 
+                      className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 object-contain filter drop-shadow-lg"
+                    />
+                  </div>
+                  {/* Animated Ring Effect */}
+                  <div className="absolute inset-0 w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 border-2 border-ocean-300 rounded-full animate-ping opacity-20"></div>
+                  <div className="absolute inset-0 w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 border-2 border-sea-300 rounded-full animate-ping opacity-20" style={{ animationDelay: '1s' }}></div>
+                </div>
+              </div>
+            </div>
+
             {/* Enhanced Typography */}
             <div className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-bold text-slate-800 mb-3 sm:mb-4 md:mb-6 leading-tight px-2">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { XIcon, SparklesIcon, ArrowDownIcon, PhoneIcon } from './icons';
+import { XIcon, SparklesIcon, PhoneIcon } from './icons';
 
 interface AppInstallBannerProps {
   onClose: () => void;
@@ -125,9 +125,18 @@ const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onClose }) => {
       isClosing ? 'transform -translate-y-full opacity-0' : 'transform translate-y-0 opacity-100'
     }`}>
       {/* Banner principal */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-2xl border-b border-slate-700/50 backdrop-blur-sm">
+      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-2xl border-b border-slate-700/50 backdrop-blur-sm relative">
         {/* Efecto de brillo superior */}
         <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-blue-400/50 to-transparent"></div>
+        
+        {/* X de cerrar en esquina superior derecha */}
+        <button
+          onClick={handleClose}
+          className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 text-slate-300 hover:text-white hover:bg-slate-700/70 rounded-full transition-all duration-200 hover:scale-110 border border-slate-600/30 hover:border-slate-500/50 z-10"
+          aria-label="Cerrar banner"
+        >
+          <XIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+        </button>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-3 sm:py-4">
@@ -181,7 +190,6 @@ const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onClose }) => {
                     </>
                   ) : (
                     <>
-                      <ArrowDownIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                       <span className="hidden sm:inline">Instalar App</span>
                       <span className="sm:hidden">Instalar</span>
                     </>
@@ -192,7 +200,7 @@ const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onClose }) => {
               {/* Botón de cerrar */}
               <button
                 onClick={handleClose}
-                className="p-1.5 sm:p-2 text-slate-400 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all duration-200 hover:scale-110"
+                className="p-2 sm:p-2.5 text-slate-300 hover:text-white hover:bg-slate-700/70 rounded-full transition-all duration-200 hover:scale-110 border border-slate-600/30 hover:border-slate-500/50"
                 aria-label="Cerrar banner"
               >
                 <XIcon className="w-4 h-4 sm:w-5 sm:h-5" />

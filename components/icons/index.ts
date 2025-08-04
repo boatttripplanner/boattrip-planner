@@ -29,5 +29,6 @@ export { UsersIcon } from './UsersIcon';
 export { WhatsAppIcon } from './WhatsAppIcon';
 export { WindIcon } from './WindIcon';
 export { CrewIcon } from './CrewIcon';
+export { CrewMembersIcon } from './CrewMembersIcon';
 export { default as XIcon } from './XIcon';
 export { default as ShieldCheckIcon } from './ShieldCheckIcon'; 
