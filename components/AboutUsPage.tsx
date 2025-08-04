@@ -32,18 +32,7 @@ const AboutUsPage: React.FC = () => {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 md:pt-24 lg:pt-28 pb-12 sm:pb-16 md:pb-20">
           <div className="text-center">
-            {/* Logo Section */}
-            <div className="mb-8 sm:mb-12">
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-gradient-to-br from-ocean-500 via-sea-500 to-sunset-500 rounded-3xl flex items-center justify-center shadow-2xl hover:shadow-ocean-500/25 transition-all duration-300 transform hover:scale-105">
-                    <BoatOutlineIcon className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 text-white" />
-                  </div>
-                  <div className="absolute inset-0 w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 border-2 border-ocean-300 rounded-3xl animate-ping opacity-20"></div>
-                  <div className="absolute inset-0 w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 border-2 border-sea-300 rounded-3xl animate-ping opacity-20" style={{ animationDelay: '1s' }}></div>
-                </div>
-              </div>
-            </div>
+
 
             {/* Title */}
             <div className="mb-6 sm:mb-8">
@@ -230,11 +219,12 @@ const AboutUsPage: React.FC = () => {
                 href="/?view=main_app" 
                 className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-ocean-600 to-sea-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-ocean-500/25 transition-all duration-300 transform hover:scale-105"
               >
-                <BoatOutlineIcon className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
                 Comenzar Planificación
               </a>
               <a 
-                href="mailto:boattripplanner@gmail.com" 
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=boattripplanner@gmail.com&su=Consulta%20BoatTrip%20Planner&body=Hola%20equipo%20de%20BoatTrip%20Planner,%20me%20gustaría%20obtener%20más%20información%20sobre%20vuestros%20servicios." 
+                target="_blank" 
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-white/80 backdrop-blur-sm text-slate-700 font-semibold rounded-xl border border-white/30 hover:bg-white hover:shadow-lg transition-all duration-300 transform hover:scale-105"
               >
                 Contactar Equipo

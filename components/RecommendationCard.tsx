@@ -1193,7 +1193,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
              {/* Simplified Action Buttons Section */}
              <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t-2 border-slate-300/70 no-print">
                <div className="text-center mb-3 sm:mb-4">
-                 <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 mb-1">🚤 ¿Qué te gustaría hacer ahora?</h3>
+                 <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 mb-1">¿Qué te gustaría hacer ahora?</h3>
                  <p className="text-xs sm:text-sm text-slate-600">Gestiona tu plan y continúa con tu aventura náutica</p>
                </div>
                

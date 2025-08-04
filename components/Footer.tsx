@@ -70,16 +70,7 @@ const Footer: React.FC<FooterProps> = ({
             {/* Compact Brand Section */}
             <div className="lg:col-span-1">
               <div className="mb-3 sm:mb-4">
-                <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                  <div className="relative">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-ocean-500 via-sea-500 to-teal-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-ocean-500/25 transition-all duration-300 transform hover:scale-105">
-                      <img 
-                        src="/alex5.svg" 
-                        alt="BoatTrip Planner Logo" 
-                        className="w-4 h-4 sm:w-6 sm:h-6"
-                      />
-                    </div>
-                  </div>
+                <div className="mb-2 sm:mb-3">
                   <div>
                     <h3 className="text-base sm:text-lg font-bold text-white bg-gradient-to-r from-white to-slate-200 bg-clip-text text-transparent">BoatTrip Planner</h3>
                     <p className="text-xs sm:text-sm text-ocean-200 font-medium">Planificador Náutico IA</p>
@@ -173,9 +164,6 @@ const Footer: React.FC<FooterProps> = ({
                   <a href="/?view=blog_index&category=Reviews" className={linkStyle + " py-1.5 px-2"}>
                     <span className="text-xs font-medium">Reviews</span>
                   </a>
-                  <a href="/?view=blog_index&category=Sostenibilidad" className={linkStyle + " py-1.5 px-2"}>
-                    <span className="text-xs font-medium">Sostenibilidad</span>
-                  </a>
                 </div>
               </div>
 
@@ -199,7 +187,7 @@ const Footer: React.FC<FooterProps> = ({
                 <div className={`space-y-1 transition-all duration-300 ease-in-out ${
                   expandedSections.contacto ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
                 }`}>
-                  <a href="mailto:boattripplanner@gmail.com?subject=Consulta%20BoatTrip%20Planner&body=Hola,%20me%20gustaría%20obtener%20más%20información%20sobre%20BoatTrip%20Planner." className={linkStyle + " py-1.5 px-2"}>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=boattripplanner@gmail.com&su=Consulta%20BoatTrip%20Planner&body=Hola,%20me%20gustaría%20obtener%20más%20información%20sobre%20BoatTrip%20Planner." target="_blank" rel="noopener noreferrer" className={linkStyle + " py-1.5 px-2"}>
                     <span className="text-xs font-medium">Email</span>
                   </a>
                   <button 
@@ -225,17 +213,7 @@ const Footer: React.FC<FooterProps> = ({
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gradient-to-r from-transparent via-white/20 to-transparent"></div>
           </div>
-          <div className="relative flex justify-center">
-            <div className="relative">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-ocean-500 via-sea-500 to-teal-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-ocean-500/25 transition-all duration-300 transform hover:scale-105">
-                <img 
-                  src="/alex5.svg" 
-                  alt="BoatTrip Planner Logo" 
-                  className="w-4 h-4 sm:w-6 sm:h-6"
-                />
-              </div>
-            </div>
-          </div>
+
         </div>
 
         {/* Compact Bottom Bar */}

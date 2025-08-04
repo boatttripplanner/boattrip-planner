@@ -28,19 +28,20 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
             : 'pt-12 sm:pt-16 md:pt-20 lg:pt-24'
         }`}>
           <div className="text-center">
-            {/* Logo Section - Entre Header y Título */}
-            <div className="animate-slide-up mb-6 sm:mb-8 md:mb-10 lg:mb-12" style={{ animationDelay: '0.1s' }}>
+
+            {/* Logo Section */}
+            <div className="animate-slide-up mb-4 sm:mb-6 md:mb-8 lg:mb-10" style={{ animationDelay: '0.1s' }}>
               <div className="flex justify-center">
                 <div className="relative">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 bg-gradient-to-br from-ocean-500 via-sea-500 to-sunset-500 rounded-full flex items-center justify-center shadow-2xl hover:shadow-ocean-500/25 transition-all duration-300 transform hover:scale-105">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 bg-gradient-to-br from-ocean-500 via-sea-500 to-sunset-500 rounded-full flex items-center justify-center shadow-2xl hover:shadow-ocean-500/25 transition-all duration-300 transform hover:scale-105">
                     <img 
                       src="/alex5.svg" 
                       alt="BoatTrip Planner Logo" 
-                      className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18"
+                      className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16 animate-float-slow filter drop-shadow-lg"
                     />
                   </div>
-                  <div className="absolute inset-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 border-2 border-ocean-300 rounded-full animate-ping opacity-20"></div>
-                  <div className="absolute inset-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 border-2 border-sea-300 rounded-full animate-ping opacity-20" style={{ animationDelay: '1s' }}></div>
+                  <div className="absolute inset-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 border-2 border-ocean-300 rounded-full animate-ping opacity-20"></div>
+                  <div className="absolute inset-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 border-2 border-sea-300 rounded-full animate-ping opacity-20" style={{ animationDelay: '1s' }}></div>
                 </div>
               </div>
             </div>
