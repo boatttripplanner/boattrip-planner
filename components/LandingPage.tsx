@@ -28,26 +28,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
             : 'pt-12 sm:pt-16 md:pt-20 lg:pt-24'
         }`}>
           <div className="text-center">
-            {/* Favicon Logo Section - Tamaño optimizado para móvil */}
-            <div className="animate-slide-up mb-4 sm:mb-6 md:mb-8 lg:mb-10" style={{ animationDelay: '0.1s' }}>
-              <div className="flex justify-center">
-                <div className="relative">
-                  {/* Logo Container with Gradient Background */}
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 bg-gradient-to-br from-ocean-500 via-sea-500 to-sunset-500 rounded-full flex items-center justify-center shadow-strong hover:shadow-glow-strong transform hover:scale-105 transition-all duration-300 overflow-hidden">
-                    {/* Favicon Image - Circular */}
-                    <img 
-                      src="/alex5.svg" 
-                      alt="BoatTrip Planner Logo" 
-                      className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 object-contain filter drop-shadow-lg"
-                    />
-                  </div>
-                  {/* Animated Ring Effect */}
-                  <div className="absolute inset-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 border-2 border-ocean-300 rounded-full animate-ping opacity-20"></div>
-                  <div className="absolute inset-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 border-2 border-sea-300 rounded-full animate-ping opacity-20" style={{ animationDelay: '1s' }}></div>
-                </div>
-              </div>
-            </div>
-
             {/* Enhanced Typography - Optimizado para móvil */}
             <div className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-7xl font-bold text-slate-800 mb-2 sm:mb-3 md:mb-4 lg:mb-6 leading-tight px-2">
