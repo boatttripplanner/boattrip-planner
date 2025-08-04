@@ -63,167 +63,156 @@ const Footer: React.FC<FooterProps> = ({
       </div>
 
       <div className="relative z-10">
-        {/* Main Footer Content - Optimized Proportions */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-10">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 sm:gap-8">
+        {/* Main Footer Content - Compact */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
             
-            {/* Optimized Brand Section */}
+            {/* Compact Brand Section */}
             <div className="lg:col-span-1">
-              <div className="mb-4 sm:mb-6">
-                <div className="flex items-center gap-3 mb-3 sm:mb-4">
+              <div className="mb-3 sm:mb-4">
+                <div className="flex items-center gap-2 mb-2 sm:mb-3">
                   <div className="relative">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-ocean-500 via-sea-500 to-teal-500 rounded-full flex items-center justify-center shadow-xl hover:shadow-ocean-500/25 transition-all duration-300 transform hover:scale-105">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-ocean-500 via-sea-500 to-teal-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-ocean-500/25 transition-all duration-300 transform hover:scale-105">
                       <img 
                         src="/alex5.svg" 
                         alt="BoatTrip Planner Logo" 
-                        className="w-6 h-6 sm:w-7 sm:h-7"
+                        className="w-4 h-4 sm:w-6 sm:h-6"
                       />
                     </div>
-                    <div className="absolute inset-0 w-10 h-10 sm:w-12 sm:h-12 border-2 border-ocean-300 rounded-full animate-ping opacity-15"></div>
                   </div>
                   <div>
-                    <h3 className="text-lg sm:text-xl font-bold text-white bg-gradient-to-r from-white to-slate-200 bg-clip-text text-transparent">BoatTrip Planner</h3>
-                    <p className="text-sm text-ocean-200 font-medium">Planificador Náutico IA</p>
+                    <h3 className="text-base sm:text-lg font-bold text-white bg-gradient-to-r from-white to-slate-200 bg-clip-text text-transparent">BoatTrip Planner</h3>
+                    <p className="text-xs sm:text-sm text-ocean-200 font-medium">Planificador Náutico IA</p>
                   </div>
                 </div>
-                <p className="text-sm leading-relaxed text-slate-200 mb-4">
-                  Tu planificador de viajes náuticos inteligente, potenciado por IA. 
-                  Trazamos tu rumbo real para aventuras inolvidables en el mar.
+                <p className="text-xs sm:text-sm leading-relaxed text-slate-200 mb-3">
+                  Tu planificador de viajes náuticos inteligente, potenciado por IA.
                 </p>
               </div>
             </div>
 
-            {/* Optimized Collapsible Sections */}
-            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {/* Compact Collapsible Sections - Inline */}
+            <div className="lg:col-span-3 flex flex-col sm:flex-row gap-3 sm:gap-4">
               
-              {/* Optimized Navegación Section */}
-              <div className="space-y-2 sm:space-y-3">
+              {/* Compact Navegación Section */}
+              <div className="space-y-2 flex-1">
                 <button
                   onClick={() => toggleSection('navegacion')}
-                  className="flex items-center justify-between w-full p-3 sm:p-4 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group hover:shadow-lg hover:shadow-blue-500/10"
+                  className="flex items-center justify-between w-full p-2 sm:p-3 bg-white/5 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/10 transition-all duration-300 group hover:shadow-md hover:shadow-blue-500/10"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500/40 to-indigo-500/40 rounded-lg flex items-center justify-center border border-blue-400/30 group-hover:scale-110 transition-transform shadow-md">
-                      <MapRouteIcon className="w-4 h-4 sm:w-5 sm:h-5 text-blue-300" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-500/40 to-indigo-500/40 rounded-lg flex items-center justify-center border border-blue-400/30 group-hover:scale-110 transition-transform shadow-sm">
+                      <MapRouteIcon className="w-3 h-3 sm:w-4 sm:h-4 text-blue-300" />
                     </div>
                     <div>
-                      <h4 className="text-sm sm:text-base font-bold text-white">Navegación</h4>
-                      <p className="text-xs sm:text-sm text-slate-300">Explora nuestra plataforma</p>
+                      <h4 className="text-xs sm:text-sm font-bold text-white">Navegación</h4>
+                      <p className="text-xs text-slate-300">Explora nuestra plataforma</p>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {/* Punto decorativo eliminado */}
                   </div>
                 </button>
                 
-                <div className={`space-y-1 sm:space-y-2 transition-all duration-500 ease-in-out ${
-                  expandedSections.navegacion ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                <div className={`space-y-1 transition-all duration-300 ease-in-out ${
+                  expandedSections.navegacion ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
                 }`}>
                   <button 
                     onClick={onNavigateToMainApp} 
-                    className={linkStyle + " w-full text-left"}
+                    className={linkStyle + " w-full text-left py-1.5 px-2"}
                   >
-                    <span className="text-sm font-medium">Inicio</span>
+                    <span className="text-xs font-medium">Inicio</span>
                   </button>
                   <button 
                     onClick={onNavigateToMainApp} 
-                    className={linkStyle + " w-full text-left"}
+                    className={linkStyle + " w-full text-left py-1.5 px-2"}
                   >
-                    <span className="text-sm font-medium">Planificador</span>
+                    <span className="text-xs font-medium">Planificador</span>
                   </button>
                   <button 
                     onClick={onNavigateToBlogIndex} 
-                    className={linkStyle + " w-full text-left"}
+                    className={linkStyle + " w-full text-left py-1.5 px-2"}
                   >
-                    <span className="text-sm font-medium">Blog</span>
+                    <span className="text-xs font-medium">Blog</span>
                   </button>
                   <button 
                     onClick={() => window.location.href = '/?view=about_us'} 
-                    className={linkStyle + " w-full text-left"}
+                    className={linkStyle + " w-full text-left py-1.5 px-2"}
                   >
-                    <span className="text-sm font-medium">Sobre Nosotros</span>
+                    <span className="text-xs font-medium">Sobre Nosotros</span>
                   </button>
                 </div>
               </div>
 
-              {/* Optimized Recursos Section */}
-              <div className="space-y-2 sm:space-y-3">
+              {/* Compact Recursos Section */}
+              <div className="space-y-2 flex-1">
                 <button
                   onClick={() => toggleSection('recursos')}
-                  className="flex items-center justify-between w-full p-3 sm:p-4 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group hover:shadow-lg hover:shadow-purple-500/10"
+                  className="flex items-center justify-between w-full p-2 sm:p-3 bg-white/5 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/10 transition-all duration-300 group hover:shadow-md hover:shadow-purple-500/10"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500/40 to-pink-500/40 rounded-lg flex items-center justify-center border border-purple-400/30 group-hover:scale-110 transition-transform shadow-md">
-                      <ShoppingCartIcon className="w-4 h-4 sm:w-5 sm:h-5 text-purple-300" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-purple-500/40 to-pink-500/40 rounded-lg flex items-center justify-center border border-purple-400/30 group-hover:scale-110 transition-transform shadow-sm">
+                      <ShoppingCartIcon className="w-3 h-3 sm:w-4 sm:h-4 text-purple-300" />
                     </div>
                     <div>
-                      <h4 className="text-sm sm:text-base font-bold text-white">Recursos</h4>
-                      <p className="text-xs sm:text-sm text-slate-300">Herramientas y productos</p>
+                      <h4 className="text-xs sm:text-sm font-bold text-white">Recursos</h4>
+                      <p className="text-xs text-slate-300">Herramientas y productos</p>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {/* Punto decorativo eliminado */}
                   </div>
                 </button>
                 
-                <div className={`space-y-1 sm:space-y-2 transition-all duration-500 ease-in-out ${
-                  expandedSections.recursos ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                <div className={`space-y-1 transition-all duration-300 ease-in-out ${
+                  expandedSections.recursos ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
                 }`}>
-                  <a href="/?view=blog_index&category=Equipamiento" className={linkStyle}>
-                    <span className="text-sm font-medium">Productos Náuticos</span>
+                  <a href="/?view=blog_index&category=Equipamiento" className={linkStyle + " py-1.5 px-2"}>
+                    <span className="text-xs font-medium">Productos Náuticos</span>
                   </a>
-                  <a href="/?view=blog_index&category=Técnicas de Navegación" className={linkStyle}>
-                    <span className="text-sm font-medium">Guías de Navegación</span>
+                  <a href="/?view=blog_index&category=Técnicas de Navegación" className={linkStyle + " py-1.5 px-2"}>
+                    <span className="text-xs font-medium">Guías de Navegación</span>
                   </a>
-                  <a href="/?view=blog_index&category=Destinos" className={linkStyle}>
-                    <span className="text-sm font-medium">Destinos</span>
+                  <a href="/?view=blog_index&category=Destinos" className={linkStyle + " py-1.5 px-2"}>
+                    <span className="text-xs font-medium">Destinos</span>
                   </a>
-                  <a href="/?view=blog_index&category=Reviews" className={linkStyle}>
-                    <span className="text-sm font-medium">Reviews</span>
+                  <a href="/?view=blog_index&category=Reviews" className={linkStyle + " py-1.5 px-2"}>
+                    <span className="text-xs font-medium">Reviews</span>
                   </a>
-                  <a href="/?view=blog_index&category=Sostenibilidad" className={linkStyle}>
-                    <span className="text-sm font-medium">Sostenibilidad</span>
+                  <a href="/?view=blog_index&category=Sostenibilidad" className={linkStyle + " py-1.5 px-2"}>
+                    <span className="text-xs font-medium">Sostenibilidad</span>
                   </a>
                 </div>
               </div>
 
-              {/* Optimized Contacto Section */}
-              <div className="space-y-2 sm:space-y-3">
+              {/* Compact Contacto Section */}
+              <div className="space-y-2 flex-1">
                 <button
                   onClick={() => toggleSection('contacto')}
-                  className="flex items-center justify-between w-full p-3 sm:p-4 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group hover:shadow-lg hover:shadow-red-500/10"
+                  className="flex items-center justify-between w-full p-2 sm:p-3 bg-white/5 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/10 transition-all duration-300 group hover:shadow-md hover:shadow-red-500/10"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-red-500/40 to-pink-500/40 rounded-lg flex items-center justify-center border border-red-400/30 group-hover:scale-110 transition-transform shadow-md">
-                      <PhoneIcon className="w-4 h-4 sm:w-5 sm:h-5 text-red-300" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-red-500/40 to-pink-500/40 rounded-lg flex items-center justify-center border border-red-400/30 group-hover:scale-110 transition-transform shadow-sm">
+                      <PhoneIcon className="w-3 h-3 sm:w-4 sm:h-4 text-red-300" />
                     </div>
                     <div>
-                      <h4 className="text-sm sm:text-base font-bold text-white">Contacto</h4>
-                      <p className="text-xs sm:text-sm text-slate-300">Conecta con nosotros</p>
+                      <h4 className="text-xs sm:text-sm font-bold text-white">Contacto</h4>
+                      <p className="text-xs text-slate-300">Conecta con nosotros</p>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {/* Punto decorativo eliminado */}
                   </div>
                 </button>
                 
-                <div className={`space-y-1 sm:space-y-2 transition-all duration-500 ease-in-out ${
-                  expandedSections.contacto ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                <div className={`space-y-1 transition-all duration-300 ease-in-out ${
+                  expandedSections.contacto ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
                 }`}>
-                  <a href="mailto:boattripplanner@gmail.com?subject=Consulta%20BoatTrip%20Planner&body=Hola,%20me%20gustaría%20obtener%20más%20información%20sobre%20BoatTrip%20Planner." className={linkStyle}>
-                    <span className="text-sm font-medium">Email</span>
+                  <a href="mailto:boattripplanner@gmail.com?subject=Consulta%20BoatTrip%20Planner&body=Hola,%20me%20gustaría%20obtener%20más%20información%20sobre%20BoatTrip%20Planner." className={linkStyle + " py-1.5 px-2"}>
+                    <span className="text-xs font-medium">Email</span>
                   </a>
                   <button 
                     onClick={onShowPrivacyPolicy} 
-                    className={linkStyle + " w-full text-left"}
+                    className={linkStyle + " w-full text-left py-1.5 px-2"}
                   >
-                    <span className="text-sm font-medium">Privacidad</span>
+                    <span className="text-xs font-medium">Privacidad</span>
                   </button>
                   <button 
                     onClick={onShowTermsOfService} 
-                    className={linkStyle + " w-full text-left"}
+                    className={linkStyle + " w-full text-left py-1.5 px-2"}
                   >
-                    <span className="text-sm font-medium">Términos</span>
+                    <span className="text-xs font-medium">Términos</span>
                   </button>
                 </div>
               </div>
@@ -231,41 +220,40 @@ const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
 
-        {/* Optimized Divider */}
-        <div className="relative">
+        {/* Compact Divider */}
+        <div className="relative py-2">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gradient-to-r from-transparent via-white/20 to-transparent"></div>
           </div>
           <div className="relative flex justify-center">
             <div className="relative">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-ocean-500 via-sea-500 to-teal-500 rounded-full flex items-center justify-center shadow-xl hover:shadow-ocean-500/25 transition-all duration-300 transform hover:scale-105">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-ocean-500 via-sea-500 to-teal-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-ocean-500/25 transition-all duration-300 transform hover:scale-105">
                 <img 
                   src="/alex5.svg" 
                   alt="BoatTrip Planner Logo" 
-                  className="w-6 h-6 sm:w-7 sm:h-7"
+                  className="w-4 h-4 sm:w-6 sm:h-6"
                 />
               </div>
-              <div className="absolute inset-0 w-10 h-10 sm:w-12 sm:h-12 border-2 border-ocean-300 rounded-full animate-ping opacity-15"></div>
             </div>
           </div>
         </div>
 
-        {/* Optimized Bottom Bar */}
-        <div className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+        {/* Compact Bottom Bar */}
+        <div className="px-4 sm:px-6 lg:px-8 py-2 sm:py-3">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3">
             <div className="text-center sm:text-left">
-              <p className="text-sm text-slate-300 font-medium">
+              <p className="text-xs sm:text-sm text-slate-300 font-medium">
                 © 2025 BoatTrip Planner. Todos los derechos reservados.
               </p>
             </div>
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="flex items-center gap-2 px-2 sm:px-3 py-1.5 bg-white/5 backdrop-blur-md rounded-full border border-white/10 hover:bg-white/10 transition-all duration-300">
-                <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-md"></div>
-                <span className="text-xs sm:text-sm text-slate-300 font-medium">Online</span>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-white/5 backdrop-blur-md rounded-full border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse shadow-sm"></div>
+                <span className="text-xs text-slate-300 font-medium">Online</span>
               </div>
-              <div className="flex items-center gap-2 px-2 sm:px-3 py-1.5 bg-white/5 backdrop-blur-md rounded-full border border-white/10 hover:bg-white/10 transition-all duration-300">
-                <ShieldCheckIcon className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
-                <span className="text-xs sm:text-sm text-slate-300 font-medium">Seguro</span>
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-white/5 backdrop-blur-md rounded-full border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <ShieldCheckIcon className="w-3 h-3 text-green-400" />
+                <span className="text-xs text-slate-300 font-medium">Seguro</span>
               </div>
             </div>
           </div>

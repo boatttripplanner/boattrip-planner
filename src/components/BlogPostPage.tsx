@@ -99,15 +99,7 @@ const customStyles = `
     overflow-x: hidden;
   }
   
-  .table-of-contents {
-    position: sticky;
-    top: 1rem;
-    max-height: calc(100vh - 2rem);
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 100%;
-    max-width: 100%;
-  }
+
   
   .main-content {
     width: 100%;
@@ -345,44 +337,7 @@ const RatingStars: React.FC<{
 
 
 // Componente para tabla de contenidos
-const TableOfContents: React.FC<{ 
-  headings: Array<{ id: string; text: string; level: number }>;
-  activeHeading: string;
-  darkMode: boolean;
-}> = ({ headings, activeHeading, darkMode }) => {
-  const scrollToHeading = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
 
-  if (headings.length === 0) return null;
-
-  return (
-    <div className={`sticky top-4 mb-6 p-4 rounded-lg border ${darkMode ? 'bg-slate-700 border-slate-600' : 'bg-slate-50 border-slate-200'}`}>
-      <h4 className={`font-semibold mb-3 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-        📋 Tabla de Contenidos
-      </h4>
-      <nav className="space-y-1">
-        {headings.map((heading) => (
-          <button
-            key={heading.id}
-            onClick={() => scrollToHeading(heading.id)}
-            className={`block w-full text-left px-2 py-1 rounded text-sm transition-colors ${
-              activeHeading === heading.id
-                ? `${darkMode ? 'bg-teal-600 text-white' : 'bg-teal-100 text-teal-800'}`
-                : `${darkMode ? 'text-slate-300 hover:bg-slate-600' : 'text-slate-600 hover:bg-slate-100'}`
-            }`}
-            style={{ paddingLeft: `${(heading.level - 1) * 12 + 8}px` }}
-          >
-            {heading.text}
-          </button>
-        ))}
-      </nav>
-    </div>
-  );
-};
 
 // Componente para navegación entre artículos
 const ArticleNavigation: React.FC<{
@@ -446,7 +401,7 @@ const ArticleNavigation: React.FC<{
 
 const RelatedPostCard: React.FC<{ post: ParsedMarkdownPost, onNavigate: (slug: string) => void }> = ({ post, onNavigate }) => (
     <div 
-        className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col overflow-hidden cursor-pointer h-full"
+        className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col overflow-hidden cursor-pointer h-full flex-1"
         onClick={() => onNavigate(post.frontmatter.slug)}
     >
         <div className="p-4 flex flex-col flex-grow">
@@ -490,9 +445,6 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
   const [userRating, setUserRating] = useState<number>(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const [activeHeading, setActiveHeading] = useState<string>('');
-  const [headings, setHeadings] = useState<Array<{ id: string; text: string; level: number }>>([]);
-
   const post = useMemo(() => {
     if (!slug) return null;
     return allBlogPosts.find(p => p.frontmatter.slug === slug);
@@ -505,50 +457,6 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
     if (!post) return 0;
     return calculateReadingTime(post.content);
   }, [post]);
-
-  // Extraer encabezados del contenido
-  useEffect(() => {
-    if (!post) return;
-    
-    const extractedHeadings: Array<{ id: string; text: string; level: number }> = [];
-    const lines = post.content.split('\n');
-    
-    lines.forEach(line => {
-      const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
-      if (headingMatch) {
-        const level = headingMatch[1].length;
-        const text = headingMatch[2].trim();
-        const id = text.toLowerCase()
-          .replace(/[^a-z0-9\s]/g, '')
-          .replace(/\s+/g, '-');
-        extractedHeadings.push({ id, text, level });
-      }
-    });
-    
-    setHeadings(extractedHeadings);
-  }, [post]);
-
-  // Detectar encabezado activo al hacer scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!headings.length) return;
-      
-      const scrollPosition = window.scrollY + 100;
-      let currentActive = '';
-      
-      headings.forEach(heading => {
-        const element = document.getElementById(heading.id);
-        if (element && element.offsetTop <= scrollPosition) {
-          currentActive = heading.id;
-        }
-      });
-      
-      setActiveHeading(currentActive);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [headings]);
 
   // Cargar estado de favoritos y valoraciones al iniciar
   useEffect(() => {
@@ -1051,20 +959,9 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       
       {/* Contenido principal */}
       <div className={`w-full max-w-6xl mx-auto transition-all duration-300 ease-out ${darkMode ? 'dark' : ''} ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''} -mt-20 relative z-20 px-4`}>
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start blog-layout overflow-hidden">
-          {/* Tabla de contenidos - Solo visible en desktop */}
-          <div className="hidden lg:block lg:col-span-1 sticky top-4">
-            <div className="table-of-contents max-h-screen overflow-y-auto">
-              <TableOfContents 
-                headings={headings} 
-                activeHeading={activeHeading} 
-                darkMode={darkMode} 
-              />
-            </div>
-          </div>
-          
+        <div className="w-full max-w-4xl mx-auto blog-layout overflow-hidden">
           {/* Contenido principal */}
-          <div className="lg:col-span-3 w-full main-content min-w-0">
+          <div className="w-full main-content min-w-0">
             <div className={`${darkMode ? 'bg-slate-800/95 backdrop-blur-sm text-white' : 'bg-white/95 backdrop-blur-sm'} p-6 md:p-8 rounded-2xl shadow-2xl transition-all duration-300 border ${darkMode ? 'border-slate-700/50' : 'border-white/50'} relative z-10`}>
           {/* Controles de navegación */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b border-slate-200/50 dark:border-slate-600/50">
@@ -1202,93 +1099,122 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
             </div>
           )} */}
 
-          {/* Acciones sociales con diseño mejorado */}
-          <div className={`mb-12 pt-8 border-t ${darkMode ? 'border-slate-600/50' : 'border-slate-200/50'}`}>
-            <div className="text-center mb-8">
-              <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                ¿Te gustó este artículo?
-              </h3>
-              <p className={`text-lg ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                Compártelo y ayúdanos a llegar a más navegantes
-              </p>
-            </div>
+          {/* Sección de Engagement Optimizada */}
+          <div className={`mb-8 pt-6 pb-4 border-t ${darkMode ? 'border-slate-600/30' : 'border-slate-200/50'} relative overflow-hidden`}>
+            {/* Fondo decorativo sutil */}
+            <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-br from-slate-800/10 via-slate-700/5 to-blue-900/10' : 'bg-gradient-to-br from-blue-50/30 via-teal-50/20 to-indigo-50/30'}`}></div>
+            <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-teal-400 via-blue-500 to-purple-600"></div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Valoración */}
-              <div className={`text-center p-6 rounded-2xl ${darkMode ? 'bg-slate-700/50' : 'bg-slate-50'} border ${darkMode ? 'border-slate-600/50' : 'border-slate-200/50'}`}>
-                <div className="text-4xl mb-4">⭐</div>
-                <h4 className={`font-semibold mb-3 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                  Valora este artículo
-                </h4>
-                <RatingStars 
-                  rating={userRating} 
-                  onRate={handleRating} 
-                  interactive={true}
-                  size="lg"
-                />
+            <div className="relative z-10">
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center gap-2 mb-3">
+                  <span className="text-lg">🚢</span>
+                  <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                    ¿Te gustó este artículo?
+                  </h3>
+                  <span className="text-lg">⭐</span>
+                </div>
+                <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'} max-w-lg mx-auto`}>
+                  Compártelo y ayúdanos a llegar a más navegantes
+                </p>
               </div>
+              
+              <div className="flex flex-row gap-4 max-w-4xl mx-auto">
+                {/* Valoración - Compacta */}
+                <div className={`group relative p-4 rounded-xl flex-1 ${darkMode ? 'bg-slate-800/40 backdrop-blur-sm border-slate-600/20' : 'bg-white/60 backdrop-blur-sm border-slate-200/30'} border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}>
+                  <div className="text-center">
+                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 mb-3 shadow-md">
+                      <span className="text-lg">⭐</span>
+                    </div>
+                    <h4 className={`text-sm font-semibold mb-2 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                      Valora este artículo
+                    </h4>
+                    <div className="flex justify-center">
+                      <RatingStars 
+                        rating={userRating} 
+                        onRate={handleRating} 
+                        interactive={true}
+                        size="md"
+                      />
+                    </div>
+                  </div>
+                </div>
 
-              {/* Favorito */}
-              <div className={`text-center p-6 rounded-2xl ${darkMode ? 'bg-slate-700/50' : 'bg-slate-50'} border ${darkMode ? 'border-slate-600/50' : 'border-slate-200/50'}`}>
-                <div className="text-4xl mb-4">{isFavorite ? '❤️' : '🤍'}</div>
-                <h4 className={`font-semibold mb-3 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                  {isFavorite ? 'Guardado en favoritos' : 'Guardar en favoritos'}
-                </h4>
-                <button
-                  onClick={toggleFavorite}
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105 ${
-                    isFavorite 
-                      ? 'bg-red-500 text-white hover:bg-red-600' 
-                      : `${darkMode ? 'bg-slate-600 text-slate-300 hover:bg-slate-500' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`
-                  }`}
-                >
-                  {isFavorite ? '❤️ Guardado' : '🤍 Guardar'}
-                </button>
-              </div>
+                {/* Favorito - Compacta */}
+                <div className={`group relative p-4 rounded-xl flex-1 ${darkMode ? 'bg-slate-800/40 backdrop-blur-sm border-slate-600/20' : 'bg-white/60 backdrop-blur-sm border-slate-200/30'} border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}>
+                  <div className="text-center">
+                    <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl mb-3 shadow-md transition-all duration-300 ${
+                      isFavorite 
+                        ? 'bg-gradient-to-br from-pink-500 to-red-500' 
+                        : 'bg-gradient-to-br from-slate-400 to-slate-500'
+                    }`}>
+                      <span className="text-lg">{isFavorite ? '❤️' : '🤍'}</span>
+                    </div>
+                    <h4 className={`text-sm font-semibold mb-2 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                      {isFavorite ? 'Guardado' : 'Guardar'}
+                    </h4>
+                    <button
+                      onClick={toggleFavorite}
+                      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 hover:scale-105 ${
+                        isFavorite 
+                          ? 'bg-gradient-to-r from-pink-500 to-red-500 text-white' 
+                          : `${darkMode ? 'bg-slate-600 text-slate-300 hover:bg-slate-500' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`
+                      }`}
+                    >
+                      <span className="text-sm">{isFavorite ? '❤️' : '🤍'}</span>
+                      {isFavorite ? 'Guardado' : 'Guardar'}
+                    </button>
+                  </div>
+                </div>
 
-              {/* Compartir */}
-              <div className={`text-center p-6 rounded-2xl ${darkMode ? 'bg-slate-700/50' : 'bg-slate-50'} border ${darkMode ? 'border-slate-600/50' : 'border-slate-200/50'}`}>
-                <div className="text-4xl mb-4">📤</div>
-                <h4 className={`font-semibold mb-3 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                  Compartir artículo
-                </h4>
-                <div className="flex justify-center gap-3">
-                  <button
-                    onClick={handleShareViaWhatsApp} 
-                    className="p-3 rounded-full bg-green-500 hover:bg-green-600 text-white transition-all duration-200 hover:scale-110"
-                    title="Compartir en WhatsApp"
-                  >
-                    <WhatsAppIcon className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={() => {
-                      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.frontmatter.title)}&url=${encodeURIComponent(postUrl)}`;
-                      window.open(twitterUrl, '_blank', 'noopener,noreferrer');
-                    }}
-                    className="p-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white transition-all duration-200 hover:scale-110"
-                    title="Compartir en Twitter"
-                  >
-                    🐦
-                  </button>
-                  <button
-                    onClick={() => {
-                      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
-                      window.open(facebookUrl, '_blank', 'noopener,noreferrer');
-                    }}
-                    className="p-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 hover:scale-110"
-                    title="Compartir en Facebook"
-                  >
-                    📘
-                  </button>
-                  <button
-                    onClick={handlePrint}
-                    className={`p-3 rounded-full transition-all duration-200 hover:scale-110 ${
-                      darkMode ? 'bg-slate-600 hover:bg-slate-500 text-slate-300' : 'bg-slate-200 hover:bg-slate-300 text-slate-700'
-                    }`}
-                    title="Imprimir artículo"
-                  >
-                    🖨️
-                  </button>
+                {/* Compartir - Compacta */}
+                <div className={`group relative p-4 rounded-xl flex-1 ${darkMode ? 'bg-slate-800/40 backdrop-blur-sm border-slate-600/20' : 'bg-white/60 backdrop-blur-sm border-slate-200/30'} border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}>
+                  <div className="text-center">
+                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 mb-3 shadow-md">
+                      <span className="text-lg">📤</span>
+                    </div>
+                    <h4 className={`text-sm font-semibold mb-2 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                      Compartir
+                    </h4>
+                    <div className="flex justify-center gap-2">
+                      <button
+                        onClick={handleShareViaWhatsApp} 
+                        className="p-2 rounded-lg bg-green-500 hover:bg-green-600 text-white transition-all duration-200 hover:scale-110"
+                        title="WhatsApp"
+                      >
+                        <WhatsAppIcon className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.frontmatter.title)}&url=${encodeURIComponent(postUrl)}`;
+                          window.open(twitterUrl, '_blank', 'noopener,noreferrer');
+                        }}
+                        className="p-2 rounded-lg bg-blue-400 hover:bg-blue-500 text-white transition-all duration-200 hover:scale-110"
+                        title="Twitter/X"
+                      >
+                        <span className="text-sm">𝕏</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
+                          window.open(facebookUrl, '_blank', 'noopener,noreferrer');
+                        }}
+                        className="p-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 hover:scale-110"
+                        title="Facebook"
+                      >
+                        <span className="text-sm">📘</span>
+                      </button>
+                      <button
+                        onClick={handlePrint}
+                        className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
+                          darkMode ? 'bg-slate-600 hover:bg-slate-500 text-slate-300' : 'bg-slate-200 hover:bg-slate-300 text-slate-700'
+                        }`}
+                        title="Imprimir"
+                      >
+                        <span className="text-sm">🖨️</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1310,7 +1236,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
               <h3 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
                 Artículos Relacionados
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="flex flex-row gap-6">
                 {relatedPosts.map((relatedPost) => (
                         <RelatedPostCard 
                             key={relatedPost.frontmatter.slug}
