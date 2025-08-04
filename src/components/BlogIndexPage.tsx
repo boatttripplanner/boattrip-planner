@@ -1,7 +1,7 @@
 // src/components/BlogIndexPage.tsx
 import React, { useState, useMemo, useEffect } from 'react';
 import { BlogIndexPageProps } from '../../types';
-import { allBlogPosts } from '../blogData';
+import { existingBlogPosts_definitions_only as allBlogPosts } from '../blogData';
 import { Button } from '../../components/Button';
 import { InputField, SelectField } from '../../components/FormControls';
 
