@@ -10,7 +10,6 @@ import { PhoneIcon } from './icons/PhoneIcon';
 import { CheckCircleIcon } from './icons/CheckCircleIcon';
 import { StarOutlineIcon } from './icons/StarOutlineIcon';
 import ShieldCheckIcon from './icons/ShieldCheckIcon';
-import { WhatsAppIcon } from './icons/WhatsAppIcon';
 import { MapRouteIcon } from './icons/MapRouteIcon';
 
 const Footer: React.FC = () => {
@@ -223,14 +222,9 @@ const Footer: React.FC = () => {
                 <div className={`space-y-1 sm:space-y-2 transition-all duration-500 ease-in-out ${
                   expandedSections.contacto ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
                 }`}>
-                  <a href="mailto:info@boattrip-planner.com" className={linkStyle}>
+                  <a href="mailto:boattripplanner@gmail.com" className={linkStyle}>
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-red-400 to-pink-400 rounded-full"></div>
                     <span className="text-xs sm:text-sm">Email</span>
-                  </a>
-                  <a href="https://wa.me/34600000000" target="_blank" rel="noopener noreferrer" className={linkStyle}>
-                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-red-400 to-pink-400 rounded-full"></div>
-                    <WhatsAppIcon className="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span className="text-xs sm:text-sm">WhatsApp</span>
                   </a>
                   <a href="/?view=privacy" className={linkStyle}>
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-red-400 to-pink-400 rounded-full"></div>
