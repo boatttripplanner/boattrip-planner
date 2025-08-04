@@ -329,6 +329,7 @@ const App: React.FC = () => {
                 currentView === AppView.NOT_FOUND ) {
       performScrollToTop();
     }
+    return;
   }, [currentView, currentBlogPostSlug, isGenerating, isLoadingRecommendation, recommendation, showPrivacyModal, showTermsModal, cookieConsent]);
 
 
@@ -496,6 +497,7 @@ const App: React.FC = () => {
       }, 3000); 
       return () => clearInterval(intervalId);
     }
+    return;
   }, [isLoadingRecommendation]);
 
   useEffect(() => {
@@ -505,6 +507,7 @@ const App: React.FC = () => {
       }, 150);
       return () => clearTimeout(timer);
     }
+    return;
   }, [isLoadingRecommendation, isGenerating, recommendation, error]);
 
 
