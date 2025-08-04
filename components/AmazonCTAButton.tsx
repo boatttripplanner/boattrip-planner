@@ -5,7 +5,7 @@ interface AmazonCTAButtonProps {
   productName: string;
   asin?: string;
   category?: string;
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'outline' | 'premium' | 'urgent' | 'bestseller';
   size?: 'sm' | 'md' | 'lg';
   showIcon?: boolean;
   className?: string;
@@ -46,7 +46,10 @@ const AmazonCTAButton: React.FC<AmazonCTAButtonProps> = ({
   const variantStyles = {
     primary: "bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-500 shadow-md hover:shadow-lg",
     secondary: "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 shadow-md hover:shadow-lg",
-    outline: "border-2 border-orange-500 text-orange-600 hover:bg-orange-50 focus:ring-orange-500"
+    outline: "border-2 border-orange-500 text-orange-600 hover:bg-orange-50 focus:ring-orange-500",
+    premium: "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white focus:ring-purple-500 shadow-md hover:shadow-lg",
+    urgent: "bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white focus:ring-red-500 shadow-md hover:shadow-lg",
+    bestseller: "bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white focus:ring-yellow-500 shadow-md hover:shadow-lg"
   };
   
   // Tamaños

@@ -205,7 +205,15 @@ export const AMAZON_AFFILIATE_LINKS = {
     bengalas_emergencia: `https://www.amazon.es/s?k=bengalas+emergencia+nauticas&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
     linterna_emergencia: `https://www.amazon.es/dp/B075ZN5LJY?tag=${AMAZON_AFFILIATE_TAG}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B075ZN5LJY`,
     equipo_emergencia: `https://www.amazon.es/s?k=equipo+emergencia+nautico&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`
-  }
+  },
+
+  // 📚 LIBROS Y EDUCACIÓN NÁUTICA
+  general: `https://www.amazon.es/s?k=productos+nauticos+general&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+  safety_equipment: `https://www.amazon.es/s?k=equipamiento+seguridad+nautica&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+  nautical_books: `https://www.amazon.es/s?k=libros+navegacion+nautica&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+  compass_marine: `https://www.amazon.es/s?k=compas+nautico+marino&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+  navigation_charts: `https://www.amazon.es/s?k=cartas+navegacion+nautica&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`,
+  vhf_radio: `https://www.amazon.es/s?k=radio+vhf+nautico&tag=${AMAZON_AFFILIATE_TAG}&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl`
 };
 
 // Blog Category Prompts for Content Generation
