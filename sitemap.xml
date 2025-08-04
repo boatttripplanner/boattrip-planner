@@ -10,7 +10,7 @@
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>BoatTrip Planner - Planificador de Viajes en Barco</image:title>
       <image:caption>Planificador inteligente de viajes náuticos con IA</image:caption>
     </image:image>
@@ -54,7 +54,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>🏝️ Los 7 Destinos Náuticos Secretos del Mediterráneo que Debes Descubrir</image:title>
     </image:image>
   </url>
@@ -66,7 +66,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Los 5 Mejores GPS Marinos de 2024: Comparativa Real y Análisis Profundo</image:title>
     </image:image>
   </url>
@@ -78,7 +78,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>🌱 Navegación Sostenible 2024: Convierte tu Barco en 100% Ecológico (Guía Completa + Productos)</image:title>
     </image:image>
   </url>
@@ -90,7 +90,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>👨‍👩‍👧‍👦 Navegar en Familia: La Guía Completa para Aventuras Náuticas Seguras y Divertidas</image:title>
     </image:image>
   </url>
@@ -102,7 +102,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Cómo Navegar con tu Perro Sin Arriesgar su Vida: La Guía Definitiva para Navegación Canina Segura</image:title>
     </image:image>
   </url>
@@ -114,7 +114,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Cómo Tu Acampada en la Playa Puede Salvar el Océano: La Guía Definitiva del Camping Sostenible Marino</image:title>
     </image:image>
   </url>
@@ -126,7 +126,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Los Mejores Productos Náuticos de Amazon: ¡Imágenes Reales y Precios Actualizados! 🛥️🛒</image:title>
     </image:image>
   </url>
@@ -138,7 +138,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Los 10 Productos Náuticos Más Vendidos en Amazon: ¡Descubre lo que Todos los Navegantes Están Comprando! 🛥️🔥</image:title>
     </image:image>
   </url>
@@ -150,7 +150,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Equipamiento Náutico Esencial: ¡Todo lo que Necesitas para tu Próxima Aventura en el Mar! 🛥️⚓</image:title>
     </image:image>
   </url>
@@ -162,7 +162,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>¡Bienvenido al Blog de Aventuras Náuticas de BoatTrip Planner!</image:title>
     </image:image>
   </url>
@@ -174,7 +174,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>¿Y si el Mar te Mareara? ¡Consejos Expertos para Vencer el Mareo a Bordo! 🤢⚓</image:title>
     </image:image>
   </url>
@@ -186,7 +186,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>¿Con Patrón o Sin Patrón? ¡Claves para Elegir tu Mejor Aventura en Barco! 🧑‍✈️⛵</image:title>
     </image:image>
   </url>
@@ -198,7 +198,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Navegación Sostenible: ¡Protege el Mar Mientras Disfrutas de Él! 🌍♻️</image:title>
     </image:image>
   </url>
@@ -210,7 +210,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>¿Qué es un Catamarán? ¡Ventajas y Desventajas para tu Próxima Aventura Náutica! ⛵ catamaran</image:title>
     </image:image>
   </url>
@@ -222,7 +222,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Alquiler de Barcos por Horas: ¡Explora el Mar a tu Ritmo! ⏱️⚓</image:title>
     </image:image>
   </url>
@@ -234,7 +234,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Navegar en Familia: ¡Crea Recuerdos Inolvidables en Alta Mar! 👨‍👩‍👧‍👦⚓</image:title>
     </image:image>
   </url>
@@ -246,7 +246,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>El Diario de Abordo: ¡Captura Cada Momento de tu Aventura Marina! ✍️🗺️</image:title>
     </image:image>
   </url>
@@ -258,7 +258,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>¡Los 5 Mejores Destinos para tu Próxima Aventura en Barco en España! 🇪🇸⚓</image:title>
     </image:image>
   </url>
@@ -270,7 +270,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Guía Completa para Viajar en Barco con Mascotas: ¡Tu Mejor Amigo a Bordo! 🐶🐱⚓</image:title>
     </image:image>
   </url>
@@ -282,7 +282,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>La Pesca desde Barco: ¡Una Guía para Principiantes y Amantes del Mar! 🎣🚤</image:title>
     </image:image>
   </url>
@@ -294,7 +294,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Cala Macarella y Macarelleta (Menorca): ¡El Paraíso Escondido que Debes Explorar en Barco! 💎💙</image:title>
     </image:image>
   </url>
@@ -306,7 +306,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>¿Y si Alquilas un Velero? ¡La Experiencia Pura de Navegar a Vela! 🌬️⛵</image:title>
     </image:image>
   </url>
@@ -318,7 +318,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>¿Y si Alquilas un Barco a Motor? ¡Velocidad, Confort y Flexibilidad en el Mar! 💨🛥️</image:title>
     </image:image>
   </url>
@@ -330,7 +330,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>¿Qué es la Posidonia Oceánica? ¡Un Tesoro Submarino que Debes Proteger al Navegar! 🌿💙</image:title>
     </image:image>
   </url>
@@ -342,7 +342,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Rumbovivo.com: Tu Escuela Náutica Personalizada para Patrones Exigentes ⚓🎓</image:title>
     </image:image>
   </url>
@@ -354,7 +354,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Las Banderas de Cortesía: Un Símbolo de Respeto en Cada Puerto 🏴‍☠️🇪🇸</image:title>
     </image:image>
   </url>
@@ -366,7 +366,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Navegar en Ibiza: ¡Descubre la Isla Mágica desde tu Propio Barco! ☀️🛥️</image:title>
     </image:image>
   </url>
@@ -378,7 +378,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>El GPS Náutico: Tu Navegador Indispensable en Cada Travesía 🛰️🗺️</image:title>
     </image:image>
   </url>
@@ -390,7 +390,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>El Paddle Surf (SUP): ¡Explora el Mar a tu Ritmo y Fortalece tu Cuerpo! 🏄‍♀️🧘‍♂️</image:title>
     </image:image>
   </url>
@@ -402,7 +402,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Navegar en la Costa Brava: ¡Explora el Salvaje Encanto Mediterráneo en Barco! 🌊⚓</image:title>
     </image:image>
   </url>
@@ -414,7 +414,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Cómo Planificar tu Viaje Náutico con IA: ¡Paso a Paso con Boattrip-Planner! 🤖🗺️</image:title>
     </image:image>
   </url>
@@ -426,7 +426,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>La Patente de Navegación: ¡Tu Primer Paso para Ser Capitán de tu Propia Aventura! ⛵🎓</image:title>
     </image:image>
   </url>
@@ -438,7 +438,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>El PNB (Patrón de Navegación Básica): ¡Tu Siguiente Nivel en la Autonomía Marina! ⚓🎓</image:title>
     </image:image>
   </url>
@@ -450,7 +450,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>¡Fuera Pájaros! Protege tu Barco de los Visitantes Alados 🐦🛥️</image:title>
     </image:image>
   </url>
@@ -462,7 +462,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>El Ancla: ¡Tu Fiel Guardián en Cada Fondeo! ⚓️🛡️</image:title>
     </image:image>
   </url>
@@ -474,7 +474,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>El Traje de Neopreno: Tu Aliado Indispensable en el Mar (¡y Más Allá!) 🌊🤿</image:title>
     </image:image>
   </url>
@@ -486,7 +486,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Cómo Elegir el Mejor Chaleco Salvavidas: ¡Tu Seguridad Flotante a Bordo! 🛟✅</image:title>
     </image:image>
   </url>
@@ -498,7 +498,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Review: ¡Las Aletas de Snorkel Cressi Rondinella! Tu Mejor Aliada para Explorar el Mundo Submarino 🐠🧜‍♀️</image:title>
     </image:image>
   </url>
@@ -510,7 +510,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>¡Los 5 Mejores Gadgets Náuticos para una Navegación del Siglo XXI! 📲🛥️</image:title>
     </image:image>
   </url>
@@ -522,7 +522,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Review: ¡Samboat, tu Plataforma para Alquilar Barcos: ¿La Mejor Opción? 🤔🛥️</image:title>
     </image:image>
   </url>
@@ -534,7 +534,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Descubre Menorca en Barco: ¡El Paraíso Escondido de las Calas Turquesas! 🏝️💙</image:title>
     </image:image>
   </url>
@@ -546,7 +546,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Los 5 Mejores Libros de Navegación: ¡Tu Brújula de Conocimiento en el Mar! 📚⚓</image:title>
     </image:image>
   </url>
@@ -558,7 +558,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>¿Tu Mejor Aliado para Alquilar un Barco? ¡Nuestra Experiencia! ⭐🛥️</image:title>
     </image:image>
   </url>
@@ -570,7 +570,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>¿Y si Llueve en tu Viaje en Barco? ¡Planes Alternativos para un Día Brillante! ☔🛥️</image:title>
     </image:image>
   </url>
@@ -582,7 +582,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Deportes Acuáticos desde tu Barco: ¡La Guía Completa para la Aventura Total! 🏄‍♂️⛵</image:title>
     </image:image>
   </url>
@@ -594,7 +594,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Guía de Supervivencia en el Mar: Técnicas Básicas que Todo Navegante Debe Conocer 🆘🌊</image:title>
     </image:image>
   </url>
@@ -606,7 +606,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Review: ¡Garmin EchoMAP UHD Series! ¿El Mejor Plotter/Sonda para tu Barco? 🐠🗺️</image:title>
     </image:image>
   </url>
@@ -618,7 +618,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>🏝️ Los 10 Mejores Destinos de Navegación en el Mediterráneo: ¡Tu Guía Definitiva!</image:title>
     </image:image>
   </url>
@@ -630,7 +630,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>🛡️ Equipamiento Esencial para una Navegación Segura: ¡No Salgas sin Esto!</image:title>
     </image:image>
   </url>
@@ -642,7 +642,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>🏄‍♂️ Deportes Acuáticos desde tu Barco: ¡La Aventura Total!</image:title>
     </image:image>
   </url>
@@ -654,7 +654,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>🎓 Titulaciones Náuticas: Tu Camino hacia la Libertad en el Mar</image:title>
     </image:image>
   </url>
@@ -666,7 +666,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>⭐ Reviews de Equipamiento Náutico: Las Mejores Opciones del Mercado</image:title>
     </image:image>
   </url>
@@ -678,7 +678,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>🔥 Black Friday 2024: Las Mejores Ofertas en Productos Náuticos de Amazon ¡No te las Pierdas! 🛥️💰</image:title>
     </image:image>
   </url>
@@ -690,7 +690,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Guía Definitiva para Comprar el Mejor GPS Náutico en Amazon 2024 🗺️⚓</image:title>
     </image:image>
   </url>
@@ -702,7 +702,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Por Qué la Energía Solar Marina Cambió Para Siempre Mi Relación con el Mar: La Ciencia de la Independencia Energética</image:title>
     </image:image>
   </url>
@@ -714,7 +714,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>Mascotas a Bordo 2025: Guía Completa de Seguridad y Equipamiento Náutico para Perros y Gatos</image:title>
     </image:image>
   </url>
@@ -726,7 +726,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>🌱 Navegar Sostenible: 10 Claves para una Aventura Náutica Eco-Friendly ⛵</image:title>
     </image:image>
   </url>
@@ -738,7 +738,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>🏝️ Islas Baleares: Guía Completa de Navegación para Descubrir el Paraíso Mediterráneo</image:title>
     </image:image>
   </url>
@@ -750,7 +750,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>🐕 Consejos Prácticos para Viajar con Mascotas en Barco: Vacaciones Sin Estrés 🐱⚓</image:title>
     </image:image>
   </url>
@@ -762,7 +762,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>🛟 Seguridad Náutica: ¿Por Qué el 90% de los Accidentes Marinos Son Evitables? 2025 ⚓</image:title>
     </image:image>
   </url>

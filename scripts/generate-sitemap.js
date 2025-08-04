@@ -58,7 +58,7 @@ const generateSitemap = () => {
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>BoatTrip Planner - Planificador de Viajes en Barco</image:title>
       <image:caption>Planificador inteligente de viajes náuticos con IA</image:caption>
     </image:image>
@@ -106,7 +106,7 @@ const generateSitemap = () => {
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://boattrip-planner.com/og-image.png</image:loc>
+      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
       <image:title>${post.title}</image:title>
     </image:image>
   </url>`;
