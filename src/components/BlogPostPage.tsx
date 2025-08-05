@@ -500,26 +500,106 @@ const ArticleNavigation: React.FC<{
   );
 };
 
-const RelatedPostCard: React.FC<{ post: ParsedMarkdownPost, onNavigate: (slug: string) => void }> = ({ post, onNavigate }) => (
-    <div 
-        className="group bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden cursor-pointer h-full border border-slate-200 dark:border-slate-700 hover:border-teal-300 dark:hover:border-teal-500"
-        onClick={() => onNavigate(post.frontmatter.slug)}
-    >
-        <div className="p-4 md:p-5 flex flex-col flex-grow">
-            <h4 className="text-sm md:text-md font-semibold text-slate-800 dark:text-white mb-3 group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors flex-grow line-clamp-3">
-                {post.frontmatter.title}
-            </h4>
-            <div className="flex items-center justify-between">
-                <span className="text-teal-600 dark:text-teal-400 text-xs md:text-sm font-semibold group-hover:text-teal-700 dark:group-hover:text-teal-300 transition-colors">
-                    Leer más →
-                </span>
-                <div className="w-6 h-6 bg-teal-100 dark:bg-teal-900 rounded-full flex items-center justify-center group-hover:bg-teal-200 dark:group-hover:bg-teal-800 transition-colors">
-                    <span className="text-teal-600 dark:text-teal-400 text-xs">→</span>
+const RelatedPostCard: React.FC<{ post: ParsedMarkdownPost, onNavigate: (slug: string) => void }> = ({ post, onNavigate }) => {
+    // Obtener imagen destacada del post
+    const getFeaturedImage = (slug: string, tags?: string[]): string => {
+        // Mapeo específico de imágenes temáticas
+        const specificImageMap: { [key: string]: string } = {
+            'productos-sostenibles-navegantes-guia-compra': 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=400&h=300&fit=crop&crop=center',
+            'mejores-destinos-nauticos-espana-2024': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
+            'sostenibilidad-maritima-2024': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center',
+        };
+        
+        if (specificImageMap[slug]) {
+            return specificImageMap[slug];
+        }
+        
+        // Fallback basado en tags
+        const tagImageMap: { [key: string]: string } = {
+            'sostenibilidad': 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=400&h=300&fit=crop&crop=center',
+            'destinos': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
+            'baleares': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
+            'galicia': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center',
+            'equipamiento': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center',
+            'seguridad': 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop&crop=center',
+            'deportes': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
+            'tecnología': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center',
+            'familia': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
+            'mascotas': 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&h=300&fit=crop&crop=center',
+        };
+        
+        for (const tag of tags || []) {
+            const lowerTag = tag.toLowerCase();
+            for (const [key, imageUrl] of Object.entries(tagImageMap)) {
+                if (lowerTag.includes(key)) {
+                    return imageUrl;
+                }
+            }
+        }
+        
+        // Imagen por defecto marítima
+        return 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=400&h=300&fit=crop&crop=center';
+    };
+
+    const featuredImage = getFeaturedImage(post.frontmatter.slug, post.frontmatter.tags);
+    const readingTime = calculateReadingTime(post.content);
+
+    return (
+        <div 
+            className="group bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden cursor-pointer h-full border border-slate-200 dark:border-slate-700 hover:border-teal-300 dark:hover:border-teal-500 transform hover:-translate-y-1"
+            onClick={() => onNavigate(post.frontmatter.slug)}
+        >
+            {/* Imagen destacada */}
+            <div className="relative h-48 overflow-hidden">
+                <img 
+                    src={featuredImage} 
+                    alt={post.frontmatter.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                {/* Badge de tiempo de lectura */}
+                <div className="absolute top-3 right-3 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-slate-700 dark:text-slate-300">
+                    ⏱️ {readingTime} min
+                </div>
+                
+                {/* Badge de categoría */}
+                {post.frontmatter.tags && post.frontmatter.tags[0] && (
+                    <div className="absolute top-3 left-3 bg-teal-500/90 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-white">
+                        {post.frontmatter.tags[0]}
+                    </div>
+                )}
+            </div>
+            
+            {/* Contenido */}
+            <div className="p-4 md:p-5 flex flex-col flex-grow">
+                <h4 className="text-sm md:text-base font-semibold text-slate-800 dark:text-white mb-2 group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors flex-grow line-clamp-2">
+                    {post.frontmatter.title}
+                </h4>
+                
+                {/* Resumen */}
+                <p className="text-xs text-slate-600 dark:text-slate-400 mb-3 line-clamp-2">
+                    {post.frontmatter.summary}
+                </p>
+                
+                {/* Fecha */}
+                <div className="text-xs text-slate-500 dark:text-slate-500 mb-3">
+                    📅 {formatDate(post.frontmatter.date)}
+                </div>
+                
+                {/* Call to action */}
+                <div className="flex items-center justify-between mt-auto">
+                    <span className="text-teal-600 dark:text-teal-400 text-xs md:text-sm font-semibold group-hover:text-teal-700 dark:group-hover:text-teal-300 transition-colors">
+                        Leer más →
+                    </span>
+                    <div className="w-8 h-8 bg-teal-100 dark:bg-teal-900 rounded-full flex items-center justify-center group-hover:bg-teal-200 dark:group-hover:bg-teal-800 transition-colors group-hover:scale-110">
+                        <span className="text-teal-600 dark:text-teal-400 text-sm">→</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-);
+    );
+};
 
 // Componente para la barra de progreso
 const ReadingProgressBar: React.FC<{ progress: number }> = ({ progress }) => (
@@ -1379,19 +1459,40 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
         
           {/* Artículos relacionados */}
         {relatedPosts.length > 0 && (
-            <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-600">
-              <h3 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                Artículos Relacionados
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-600">
+              <div className="text-center mb-8">
+                <h3 className={`text-3xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                  Artículos Relacionados
+                </h3>
+                <p className={`text-slate-600 dark:text-slate-400 ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                  Descubre más contenido náutico que te puede interesar
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {relatedPosts.map((relatedPost) => (
-                        <RelatedPostCard 
-                            key={relatedPost.frontmatter.slug}
-                            post={relatedPost}
-                            onNavigate={onNavigateToPost}
-                        />
-                    ))}
-                </div>
+                    <RelatedPostCard 
+                        key={relatedPost.frontmatter.slug}
+                        post={relatedPost}
+                        onNavigate={onNavigateToPost}
+                    />
+                ))}
+              </div>
+              
+              {/* Call to action adicional */}
+              <div className="text-center mt-8 pt-6 border-t border-slate-200 dark:border-slate-600">
+                <button
+                  onClick={() => onNavigateToBlogIndex()}
+                  className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-200 hover:scale-105 ${
+                    darkMode 
+                      ? 'bg-teal-600 hover:bg-teal-700 text-white shadow-lg hover:shadow-xl' 
+                      : 'bg-teal-500 hover:bg-teal-600 text-white shadow-md hover:shadow-lg'
+                  }`}
+                >
+                  <span>Ver todos los artículos</span>
+                  <span className="text-lg">→</span>
+                </button>
+              </div>
             </div>
         )}
         {/* Productos recomendados automáticos - ELIMINADO */}
