@@ -87,7 +87,7 @@ export const REAL_PRODUCT_REVIEWS: RealReview[] = [
     ],
     personalExperience: `He usado este reloj durante 6 meses en navegaciones por las Baleares. La precisión del GPS es impresionante - incluso en calas estrechas con rocas. La función de "Track Back" me salvó en una niebla densa cerca de Menorca. La batería dura perfectamente para travesías de 3-4 días sin recarga.`,
     photos: [
-      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop&crop=center",
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop&crop=center"
     ],
     purchaseDate: "2024-03-15",
@@ -156,7 +156,7 @@ const NAUTICAL_IMAGES = {
   sailing_boat: 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=800&h=400&fit=crop&crop=center',
   yacht_sailing: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
   boat_harbor: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
-  marina_boats: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  marina_boats: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop&crop=center',
   
   // Océano y mar
   ocean_waves: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
@@ -166,7 +166,7 @@ const NAUTICAL_IMAGES = {
   
   // Costa y playas
   coastal_view: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  beach_crystal: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&h=400&fit=crop&crop=center',
+  beach_crystal: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center', // REEMPLAZADA: Barco en aguas cristalinas
   rocky_coast: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
   
   // Islas y destinos
@@ -178,16 +178,16 @@ const NAUTICAL_IMAGES = {
   snorkeling: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center',
   scuba_diving: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
   fishing_boat: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  water_sports: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&h=400&fit=crop&crop=center',
+  water_sports: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center', // REEMPLAZADA: Barco con deportes acuáticos
   
   // Equipamiento náutico
   anchor_chain: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
-  navigation_compass: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  navigation_compass: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop&crop=center',
   life_vest: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
   safety_equipment: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
   
   // Tecnología marina
-  marine_electronics: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  marine_electronics: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop&crop=center',
   gps_navigation: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
   
   // Sostenibilidad marina
@@ -198,7 +198,7 @@ const NAUTICAL_IMAGES = {
   // Familia y mascotas en barco
   family_sailing: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
   pets_on_boat: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=800&h=400&fit=crop&crop=center',
-  kids_swimming: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&h=400&fit=crop&crop=center',
+  kids_swimming: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center', // REEMPLAZADA: Familia en barco
   
   // Puestas de sol y amaneceres marítimos
   sunset_sea: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
@@ -206,7 +206,7 @@ const NAUTICAL_IMAGES = {
   
   // Aventuras marítimas
   sailing_adventure: 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=800&h=400&fit=crop&crop=center',
-  nautical_equipment: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  nautical_equipment: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop&crop=center',
   
   // Elementos marítimos adicionales
   lighthouse: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
@@ -217,26 +217,26 @@ const NAUTICAL_IMAGES = {
   // Alias para compatibilidad (usando imágenes únicas)
   boat_sailing: 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=800&h=400&fit=crop&crop=center',
   yacht_luxury: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
-  navigation: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  compass: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  navigation: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop&crop=center',
+  compass: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop&crop=center',
   anchor: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
   fishing: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
   diving: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
-  wakeboarding: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&h=400&fit=crop&crop=center',
-  paddle_surf: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&h=400&fit=crop&crop=center',
+  wakeboarding: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center', // REEMPLAZADA: Barco con deportes acuáticos
+  paddle_surf: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center', // REEMPLAZADA: Barco con deportes acuáticos
   underwater_photography: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
-  action_camera: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  boat_maintenance: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  action_camera: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop&crop=center',
+  boat_maintenance: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop&crop=center',
   emergency_equipment: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
   gps_marine: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
-  navigation_tools: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  navigation_tools: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop&crop=center',
   garmin_watch: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
   solar_charger: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
   rope: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
-  binoculars: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  binoculars: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop&crop=center',
   first_aid: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
   flares: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
-  radio: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  radio: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop&crop=center',
   fire_extinguisher: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
   balearic_islands: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
   island: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
@@ -338,7 +338,13 @@ const getImageByCategory = (tags: string[]): string => {
     'playa': NAUTICAL_IMAGES.beach_crystal,
     'isla': NAUTICAL_IMAGES.island,
     'cala': NAUTICAL_IMAGES.cove,
-    'puerto': NAUTICAL_IMAGES.marina
+    'puerto': NAUTICAL_IMAGES.marina,
+    
+    // Reviews y productos
+    'reviews': NAUTICAL_IMAGES.marine_electronics,
+    'productos': NAUTICAL_IMAGES.nautical_equipment,
+    'test': NAUTICAL_IMAGES.marine_electronics,
+    'experiencias': NAUTICAL_IMAGES.sailing_adventure,
   };
 
   // Buscar la primera coincidencia específica
@@ -3438,7 +3444,7 @@ Después de pasar la última temporada navegando por las Baleares y la Costa Bra
 
 ## 🧭 Garmin fēnix 7 GPS Multideporte - Mi Navegador Personal
 
-![Garmin fēnix 7 GPS Multideporte](https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop&crop=center)
+![Garmin fēnix 7 GPS Multideporte](https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop&crop=center)
 
 Mi experiencia con este reloj ha sido increíble. Lo he usado durante 6 meses y se ha convertido en una extensión de mi brazo. La precisión de su GPS es impresionante, incluso en calas estrechas con rocas. Recuerdo una mañana de niebla muy densa cerca de Menorca donde la función de "Track Back" me salvó de una situación complicada.
 
@@ -4687,7 +4693,7 @@ const createOptimizedImage = (url: string, alt: string, width: number = 800, hei
 const OPTIMIZED_NAUTICAL_IMAGES: { [key: string]: OptimizedImage } = {
   // 🧭 Navegación y GPS
   gps_navigation: createOptimizedImage(
-    'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
+    'https://images.unsplash.com/photo-1469474968028-56623f02e42e',
     'GPS náutico profesional para navegación segura',
     800, 400
   ),
@@ -4736,7 +4742,7 @@ const OPTIMIZED_NAUTICAL_IMAGES: { [key: string]: OptimizedImage } = {
   
   // 🎣 Pesca y Deportes
   fishing_boat: createOptimizedImage(
-    'https://images.unsplash.com/photo-1530549387789-4c1017266635',
+    'https://images.unsplash.com/photo-1566073771259-6a8506099945', // REEMPLAZADA: Barco con pesca
     'Pesca recreativa desde el barco',
     800, 400
   )
