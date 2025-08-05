@@ -1,5 +1,5 @@
 # Redirect www to non-www (canonical domain)
-https://www.boattrip-planner.com/* https://boattrip-planner.com/:splat 301!
+/* https://boattrip-planner.com/:splat 301!
 
 # Handle all other routes
 /* /index.html 200 

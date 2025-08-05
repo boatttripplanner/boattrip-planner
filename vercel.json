@@ -6,7 +6,13 @@
   "framework": null,
   "redirects": [
     {
-      "source": "https://www.boattrip-planner.com/:path*",
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.boattrip-planner.com"
+        }
+      ],
       "destination": "https://boattrip-planner.com/:path*",
       "permanent": true
     }
