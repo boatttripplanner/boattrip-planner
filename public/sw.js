@@ -9,9 +9,13 @@ const DYNAMIC_CACHE = 'dynamic-v1.2.0';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/alex5.svg',
+  '/favicon.svg',
+  '/favicon.ico',
+  '/favicon-96x96.png',
   '/site.webmanifest',
-  '/browserconfig.xml'
+  '/browserconfig.xml',
+  '/web-app-manifest-192x192.png',
+  '/web-app-manifest-512x512.png'
 ];
 
 // Recursos de terceros para cache

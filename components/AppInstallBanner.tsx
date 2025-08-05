@@ -21,6 +21,13 @@ const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onClose }) => {
       return;
     }
 
+    // Verificar si el usuario ya cerró el banner
+    const hasUserClosedBanner = localStorage.getItem('appInstallBannerClosed') === 'true';
+    if (hasUserClosedBanner) {
+      console.log('🚫 Usuario cerró el banner anteriormente');
+      return;
+    }
+
     // Escuchar el evento beforeinstallprompt
     const handleBeforeInstallPrompt = (e: Event) => {
       console.log('🎯 beforeinstallprompt event fired');
@@ -33,11 +40,19 @@ const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onClose }) => {
       console.log('✅ App instalada exitosamente');
       localStorage.setItem('appInstalled', 'true');
       localStorage.removeItem('appInstallBannerClosed');
+      onClose(); // Cerrar el banner inmediatamente
     };
 
     // Verificar si el navegador soporta PWA
     const isPWAInstallable = 'serviceWorker' in navigator && 'PushManager' in window;
     console.log('🔍 PWA installable:', isPWAInstallable);
+
+    // Verificar si el Service Worker está registrado
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistration().then(registration => {
+        console.log('🔧 Service Worker registrado:', !!registration);
+      });
+    }
 
     if (isPWAInstallable) {
       window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -50,7 +65,7 @@ const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onClose }) => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
     };
-  }, []);
+  }, [onClose]);
 
   const handleInstallClick = async () => {
     console.log('🚀 Intentando instalar PWA...');

@@ -692,8 +692,14 @@ const App: React.FC = () => {
     setCurrentView(AppView.MAIN_APP);
     setCurrentBlogPostSlug(null);
     updateURL(AppView.MAIN_APP);
-    // Scroll to top when transitioning from landing page to planner
-    window.scrollTo(0, 0);
+    
+    // Scroll suave al principio cuando se transiciona de landing page al wizard
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 100); // Pequeño delay para asegurar que el DOM se ha actualizado
   }, [updateURL]);
   
   const handleNavigateToBlogIndex = useCallback(() => {
