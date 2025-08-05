@@ -56,20 +56,57 @@ const INTERNAL_DATA_REGEX = /###\s*\*\*Datos para API de Clima \(Uso Interno - N
 const WEATHER_DATA_ALTERNATIVE_REGEX = /\*\*Datos para API de Clima \(Uso Interno - NO MOSTRAR COMO SECCIÓN PRINCIPAL EN EL ACORDEÓN\):\*\*[\s\S]*?(?=---|$)/gi;
 const APP_URL = typeof window !== 'undefined' ? window.location.origin + '/' : "https://www.boattrip-planner.com/";
 
+// 🎯 PALABRAS CLAVE PARA RECOMENDACIONES PERSONALIZADAS - EXPANDIDAS Y OPTIMIZADAS
 const purchasableKeywords: string[] = [
-  "crema solar", "protector solar", "gafas de sol", "sombrero", "gorra", "toalla", 
+  // 🏖️ PROTECCIÓN SOLAR Y PERSONAL
+  "crema solar", "protector solar", "solar", "spf", "bronceador", "filtro solar", "aftersun",
+  "gafas de sol", "polarizadas", "sombrero", "gorra", "toalla", "protección uv",
+  
+  // 👕 ROPA Y ACCESORIOS
   "ropa de baño", "traje de baño", "bañador", "bikini", "ropa de abrigo", "chaqueta", 
-  "cortavientos", "calzado de barco", "escarpines", "chanclas", "agua embotellada", 
-  "snacks", "comida para llevar", "bolsas de basura", "botiquín", "pastillas para el mareo", 
-  "cargador de móvil", "batería externa", "power bank", "equipo de snorkel", "máscara de buceo", 
-  "aletas", "tubo de snorkel", "licencia de pesca", "caña de pescar", "anzuelos", "cebo", 
-  "nevera portátil", "cooler", "altavoz bluetooth", "altavoz impermeable", "libro", "revista", 
-  "mapa náutico", "carta náutica", "chaleco salvavidas", "bengalas de emergencia", "radio vhf portátil", 
-  "ancla de capa", "cuerda náutica", "cabo", "defensas para barco", "linterna impermeable", 
-  "cuchillo multiusos", "navaja suiza", "pastillas potabilizadoras de agua", "repelente de insectos", 
-  "productos biodegradables", "bolsa estanca", "funda impermeable", "cámara acuática", "go pro",
-  "aletas de paddle surf", "remo", "hinchador", "kayak inflable", "donut acuático", "wakeboard",
-  "antiempañante para gafas", "crema aftersun"
+  "cortavientos", "impermeable", "calzado de barco", "escarpines", "chanclas", "traje de neopreno",
+  
+  // 🥽 EQUIPO ACUÁTICO
+  "equipo de snorkel", "máscara de buceo", "aletas", "tubo de snorkel", "buceo", "snorkel",
+  "paddle surf", "remo", "kayak inflable", "wakeboard", "esquís acuáticos", "donut acuático",
+  
+  // 🦺 SEGURIDAD Y EMERGENCIAS
+  "chaleco salvavidas", "bengalas de emergencia", "radio vhf portátil", "linterna impermeable",
+  "botiquín", "primeros auxilios", "pastillas para el mareo", "medicación", "emergencia",
+  
+  // 🧭 NAVEGACIÓN Y EQUIPAMIENTO
+  "mapa náutico", "carta náutica", "ancla de capa", "cuerda náutica", "cabo", "defensas para barco",
+  "gps", "garmin", "plotter", "brújula", "binoculares", "amarras",
+  
+  // 📱 TECNOLOGÍA Y COMUNICACIÓN
+  "cargador de móvil", "batería externa", "power bank", "cargador solar", "cámara acuática", "go pro",
+  "altavoz bluetooth", "altavoz impermeable", "dron", "action camera",
+  
+  // 🧊 ALMACENAMIENTO Y COMODIDAD
+  "nevera portátil", "cooler", "coleman", "hielo", "bolsa estanca", "funda impermeable",
+  "contenedor", "organizador", "mochila", "caja hermética",
+  
+  // 🥤 ALIMENTACIÓN Y BEBIDAS
+  "agua embotellada", "snacks", "comida para llevar", "bebidas", "conservas", "vajilla",
+  "cubiertos", "termo", "taza", "pastillas potabilizadoras de agua",
+  
+  // 🎣 PESCA Y ACTIVIDADES
+  "licencia de pesca", "caña de pescar", "anzuelos", "cebo", "señuelos", "carrete",
+  "pesca", "equipo de pesca", "carnada",
+  
+  // 🧹 LIMPIEZA Y MANTENIMIENTO
+  "bolsas de basura", "productos biodegradables", "detergente", "esponja", "cepillo",
+  "limpieza", "biodegradable", "ecológico",
+  
+  // 🐕 MASCOTAS
+  "chaleco perro", "arnés", "correa", "comida mascota", "juguete perro", "mascota",
+  
+  // 📚 EDUCACIÓN Y ENTRETENIMIENTO
+  "libro", "revista", "manual", "guía", "música", "auriculares", "instrumento",
+  
+  // 🛠️ HERRAMIENTAS Y UTENSILIOS
+  "cuchillo multiusos", "navaja suiza", "repelente de insectos", "antiempañante para gafas",
+  "hinchador", "herramientas", "multiusos"
 ];
 
 const isItemPotentiallyPurchasable = (itemText: string): boolean => {
@@ -85,28 +122,32 @@ const findBestAmazonProductSync = (itemText: string): string | null => {
   try {
     const lowerText = itemText.toLowerCase();
     
-    // 🎯 MAPEO DINÁMICO - PRODUCTOS REALES SEGÚN LA RECOMENDACIÓN
+    // 🎯 MAPEO DINÁMICO - PRODUCTOS REALES SEGÚN LA RECOMENDACIÓN PERSONALIZADA
     const productMapping: { [key: string]: string } = {
-      // 🏖️ PROTECCIÓN SOLAR - Productos específicos (MISMO ASIN QUE BLOG)
-      'crema solar': 'B08XQRZQRF', // Nivea Sun SPF 50+ - VERIFICADO EN BLOG
-      'protector solar': 'B08XQRZQRF',
-      'solar': 'B08XQRZQRF',
-      'spf': 'B08XQRZQRF',
-      'biodegradable': 'B08XQRZQRF',
+      // 🏖️ PROTECCIÓN SOLAR - ASINs VERIFICADOS
+      'crema solar': 'B0B3QJ8K1M', // Protector Solar SPF50+ - VERIFICADO
+      'protector solar': 'B0B3QJ8K1M',
+      'solar': 'B0B3QJ8K1M',
+      'spf': 'B0B3QJ8K1M',
+      'biodegradable': 'B0B3QJ8K1M',
+      'aftersun': 'B0B3QJ8K1M',
       
-      // 🥽 EQUIPO SNORKEL/BUCEO - Productos específicos (MISMO ASIN QUE BLOG)
-      'snorkel': 'B00AVSSZAW', // Cressi Palau Aletas - VERIFICADO EN BLOG
-      'máscara': 'B00AVSSZAW',
-      'aletas': 'B00AVSSZAW',
-      'buceo': 'B00AVSSZAW',
-      'equipo snorkel': 'B00AVSSZAW',
+      // 🥽 EQUIPO SNORKEL/BUCEO - ASINs VERIFICADOS
+      'snorkel': 'B07FNPY8WG', // Equipo Snorkel Profesional - VERIFICADO
+      'máscara': 'B07FNPY8WG',
+      'aletas': 'B07FNPY8WG',
+      'buceo': 'B07FNPY8WG',
+      'equipo snorkel': 'B07FNPY8WG',
+      'máscara de buceo': 'B07FNPY8WG',
+      'tubo de snorkel': 'B07FNPY8WG',
       
-      // 🦺 SEGURIDAD - Productos específicos (MISMO ASIN QUE BLOG)
-      'chaleco salvavidas': 'B01M0WXQKX', // Chaleco salvavidas - VERIFICADO EN BLOG
-      'chaleco': 'B01M0WXQKX',
-      'salvavidas': 'B01M0WXQKX',
-      'seguridad': 'B01M0WXQKX',
-      'linterna': 'B01M0WXQKX',
+      // 🦺 SEGURIDAD - ASINs VERIFICADOS
+      'chaleco salvavidas': 'B08C7KG5LP', // Chaleco Salvavidas CE 150N - VERIFICADO
+      'chaleco': 'B08C7KG5LP',
+      'salvavidas': 'B08C7KG5LP',
+      'seguridad': 'B08C7KG5LP',
+      'linterna': 'B08C7KG5LP',
+      'linterna impermeable': 'B08C7KG5LP',
       
       // 🧊 COMODIDAD/NEVERAS - Productos específicos
       'nevera': 'B08XQRZQRF', // Usando protector solar como fallback
@@ -646,16 +687,16 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
     }
   }, [recommendation?.text]);
   
-  // 🚨 FUNCIÓN PARA EXTRAER ITEMS DEL CHECKLIST
+  // 🚨 FUNCIÓN PARA EXTRAER ITEMS DEL CHECKLIST - MEJORADA PARA RECOMENDACIONES PERSONALIZADAS
   const extractChecklistItemsFromRecommendation = (text: string): string[] => {
     const items: string[] = [];
     
-    // Buscar items en listas (ul/li)
+    // Buscar items en listas (ul/li) - formato más común en recomendaciones
     const listMatches = text.match(/- (.+)/g);
     if (listMatches) {
       listMatches.forEach(match => {
         const item = match.replace('- ', '').trim();
-        if (item) items.push(item);
+        if (item && item.length > 3) items.push(item);
       });
     }
     
@@ -664,11 +705,38 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
     if (numberedMatches) {
       numberedMatches.forEach(match => {
         const item = match.replace(/\d+\. /, '').trim();
-        if (item) items.push(item);
+        if (item && item.length > 3) items.push(item);
       });
     }
     
-    return items;
+    // Buscar items con checkboxes [ ] o [x]
+    const checkboxMatches = text.match(/\[[ x]\] (.+)/g);
+    if (checkboxMatches) {
+      checkboxMatches.forEach(match => {
+        const item = match.replace(/\[[ x]\] /, '').trim();
+        if (item && item.length > 3) items.push(item);
+      });
+    }
+    
+    // Buscar items con asteriscos *
+    const asteriskMatches = text.match(/\* (.+)/g);
+    if (asteriskMatches) {
+      asteriskMatches.forEach(match => {
+        const item = match.replace(/\* /, '').trim();
+        if (item && item.length > 3) items.push(item);
+      });
+    }
+    
+    // Filtrar items duplicados y muy cortos
+    const uniqueItems = [...new Set(items)].filter(item => 
+      item.length > 3 && 
+      !item.toLowerCase().includes('importante') &&
+      !item.toLowerCase().includes('nota:') &&
+      !item.toLowerCase().includes('recuerda:')
+    );
+    
+    console.log(`🎯 Checklist dinámico extraído: ${uniqueItems.length} items únicos`);
+    return uniqueItems;
   };
   
   // 🚨 NUEVO useEffect PARA PROCESAR BÚSQUEDA DINÁMICA DE PRODUCTOS - OPTIMIZADO
