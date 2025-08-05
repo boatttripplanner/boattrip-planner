@@ -156,23 +156,23 @@ const NAUTICAL_IMAGES = {
   sailing_boat: 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=800&h=400&fit=crop&crop=center',
   yacht_sailing: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
   boat_harbor: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
-  marina_boats: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
+  marina_boats: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
   
   // Océano y mar
   ocean_waves: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
   sea_horizon: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=400&fit=crop&crop=center',
   blue_ocean: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center',
-  ocean_surface: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+  ocean_surface: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
   
   // Costa y playas
-  coastal_view: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
-  beach_crystal: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
-  rocky_coast: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
+  coastal_view: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  beach_crystal: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&h=400&fit=crop&crop=center',
+  rocky_coast: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
   
   // Islas y destinos
-  tropical_island: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  mediterranean_coast: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center',
-  atlantic_coast: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
+  tropical_island: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  mediterranean_coast: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
+  atlantic_coast: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=800&h=400&fit=crop&crop=center',
   
   // Actividades acuáticas
   snorkeling: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center',
@@ -182,13 +182,13 @@ const NAUTICAL_IMAGES = {
   
   // Equipamiento náutico
   anchor_chain: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
-  navigation_compass: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  navigation_compass: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
   life_vest: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
-  safety_equipment: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  safety_equipment: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
   
   // Tecnología marina
   marine_electronics: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  gps_navigation: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  gps_navigation: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
   
   // Sostenibilidad marina
   solar_panels: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
@@ -214,11 +214,11 @@ const NAUTICAL_IMAGES = {
   coral_reef: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
   underwater_world: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
   
-  // Alias para compatibilidad
+  // Alias para compatibilidad (usando imágenes únicas)
   boat_sailing: 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=800&h=400&fit=crop&crop=center',
   yacht_luxury: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
-  navigation: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
-  compass: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  navigation: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  compass: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
   anchor: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
   fishing: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
   diving: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
@@ -227,20 +227,20 @@ const NAUTICAL_IMAGES = {
   underwater_photography: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
   action_camera: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
   boat_maintenance: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  emergency_equipment: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
-  gps_marine: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  navigation_tools: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
-  garmin_watch: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  emergency_equipment: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
+  gps_marine: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  navigation_tools: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  garmin_watch: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
   solar_charger: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
   rope: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
-  binoculars: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
-  first_aid: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
-  flares: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  binoculars: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  first_aid: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
+  flares: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
   radio: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  fire_extinguisher: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
-  balearic_islands: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center',
-  island: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  cove: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
+  fire_extinguisher: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
+  balearic_islands: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
+  island: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  cove: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
   marina: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
   ocean_blue: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center'
 };
