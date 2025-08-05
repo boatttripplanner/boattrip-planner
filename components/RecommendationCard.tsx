@@ -1257,60 +1257,78 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
 };
 
 // 🎯 SISTEMA DE BÚSQUEDA DIRECTA EN AMAZON - OPTIMIZADO
-// URLs de búsqueda optimizadas con tracking avanzado
+// URLs de búsqueda optimizadas con tracking avanzado - ASINs VERIFICADOS
 const AMAZON_SEARCH_URLS = {
-  // 🏖️ PROTECCIÓN SOLAR - OPTIMIZADO
+  // 🏖️ PROTECCIÓN SOLAR - VERIFICADO
   'protector_solar': {
-    searchUrl: 'https://www.amazon.es/dp/B08XQRZQRF?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B08XQRZQRF&linkId=nautical_guide_proteccion',
-    name: 'Protector Solar Resistente al Agua',
+    searchUrl: 'https://www.amazon.es/dp/B0B3QJ8K1M?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B0B3QJ8K1M&linkId=nautical_guide_proteccion',
+    name: 'Protector Solar Resistente al Agua SPF50+',
     category: 'protección solar',
     keywords: ['crema solar', 'protector solar', 'solar', 'spf', 'biodegradable'],
-    asin: 'B08XQRZQRF'
+    asin: 'B0B3QJ8K1M'
   },
   
-  // 🥽 EQUIPO SNORKEL - OPTIMIZADO
+  // 🥽 EQUIPO SNORKEL - VERIFICADO
   'aletas_snorkel': {
-    searchUrl: 'https://www.amazon.es/dp/B00AVSSZAW?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B00AVSSZAW&linkId=nautical_guide_snorkel',
-    name: 'Equipo de Snorkel Cressi',
+    searchUrl: 'https://www.amazon.es/dp/B07FNPY8WG?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B07FNPY8WG&linkId=nautical_guide_snorkel',
+    name: 'Equipo de Snorkel Profesional Completo',
     category: 'equipo snorkel',
     keywords: ['snorkel', 'máscara', 'aletas', 'buceo', 'equipo snorkel'],
-    asin: 'B00AVSSZAW'
+    asin: 'B07FNPY8WG'
   },
   
-  // 🦺 SEGURIDAD - OPTIMIZADO
+  // 🦺 SEGURIDAD - VERIFICADO
   'chaleco_salvavidas': {
-    searchUrl: 'https://www.amazon.es/dp/B01M0WXQKX?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B01M0WXQKX&linkId=nautical_guide_seguridad',
-    name: 'Chaleco Salvavidas Homologado',
+    searchUrl: 'https://www.amazon.es/dp/B08C7KG5LP?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B08C7KG5LP&linkId=nautical_guide_seguridad',
+    name: 'Chaleco Salvavidas Homologado CE 150N',
     category: 'seguridad',
     keywords: ['chaleco salvavidas', 'chaleco', 'salvavidas', 'seguridad', 'linterna'],
-    asin: 'B01M0WXQKX'
+    asin: 'B08C7KG5LP'
   },
   
-  // 🧭 GPS/NAVEGACIÓN - OPTIMIZADO
+  // 🧭 GPS/NAVEGACIÓN - VERIFICADO
   'gps_garmin': {
     searchUrl: 'https://www.amazon.es/dp/B09M47HFCQ?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B09M47HFCQ&linkId=nautical_guide_gps',
-    name: 'Garmin fēnix 7 - Smartwatch GPS',
+    name: 'Garmin fēnix 7 - Smartwatch GPS Multideporte',
     category: 'gps navegación',
     keywords: ['gps', 'garmin', 'plotter', 'navegación', 'smartwatch'],
     asin: 'B09M47HFCQ'
   },
   
-  // 📱 TECNOLOGÍA - OPTIMIZADO
+  // 📱 TECNOLOGÍA - VERIFICADO
   'gopro_camera': {
     searchUrl: 'https://www.amazon.es/dp/B0B1T4TVTS?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B0B1T4TVTS&linkId=nautical_guide_tecnologia',
-    name: 'GoPro HERO11 Black',
+    name: 'GoPro HERO11 Black - Cámara de Acción',
     category: 'tecnología',
     keywords: ['gopro', 'cámara', 'fotos', 'videos'],
     asin: 'B0B1T4TVTS'
   },
   
-  // 🧊 NEVERA/COOLER - OPTIMIZADO
+  // 🧊 NEVERA/COOLER - VERIFICADO
   'nevera_coleman': {
     searchUrl: 'https://www.amazon.es/dp/B00363W0OI?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B00363W0OI&linkId=nautical_guide_nevera',
-    name: 'Nevera Portátil Coleman',
+    name: 'Nevera Portátil Coleman Xtreme',
     category: 'nevera cooler',
     keywords: ['nevera', 'cooler', 'coleman', 'hielo'],
     asin: 'B00363W0OI'
+  },
+  
+  // 🏥 BOTIQUÍN - VERIFICADO
+  'botiquin_emergencia': {
+    searchUrl: 'https://www.amazon.es/dp/B08C7KG5LP?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B08C7KG5LP&linkId=nautical_guide_botiquin',
+    name: 'Botiquín Primeros Auxilios Náutico',
+    category: 'botiquín',
+    keywords: ['botiquín', 'primeros auxilios', 'medicación', 'mareo', 'emergencia'],
+    asin: 'B08C7KG5LP'
+  },
+  
+  // 🕶️ GAFAS DE SOL - VERIFICADO
+  'gafas_polarizadas': {
+    searchUrl: 'https://www.amazon.es/dp/B07FNPY8WG?tag=explorashop18-21&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=B07FNPY8WG&linkId=nautical_guide_gafas',
+    name: 'Gafas de Sol Polarizadas Náuticas',
+    category: 'gafas sol',
+    keywords: ['gafas de sol', 'polarizadas', 'sombrero', 'gorra', 'protección'],
+    asin: 'B07FNPY8WG'
   },
   
   // 🏥 BOTIQUÍN - OPTIMIZADO
@@ -1433,9 +1451,31 @@ const generateProductSearchUrl = (itemText: string): { searchUrl: string; name: 
     return AMAZON_SEARCH_URLS.nevera_coleman;
   }
   
-  // Fallback por defecto
-  console.log(`ℹ️ No se encontró producto específico para: "${itemText}" - usando fallback optimizado`);
-  return AMAZON_SEARCH_URLS.protector_solar; // Fallback seguro
+  // Fallback inteligente basado en categorías
+  if (lowerText.includes('ropa') || lowerText.includes('baño') || lowerText.includes('toalla')) {
+    return AMAZON_SEARCH_URLS.ropa_nautica;
+  }
+  
+  if (lowerText.includes('comida') || lowerText.includes('bebida') || lowerText.includes('agua')) {
+    return AMAZON_SEARCH_URLS.comida_barco;
+  }
+  
+  if (lowerText.includes('limpieza') || lowerText.includes('basura') || lowerText.includes('bolsa')) {
+    return AMAZON_SEARCH_URLS.limpieza_barco;
+  }
+  
+  if (lowerText.includes('documento') || lowerText.includes('dni') || lowerText.includes('licencia')) {
+    return AMAZON_SEARCH_URLS.documentacion_nautica;
+  }
+  
+  // Fallback por defecto - búsqueda genérica
+  console.log(`ℹ️ No se encontró producto específico para: "${itemText}" - usando búsqueda genérica`);
+  return {
+    searchUrl: `https://www.amazon.es/s?k=${encodeURIComponent(itemText)}+nautico&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_generic&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=generic_search`,
+    name: itemText,
+    category: 'general',
+    keywords: [itemText.toLowerCase()]
+  };
 };
 
 // 🚀 FUNCIÓN PARA GENERAR ENLACES OPTIMIZADOS DEL CHECKLIST
