@@ -210,11 +210,17 @@
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', async () => {
           try {
-            // Ensure we're on the correct domain
+            // Ensure we're on the correct domain and avoid redirects
             const currentOrigin = window.location.origin;
             const swUrl = `${currentOrigin}/sw.js`;
             
             console.log('🔧 Registering Service Worker from:', swUrl);
+            
+            // Check if the SW file is accessible without redirects
+            const swResponse = await fetch(swUrl, { method: 'HEAD' });
+            if (!swResponse.ok) {
+              throw new Error(`Service Worker file not accessible: ${swResponse.status}`);
+            }
             
             const registration = await navigator.serviceWorker.register(swUrl, { 
               scope: '.',

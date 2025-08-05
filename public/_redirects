@@ -1,5 +1,8 @@
 # Redirect www to non-www (canonical domain)
 /* https://boattrip-planner.com/:splat 301!
 
+# Exclude Service Worker from redirects
+/sw.js /sw.js 200
+
 # Handle all other routes
 /* /index.html 200 
