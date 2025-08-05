@@ -93,6 +93,14 @@ const customStyles = `
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
   
+  /* Estilos para line-clamp */
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
   /* Estilos para scroll horizontal en móvil */
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -494,16 +502,21 @@ const ArticleNavigation: React.FC<{
 
 const RelatedPostCard: React.FC<{ post: ParsedMarkdownPost, onNavigate: (slug: string) => void }> = ({ post, onNavigate }) => (
     <div 
-        className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col overflow-hidden cursor-pointer h-full flex-1"
+        className="group bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden cursor-pointer h-full border border-slate-200 dark:border-slate-700 hover:border-teal-300 dark:hover:border-teal-500"
         onClick={() => onNavigate(post.frontmatter.slug)}
     >
-        <div className="p-4 flex flex-col flex-grow">
-            <h4 className="text-md font-semibold text-slate-800 mb-2 group-hover:text-teal-700 transition-colors flex-grow">
+        <div className="p-4 md:p-5 flex flex-col flex-grow">
+            <h4 className="text-sm md:text-md font-semibold text-slate-800 dark:text-white mb-3 group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors flex-grow line-clamp-3">
                 {post.frontmatter.title}
             </h4>
-            <span className="text-teal-600 text-sm font-semibold self-start group-hover:text-teal-700 transition-colors">
-                Leer más &rarr;
-            </span>
+            <div className="flex items-center justify-between">
+                <span className="text-teal-600 dark:text-teal-400 text-xs md:text-sm font-semibold group-hover:text-teal-700 dark:group-hover:text-teal-300 transition-colors">
+                    Leer más →
+                </span>
+                <div className="w-6 h-6 bg-teal-100 dark:bg-teal-900 rounded-full flex items-center justify-center group-hover:bg-teal-200 dark:group-hover:bg-teal-800 transition-colors">
+                    <span className="text-teal-600 dark:text-teal-400 text-xs">→</span>
+                </div>
+            </div>
         </div>
     </div>
 );
@@ -1370,7 +1383,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
               <h3 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
                 Artículos Relacionados
               </h3>
-              <div className="flex flex-row gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                 {relatedPosts.map((relatedPost) => (
                         <RelatedPostCard 
                             key={relatedPost.frontmatter.slug}
