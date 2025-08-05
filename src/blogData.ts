@@ -150,7 +150,7 @@ export const REAL_PRODUCT_REVIEWS: RealReview[] = [
   }
 ];
 
-// URLs de imágenes náuticas apropiadas y verificadas
+// URLs de imágenes náuticas apropiadas y verificadas de Unsplash
 const NAUTICAL_IMAGES = {
   // Barcos y navegación
   boat_sailing: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
@@ -165,8 +165,8 @@ const NAUTICAL_IMAGES = {
   
   // Equipamiento náutico
   gps_marine: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  compass: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
-  life_jacket: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+  compass: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  life_jacket: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
   
   // Actividades acuáticas
   snorkeling: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
@@ -203,7 +203,7 @@ const NAUTICAL_IMAGES = {
   // Tecnología y equipamiento
   marine_electronics: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
   safety_equipment: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
-  navigation_tools: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  navigation_tools: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
   
   // Fotografía y multimedia
   underwater_photography: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
@@ -218,7 +218,29 @@ const NAUTICAL_IMAGES = {
   // Problemas y soluciones
   boat_maintenance: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
   emergency_equipment: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
-  weather_conditions: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center'
+  weather_conditions: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center',
+  
+  // Productos específicos náuticos
+  garmin_watch: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  solar_charger: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center',
+  life_vest: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  anchor: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  rope: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  binoculars: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  first_aid: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  flares: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center',
+  radio: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  fire_extinguisher: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  
+  // Imágenes marítimas universales (siempre relacionadas con el mar)
+  sailing_boat: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  ocean_waves: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+  sunset_sea: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  marina_boats: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
+  coastal_view: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
+  sailing_adventure: 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=800&h=400&fit=crop&crop=center',
+  nautical_equipment: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  sea_horizon: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=400&fit=crop&crop=center'
 };
 
 // Función para obtener imagen por categoría
@@ -248,6 +270,10 @@ const getImageByCategory = (tags: string[]): string => {
     'equipamiento': NAUTICAL_IMAGES.marine_electronics,
     'seguridad': NAUTICAL_IMAGES.safety_equipment,
     'herramientas': NAUTICAL_IMAGES.navigation_tools,
+    'chaleco': NAUTICAL_IMAGES.life_vest,
+    'salvavidas': NAUTICAL_IMAGES.life_vest,
+    'emergencia': NAUTICAL_IMAGES.emergency_equipment,
+    'proteccion': NAUTICAL_IMAGES.safety_equipment,
     
     // Deportes
     'deportes': NAUTICAL_IMAGES.snorkeling,
@@ -262,6 +288,10 @@ const getImageByCategory = (tags: string[]): string => {
     'tecnologia': NAUTICAL_IMAGES.marine_electronics,
     'gps': NAUTICAL_IMAGES.gps_marine,
     'apps': NAUTICAL_IMAGES.marine_electronics,
+    'garmin': NAUTICAL_IMAGES.garmin_watch,
+    'reloj': NAUTICAL_IMAGES.garmin_watch,
+    'cargador': NAUTICAL_IMAGES.solar_charger,
+    'solar': NAUTICAL_IMAGES.solar_charger,
     
     // Fotografía
     'fotografía': NAUTICAL_IMAGES.underwater_photography,
@@ -274,6 +304,11 @@ const getImageByCategory = (tags: string[]): string => {
     'soluciones': NAUTICAL_IMAGES.emergency_equipment,
     'mantenimiento': NAUTICAL_IMAGES.boat_maintenance,
     'reparaciones': NAUTICAL_IMAGES.boat_maintenance,
+    'ancla': NAUTICAL_IMAGES.anchor,
+    'cuerda': NAUTICAL_IMAGES.rope,
+    'prismáticos': NAUTICAL_IMAGES.binoculars,
+    'radio': NAUTICAL_IMAGES.radio,
+    'extintor': NAUTICAL_IMAGES.fire_extinguisher,
     
     // Navegación general
     'navegación': NAUTICAL_IMAGES.navigation,
@@ -283,7 +318,7 @@ const getImageByCategory = (tags: string[]): string => {
     'yate': NAUTICAL_IMAGES.yacht_luxury
   };
 
-  // Buscar la primera coincidencia
+  // Buscar la primera coincidencia específica
   for (const tag of tags) {
     const lowerTag = tag.toLowerCase();
     for (const [key, image] of Object.entries(categoryMap)) {
@@ -293,8 +328,21 @@ const getImageByCategory = (tags: string[]): string => {
     }
   }
   
-  // Imagen por defecto
-  return NAUTICAL_IMAGES.boat_sailing;
+  // Si no encuentra coincidencia específica, usar imágenes marítimas universales
+  const maritimeFallbacks = [
+    NAUTICAL_IMAGES.sailing_boat,
+    NAUTICAL_IMAGES.ocean_waves,
+    NAUTICAL_IMAGES.sunset_sea,
+    NAUTICAL_IMAGES.marina_boats,
+    NAUTICAL_IMAGES.coastal_view,
+    NAUTICAL_IMAGES.sailing_adventure,
+    NAUTICAL_IMAGES.nautical_equipment,
+    NAUTICAL_IMAGES.sea_horizon
+  ];
+  
+  // Seleccionar una imagen marítima aleatoria como fallback
+  const randomIndex = Math.floor(Math.random() * maritimeFallbacks.length);
+  return maritimeFallbacks[randomIndex];
 };
 
 // Función para obtener imagen por producto
@@ -306,9 +354,10 @@ const getImageByProduct = (productName: string): string => {
     'protector solar perro': NAUTICAL_IMAGES.pets_on_boat,
     
     // Seguridad
-    'chaleco salvavidas': NAUTICAL_IMAGES.safety_equipment,
-    'botiquín': NAUTICAL_IMAGES.safety_equipment,
-    'bengalas': NAUTICAL_IMAGES.emergency_equipment,
+    'chaleco salvavidas': NAUTICAL_IMAGES.life_vest,
+    'botiquín': NAUTICAL_IMAGES.first_aid,
+    'bengalas': NAUTICAL_IMAGES.flares,
+    'extintor': NAUTICAL_IMAGES.fire_extinguisher,
     
     // Deportes acuáticos
     'equipo buceo': NAUTICAL_IMAGES.scuba_diving,
@@ -320,13 +369,15 @@ const getImageByProduct = (productName: string): string => {
     'gps náutico': NAUTICAL_IMAGES.gps_marine,
     'cartas náuticas': NAUTICAL_IMAGES.navigation_tools,
     'compás náutico': NAUTICAL_IMAGES.compass,
-    'radio VHF': NAUTICAL_IMAGES.marine_electronics,
+    'radio VHF': NAUTICAL_IMAGES.radio,
+    'garmin': NAUTICAL_IMAGES.garmin_watch,
+    'reloj gps': NAUTICAL_IMAGES.garmin_watch,
     
     // Sostenibilidad
     'panel solar': NAUTICAL_IMAGES.solar_panels,
     'detergente biodegradable': NAUTICAL_IMAGES.clean_ocean,
     'bombillas LED': NAUTICAL_IMAGES.marine_electronics,
-    'cargador solar': NAUTICAL_IMAGES.solar_panels,
+    'cargador solar': NAUTICAL_IMAGES.solar_charger,
     
     // Familia
     'chaleco salvavidas niños': NAUTICAL_IMAGES.kids_swimming,
@@ -340,8 +391,11 @@ const getImageByProduct = (productName: string): string => {
     
     // Herramientas
     'herramientas náuticas': NAUTICAL_IMAGES.navigation_tools,
-    'ancla marina': NAUTICAL_IMAGES.boat_maintenance,
+    'ancla marina': NAUTICAL_IMAGES.anchor,
     'equipo emergencia': NAUTICAL_IMAGES.emergency_equipment,
+    'cuerda': NAUTICAL_IMAGES.rope,
+    'ancla': NAUTICAL_IMAGES.anchor,
+    'prismáticos': NAUTICAL_IMAGES.binoculars,
     
     // Productos generales
     'protección solar': NAUTICAL_IMAGES.beach_crystal,
@@ -357,7 +411,21 @@ const getImageByProduct = (productName: string): string => {
     }
   }
   
-  return NAUTICAL_IMAGES.boat_sailing;
+  // Si no encuentra coincidencia específica, usar imágenes marítimas universales
+  const maritimeFallbacks = [
+    NAUTICAL_IMAGES.sailing_boat,
+    NAUTICAL_IMAGES.ocean_waves,
+    NAUTICAL_IMAGES.sunset_sea,
+    NAUTICAL_IMAGES.marina_boats,
+    NAUTICAL_IMAGES.coastal_view,
+    NAUTICAL_IMAGES.sailing_adventure,
+    NAUTICAL_IMAGES.nautical_equipment,
+    NAUTICAL_IMAGES.sea_horizon
+  ];
+  
+  // Seleccionar una imagen marítima aleatoria como fallback
+  const randomIndex = Math.floor(Math.random() * maritimeFallbacks.length);
+  return maritimeFallbacks[randomIndex];
 };
 
 // Helper function to get today's date in YYYY-MM-DD format

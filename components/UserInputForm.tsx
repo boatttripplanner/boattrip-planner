@@ -250,9 +250,9 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
   };
 
   return (
-    <div className={`w-full max-w-4xl mx-auto transition-all duration-300 ease-out ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''}`}>
+    <div className={`w-full max-w-4xl mx-auto transition-all duration-300 ease-out ${showAppInstallBanner ? 'pt-20 sm:pt-24 md:pt-28' : ''}`}>
       {/* Enhanced Header */}
-      <div className="text-center mb-6 sm:mb-8 animate-fade-in">
+      <div className={`text-center mb-6 sm:mb-8 animate-fade-in ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''}`}>
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 mb-3 sm:mb-4">
           Planifica tu{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-ocean-600 to-sea-600">

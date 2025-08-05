@@ -15,6 +15,7 @@ export default defineConfig({
     host: true,
     hmr: {
       overlay: false,
+      port: 5175,
     },
   },
   optimizeDeps: {

@@ -49,17 +49,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
             {/* Enhanced Typography - Optimizado para móvil */}
             <div className="animate-slide-up" style={{ animationDelay: '0.3s' }}>
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-7xl font-bold text-slate-800 mb-2 sm:mb-3 md:mb-4 lg:mb-6 leading-tight px-2">
-                Planifica tu
+                Planifica tu Ruta
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-ocean-600 via-sea-600 to-sunset-600 animate-pulse-slow">
-                  Aventura Náutica
+                  en Barco
                 </span>
               </h1>
             </div>
             
             <div className="animate-slide-up" style={{ animationDelay: '0.5s' }}>
               <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-slate-600 mb-3 sm:mb-4 md:mb-6 lg:mb-8 max-w-4xl mx-auto leading-relaxed px-3 sm:px-4">
-                Genera itinerarios personalizados para viajes en barco con inteligencia artificial, 
-                adaptados a tus preferencias y condiciones meteorológicas
+                Planifica tu ruta en barco con inteligencia artificial. Genera itinerarios personalizados, 
+                rutas marinas optimizadas y pronóstico del tiempo para tu viaje náutico
               </p>
             </div>
             
@@ -70,7 +70,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
                 variant="primary"
                 className="text-sm sm:text-base md:text-lg px-4 sm:px-6 md:px-8 lg:px-10 py-2.5 sm:py-3 md:py-4 lg:py-5 bg-gradient-to-r from-ocean-500 to-sea-500 hover:from-ocean-600 hover:to-sea-600 shadow-strong hover:shadow-glow-strong transform hover:-translate-y-1 transition-all duration-300 rounded-xl font-semibold w-full sm:w-auto max-w-xs sm:max-w-sm md:max-w-none"
               >
-                Comenzar a Planificar
+                Planificar Ruta en Barco
               </Button>
             </div>
 
@@ -121,10 +121,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
                 <div className="absolute -inset-2 bg-gradient-to-r from-ocean-400 to-ocean-600 rounded-lg sm:rounded-xl md:rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"></div>
               </div>
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-slate-800 mb-1.5 sm:mb-2 md:mb-3 lg:mb-4">
-                Itinerarios Inteligentes
+                Planificación de Rutas Marinas
               </h3>
               <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed">
-                Genera rutas personalizadas basadas en tus preferencias, experiencia y destino elegido con IA avanzada
+                Planifica tu ruta en barco con itinerarios inteligentes basados en tus preferencias, experiencia y destino elegido
               </p>
             </div>
 
