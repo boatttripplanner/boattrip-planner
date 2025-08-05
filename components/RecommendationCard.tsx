@@ -1399,21 +1399,7 @@ const AMAZON_SEARCH_URLS = {
     asin: 'B07FNPY8WG'
   },
   
-  // 🏥 BOTIQUÍN - OPTIMIZADO
-  'botiquin_emergencia': {
-    searchUrl: 'https://www.amazon.es/s?k=botiquin+primeros+auxilios+nautico&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_botiquin&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=botiquin',
-    name: 'Botiquín Primeros Auxilios',
-    category: 'botiquín',
-    keywords: ['botiquín', 'primeros auxilios', 'medicación', 'mareo']
-  },
-  
-  // 🕶️ GAFAS DE SOL - OPTIMIZADO
-  'gafas_polarizadas': {
-    searchUrl: 'https://www.amazon.es/s?k=gafas+sol+polarizadas+nauticas&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_gafas&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=gafas',
-    name: 'Gafas de Sol Polarizadas',
-    category: 'gafas sol',
-    keywords: ['gafas de sol', 'polarizadas', 'sombrero', 'gorra']
-  },
+
   
   // 🏄‍♂️ DEPORTES ACUÁTICOS - OPTIMIZADO
   'deportes_acuaticos': {
