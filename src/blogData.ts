@@ -153,94 +153,96 @@ export const REAL_PRODUCT_REVIEWS: RealReview[] = [
 // URLs de imágenes náuticas apropiadas y verificadas de Unsplash
 const NAUTICAL_IMAGES = {
   // Barcos y navegación
-  boat_sailing: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  boat_motor: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
-  yacht_luxury: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
-  catamaran: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  sailing_boat: 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=800&h=400&fit=crop&crop=center',
+  yacht_sailing: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
+  boat_harbor: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
+  marina_boats: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
   
-  // Mar y océano
-  ocean_blue: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
-  waves: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  beach_crystal: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  // Océano y mar
+  ocean_waves: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+  sea_horizon: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=400&fit=crop&crop=center',
+  blue_ocean: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center',
+  ocean_surface: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
   
-  // Equipamiento náutico
-  gps_marine: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  compass: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
-  life_jacket: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  // Costa y playas
+  coastal_view: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
+  beach_crystal: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+  rocky_coast: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
+  
+  // Islas y destinos
+  tropical_island: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  mediterranean_coast: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center',
+  atlantic_coast: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
   
   // Actividades acuáticas
-  snorkeling: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  diving: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
-  fishing: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+  snorkeling: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center',
+  scuba_diving: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  fishing_boat: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  water_sports: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&h=400&fit=crop&crop=center',
   
-  // Puertos y marinas
-  marina: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
-  harbor: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  // Equipamiento náutico
+  anchor_chain: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  navigation_compass: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  life_vest: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  safety_equipment: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
   
-  // Islas y calas
-  island: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  cove: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  // Tecnología marina
+  marine_electronics: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  gps_navigation: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
   
-  // Navegación
-  navigation: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  sunset_sailing: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
-  
-  // Mascotas y familia
-  pets_on_boat: 'https://images.unsplash.com/photo-1551717743-49959800b1f6?w=800&h=400&fit=crop&crop=center',
-  family_sailing: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop&crop=center',
-  kids_swimming: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center',
-  
-  // Destinos específicos
-  balearic_islands: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=400&fit=crop&crop=center',
-  mediterranean_coast: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
-  atlantic_coast: 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=800&h=400&fit=crop&crop=center',
-  
-  // Sostenibilidad y medio ambiente
-  solar_panels: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center',
-  clean_ocean: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center',
+  // Sostenibilidad marina
+  solar_panels: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
+  clean_ocean: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=400&fit=crop&crop=center',
   marine_life: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
   
-  // Tecnología y equipamiento
-  marine_electronics: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  safety_equipment: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
-  navigation_tools: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  // Familia y mascotas en barco
+  family_sailing: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  pets_on_boat: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=800&h=400&fit=crop&crop=center',
+  kids_swimming: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&h=400&fit=crop&crop=center',
   
-  // Fotografía y multimedia
-  underwater_photography: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  sunset_photography: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
-  action_camera: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  
-  // Deportes acuáticos específicos
-  wakeboarding: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&h=400&fit=crop&crop=center',
-  paddle_surf: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  scuba_diving: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
-  
-  // Problemas y soluciones
-  boat_maintenance: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  emergency_equipment: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
-  weather_conditions: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center',
-  
-  // Productos específicos náuticos
-  garmin_watch: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  solar_charger: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center',
-  life_vest: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
-  anchor: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
-  rope: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  binoculars: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  first_aid: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
-  flares: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center',
-  radio: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  fire_extinguisher: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
-  
-  // Imágenes marítimas universales (siempre relacionadas con el mar)
-  sailing_boat: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
-  ocean_waves: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+  // Puestas de sol y amaneceres marítimos
   sunset_sea: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
-  marina_boats: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
-  coastal_view: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
+  sunrise_ocean: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+  
+  // Aventuras marítimas
   sailing_adventure: 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=800&h=400&fit=crop&crop=center',
   nautical_equipment: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-  sea_horizon: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=400&fit=crop&crop=center'
+  
+  // Elementos marítimos adicionales
+  lighthouse: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
+  port_harbor: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
+  coral_reef: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  underwater_world: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  
+  // Alias para compatibilidad
+  boat_sailing: 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=800&h=400&fit=crop&crop=center',
+  yacht_luxury: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
+  navigation: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  compass: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  anchor: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  fishing: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  diving: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  wakeboarding: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&h=400&fit=crop&crop=center',
+  paddle_surf: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&h=400&fit=crop&crop=center',
+  underwater_photography: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+  action_camera: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  boat_maintenance: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  emergency_equipment: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  gps_marine: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  navigation_tools: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  garmin_watch: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  solar_charger: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center',
+  rope: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  binoculars: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  first_aid: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  flares: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  radio: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
+  fire_extinguisher: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  balearic_islands: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center',
+  island: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop&crop=center',
+  cove: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=400&fit=crop&crop=center',
+  marina: 'https://images.unsplash.com/photo-1569263979104-865ab5c6b6c8?w=800&h=400&fit=crop&crop=center',
+  ocean_blue: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop&crop=center'
 };
 
 // Función para obtener imagen por categoría
@@ -315,7 +317,28 @@ const getImageByCategory = (tags: string[]): string => {
     'navegacion': NAUTICAL_IMAGES.navigation,
     'barco': NAUTICAL_IMAGES.boat_sailing,
     'velero': NAUTICAL_IMAGES.boat_sailing,
-    'yate': NAUTICAL_IMAGES.yacht_luxury
+    'yate': NAUTICAL_IMAGES.yacht_luxury,
+    
+    // Destinos específicos
+    'croacia': NAUTICAL_IMAGES.mediterranean_coast,
+    'mediterraneo': NAUTICAL_IMAGES.mediterranean_coast,
+    'galicia': NAUTICAL_IMAGES.atlantic_coast,
+    'atlantico': NAUTICAL_IMAGES.atlantic_coast,
+    
+    // Actividades marítimas
+    'itinerario': NAUTICAL_IMAGES.sailing_adventure,
+    'aventura': NAUTICAL_IMAGES.sailing_adventure,
+    'viaje': NAUTICAL_IMAGES.sailing_adventure,
+    'travesía': NAUTICAL_IMAGES.sailing_adventure,
+    'travesia': NAUTICAL_IMAGES.sailing_adventure,
+    
+    // Elementos marítimos
+    'oceano': NAUTICAL_IMAGES.ocean_blue,
+    'costa': NAUTICAL_IMAGES.coastal_view,
+    'playa': NAUTICAL_IMAGES.beach_crystal,
+    'isla': NAUTICAL_IMAGES.island,
+    'cala': NAUTICAL_IMAGES.cove,
+    'puerto': NAUTICAL_IMAGES.marina
   };
 
   // Buscar la primera coincidencia específica
@@ -3926,7 +3949,7 @@ Recuerda: el mar es hermoso pero implacable. La diferencia entre una aventura me
       slug: "sostenibilidad-maritima-2024",
       date: getTodayDate(0),
       summary: "Guía completa sobre navegación sostenible, tecnologías verdes, equipamiento eco y prácticas responsables para proteger el mar.",
-      featuredImage: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center',
+      featuredImage: getImageByCategory(["sostenibilidad", "navegación", "ecología", "mar"]),
       tags: ["sostenibilidad", "navegación", "ecología", "mar"],
       author: "Equipo BoatTrip Planner"
     },
@@ -3938,7 +3961,7 @@ Recuerda: el mar es hermoso pero implacable. La diferencia entre una aventura me
       slug: "croacia-velero-guia-definitiva-2024",
       date: getTodayDate(0),
       summary: "Itinerario de 7 días en velero por la costa croata, con consejos, fotos espectaculares y productos recomendados.",
-      featuredImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400&h=300&fit=crop&crop=center',
+      featuredImage: getImageByCategory(["croacia", "velero", "destinos", "itinerario", "mar"]),
       tags: ["croacia", "velero", "destinos", "itinerario", "mar"],
       author: "Equipo BoatTrip Planner"
     },

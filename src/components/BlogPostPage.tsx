@@ -98,6 +98,70 @@ const customStyles = `
     position: relative;
     z-index: 1;
     width: 100%;
+    
+    /* Optimización móvil para mejor legibilidad */
+    @media (max-width: 640px) {
+      .main-content {
+        font-size: 16px;
+        line-height: 1.7;
+        letter-spacing: 0.01em;
+      }
+      
+      .main-content h1 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+        margin-bottom: 1rem;
+      }
+      
+      .main-content h2 {
+        font-size: 1.5rem;
+        line-height: 1.4;
+        margin-bottom: 0.75rem;
+      }
+      
+      .main-content h3 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+        margin-bottom: 0.5rem;
+      }
+      
+      .main-content p {
+        margin-bottom: 1rem;
+        text-align: justify;
+      }
+      
+      .main-content ul, .main-content ol {
+        margin-left: 1rem;
+        margin-bottom: 1rem;
+      }
+      
+      .main-content li {
+        margin-bottom: 0.5rem;
+      }
+      
+      .main-content blockquote {
+        margin: 1rem 0;
+        padding: 1rem;
+        border-left: 4px solid #06b6d4;
+        background: rgba(6, 182, 212, 0.1);
+        border-radius: 0.5rem;
+      }
+      
+      .main-content code {
+        background: rgba(0, 0, 0, 0.1);
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.875em;
+      }
+      
+      .main-content pre {
+        overflow-x: auto;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 0.5rem;
+        margin: 1rem 0;
+      }
+    }
     max-width: 100%;
     overflow-x: hidden;
     margin-top: 2rem;
@@ -1003,49 +1067,49 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       </div>
       
       {/* Contenido principal */}
-      <div className={`w-full max-w-6xl mx-auto transition-all duration-300 ease-out ${darkMode ? 'dark' : ''} ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''} relative z-10 px-4`}>
-        <div className="w-full max-w-4xl mx-auto blog-layout overflow-hidden">
+      <div className={`w-full max-w-7xl mx-auto transition-all duration-300 ease-out ${darkMode ? 'dark' : ''} ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''} relative z-10 px-2 sm:px-4 md:px-6`}>
+        <div className="w-full max-w-5xl mx-auto blog-layout overflow-hidden">
           {/* Contenido principal */}
           <div className="w-full main-content min-w-0">
-            <div className={`${darkMode ? 'bg-slate-800/95 backdrop-blur-sm text-white' : 'bg-white/95 backdrop-blur-sm'} p-6 md:p-8 rounded-2xl shadow-2xl transition-all duration-300 border ${darkMode ? 'border-slate-700/50' : 'border-white/50'} relative z-5`}>
-          {/* Controles de navegación */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b border-slate-200/50 dark:border-slate-600/50">
-            <div className="flex-1">
-              <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">🏠</span>
+            <div className={`${darkMode ? 'bg-slate-800/95 backdrop-blur-sm text-white' : 'bg-white/95 backdrop-blur-sm'} p-4 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl shadow-2xl transition-all duration-300 border ${darkMode ? 'border-slate-700/50' : 'border-white/50'} relative z-5`}>
+          {/* Controles de navegación optimizados para móvil */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-slate-200/50 dark:border-slate-600/50">
+            <div className="flex-1 w-full">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-3 sm:mb-4">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <span className="text-base sm:text-lg">🏠</span>
                   <button 
                     onClick={onNavigateHome}
-                    className="hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-200"
+                    className="hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-200 text-xs sm:text-sm"
                   >
                     Inicio
                   </button>
                 </div>
-                <span className="text-slate-300">→</span>
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">📚</span>
+                <span className="text-slate-300 text-xs">→</span>
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <span className="text-base sm:text-lg">📚</span>
                   <button 
                     onClick={onNavigateToBlogIndex}
-                    className="hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-200"
+                    className="hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-200 text-xs sm:text-sm"
                   >
                     Blog
                   </button>
                 </div>
-                <span className="text-slate-300">→</span>
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">📖</span>
-                  <span className="text-slate-600 dark:text-slate-300 font-medium">
-                    {post.frontmatter.title.split(' ').slice(0, 3).join(' ')}...
+                <span className="text-slate-300 text-xs">→</span>
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <span className="text-base sm:text-lg">📖</span>
+                  <span className="text-slate-600 dark:text-slate-300 font-medium text-xs sm:text-sm">
+                    {post.frontmatter.title.split(' ').slice(0, 2).join(' ')}...
                   </span>
                 </div>
               </div>
             </div>
-            <div className="flex gap-3 mt-4 sm:mt-0">
+            <div className="flex flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-0 w-full sm:w-auto">
               <Button 
                 onClick={toggleDarkMode} 
                 variant="secondary" 
                 size="sm" 
-                className="w-auto hover:scale-105 transition-transform duration-200"
+                className="flex-1 sm:flex-none text-xs sm:text-sm hover:scale-105 transition-transform duration-200"
               >
                 {darkMode ? '☀️' : '🌙'}
               </Button>
@@ -1053,29 +1117,29 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
                 onClick={onNavigateToBlogIndex} 
                 variant="secondary" 
                 size="sm" 
-                className="w-auto hover:scale-105 transition-transform duration-200"
+                className="flex-1 sm:flex-none text-xs sm:text-sm hover:scale-105 transition-transform duration-200"
               >
-                ← Volver al Blog
+                ← Blog
               </Button>
               <Button 
                 onClick={onNavigateHome} 
                 variant="primary" 
                 size="sm" 
-                className="w-auto hover:scale-105 transition-transform duration-200"
+                className="flex-1 sm:flex-none text-xs sm:text-sm hover:scale-105 transition-transform duration-200"
               >
-                🚢 Ir al Planificador
+                🚢 Planificador
               </Button>
             </div>
           </div>
 
-          {/* Etiquetas con diseño mejorado */}
+          {/* Etiquetas con diseño mejorado optimizadas para móvil */}
           {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
-            <div className="mb-8">
-              <div className="flex flex-wrap gap-3">
+            <div className="mb-6 sm:mb-8">
+              <div className="flex flex-wrap gap-2 sm:gap-3">
                 {post.frontmatter.tags.map((tag, index) => (
                   <span 
                     key={tag}
-                    className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                    className={`inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 hover:scale-105 ${
                       darkMode 
                         ? 'bg-gradient-to-r from-teal-500 to-blue-500 text-white shadow-lg shadow-teal-500/25' 
                         : 'bg-gradient-to-r from-teal-100 to-blue-100 text-teal-800 border border-teal-200'
@@ -1084,7 +1148,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
                       animationDelay: `${index * 100}ms`
                     }}
                   >
-                    <span className="mr-2">
+                    <span className="mr-1 sm:mr-2">
                       {tag === 'mascotas' ? '🐕' : 
                        tag === 'destinos' ? '🗺️' : 
                        tag === 'equipamiento' ? '🔧' : 
@@ -1105,13 +1169,13 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
             </div>
           )}
 
-          {/* Contenido del artículo con diseño mejorado */}
-          <article className={`prose prose-lg max-w-none ${darkMode ? 'prose-invert' : ''} mb-8`}>
+          {/* Contenido del artículo optimizado para móvil */}
+          <article className={`prose prose-sm sm:prose-base md:prose-lg max-w-none ${darkMode ? 'prose-invert' : ''} mb-6 sm:mb-8`}>
             <div className="relative">
               {/* Indicador de lectura */}
               <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-teal-500 to-blue-500 rounded-full opacity-20"></div>
               
-              <div className="pl-6">
+              <div className="pl-4 sm:pl-6">
                 <ReactMarkdown 
                   remarkPlugins={[remarkGfm]} 
                   components={markdownComponents}
