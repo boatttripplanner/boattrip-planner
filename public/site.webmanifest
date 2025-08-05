@@ -19,13 +19,13 @@
       "purpose": "any maskable"
     },
     {
-      "src": "/alex5.svg",
+      "src": "/favicon.svg",
       "sizes": "96x96",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "/alex5.svg",
+      "src": "/favicon.svg",
       "sizes": "180x180",
       "type": "image/svg+xml",
       "purpose": "any maskable"
@@ -43,7 +43,7 @@
       "purpose": "any maskable"
     },
     {
-      "src": "/alex5.svg",
+      "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
@@ -51,7 +51,7 @@
   ],
   "screenshots": [
     {
-      "src": "/alex5.svg",
+      "src": "/favicon.svg",
       "sizes": "96x96",
       "type": "image/svg+xml",
       "form_factor": "wide"
@@ -65,7 +65,7 @@
       "url": "/",
       "icons": [
         {
-          "src": "/alex5.svg",
+          "src": "/favicon.svg",
           "sizes": "96x96"
         }
       ]

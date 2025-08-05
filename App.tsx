@@ -29,6 +29,36 @@ import { getWeatherData } from './services/weatherService';
 import { GoogleGenAI } from "@google/genai";
 import { existingBlogPosts_definitions_only as allBlogPosts } from './src/blogData';
 
+// Service Worker Registration
+const registerServiceWorker = async () => {
+  if ('serviceWorker' in navigator) {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js', {
+        scope: '/'
+      });
+      
+      console.log('Service Worker registrado exitosamente:', registration);
+      
+      // Manejar actualizaciones del Service Worker
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        if (newWorker) {
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('Nueva versión del Service Worker disponible');
+              // Aquí podrías mostrar una notificación al usuario
+            }
+          });
+        }
+      });
+      
+      return registration;
+    } catch (error) {
+      console.error('Error al registrar el Service Worker:', error);
+    }
+  }
+};
+
 
 interface LocationForWeather {
   cityName: string;
@@ -118,6 +148,7 @@ const App: React.FC = () => {
     };
 
     updateFavicon();
+    registerServiceWorker();
   }, []);
   
   const initialNavigationState = getViewAndSlugFromLocation();
