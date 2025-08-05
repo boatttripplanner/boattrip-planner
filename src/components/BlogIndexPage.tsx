@@ -75,7 +75,7 @@ const getFeaturedImage = (slug: string, tags?: string[]): string => {
     
     // ACTIVIDADES ESPECÍFICAS 🎣
     'guia-pesca-desde-barco-principiantes': 'https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?w=400&h=300&fit=crop&crop=center', // Pescando desde barco - MANTENER (perfecto)
-    'el-paddle-surf-sup-explora-mar-ritmo-fortalece-cuerpo': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center', // SUP desde barco como base
+    'el-paddle-surf-sup-explora-mar-ritmo-fortalece-cuerpo': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // SUP desde barco como base
     'mejores-destinos-windsurf-kitesurf-espana': 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=300&fit=crop&crop=center', // Barco en zona de windsurf
     'deportes-acuaticos-barco-guia-completa': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Barco con deportes acuáticos
     

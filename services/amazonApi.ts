@@ -215,13 +215,13 @@ class AmazonApiService {
            asin: 'B07W8KY9XQ',
            title: 'Nivea Sun Protect & Moisture SPF 50 - Resistente al Agua',
            price: '12.99',
-           imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop&crop=center'
+           imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center'
          },
          {
            asin: 'B08SOLAR99',
            title: 'Hawaiian Tropic Silk Hydration SPF 50 - Waterproof',
            price: '8.99',
-           imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop&crop=center'
+           imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center'
          }
        ],
              gps: [

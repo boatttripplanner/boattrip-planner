@@ -151,7 +151,7 @@ class AmazonRecommendations {
           price: 24.99,
           score: 0.95,
           reason: 'Perfecta para principiantes - fácil de usar y ajustar',
-          imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center',
+          imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
           affiliateUrl: `https://www.amazon.es/dp/B07C2VJ7QK?tag=${AMAZON_API_CONFIG.associateTag}`
         },
         {
@@ -161,7 +161,7 @@ class AmazonRecommendations {
           price: 45.99,
           score: 0.98,
           reason: 'Equipamiento de seguridad esencial para cualquier navegante',
-          imageUrl: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop&crop=center',
+          imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
           affiliateUrl: `https://www.amazon.es/dp/B01M0WXQKX?tag=${AMAZON_API_CONFIG.associateTag}`
         },
         {
@@ -171,7 +171,7 @@ class AmazonRecommendations {
           price: 12.99,
           score: 0.92,
           reason: 'Protección solar esencial para actividades acuáticas',
-          imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop&crop=center',
+          imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
           affiliateUrl: `https://www.amazon.es/dp/B08XQRZQRF?tag=${AMAZON_API_CONFIG.associateTag}`
         }
       ];

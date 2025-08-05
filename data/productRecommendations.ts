@@ -27,7 +27,7 @@ export const PRODUCT_RECOMMENDATIONS: ProductRecommendationsMap = {
     {
       searchTerm: 'protector solar resistente agua',
       title: 'Protector Solar Resistente al Agua',
-      imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop&crop=center',
+      imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
       price: 'Desde 12.99€',
       affiliateUrl: createSearchUrl('protector solar resistente agua', 'blog', 'protector-solar'),
       category: 'protección solar'
