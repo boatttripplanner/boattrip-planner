@@ -93,6 +93,31 @@ const customStyles = `
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
   
+  /* Estilos para scroll horizontal en móvil */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Mejorar scroll en móvil */
+  @media (max-width: 768px) {
+    .overflow-x-auto {
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+    }
+    
+    .overflow-x-auto > * {
+      scroll-snap-align: start;
+      min-width: 280px;
+      flex-shrink: 0;
+    }
+  }
+  
   /* Estilos para evitar solapamiento y problemas de layout */
   .blog-layout {
     position: relative;
@@ -1228,7 +1253,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
                 </p>
               </div>
               
-              <div className="flex flex-row gap-4 max-w-4xl mx-auto">
+              <div className="flex flex-row gap-4 max-w-4xl mx-auto overflow-x-auto pb-4 scrollbar-hide">
                 {/* Valoración - Compacta */}
                 <div className={`group relative p-4 rounded-xl flex-1 ${darkMode ? 'bg-slate-800/40 backdrop-blur-sm border-slate-600/20' : 'bg-white/60 backdrop-blur-sm border-slate-200/30'} border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}>
                   <div className="text-center">
