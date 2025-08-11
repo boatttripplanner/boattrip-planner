@@ -11,11 +11,12 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5175,
-    host: true,
+    port: 5174,
+    host: '0.0.0.0',
+    strictPort: false,
     hmr: {
       overlay: false,
-      port: 5175,
+      port: 5174,
     },
   },
   optimizeDeps: {

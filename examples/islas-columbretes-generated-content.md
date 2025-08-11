@@ -1,12 +1,22 @@
 # Navegar por las Islas Columbretes: Paraíso Secreto del Mediterráneo - Guía Completa de Navegación
 
+## Resumen ejecutivo
+
+- Qué aprenderás: conceptos clave y decisiones prácticas para Navegar por las Islas Columbretes: Paraíso Secreto del Mediterráneo - Guía Completa de Navegación
+- Errores comunes: lo que debes evitar para ahorrar tiempo y dinero
+- Checklist accionable: pasos concretos antes/durante/después
+- Presupuesto estimado: rangos de costes y cómo optimizarlos
+- FAQ: dudas reales resueltas en el artículo
+
+
+
 **Fecha:** 2024-01-25 | **Tiempo de lectura:** 10 min | **Categoría:** destinos
 
 > Descubre las Islas Columbretes, un archipiélago volcánico virgen a solo 30 millas de la costa de Castellón. Con aguas cristalinas, fondos marinos espectaculares y una biodiversidad única, este destino náutico te ofrece una experiencia de navegación inolvidable en el Mediterráneo español.
 
 **Tags:** #destinos #islas columbretes #navegación mediterráneo #reserva marina #calas vírgenes #velero columbretes #fondeo columbretes #navegación valencia #destinos náuticos españa
 
-![Navegación en las Islas Columbretes](https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=1200&h=600&fit=crop&crop=center)
+![Navegación en las Islas Columbretes](https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=1200&h=600&fit=crop&crop=center?w=1200&q=80&auto=format&fit=crop)
 
 *Foto por Carlos López en Unsplash*
 
@@ -339,7 +349,7 @@ Navegar por las Islas Columbretes es una experiencia única que combina la belle
 
 ### Garmin ECHOMAP UHD 94sv
 
-![Garmin ECHOMAP UHD 94sv](https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center)
+![Garmin ECHOMAP UHD 94sv](https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center?w=1200&q=80&auto=format&fit=crop)
 
 **Precio:** €1,299 | **Valoración:** ★★★★★ (4.9/5)
 
@@ -349,7 +359,7 @@ GPS náutico premium con pantalla Ultra HD y sonar CHIRP avanzado
 
 ### Chaleco Salvavidas Náutico 150N
 
-![Chaleco Salvavidas](https://images.unsplash.com/photo-1551717743-49959800b1f6?w=400&h=300&fit=crop&crop=center)
+![Chaleco Salvavidas](https://images.unsplash.com/photo-1551717743-49959800b1f6?w=400&h=300&fit=crop&crop=center?w=1200&q=80&auto=format&fit=crop)
 
 **Precio:** €89 | **Valoración:** ★★★★☆ (4.5/5)
 

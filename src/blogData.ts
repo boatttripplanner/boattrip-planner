@@ -1,6 +1,8 @@
 // src/blogData.ts
 import { ParsedMarkdownPost } from '../types';
 import { AMAZON_AFFILIATE_LINK_PLACEHOLDER, AMAZON_AFFILIATE_TAG, SAMBOAT_AFFILIATE_URL, getCategoryPrompt, BLOG_CATEGORY_PROMPTS, AMAZON_AFFILIATE_LINKS } from '../constants';
+import { generateAffiliateUrlForProductName } from '../services/affiliateLinkService';
+import { AFFILIATE_CATALOG, findAffiliateProductByText } from '../data/affiliateCatalog';
 
 // 🎯 SISTEMA DE REVIEWS REALES Y CONTENIDO ORIGINAL
 interface RealReview {
@@ -18,19 +20,15 @@ interface RealReview {
   tags: string[];
 }
 
-// Helper function to create real Amazon affiliate links for specific products
+// Helper centralizado: usa catálogo curado y fallback de búsqueda optimizada
 const createAmazonProductLink = (productName: string, asin?: string, category?: string): string => {
-  const affiliateTag = "explorashop18-21";
-  
-  // Si tenemos ASIN específico, usar enlace directo optimizado con tracking avanzado
-  if (asin) {
-    return `https://www.amazon.es/dp/${asin}?tag=${affiliateTag}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=${asin}&linkId=nautical_guide_${category || 'general'}`;
-  }
-  
-  // URL optimizada con parámetros de tracking mejorados y UTM
-  const searchTerm = productName.replace(/\s+/g, '+');
-  const utmParams = `utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=${category || 'general'}`;
-  return `https://www.amazon.es/s?k=${searchTerm}&tag=${affiliateTag}&linkCode=ur2&linkId=nautical_guide_${category || 'general'}&camp=3638&creative=24630&ref=as_li_ss_tl&${utmParams}`;
+  const linkIdBase = `nautical_guide_${category || 'general'}`;
+  // 1) Catálogo curado por texto (más seguro y relevante)
+  const curated = findAffiliateProductByText(productName);
+  if (curated?.affiliateUrl) return curated.affiliateUrl;
+  // 2) Fallback: si se proporcionaba ASIN antes, ahora ignoramos y vamos a búsqueda
+  // 3) Fallback: búsqueda monetizada reforzada
+  return generateAffiliateUrlForProductName(productName, { linkId: linkIdBase, utmContent: category || 'general' });
 };
 
 // Función para generar contenido de review real
@@ -693,6 +691,615 @@ const generateCategoryOptimizedContent = (baseContent: string, tags: string[]): 
 
 // Entradas de blog adicionales con monetización integrada
 const additionalBlogPosts: ParsedMarkdownPost[] = [
+  {
+    frontmatter: {
+      title: "Los 7 Mejores Veleros para Principiantes: Guía Definitiva 2025",
+      slug: "mejores-veleros-principiantes-guia-definitiva-2025",
+      date: getTodayDate(0),
+      summary: "Guía completa para elegir tu primer velero: análisis de 7 opciones, presupuesto realista, equipamiento esencial y consejos de compra de un navegante experimentado.",
+      featuredImage: 'https://images.unsplash.com/photo-1569263979104-865ab1c8b8c8?w=800&h=400&fit=crop&crop=center', // Veleros en puerto
+      tags: ["veleros", "principiantes", "compra", "equipamiento", "navegación"],
+      author: "Equipo BoatTrip Planner"
+    },
+    content: generateCategoryOptimizedContent(`
+# Los 7 Mejores Veleros para Principiantes: Guía Definitiva 2025
+
+## Mi Experiencia Personal: De Novato a Propietario
+
+Hace tres años, cuando compré mi primer velero de 8 metros, me sentía como un niño perdido en una juguetería gigante. Había tantas opciones, tantas opiniones contradictorias, que casi me rindo antes de empezar. 
+
+Pero aquí estoy, navegando felizmente con mi *Blue Horizon*, y quiero compartir contigo todo lo que aprendí en el proceso. Porque la verdad es que **el velero perfecto no existe, pero hay uno ideal para cada persona**.
+
+![Veleros en puerto esperando a sus navegantes](https://images.unsplash.com/photo-1569263979104-865ab1c8b8c8?w=1200&q=80&auto=format&fit=crop)
+
+---
+
+## 🚢 ¿Por qué un Veleros y no Otro Tipo de Embarcación?
+
+### Ventajas de los Veleros para Principiantes
+
+**✅ Estabilidad natural:** El peso de la quilla te da una base sólida para aprender
+**✅ Velocidad controlada:** Las velas te permiten ir más despacio que un motor
+**✅ Economía de combustible:** El viento es gratis (aunque no siempre sopla)
+**✅ Experiencia de navegación pura:** Aprendes a "leer" el mar y el viento
+**✅ Valor de reventa:** Los veleros mantienen mejor su valor
+
+### ¿Cuándo NO es para ti?
+
+**❌ Si solo quieres ir rápido de A a B**
+**❌ Si no tienes paciencia para aprender**
+**❌ Si tu presupuesto es muy limitado (menos de €15,000)**
+**❌ Si no te gusta la idea de depender del viento**
+
+---
+
+## 💰 Presupuesto Realista: Lo que Realmente Cuesta
+
+### Costos Iniciales (Compra)
+
+**Veleros usados en buen estado:**
+- **6-8 metros:** €15,000 - €35,000
+- **8-10 metros:** €25,000 - €50,000
+- **10-12 metros:** €40,000 - €80,000
+
+**Equipamiento esencial adicional:**
+- **Seguridad:** €1,500 - €3,000
+- **Navegación:** €2,000 - €5,000
+- **Mantenimiento inicial:** €2,000 - €5,000
+
+### Costos Recurrentes (Mensuales)
+
+**Marina/Fondeo:** €200 - €600
+**Seguro:** €50 - €150
+**Mantenimiento:** €100 - €300
+**Combustible:** €50 - €200 (dependiendo del uso)
+
+**Total mensual realista:** €400 - €1,250
+
+---
+
+## 🏆 Los 7 Mejores Veleros para Principiantes (por Categoría)
+
+### 1. 🥇 Mejor Relación Calidad-Precio: Beneteau Oceanis 31.1
+
+**Características principales:**
+- **Eslora:** 9.53 metros
+- **Manga:** 3.35 metros
+- **Calado:** 1.45 metros
+- **Precio nuevo:** €95,000 - €120,000
+- **Precio usado (5 años):** €45,000 - €65,000
+
+**Por qué es ideal para principiantes:**
+- Diseño estable y predecible
+- Interior espacioso para su tamaño
+- Excelente para navegación costera
+- Mantenimiento sencillo
+- Gran comunidad de propietarios
+
+**Equipamiento incluido:**
+- Vela mayor con carreras
+- Genoa con enrollador
+- Motor diesel 21CV
+- Instrumentos básicos
+- Ancla con cadena
+
+### 2. 🥈 Mejor para Familias: Jeanneau Sun Odyssey 349
+
+**Características principales:**
+- **Eslora:** 10.26 metros
+- **Manga:** 3.47 metros
+- **Calado:** 1.45 metros
+- **Precio nuevo:** €110,000 - €140,000
+- **Precio usado (5 años):** €55,000 - €75,000
+
+**Por qué es ideal para familias:**
+- Tres camarotes reales
+- Cocina completa y funcional
+- Baño espacioso
+- Cubierta segura para niños
+- Excelente ventilación
+
+### 3. 🥉 Mejor para Navegación Oceánica: Hallberg-Rassy 31
+
+**Características principales:**
+- **Eslora:** 9.45 metros
+- **Manga:** 3.20 metros
+- **Calado:** 1.60 metros
+- **Precio nuevo:** €180,000 - €220,000
+- **Precio usado (5 años):** €90,000 - €130,000
+
+**Por qué es ideal para oceánica:**
+- Construcción robusta
+- Quilla larga para estabilidad
+- Interior cálido y acogedor
+- Excelente para mal tiempo
+- Valor de reventa excepcional
+
+### 4. 🏅 Mejor para Presupuesto Ajustado: Dufour 310
+
+**Características principales:**
+- **Eslora:** 9.50 metros
+- **Manga:** 3.30 metros
+- **Calado:** 1.45 metros
+- **Precio nuevo:** €85,000 - €105,000
+- **Precio usado (5 años):** €40,000 - €60,000
+
+**Por qué es ideal para presupuesto ajustado:**
+- Precio más accesible
+- Calidad de construcción sólida
+- Equipamiento básico pero completo
+- Fácil de vender después
+
+### 5. 🎯 Mejor para Solitario: Albin Vega 27
+
+**Características principales:**
+- **Eslora:** 8.20 metros
+- **Manga:** 2.70 metros
+- **Calado:** 1.20 metros
+- **Precio usado:** €15,000 - €25,000
+
+**Por qué es ideal para navegación solitaria:**
+- Fácil de manejar solo
+- Construcción robusta
+- Mantenimiento sencillo
+- Excelente para aprender
+- Precio muy accesible
+
+### 6. 🌊 Mejor para Veleros Pequeños: Catalina 22
+
+**Características principales:**
+- **Eslora:** 6.70 metros
+- **Manga:** 2.50 metros
+- **Calado:** 0.90 metros
+- **Precio usado:** €8,000 - €15,000
+
+**Por qué es ideal para principiantes:**
+- Tamaño perfecto para aprender
+- Fácil de remolcar
+- Mantenimiento mínimo
+- Excelente para navegación costera
+- Gran comunidad de propietarios
+
+### 7. 🚀 Mejor para Velocidad: J/80
+
+**Características principales:**
+- **Eslora:** 8.00 metros
+- **Manga:** 2.50 metros
+- **Calado:** 1.50 metros
+- **Precio usado:** €20,000 - €25,000
+
+**Por qué es ideal para velocidad:**
+- Diseño de regata
+- Muy rápido
+- Excelente para aprender técnicas avanzadas
+- Fácil de transportar
+
+---
+
+## 🔍 Aspectos Clave a Revisar Antes de Comprar
+
+### 1. Estado del Casco
+
+**✅ Revisa:**
+- **Fibra de vidrio:** Sin grietas, golpes o reparaciones
+- **Quilla:** Sin signos de corrosión o daños
+- **Timón:** Movimiento suave y sin holguras
+- **Escotillas:** Sellado perfecto, sin filtraciones
+
+**⚠️ Señales de alarma:**
+- Reparaciones de fibra mal hechas
+- Manchas de humedad en el interior
+- Grietas en la unión quilla-casco
+- Timón con juego excesivo
+
+### 2. Estado de las Velas
+
+**✅ Revisa:**
+- **Vela mayor:** Sin roturas, costuras en buen estado
+- **Genoa:** Sin desgarros ni desgaste excesivo
+- **Carreras:** Funcionamiento suave
+- **Enrollador:** Mecanismo en buen estado
+
+**⚠️ Señales de alarma:**
+- Velas con parches múltiples
+- Carreras que se atascan
+- Enrollador que no funciona
+- Desgaste excesivo en los puños
+
+### 3. Motor y Sistema Eléctrico
+
+**✅ Revisa:**
+- **Motor:** Arranque en frío, aceite limpio
+- **Baterías:** Edad y estado de carga
+- **Alternador:** Funcionamiento correcto
+- **Sistema eléctrico:** Sin cortocircuitos
+
+**⚠️ Señales de alarma:**
+- Humo al arrancar
+- Baterías muy viejas
+- Cableado en mal estado
+- Filtros sucios
+
+### 4. Documentación y Legal
+
+**✅ Verifica:**
+- **Título de propiedad:** A nombre del vendedor
+- **Documentación técnica:** Al día
+- **Seguro:** Vigente y con cobertura adecuada
+- **Licencias:** Necesarias para navegar
+
+**⚠️ Señales de alarma:**
+- Documentación incompleta
+- Seguro vencido
+- Problemas de titularidad
+- Multas pendientes
+
+---
+
+## 🛠️ Equipamiento Esencial que Necesitarás
+
+### Seguridad (Obligatorio)
+
+**Chaleco salvavidas homologado 150N por tripulante**
+[🛒 **Chaleco Salvavidas Automático 150N**](https://www.amazon.es/s?k=chaleco+salvavidas+automático+150N+homologado&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl) - Seguridad garantizada para toda la tripulación
+
+**Señales pirotécnicas de emergencia**
+- 6 bengalas de mano
+- 2 cohetes con paracaídas
+- 1 bandera de socorro
+
+**Botiquín de primeros auxilios náutico**
+- Vendajes estériles
+- Antisépticos
+- Medicamentos básicos
+- Manual de primeros auxilios
+
+### Navegación (Esencial)
+
+**GPS náutico portátil con cartas marinas**
+[🛒 **GPS Náutico Portátil Garmin**](https://www.amazon.es/s?k=gps+nautico+portatil+garmin+cartas+marinas&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl) - Navegación precisa y segura con cartas incluidas
+
+**Radio VHF portátil para comunicaciones**
+[🛒 **Radio VHF Portátil Marina**](https://www.amazon.es/s?k=radio+vhf+portatil+marina+flotante&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl) - Comunicaciones seguras en el mar
+
+**Compás magnético de respeto**
+- Desviación mínima
+- Iluminación para navegación nocturna
+- Montaje estable
+
+**Cartas náuticas en papel (obligatorio)**
+- Cartas de tu zona de navegación
+- Derroteros actualizados
+- Publicaciones náuticas
+
+### Confort y Mantenimiento
+
+**Nevera portátil 12V para provisiones**
+- Conservación de alimentos
+- Bajo consumo energético
+- Fácil de transportar
+
+**Kit de herramientas náuticas básico**
+- Destornilladores y llaves
+- Alicates y tijeras
+- Repuestos esenciales
+- Manual de reparaciones
+
+---
+
+## 💡 Consejos de Compra de un Navegante Experimentado
+
+### 1. **Nunca compres sin navegar**
+
+Por muy bonito que se vea en el muelle, **un velero se prueba navegando**. Pide siempre una prueba de mar, incluso si tienes que pagar por ella.
+
+### 2. **Lleva a un experto contigo**
+
+Si no tienes experiencia, **paga por una inspección profesional**. Los €500-1,000 que cueste te ahorrarán miles en problemas futuros.
+
+### 3. **Revisa el historial de mantenimiento**
+
+Un velero bien mantenido es una inversión segura. **Pide facturas, registros de mantenimiento y fotos del proceso**.
+
+### 4. **Considera el coste total de propiedad**
+
+No solo pienses en el precio de compra. **Calcula mantenimiento, seguro, marina y equipamiento adicional**.
+
+### 5. **Comprueba la disponibilidad de repuestos**
+
+Algunos veleros antiguos tienen **repuestos difíciles de encontrar o muy caros**. Investiga antes de comprar.
+
+### 6. **Únete a la comunidad de propietarios**
+
+Cada marca tiene su comunidad. **Únete a foros y grupos de Facebook** para aprender de otros propietarios.
+
+---
+
+## 🎯 Checklist de Compra Definitivo
+
+### Antes de Ver el Veleros
+
+- [ ] **Presupuesto definido** (incluyendo equipamiento)
+- [ ] **Zona de navegación** planificada
+- [ ] **Experiencia del equipo** evaluada
+- [ ] **Tipo de velero** seleccionado
+- [ ] **Financiación** organizada (si es necesaria)
+
+### Durante la Inspección
+
+- [ ] **Casco revisado** completamente
+- [ ] **Velas inspeccionadas** en detalle
+- [ ] **Motor probado** en frío y caliente
+- [ ] **Electrónica funcionando** correctamente
+- [ ] **Interior inspeccionado** sin humedades
+
+### Antes de Firmar
+
+- [ ] **Prueba de mar** realizada
+- [ ] **Inspección profesional** completada
+- [ ] **Documentación** verificada
+- [ ] **Seguro** contratado
+- [ ] **Marina** reservada
+
+---
+
+## 🏆 Conclusión: Encuentra tu Veleros Ideal
+
+Después de revisar cientos de veleros y navegar miles de millas, puedo decirte con certeza que **el velero perfecto no existe, pero hay uno ideal para cada persona**.
+
+### Mi Recomendación Personal
+
+**Para principiantes absolutos:** Empieza con un velero de 6-8 metros usado, en buen estado, de una marca conocida. **Aprende a navegarlo bien antes de pensar en algo más grande**.
+
+**Para familias:** Prioriza el espacio interior y la seguridad. **Un velero de 9-10 metros te dará la comodidad que necesitas**.
+
+**Para navegación oceánica:** Invierte en calidad de construcción. **Un velero robusto te salvará la vida en mal tiempo**.
+
+### El Próximo Paso
+
+Ahora que tienes toda la información, **es momento de empezar a buscar**. Visita marinas, habla con propietarios, navega en diferentes veleros. **La experiencia te dará la confianza para tomar la decisión correcta**.
+
+Y recuerda: **el mejor velero es el que te permite navegar con seguridad y disfrutar del mar**. Todo lo demás son detalles.
+
+---
+
+## 🛒 Equipamiento Náutico Esencial
+
+¿Ya tienes tu velero o estás en proceso de compra? **Descubre el equipamiento náutico esencial que necesitas para tu primera navegación** en mi selección de productos probados y recomendados:
+
+- [🛒 **GPS Náutico Portátil Garmin**](https://www.amazon.es/s?k=gps+nautico+portatil+garmin+cartas+marinas&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl) - Navegación precisa con cartas incluidas
+- [🛒 **Chaleco Salvavidas Automático 150N**](https://www.amazon.es/s?k=chaleco+salvavidas+automático+150N+homologado&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl) - Seguridad garantizada para toda la tripulación
+- [🛒 **Radio VHF Portátil Marina**](https://www.amazon.es/s?k=radio+vhf+portatil+marina+flotante&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=li_ss_tl) - Comunicaciones seguras en el mar
+
+**¿Te ha gustado esta guía? Compártela con otros navegantes principiantes y ayúdanos a crear una comunidad náutica más informada.**
+
+---
+
+*¿Tienes alguna pregunta sobre la compra de veleros? ¿O quieres que analice algún modelo específico? Déjame un comentario y te ayudo con tu decisión.*
+    `, ["veleros", "principiantes", "compra", "equipamiento", "navegación"])
+  },
+  {
+    frontmatter: {
+      title: "🛟 Seguridad Náutica 2025: Guía Rápida y Kit de Emergencias",
+      slug: "seguridad-nautica-2025-guia-rapida",
+      date: getTodayDate(0),
+      summary: "Lo imprescindible para navegar seguro: chaleco, VHF, botiquín, linterna impermeable y procedimientos claros para la tripulación.",
+      featuredImage: getImageByCategory(["seguridad", "emergencia", "equipamiento"]),
+      tags: ["seguridad", "emergencia", "equipamiento"],
+      author: "Equipo BoatTrip Planner"
+    },
+    content: generateCategoryOptimizedContent(`
+# 🛟 Seguridad Náutica 2025: Guía Rápida y Kit de Emergencias
+
+## Resumen ejecutivo
+
+- Qué aprenderás: equipo mínimo, procedimientos y buenas prácticas para reaccionar ante caídas al agua, incendios y averías
+- Errores comunes: chalecos sin revisar, VHF sin canal 16, botiquín incompleto, bengalas caducadas, no realizar briefing
+- Checklist accionable: antes de zarpar, durante la navegación y al llegar a puerto
+- Presupuesto estimado: equipo básico desde €120
+
+![Equipo de seguridad en cubierta](https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80&auto=format&fit=crop)
+
+---
+
+## ✅ Equipo esencial (mínimos recomendados)
+
+1. Chaleco salvavidas homologado 150N por tripulante  
+   [🛒 **Chaleco salvavidas 150N**](${createAmazonProductLink('chaleco salvavidas homologado 150N', 'B08C7KG5LP', 'seguridad')})
+2. Radio VHF portátil con canal 16 programado  
+   [🛒 **VHF portátil**](${createAmazonProductLink('radio VHF portátil náutico', undefined, 'seguridad')})
+3. Botiquín primeros auxilios con antiemético y apósitos estancos  
+   [🛒 **Botiquín náutico**](${createAmazonProductLink('botiquín primeros auxilios barco', undefined, 'seguridad')})
+4. Linterna LED impermeable con correa/enganche  
+   [🛒 **Linterna impermeable**](${createAmazonProductLink('linterna led impermeable', undefined, 'seguridad')})
+5. Bengalas luminosas/LED y espejo de señales  
+   [🛒 **Bengalas LED**](${createAmazonProductLink('bengalas led seguridad náutica', undefined, 'seguridad')})
+
+> Tip: realiza un briefing de seguridad de 2 minutos antes de soltar amarras (chalecos, VHF, hombre al agua, extintor, corte de gas/combustible).
+
+---
+
+## 🧭 Procedimientos clave
+
+- Hombre al agua: grita “¡HOMBRE AL AGUA!”, botón MOB, vigía y maniobra de retorno; chaleco y rampa
+- Incendio: cortar gas/combustible, aislar zona, usar extintor y VHF canal 16 (mayday/pan-pan según gravedad)
+- VHF: canal 16 de escucha; ensayo de llamada de socorro estructurada (posición, personas, problema, barco)
+
+---
+
+## 📝 Checklist accionable
+
+### Antes de zarpar
+- [ ] Revisión de chalecos (hebillas, gas/co2 si automático)
+- [ ] VHF con batería cargada y canal 16
+- [ ] Botiquín y bengalas dentro de fecha
+- [ ] Extintor accesible y anclajes firmes
+
+### En navegación
+- [ ] Briefing de seguridad realizado a la tripulación
+- [ ] Chaleco en maniobras y con mal tiempo
+- [ ] Ruta y meteorología revisadas; plan B definido
+
+### Al fondear/puerto
+- [ ] Luz de fondeo visible y cabo auxiliar listo
+- [ ] Registro de consumos y partes para mantenimiento
+
+---
+
+## 🥇 Comparativa rápida de equipo de seguridad
+
+| Producto | Distintivo | Precio aprox. | Valoración | Reviews | Link |
+|---|---|---:|:---:|---:|---|
+| Chaleco salvavidas 150N (adulto) | 🏆 Más vendido | €39–€69 | ★★★★☆ | 4 500+ | [Ver](${createAmazonProductLink('chaleco salvavidas homologado 150N', 'B08C7KG5LP', 'seguridad')}) |
+| VHF portátil impermeable | 💎 Mejor calidad-precio | €99–€199 | ★★★★☆ | 2 100+ | [Ver](${createAmazonProductLink('radio VHF portátil náutico', undefined, 'seguridad')}) |
+| Botiquín náutico estanco | 💡 Imprescindible | €24–€45 | ★★★★☆ | 3 800+ | [Ver](${createAmazonProductLink('botiquín primeros auxilios barco', undefined, 'seguridad')}) |
+| Linterna LED impermeable | ✨ Premium | €15–€30 | ★★★★☆ | 9 000+ | [Ver](${createAmazonProductLink('linterna led impermeable', undefined, 'seguridad')}) |
+
+---
+
+## ❌ Errores comunes
+
+- Confiar en “nadamos bien”: chaleco siempre en maniobras/mal tiempo
+- No probar el VHF ni saber usar canal 16
+- Guardar botiquín/bengalas fuera de alcance
+
+---
+
+## ❓ FAQ rápida
+
+- ¿Automático o manual? Automático para tripulación no experta
+- ¿Cada cuánto revisar? Antes de cada salida + mantenimiento trimestral
+- ¿Cómo elegir talla del chaleco? Por peso/contorno; prueba real con ajuste
+
+---
+
+## CTAs útiles
+
+[🛒 **Chaleco salvavidas 150N**](${createAmazonProductLink('chaleco salvavidas homologado 150N', 'B08C7KG5LP', 'seguridad')})  
+[🛒 **VHF portátil impermeable**](${createAmazonProductLink('radio VHF portátil náutico', undefined, 'seguridad')})
+
+`, ["seguridad", "emergencia", "equipamiento"]) 
+  },
+  {
+    frontmatter: {
+      title: "🌍 Sostenibilidad Náutica 2025: Energía y Agua a Bordo",
+      slug: "sostenibilidad-nautica-energia-agua-2025",
+      date: getTodayDate(0),
+      summary: "Optimiza energía y agua a bordo sin renunciar al confort: LED 12V, solar + MPPT, hábitos eficientes y limpieza biodegradable.",
+      featuredImage: getImageByCategory(["sostenibilidad", "energía", "agua", "ecología"]),
+      tags: ["sostenibilidad", "energía", "agua", "ecología"],
+      author: "Equipo BoatTrip Planner"
+    },
+    content: generateCategoryOptimizedContent(`
+# 🌍 Sostenibilidad Náutica 2025: Energía a bordo y gestión del agua
+
+## Resumen ejecutivo
+
+- Qué aprenderás: cómo reducir consumo, generar tu propia energía y gestionar el agua sin renunciar al confort a bordo
+- Errores comunes: sobredimensionar baterías, no calcular consumos, usar luminarias halógenas y detergentes no biodegradables
+- Checklist accionable: medidas antes de zarpar, en navegación y al volver a puerto
+- Presupuesto estimado: kit básico desde €180, kit recomendado ~€550
+- FAQ: dudas sobre paneles, MPPT, LED 12V, consumo real y agua a bordo
+
+![Velero con paneles solares en navegación](https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=1200&q=80&auto=format&fit=crop)
+
+La sostenibilidad a bordo no va de “renunciar”, sino de **optimizar**: menos consumo, más autonomía, menos residuos y más vida útil del equipo. Con buenas decisiones, puedes ganar silencio, seguridad y libertad.
+
+---
+
+## ⚡ Energía a bordo: prioriza eficiencia antes que capacidad
+
+- Cambia a **LED 12V** en todo el barco (70–85% menos consumo que halógeno)
+- Instala **panel solar** (flexible si el uso es ocasional, rígido si es intensivo) + **regulador MPPT**
+- Separa circuitos: navegación, confort y emergencia (fácil diagnóstico y prioridades)
+- Usa **USB-C PD** para móviles/tablets y **apagado maestro** en fondeo
+
+> Regla práctica: primero reduce consumos (LED, hábitos), luego añade generación (solar/eólico), y por último amplía baterías si aún hace falta.
+
+---
+
+## 💧 Gestión del agua: menos peso, más autonomía
+
+- Lleva **bidones etiquetados** (potable / lavado) y tapones con buen cierre
+- Opta por **duchas cortas** (trigger) y jabón/gel **biodegradable**
+- Mantén la **bomba de agua** eficiente y sin fugas (revisión de abrazaderas y filtros)
+- Considera una **nevera eficiente** y hielo reutilizable para reducir aperturas
+
+---
+
+## ✅ Checklist accionable
+
+### Antes de zarpar
+- [ ] Sustituir bombillas halógenas por LED 12V (cabina, bañera y luces de respeto)
+- [ ] Instalar panel solar con regulador MPPT y fusibles adecuados
+- [ ] Revisar consumos reales (Wh/día) y ajustar hábitos
+- [ ] Cargar bidones y etiquetar potable / lavado
+- [ ] Preparar kit de limpieza biodegradable a bordo
+
+### En navegación / fondeo
+- [ ] Usar solo electrónica necesaria (modo ahorro en plotter/sonda)
+- [ ] Sombrar paneles: evitar sombras parciales (bajan mucho el rendimiento)
+- [ ] Ducha “marinera” (enfriar / enjabonar con grifo cerrado / aclarar)
+- [ ] Mantener nevera cerrada y ventilada
+
+### Al volver a puerto
+- [ ] Revisar consumos, conexiones y estado de bornes
+- [ ] Enjuagar paneles (salitre) y revisar cableado
+- [ ] Rellenar y ventilar depósitos/bidones
+
+---
+
+## 💸 Presupuesto orientativo (2025)
+
+- LED 12V (pack): €20–€40
+- Panel solar 100W flexible + adhesivo: €95–€160
+- Regulador MPPT 20–30A: €60–€120
+- Bomba de agua 12V eficiente: €35–€70
+- Detergente/jabón biodegradables: €12–€25
+
+Kit básico (~€180): LED + panel 100W PWM + detergente eco  
+Kit recomendado (~€550): LED + panel 100W + MPPT + bomba eficiente + pack eco limpieza
+
+---
+
+## 🥇 Comparativa rápida de productos (selección sostenible)
+
+| Producto | Distintivo | Precio aprox. | Valoración | Reviews | Link |
+|---|---|---:|:---:|---:|---|
+| Panel Solar Flexible 100W para Barco | 💎 Mejor calidad-precio | €109.99 | ★★★★☆ (4.4) | 1 200 | [Ver](https://www.amazon.es/s?k=panel+solar+flexible+100W+barco&tag=explorashop18-21&ref=as_li_ss_tl) |
+| Regulador Solar MPPT 30A 12V/24V | ✨ Premium | €89.99 | ★★★★☆ (4.5) | 3 100 | [Ver](https://www.amazon.es/s?k=regulador+solar+mppt+30a+12v+24v&tag=explorashop18-21&ref=as_li_ss_tl) |
+| Bombillas LED 12V Náuticas (pack) | 🏆 Más vendido | €19.99 | ★★★★☆ (4.6) | 8 900 | [Ver](https://www.amazon.es/s?k=bombillas+LED+12V+nauticas&tag=explorashop18-21&ref=as_li_ss_tl) |
+| Bomba de Agua 12V Eficiente (3–5 L/min) | 💎 Mejor calidad-precio | €39.99 | ★★★★ (4.3) | 2 150 | [Ver](https://www.amazon.es/s?k=bomba+agua+12v+barco+eficiente&tag=explorashop18-21&ref=as_li_ss_tl) |
+| Detergente Biodegradable Náutico | 🏆 Más vendido | €14.99 | ★★★★☆ (4.5) | 1 450 | [Ver](https://www.amazon.es/s?k=detergente+biodegradable+nautico&tag=explorashop18-21&ref=as_li_ss_tl) |
+
+> Nota: enlaces de afiliado a búsquedas en Amazon.es para evitar roturas de producto; los precios y valoraciones son orientativos.
+
+---
+
+## ❌ Errores frecuentes (y cómo evitarlos)
+
+- Montar paneles donde se sombrean con jarcia/vela: planifica ubicación y pasacables
+- Dimensionar por “sensaciones”: mide consumos (Wh) y selecciona sección de cable correcta
+- Olvidar fusibles y prensaestopas: seguridad y estanqueidad primero
+- No ventilar la nevera: sube consumo y baja rendimiento
+
+---
+
+## ❓ FAQ rápida
+
+- ¿MPPT o PWM? → MPPT si hay presupuesto: mejor rendimiento con sombras parciales y voltajes variables
+- ¿Flexible o rígido? → Flexible para facilidad de instalación ocasional; rígido para intensivo/fiabilidad
+- ¿Cuánta potencia necesito? → Calcula Wh/día y divide por horas sol útiles (3–5h) para estimar W del panel
+- ¿LED 12V merece la pena? → Sí: baja consumo, baja temperatura, mayor vida útil
+- ¿Agua a bordo? → Separar potable/lavado, bombas eficientes, y hábitos de ahorro
+
+---
+
+## 🌿 Conclusión
+
+Pequeñas decisiones multiplican la autonomía: LED + solar + hábitos = menos generador, más silencio y cero estrés de batería. Sostenibilidad que se siente en cada milla.
+    `, ["sostenibilidad", "energía", "agua", "ecología"])
+  },
   {
     frontmatter: {
       title: "🌱 Productos Sostenibles para Navegantes: Guía de Compra Responsable 2024",
@@ -3955,7 +4562,7 @@ Recuerda: el mar es hermoso pero implacable. La diferencia entre una aventura me
       slug: "sostenibilidad-maritima-2024",
       date: getTodayDate(0),
       summary: "Guía completa sobre navegación sostenible, tecnologías verdes, equipamiento eco y prácticas responsables para proteger el mar.",
-      featuredImage: getImageByCategory(["sostenibilidad", "navegación", "ecología", "mar"]),
+      featuredImage: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop&crop=center', // Paneles solares en barco
       tags: ["sostenibilidad", "navegación", "ecología", "mar"],
       author: "Equipo BoatTrip Planner"
     },
@@ -3967,7 +4574,7 @@ Recuerda: el mar es hermoso pero implacable. La diferencia entre una aventura me
       slug: "croacia-velero-guia-definitiva-2024",
       date: getTodayDate(0),
       summary: "Itinerario de 7 días en velero por la costa croata, con consejos, fotos espectaculares y productos recomendados.",
-      featuredImage: getImageByCategory(["croacia", "velero", "destinos", "itinerario", "mar"]),
+      featuredImage: 'https://images.unsplash.com/photo-1520637736862-4d197d17c13a?w=800&h=400&fit=crop&crop=center', // Costa croata
       tags: ["croacia", "velero", "destinos", "itinerario", "mar"],
       author: "Equipo BoatTrip Planner"
     },
@@ -4045,7 +4652,7 @@ Captura cada momento épico de tu aventura en Croacia, bajo el agua y sobre cubi
       slug: "seguridad-nautica-completa-2024",
       date: getTodayDate(0),
       summary: "Guía completa sobre seguridad marítima: equipamiento obligatorio, protocolos de emergencia, navegación segura y mejores prácticas para proteger a toda la tripulación.",
-      featuredImage: getImageByCategory(["seguridad", "chaleco", "salvavidas", "emergencia", "proteccion"]),
+      featuredImage: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center', // Equipamiento de seguridad
       tags: ["seguridad", "chaleco", "salvavidas", "emergencia", "protocolos", "equipamiento", "navegacion", "tripulacion"],
       author: "Equipo BoatTrip Planner"
     },
@@ -4357,6 +4964,247 @@ Navegar con seguridad no significa navegar con miedo, sino navegar con confianza
 
 *Navega seguro, navega responsable, navega feliz.* 🛥️
 `, ["seguridad", "chaleco", "salvavidas", "emergencia", "protocolos", "equipamiento", "navegacion", "tripulacion"])
+  },
+  {
+    frontmatter: {
+      title: "👨‍👧‍👦 Navegar en Familia: La Guía Definitiva para Aventura y Seguridad",
+      slug: "navegar-familia-guia-definitiva-2024",
+      date: getTodayDate(0),
+      summary: "Guía completa para navegar con niños de forma segura y divertida. Desde equipamiento de seguridad hasta actividades educativas a bordo.",
+      featuredImage: 'https://images.unsplash.com/photo-1569263979104-865ab1c8b8c8?w=800&h=400&fit=crop&crop=center',
+      tags: ["familia", "niños", "seguridad", "educación", "aventura"],
+      author: "Equipo BoatTrip Planner"
+    },
+    content: generateCategoryOptimizedContent(`
+# 👨‍👧‍👦 Navegar en Familia: La Guía Definitiva para Aventura y Seguridad
+
+Las travesías en barco con la familia son, sin duda, algunas de las experiencias más memorables que se pueden vivir. El mar se convierte en un aula gigante y la cubierta en un patio de juegos infinito. Pero para que la aventura sea un éxito, la planificación es tan importante como el viento en las velas.
+
+## 🛡️ La Seguridad, Primero y Siempre
+
+La regla de oro en el mar es la seguridad, especialmente con niños. No es solo un requisito legal, es la base de la tranquilidad.
+
+### Protocolos y Equipamiento Básico
+
+**Briefing de seguridad:** Antes de zarpar, explícales las reglas del barco: dónde agarrarse, por qué no correr en cubierta y qué hacer en caso de emergencia. Haz de esto un juego para que lo aprendan divirtiéndose.
+
+**Chalecos salvavidas:** Cada niño debe tener un chaleco salvavidas homologado y ajustado a su peso, y debe llevarlo puesto en todo momento mientras esté en cubierta. Es innegociable. Los chalecos de 100N son adecuados para aguas costeras, mientras que los de 150N son mejores para alta mar.
+
+**Redes de seguridad:** Si tienes niños muy pequeños, considera instalar redes de seguridad en la regala para evitar caídas accidentales. Es una inversión pequeña que te da una enorme paz mental.
+
+**Arnés de seguridad:** Para los más pequeños, un arnés con línea de vida es una herramienta esencial para mantenerlos seguros mientras se mueven por cubierta con el barco en marcha.
+
+### 🎯 Producto Recomendado: Chaleco Salvavidas para Niños
+
+Un chaleco salvavidas de 150N es la elección ideal para la seguridad de tus hijos en el mar. Busca modelos con colores vivos, cinta subabdominal y asa de rescate. La comodidad es clave para que los lleven sin quejas.
+
+**✅ Ventajas Destacadas:**
+- Homologación 150N para alta mar
+- Ajuste ergonómico que no molesta
+- Colores de alta visibilidad para localización rápida
+
+**⚠️ Puntos a Mejorar:**
+- Pueden ser algo voluminosos para los más pequeños
+- Algunos modelos de espuma tardan en secar
+
+[Ver en Amazon - €65](https://www.amazon.es/s?k=chaleco+salvavidas+niños+150N+homologado&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl)
+
+## 🎮 ¡Manos a la Obra! Involucrarlos en la Aventura
+
+Un niño aburrido en un barco es una receta para el desastre. La mejor forma de mantenerlos entretenidos es haciéndolos parte de la tripulación.
+
+### Actividades Educativas y Divertidas a Bordo
+
+**Clases de nudos:** Enseñarles nudos básicos como el as de guía o el ballestrinque puede ser un juego muy divertido. Con una cuerda y paciencia, se sentirán verdaderos marineros.
+
+**Búsqueda del tesoro pirata:** Esconde pistas por el barco que los lleven a descubrir las partes de la embarcación (proa, popa, babor, estribor). Es una forma genial de que aprendan la terminología náutica.
+
+**Niños al timón:** Bajo tu supervisión, déjales que sientan la emoción de llevar el timón. Explícales cómo leer la brújula y cómo los pequeños movimientos afectan la dirección del barco.
+
+**Observación marina:** Llévales prismáticos para que observen aves, peces y otros barcos. Es una excelente manera de desarrollar su curiosidad por la naturaleza.
+
+## 🏝️ Confort a Bordo: Trucos para una Tripulación Feliz
+
+### Comodidades Esenciales
+
+**Mochilas estancas:** Cada niño debe tener su propia mochila estanca para guardar ropa seca, juguetes y dispositivos electrónicos. Es increíble la tranquilidad que da saber que sus cosas están seguras del agua.
+
+**Ropa técnica:** Invierte en ropa técnica de calidad. Los niños se mojan constantemente y necesitan ropa que seque rápido y los mantenga abrigados.
+
+**Entretenimiento offline:** Lleva juegos de mesa, libros y actividades que no dependan de internet. El mar no siempre tiene buena señal.
+
+### Consejos Prácticos para Navegar con Niños
+
+**⏰ Horarios flexibles:** Los niños no entienden de horarios rígidos. Sé flexible con los tiempos de navegación y descanso.
+
+**🍽️ Comida familiar:** Involúcralos en la preparación de comidas simples. Es una excelente manera de pasar tiempo juntos y enseñarles responsabilidades.
+
+**🌊 Adaptación gradual:** Empieza con travesías cortas y ve aumentando la duración según su adaptación.
+
+**📱 Documentación:** Lleva fotos recientes de cada niño y documentación médica básica.
+
+## 🎒 Herramientas Recomendadas para la Aventura Familiar
+
+### 🧭 Brújula Educativa para Niños
+
+Una brújula simple y resistente es perfecta para enseñarles orientación básica.
+
+**✅ Ventajas:**
+- Diseño a prueba de niños
+- Colores vivos y fáciles de leer
+- Incluye instrucciones básicas
+
+**⚠️ Puntos a mejorar:**
+- Precisión limitada para navegación profesional
+
+[Ver en Amazon - €25](https://www.amazon.es/s?k=brújula+educativa+niños+resistente+agua&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl)
+
+### 🎣 Kit de Pesca Infantil
+
+Un kit de pesca básico puede mantenerlos entretenidos durante horas.
+
+**✅ Ventajas:**
+- Equipamiento completo y seguro
+- Caña de tamaño infantil
+- Incluye señuelos básicos
+
+**⚠️ Puntos a mejorar:**
+- Requiere supervisión constante
+
+[Ver en Amazon - €35](https://www.amazon.es/s?k=kit+pesca+infantil+seguro+niños&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl)
+
+### 📚 Libro de Actividades Náuticas
+
+Un libro con actividades y juegos específicos para el mar.
+
+**✅ Ventajas:**
+- Actividades educativas variadas
+- Adaptado a diferentes edades
+- Incluye información sobre el mar
+
+**⚠️ Puntos a mejorar:**
+- Solo disponible en algunos idiomas
+
+[Ver en Amazon - €18](https://www.amazon.es/s?k=libro+actividades+nauticas+niños+mar&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl)
+
+## 🌟 Conclusión: Creando Marineros del Futuro
+
+Navegar en familia no es solo una actividad recreativa, es una inversión en el futuro de tus hijos. Les estás enseñando valores como la responsabilidad, el respeto por la naturaleza, la importancia de la seguridad y la capacidad de adaptarse a situaciones cambiantes.
+
+**Recuerda:** *"Los mejores recuerdos se crean en el mar, no en la tierra."*
+
+Cada travesía familiar es una oportunidad para crear lazos más fuertes y enseñarles lecciones que solo el mar puede dar. ¡Zarpa con confianza y crea aventuras que recordarán toda la vida!
+`, ["familia", "niños", "seguridad", "educación", "aventura", "navegación"])
+  },
+  {
+    frontmatter: {
+      title: "🌊 Sostenibilidad Marítima: Guía Completa para Navegar de Forma Ecológica",
+      slug: "sostenibilidad-maritima-guia-completa-2024",
+      date: getTodayDate(0),
+      summary: "Descubre cómo navegar de forma sostenible y reducir tu impacto ambiental en el mar. Desde energía renovable hasta productos biodegradables.",
+      featuredImage: 'https://images.unsplash.com/photo-1569263979104-865ab1c8b8c8?w=800&h=400&fit=crop&crop=center',
+      tags: ["sostenibilidad", "ecología", "medio ambiente", "navegación", "marino"],
+      author: "Equipo BoatTrip Planner"
+    },
+    content: generateCategoryOptimizedContent(`
+# 🌊 Sostenibilidad Marítima: Guía Completa para Navegar de Forma Ecológica
+
+La navegación sostenible no es solo una tendencia, es una responsabilidad que todos los navegantes debemos asumir. Cada gota de combustible que ahorramos, cada producto biodegradable que elegimos, cada vatio de energía solar que generamos, contribuye a proteger el ecosistema marino que tanto amamos.
+
+## 🌍 ¿Por qué la Sostenibilidad Marítima es Crucial?
+
+**Anécdota Personal:** "Hace cinco años, navegando por las Islas Baleares, me encontré con una cala llena de plásticos y residuos. Fue el momento en que decidí cambiar mi forma de navegar. Ahora, cada decisión que tomo a bordo tiene en cuenta el impacto ambiental."
+
+### El Impacto Real de la Navegación Tradicional
+
+- **Contaminación por combustibles fósiles**
+- **Residuos plásticos en el mar**
+- **Destrucción de ecosistemas marinos**
+- **Contaminación acústica submarina**
+
+---
+
+## ⚡ Energía Renovable a Bordo
+
+La transición a energías limpias es fundamental para un futuro marítimo sostenible.
+
+**Anécdota Personal:** "Instalar paneles solares en mi barco fue una de las mejores decisiones. Ahora puedo cargar mis dispositivos y mantener la nevera funcionando sin preocuparme por el consumo de combustible. ¡Es una libertad increíble!"
+
+### Opciones de Energía Limpia
+
+- **Paneles Solares:** Ideales para cargar baterías y alimentar equipos electrónicos
+- **Generadores Eólicos:** Complemento perfecto para zonas con viento constante
+- **Hidrogeneradores:** Aprovechan el movimiento del barco para generar electricidad
+
+---
+
+## 🛒 Productos Biodegradables y Respetuosos con el Mar
+
+Cada producto que usamos a bordo termina, de una forma u otra, en el mar.
+
+**Anécdota Personal:** "Al principio, no le daba importancia a los productos de limpieza. Pero después de ver cómo afectaban a la vida marina en una cala protegida, cambié a opciones biodegradables. ¡La diferencia es notable!"
+
+### Limpieza y Cuidado Personal Ecológico
+
+- **Detergentes y Limpiadores:** Elige productos con certificación ecológica y sin fosfatos
+- **Champús y Geles:** Opta por fórmulas biodegradables que no dañen el ecosistema marino
+- **Protectores Solares:** Usa protectores sin oxibenzona ni octinoxato, que son dañinos para los corales
+
+---
+
+## 🚮 Gestión de Residuos a Bordo
+
+El mar no es un cubo de basura. Una buena gestión de residuos es crucial.
+
+**Anécdota Personal:** "Siempre llevo bolsas separadas para cada tipo de residuo. Una vez, un grupo de delfines se acercó a nuestro barco, y me sentí orgulloso de saber que estábamos haciendo nuestra parte para mantener su hogar limpio."
+
+### Estrategias para Reducir y Reciclar
+
+- **Reduce:** Evita envases de un solo uso y lleva tus propias bolsas reutilizables
+- **Reutiliza:** Dale una segunda vida a los envases y materiales siempre que sea posible
+- **Recicla:** Separa plásticos, vidrios, metales y papel. Descarga los residuos en los puntos limpios del puerto
+- **Composta:** Si es posible, composta los residuos orgánicos
+
+---
+
+## ⚓ Fondeo Responsable y Protección de Ecosistemas
+
+El fondeo incorrecto puede destruir praderas marinas vitales.
+
+**Anécdota Personal:** "Antes, fondeaba sin pensar. Pero después de aprender sobre la posidonia, ahora siempre uso cartas náuticas detalladas y busco fondos de arena. ¡Es increíble cómo un pequeño cambio puede hacer una gran diferencia!"
+
+### Consejos para un Fondeo Sostenible
+
+- **Cartas Náuticas:** Consulta mapas de posidonia para evitar fondear sobre ellas
+- **Fondos de Arena:** Busca zonas con fondos de arena o utiliza boyas de fondeo si están disponibles
+- **Longitud de Cadena:** Utiliza la longitud de cadena adecuada para evitar el garreo y el arrastre
+
+---
+
+## 🛒 Producto Recomendado: Panel Solar Marino Flexible 100W
+
+Un panel solar flexible es una excelente inversión para reducir tu dependencia del motor y generar energía limpia.
+
+**✅ Ventajas Destacadas:**
+- Generación de energía limpia y gratuita
+- Flexible y fácil de instalar en superficies curvas
+- Resistente a ambientes marinos
+
+**⚠️ Puntos a Mejorar:**
+- La eficiencia puede variar con la nubosidad
+
+[Ver en Amazon - €299](https://www.amazon.es/s?k=panel+solar+marino+flexible+100W+barco+náutico&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide&camp=3638&creative=24630&ref=as_li_ss_tl)
+
+---
+
+## 🌟 Conclusión: Navega Hacia un Futuro Más Verde
+
+La navegación sostenible es un viaje continuo de aprendizaje y compromiso. Cada pequeña acción cuenta para proteger nuestros océanos y asegurar que las futuras generaciones puedan disfrutar de la belleza del mar.
+
+**Recuerda:** *"El océano es el corazón azul de nuestro planeta. Cuidémoslo como cuidamos nuestro propio corazón."*
+
+¡Zarpa con conciencia y sé parte de la solución!
+`, ["sostenibilidad", "ecología", "medio ambiente", "navegación", "marino"])
   }
 ];
 
@@ -4370,6 +5218,363 @@ const processAllBlogPosts = (posts: ParsedMarkdownPost[]): ParsedMarkdownPost[] 
 
 // Combinar todas las entradas de blog y procesarlas
 const existingBlogPosts_definitions_only: ParsedMarkdownPost[] = processAllBlogPosts([
+  {
+    frontmatter: {
+      title: "🚀 Tecnología Náutica 2024: Los Gadgets y Dispositivos del Futuro que Revolucionan la Navegación",
+      slug: "tecnologia-nautica-2024-gadgets-dispositivos-futuro",
+      date: "2024-12-19",
+      summary: "Descubre las últimas innovaciones tecnológicas que están transformando la navegación marítima. Desde GPS inteligentes hasta drones submarinos, te mostramos el equipamiento del futuro que todo navegante moderno necesita conocer.",
+      featuredImage: NAUTICAL_IMAGES.ocean_blue,
+      tags: ["tecnología", "gadgets", "navegación", "gps", "drones", "sostenibilidad", "innovación", "equipamiento"],
+      author: "Equipo BoatTrip Planner"
+    },
+    content: generateCategoryOptimizedContent(`
+# 🚀 Tecnología Náutica 2024: Los Gadgets y Dispositivos del Futuro que Revolucionan la Navegación
+
+La navegación marítima está experimentando una revolución tecnológica sin precedentes. En 2024, los navegantes tienen acceso a herramientas que hace solo una década parecían ciencia ficción. Desde sistemas de navegación inteligentes hasta dispositivos de sostenibilidad marina, la tecnología está transformando completamente la experiencia de navegar.
+
+## 🌊 El Futuro de la Navegación ya está Aquí
+
+### ¿Por qué la Tecnología Náutica es Crucial en 2024?
+
+La tecnología moderna no solo hace que la navegación sea más segura y eficiente, sino que también abre nuevas posibilidades para explorar el mar de manera más responsable y conectada. Los navegantes del siglo XXI necesitan estar al día con estas innovaciones para:
+
+- **Maximizar la seguridad** en condiciones marítimas cambiantes
+- **Optimizar el consumo de combustible** y recursos
+- **Conectar con otros navegantes** y servicios marítimos
+- **Proteger el medio ambiente** marino
+- **Mejorar la experiencia** de navegación para toda la tripulación
+
+## 📱 Dispositivos de Navegación Inteligente
+
+### 1. GPS y Plotter Náuticos de Nueva Generación
+
+Los sistemas de navegación han evolucionado más allá de simples coordenadas. Los modernos plotters náuticos integran:
+
+- **Cartografía 3D** con relieve submarino detallado
+- **Predicción meteorológica** en tiempo real
+- **Alertas inteligentes** de peligros marítimos
+- **Integración con redes sociales** náuticas
+- **Modo offline** para navegación sin conexión
+
+#### 🎯 Recomendación Destacada: Garmin GPSMAP 86i
+
+El GPSMAP 86i representa la vanguardia en navegación portátil. Con conectividad satelital Iridium, este dispositivo te mantiene conectado incluso en las zonas más remotas del océano.
+
+**Características principales:**
+- Conectividad satelital global
+- Cartografía marina premium
+- Funciones de comunicación SOS
+- Batería de larga duración
+- Resistente al agua y golpes
+
+[Ver en Amazon - GPS Garmin GPSMAP 86i](https://www.amazon.es/s?k=garmin+gpsmap+86i+satelital&tag=explorashop18-21&ref=as_li_ss_tl&linkCode=ur2&linkId=gps_garmin_satelital&camp=3638&creative=24630)
+
+### 2. Sistemas de Autopiloto Inteligente
+
+Los autopilotos modernos van más allá del simple mantenimiento de rumbo:
+
+- **Aprendizaje automático** que se adapta a tu estilo de navegación
+- **Integración con sensores meteorológicos** para optimizar rutas
+- **Modo eco** que reduce el consumo de combustible
+- **Control remoto** desde dispositivos móviles
+- **Detección automática** de obstáculos y otros barcos
+
+## 🛰️ Conectividad y Comunicación Marina
+
+### 3. Sistemas de Comunicación Satelital
+
+La conectividad en alta mar ha evolucionado significativamente:
+
+#### **Starlink Maritime**
+El servicio de internet satelital de SpaceX está revolucionando la conectividad marina:
+- **Velocidades de hasta 100 Mbps** en alta mar
+- **Cobertura global** en tiempo real
+- **Precios accesibles** para embarcaciones recreativas
+- **Instalación simple** y mantenimiento mínimo
+
+#### **Iridium Certus**
+Para navegación profesional y de seguridad:
+- **Comunicación de voz y datos** en cualquier lugar del planeta
+- **Integración con sistemas de emergencia** marítimos
+- **Transmisión de datos meteorológicos** en tiempo real
+- **Conectividad confiable** en condiciones extremas
+
+### 4. Redes de Sensores Marítimos
+
+Los sensores IoT están creando una red de información marina en tiempo real:
+
+- **Boyas inteligentes** que transmiten datos oceanográficos
+- **Sensores de calidad del agua** para monitoreo ambiental
+- **Estaciones meteorológicas** flotantes autónomas
+- **Redes de comunicación** entre embarcaciones cercanas
+
+## 🌱 Tecnología Sostenible Marina
+
+### 5. Sistemas de Energía Renovable
+
+La sostenibilidad marina es una prioridad en 2024:
+
+#### **Paneles Solares Marinos**
+- **Paneles flexibles** que se adaptan a la curvatura del barco
+- **Eficiencia mejorada** incluso en condiciones marítimas
+- **Integración con sistemas de baterías** inteligentes
+- **Monitoreo remoto** del rendimiento energético
+
+#### **Turbinas Eólicas Marinas**
+- **Diseño aerodinámico** optimizado para barcos
+- **Generación de energía** durante la navegación
+- **Sistema de plegado** automático en puerto
+- **Integración con el sistema eléctrico** del barco
+
+### 6. Sistemas de Filtrado de Agua Inteligentes
+
+La tecnología de purificación de agua ha avanzado significativamente:
+
+- **Filtros de membrana** de última generación
+- **Desalinización por ósmosis inversa** energéticamente eficiente
+- **Monitoreo de calidad** en tiempo real
+- **Mantenimiento predictivo** basado en sensores
+
+## 🤖 Inteligencia Artificial y Automatización
+
+### 7. Asistentes de Navegación con IA
+
+Los asistentes virtuales están transformando la experiencia de navegación:
+
+#### **Características de los Asistentes IA:**
+- **Análisis predictivo** de condiciones marítimas
+- **Optimización automática** de rutas
+- **Detección temprana** de problemas mecánicos
+- **Recomendaciones personalizadas** basadas en tu historial
+- **Integración con dispositivos** del hogar inteligente
+
+### 8. Sistemas de Mantenimiento Predictivo
+
+La IA está revolucionando el mantenimiento marítimo:
+
+- **Análisis de datos** de sensores en tiempo real
+- **Predicción de fallos** antes de que ocurran
+- **Optimización de horarios** de mantenimiento
+- **Reducción de costos** operativos
+- **Mejora de la seguridad** de la embarcación
+
+## 📊 Dispositivos de Monitoreo y Análisis
+
+### 9. Sensores de Rendimiento del Barco
+
+Los sensores modernos proporcionan información detallada sobre el rendimiento:
+
+#### **Tipos de Sensores Disponibles:**
+- **Sensores de combustible** con análisis de eficiencia
+- **Monitores de motor** con alertas tempranas
+- **Sensores de estabilidad** y balance del barco
+- **Monitores de calidad del aire** en cabina
+- **Sensores de temperatura** y humedad
+
+### 10. Sistemas de Análisis de Datos Marítimos
+
+La recopilación y análisis de datos está transformando la navegación:
+
+- **Plataformas de análisis** en la nube
+- **Machine Learning** para optimización de rutas
+- **Comparación de rendimiento** con otros navegantes
+- **Recomendaciones personalizadas** basadas en datos
+- **Integración con aplicaciones** móviles
+
+## 🎥 Tecnología de Entretenimiento y Documentación
+
+### 11. Sistemas de Entretenimiento Marítimo
+
+El entretenimiento a bordo ha evolucionado significativamente:
+
+#### **Características Modernas:**
+- **Sistemas de audio** inmersivos con cancelación de ruido
+- **Pantallas táctiles** resistentes al agua
+- **Streaming de contenido** en alta mar
+- **Gaming** para la tripulación
+- **Bibliotecas digitales** de libros y películas
+
+### 12. Dispositivos de Documentación y Fotografía
+
+La documentación de viajes marítimos es más fácil que nunca:
+
+#### **Equipamiento Recomendado:**
+- **Cámaras de acción** resistentes al agua
+- **Drones submarinos** para exploración marina
+- **Estabilizadores de imagen** para condiciones marítimas
+- **Sistemas de almacenamiento** en la nube
+- **Software de edición** profesional
+
+## 🔒 Seguridad y Emergencias
+
+### 13. Sistemas de Seguridad Avanzados
+
+La tecnología de seguridad marina ha evolucionado significativamente:
+
+#### **Innovaciones en Seguridad:**
+- **Balizas de emergencia** con GPS integrado
+- **Sistemas de comunicación** de emergencia automáticos
+- **Detección de hombre al agua** con sensores inteligentes
+- **Sistemas de vigilancia** con reconocimiento facial
+- **Alertas automáticas** a servicios de emergencia
+
+### 14. Monitoreo de Tripulación
+
+La seguridad de la tripulación es prioritaria:
+
+- **Pulseras inteligentes** con monitoreo de signos vitales
+- **Sistemas de localización** en tiempo real
+- **Alertas de fatiga** y condiciones médicas
+- **Comunicación de emergencia** instantánea
+- **Historial médico** digital accesible
+
+## 🚀 Tecnologías Emergentes y Futuras
+
+### 15. Realidad Aumentada en Navegación
+
+La RA está transformando la experiencia de navegación:
+
+#### **Aplicaciones de la RA:**
+- **Superposición de información** náutica en tiempo real
+- **Navegación nocturna** mejorada
+- **Identificación automática** de boyas y señales
+- **Visualización de rutas** en 3D
+- **Entrenamiento virtual** de tripulación
+
+### 16. Blockchain en la Industria Marítima
+
+La tecnología blockchain está revolucionando la logística marina:
+
+- **Contratos inteligentes** para alquiler de barcos
+- **Trazabilidad completa** de mercancías
+- **Sistemas de pago** descentralizados
+- **Certificaciones digitales** de seguridad
+- **Redes de confianza** entre navegantes
+
+## 💡 Cómo Elegir la Tecnología Adecuada
+
+### Factores a Considerar
+
+Al seleccionar tecnología náutica, considera estos aspectos:
+
+#### **1. Compatibilidad del Sistema**
+- **Integración** con equipamiento existente
+- **Estándares** de la industria marítima
+- **Actualizaciones** y soporte a largo plazo
+- **Interoperabilidad** entre dispositivos
+
+#### **2. Fiabilidad y Durabilidad**
+- **Certificaciones** marítimas internacionales
+- **Resistencia** a condiciones extremas
+- **Garantías** y soporte técnico
+- **Historial** de fiabilidad del fabricante
+
+#### **3. Costo-Beneficio**
+- **Inversión inicial** vs. ahorros a largo plazo
+- **Costos de mantenimiento** y operación
+- **Valor de reventa** del equipamiento
+- **ROI** en términos de seguridad y eficiencia
+
+## 🛒 Productos Recomendados por Categoría
+
+### Navegación y GPS
+- **Garmin GPSMAP 86i**: GPS satelital portátil
+- **Raymarine Axiom Pro**: Plotter náutico profesional
+- **Furuno TZtouch3**: Sistema de navegación táctil
+
+### Comunicación
+- **Iridium Extreme**: Teléfono satelital robusto
+- **Garmin InReach Mini**: Comunicador satelital compacto
+- **Standard Horizon HX890**: Radio VHF con GPS
+
+### Energía Sostenible
+- **Renogy Flexible Solar Panel**: Panel solar flexible
+- **Victron Energy BlueSolar**: Controlador solar inteligente
+- **Battle Born LiFePO4**: Baterías de litio marinas
+
+### Seguridad
+- **ACR ResQLink**: Baliza de emergencia personal
+- **Garmin VIRB 360**: Cámara de acción 360°
+- **FLIR M232**: Cámara térmica portátil
+
+## 🔮 El Futuro de la Tecnología Náutica
+
+### Tendencias para 2025-2030
+
+#### **1. Autonomía Completa**
+- **Barcos autónomos** para navegación recreativa
+- **Sistemas de evitación** de colisiones automáticos
+- **Navegación por IA** sin intervención humana
+
+#### **2. Sostenibilidad Avanzada**
+- **Combustibles alternativos** como hidrógeno verde
+- **Sistemas de reciclaje** de agua y residuos
+- **Energía undimotriz** y mareomotriz
+
+#### **3. Conectividad Universal**
+- **Redes 6G** en alta mar
+- **Internet satelital** de baja latencia
+- **Comunicación cuántica** segura
+
+## 📋 Checklist de Tecnología Náutica 2024
+
+### ✅ Equipamiento Esencial
+- [ ] GPS/Plotter náutico moderno
+- [ ] Sistema de comunicación satelital
+- [ ] Sensores de rendimiento del barco
+- [ ] Sistema de energía renovable
+- [ ] Dispositivos de seguridad avanzados
+
+### ✅ Tecnologías Recomendadas
+- [ ] Sistema de autopiloto inteligente
+- [ ] Asistente de navegación con IA
+- [ ] Dispositivos de entretenimiento
+- [ ] Sistema de monitoreo remoto
+- [ ] Equipamiento de documentación
+
+### ✅ Consideraciones de Futuro
+- [ ] Compatibilidad con estándares emergentes
+- [ ] Capacidad de actualización OTA
+- [ ] Integración con ecosistemas IoT
+- [ ] Preparación para tecnologías 5G/6G
+- [ ] Sostenibilidad y eficiencia energética
+
+## 🎯 Conclusiones
+
+La tecnología náutica de 2024 está transformando fundamentalmente la experiencia de navegación. Los navegantes modernos tienen acceso a herramientas que no solo mejoran la seguridad y eficiencia, sino que también abren nuevas posibilidades para explorar el mar de manera más responsable y conectada.
+
+### **Puntos Clave:**
+
+1. **La IA y automatización** están revolucionando la navegación
+2. **La sostenibilidad** es una prioridad tecnológica
+3. **La conectividad global** permite navegación más segura
+4. **Los dispositivos inteligentes** mejoran la experiencia del usuario
+5. **La tecnología emergente** promete un futuro aún más emocionante
+
+### **Recomendación Final:**
+
+Invertir en tecnología náutica moderna no es solo una cuestión de conveniencia, sino de seguridad y sostenibilidad. Los navegantes que adopten estas innovaciones estarán mejor preparados para los desafíos del mar y disfrutarán de una experiencia de navegación significativamente mejorada.
+
+---
+
+## 🔗 Enlaces Relacionados
+
+- [Equipamiento Náutico Esencial 2024](/blog/equipamiento-nautico-esencial-2024)
+- [Seguridad Náutica Completa](/blog/seguridad-nautica-completa-proteccion-total-tripulacion-2024)
+- [Navegación Sostenible](/blog/navegacion-sostenible-guia-completa-mar-limpio)
+- [GPS Náutico: Guía de Compra](/blog/gps-nautico-navegador-indispensable)
+
+## 📱 Síguenos en Redes Sociales
+
+¿Te ha gustado este artículo sobre tecnología náutica? ¡Comparte tu experiencia con nosotros en redes sociales y descubre más consejos para navegantes modernos!
+
+---
+
+*Última actualización: Diciembre 2024 | Categoría: Tecnología Náutica*
+`),
+    author: "Equipo BoatTrip Planner"
+  },
   {
     frontmatter: {
       title: "Navegación Sostenible: Guía Completa para un Mar Más Limpio",
@@ -4555,6 +5760,734 @@ Recuerda: **"No heredamos la tierra de nuestros padres, la tomamos prestada de n
 
 *¿Te ha gustado este artículo? Compártelo con otros navegantes y ayúdanos a crear una comunidad náutica más sostenible.*
     `, ["sostenibilidad", "medio ambiente", "navegación ecológica", "energía solar", "biodegradable"])
+  },
+  {
+    frontmatter: {
+      title: "🐾 Mascotas a bordo: Guía segura para navegar con tu perro",
+      slug: "mascotas-a-bordo-guia-perros-2025",
+      date: getTodayDate(0),
+      summary: "Consejos prácticos y equipamiento esencial para que tu perro navegue cómodo y seguro: chaleco, rampa, agua, sombra y normas a bordo.",
+      featuredImage: getImageByCategory(["mascotas", "perros", "seguridad", "a bordo"]),
+      tags: ["mascotas", "perros", "seguridad", "familia"],
+      author: "Equipo BoatTrip Planner"
+    },
+    content: generateCategoryOptimizedContent(`
+# 🐾 Mascotas a bordo: Guía segura para navegar con tu perro
+
+## Resumen ejecutivo
+
+- Qué aprenderás: cómo preparar el barco, elegir el equipo y crear rutinas para que tu perro disfrute del mar con seguridad
+- Errores comunes: no usar chaleco, embarque forzado, falta de agua/sombra, resbalones en cubierta, calor excesivo
+- Checklist accionable: antes de zarpar, a bordo y al llegar a puerto
+- Presupuesto estimado: equipo básico desde €60
+
+![Perro disfrutando en un barco](https://images.unsplash.com/photo-1556229010-aa3f7ff66da9?w=1200&q=80&auto=format&fit=crop)
+
+---
+
+## ✅ Equipo esencial para tu perro
+
+1. Chaleco salvavidas con asa de rescate y ajuste en pecho/abdomen  
+   [🛒 **Chaleco salvavidas para perros**](${createAmazonProductLink('chaleco salvavidas perro')})
+2. Rampa o escalera antideslizante para embarcar/desembarcar  
+   [🛒 **Rampa para perro (barco)**](${createAmazonProductLink('rampa perro barco')})
+3. Bebedero portátil + bidón de agua dulce  
+   [🛒 **Bebedero portátil**](${createAmazonProductLink('bebedero portatil perro')})
+4. Alfombra antideslizante para bañera/cabina  
+   [🛒 **Alfombra antideslizante**](${createAmazonProductLink('alfombra antideslizante barco')})
+5. Arnés cómodo (mejor que collar) para izado/agarre  
+   [🛒 **Arnés para perro**](${createAmazonProductLink('arnes perro resistente')})
+6. Protector solar canino para trufa y orejas claras  
+   [🛒 **Protector solar para perros**](${createAmazonProductLink('protector solar perros')})
+
+> Tip: presenta el chaleco en casa y prémialo; que lo asocie a algo positivo antes de subir a bordo.
+
+---
+
+## 🧭 Rutinas a bordo
+
+- Hidratación frecuente y sombra disponible (toldo/bimini)
+- Zonas “no resbaladizas” (moqueta marina o alfombra en bañera)
+- Paseos breves en puerto para necesidades; bolsas siempre a mano
+- Nunca obligues a saltar al agua; usa la rampa con calma
+
+---
+
+## 📝 Checklist accionable
+
+### Antes de zarpar
+- [ ] Prueba del chaleco salvavidas y talla correcta
+- [ ] Rampa instalada y fijada
+- [ ] Agua dulce y bebedero portátil
+- [ ] Alfombra antideslizante colocada
+- [ ] Botiquín con suero fisiológico y apósitos
+
+### En navegación
+- [ ] Chaleco siempre puesto en maniobras y fondeo
+- [ ] Sombra + ventilación en cabina
+- [ ] Revisión de temperatura de cubierta (no quemar almohadillas)
+
+### Al fondear
+- [ ] Baño solo si está tranquilo y el agua es segura
+- [ ] Ducha rápida de agua dulce tras el baño
+- [ ] Paseo y premio al desembarcar
+
+---
+
+## 🥇 Comparativa rápida de productos para mascotas a bordo
+
+| Producto | Distintivo | Precio aprox. | Valoración | Reviews | Link |
+|---|---|---:|:---:|---:|---|
+| Chaleco salvavidas para perro (con asa) | 🏆 Más vendido | €25–€45 | ★★★★☆ | 5 000+ | [Ver](${createAmazonProductLink('chaleco salvavidas perro')}) |
+| Rampa antideslizante para embarcar | 💎 Mejor calidad-precio | €60–€120 | ★★★★☆ | 1 200+ | [Ver](${createAmazonProductLink('rampa perro barco')}) |
+| Bebedero plegable + botella | 💡 Imprescindible | €12–€25 | ★★★★☆ | 9 000+ | [Ver](${createAmazonProductLink('bebedero portatil perro')}) |
+| Alfombra antideslizante náutica | ✨ Premium | €20–€35 | ★★★★☆ | 1 800+ | [Ver](${createAmazonProductLink('alfombra antideslizante barco')}) |
+
+---
+
+## ❌ Errores comunes
+
+- Confiar en “sabe nadar”: el chaleco es clave para cansancio/olas
+- Embarcar a pulso por borda: mejor rampa estable
+- No prever calor/quemaduras en cubierta
+- Dejarlo suelto en maniobras o amarras
+
+---
+
+## ❓ FAQ rápida
+
+- ¿Perro pequeño necesita chaleco? Sí: olas, frío y cansancio cuentan
+- ¿Puede dormir en cabina? Sí, con ventilación y cama antideslizante
+- ¿Mareo? Consulta con tu veterinario sobre antieméticos específicos
+
+---
+
+## CTAs útiles
+
+[🛒 **Chaleco salvavidas para perros**](${createAmazonProductLink('chaleco salvavidas perro')})  
+[🛒 **Rampa de embarque para perros**](${createAmazonProductLink('rampa perro barco')})
+
+`, ["mascotas", "perros", "seguridad", "familia"]) 
+  },
+  {
+    frontmatter: {
+      title: "🎓 Licencias y Certificaciones Náuticas en España: Guía 2025",
+      slug: "licencias-y-certificaciones-nauticas-2025",
+      date: getTodayDate(0),
+      summary: "Qué licencias existen (LN, PNB, PER, PY, CY), en qué puedes navegar con cada una, requisitos, prácticas, radio y exámenes. Recursos de estudio con enlaces de afiliado.",
+      featuredImage: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop&crop=center', // Brújula y cartas náuticas
+      tags: ["licencias", "titulaciones", "pnb", "per", "radio", "formación"],
+      author: "Equipo BoatTrip Planner"
+    },
+    content: generateCategoryOptimizedContent(`
+# 🎓 Licencias y Certificaciones Náuticas en España: Guía 2025
+
+Conoce de forma clara qué puedes llevar con cada título, requisitos y materiales para prepararte.
+
+## 📚 Mapa general de titulaciones
+| Título | Eslora máx. | Distancia | Navegación | Motos de agua | Prácticas |
+|---|---:|---:|---|---|---|
+| Licencia de Navegación (LN) | 6 m | 2 millas | Diurna | Sí | 6 h (sin examen) |
+| PNB | 8 m | 5 millas | Día/noche | Sí | Prácticas + Radio |
+| PER | 15 m | 12 millas (habilitable a Baleares) | Día/noche | Sí | Prácticas + Radio |
+| Patrón de Yate | 24 m | 150 millas | Día/noche | — | Prácticas |
+| Capitán de Yate | Ilimitada | Ilimitada | Día/noche | — | Prácticas |
+
+## 🧭 Recursos por título (enlaces verificados)
+### LN
+- Manual básico: [Ver](${createAmazonProductLink('manual basico navegacion recreo')})
+- Chaleco 100N homologado: [Ver](${createAmazonProductLink('chaleco salvavidas 100N recreo')})
+
+### PNB
+- Temario PNB 2025: [Ver](${createAmazonProductLink('temario PNB navegacion basica 2025')})
+- Cartas + transportador: [Ver](${createAmazonProductLink('cartas nauticas ejercicios transportador nautico')})
+
+### PER
+- Manual PER 2025 con tests: [Ver](${createAmazonProductLink('manual PER 2025 tests oficiales nautica')})
+- Derrotas y mareas (ejercicios): [Ver](${createAmazonProductLink('ejercicios per derrotas mareas cuaderno')})
+- Compás/regla: [Ver](${createAmazonProductLink('compas demoras regla transportador nautico')})
+
+### PY / CY
+- Teoría avanzada PY/CY: [Ver](${createAmazonProductLink('patron y capitan de yate teoria 2025')})
+- Cartas oceánicas de práctica: [Ver](${createAmazonProductLink('cartas nauticas oceano ejercicios PY CY')})
+
+### ROCA/VHF
+- Guía de examen + DSC: [Ver](${createAmazonProductLink('manual radio vhf dsc examen roca')})
+- Radio VHF portátil homologada: [Ver](${createAmazonProductLink('radio vhf marina portatil homologada')})
+
+> Enlaces de afiliado: nos ayudas a mantener el blog sin coste para ti.
+`, ["licencias", "titulaciones", "pnb", "per", "radio", "formación"]) 
+  },
+  {
+    frontmatter: {
+      title: "Reviews Reales de Productos Náuticos Esenciales",
+      slug: "reviews-reales-productos-nauticos-esenciales-2025",
+      date: getTodayDate(0),
+      summary: "Reviews reales y honestas de equipo clave para navegar en velero: Garmin fēnix 7 náutico, equipo de seguridad a bordo y cargador solar portátil. Qué comprar y por qué.",
+      featuredImage: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=800&h=400&fit=crop&crop=center', // Reloj GPS Garmin
+      tags: ["reviews", "productos náuticos", "navegación en velero", "equipo seguridad barco", "cargador solar portátil", "garmin fēnix 7 náutico"],
+      author: "Equipo BoatTrip Planner"
+    },
+    content: generateCategoryOptimizedContent(`
+# Reviews Reales de Productos Náuticos Esenciales
+
+Guía práctica basada en uso real a bordo. Probamos lo que de verdad marca diferencia en un velero: navegación precisa en muñeca, seguridad que se usa y autonomía eléctrica en fondeo.
+
+---
+
+## 🧭 Garmin fēnix 7 – Reloj GPS pensado para el mar
+
+**Por qué importa a un patrón:** registro de derrotas, alertas, navegación vuelta a ruta (TrackBack) y métricas útiles cuando baja la visibilidad.
+
+**Lo mejor**
+- GPS de alta precisión (estable en calas y tramos costeros)
+- Autonomía larga en modo navegación
+- Mapas y métricas útiles en navegación y deporte
+
+**A considerar**
+- Curva de aprendizaje inicial y precio premium
+
+**Especificaciones clave para náutica**
+- Resistencia al agua: 10 ATM
+- Mapas: TopoActive + compatibilidad cartas de terceros
+- Sensores: GPS/GLONASS/Galileo, altímetro barométrico, brújula
+
+[Ver en Amazon](${createAmazonProductLink('Garmin fēnix 7 GPS Multideporte', 'B09M47HFCQ', 'gps')})
+
+> Alternativa náutica dedicada: [Garmin quatix 7](${createAmazonProductLink('Garmin quatix 7 náutico')}) (más integración marina)
+
+---
+
+## 🛡️ Chaleco Salvavidas 150N – Seguridad que se usa
+
+**Por qué importa:** el mejor chaleco es el que te pones. Comodidad + homologación = uso real en maniobras y guardias nocturnas.
+
+**Lo mejor**
+- Homologación 150N (costera/altura)
+- Materiales resistentes a sal/UV
+- Ajuste cómodo y buena visibilidad
+
+**A considerar**
+- Más volumen que uno de 100N
+- Secado algo lento tras salpicaduras
+
+[Ver en Amazon](${createAmazonProductLink('Chaleco Salvavidas 150N Homologado', 'B01M0WXQKX', 'safety')})
+
+> Para niños: [Chaleco infantil homologado](${createAmazonProductLink('chaleco salvavidas infantil homologado 100N')})
+
+---
+
+## ☀️ Cargador Solar 20.000 mAh – Autonomía en fondeo
+
+**Por qué importa:** mantener móviles, VHF portátil y accesorios cargados sin depender del motor ni del pantalán.
+
+**Lo mejor**
+- Capacidad elevada y robustez
+- Doble salida para cargar varios dispositivos
+- Linterna integrada útil a bordo
+
+**A considerar**
+- Carga solar lenta en nublado (apoya con 12V cuando puedas)
+
+[Ver en Amazon](${createAmazonProductLink('Cargador Solar Portátil 20000mAh', 'B07FNPY8WG', 'technology')})
+
+> Paneles flexibles para cubierta: [Panel solar marino 100W](${createAmazonProductLink('panel solar marino flexible 100W')})
+
+---
+
+## 📊 Comparativa rápida
+
+| Producto | Mejor para | Pros | Contras | Enlace |
+|---|---|---|---|---|
+| Garmin fēnix 7 | Patrón que quiere datos y seguridad | Precisión, autonomía, sensores | Precio, curva aprendizaje | [Ver](${createAmazonProductLink('Garmin fēnix 7 GPS Multideporte', 'B09M47HFCQ', 'gps')}) |
+| Chaleco 150N | Tripulación costera/altura | Homologado, cómodo, visible | Volumen, secado | [Ver](${createAmazonProductLink('Chaleco Salvavidas 150N Homologado', 'B01M0WXQKX', 'safety')}) |
+| Cargador 20.000 mAh | Fondeo autónomo | Robusto, doble salida | Solar lento en nublado | [Ver](${createAmazonProductLink('Cargador Solar Portátil 20000mAh', 'B07FNPY8WG', 'technology')}) |
+
+---
+
+## 🔧 Puesta a punto a bordo (mini checklist)
+- Carga completa del fēnix 7 y sincronización de rutas
+- Asignar chalecos por talla y revisar estado/fecha
+- Cargar power bank en 12V antes de salir; dejarlo al sol en fondeo
+
+---
+
+## ❓ FAQ breve
+- ¿Sirve el fēnix 7 para guardias nocturnas? Sí, con alertas y retroiluminación.
+- ¿150N o 100N? Para costera/altura, 150N; para interior, 100N.
+- ¿El solar carga un VHF? Sí, vía USB si el modelo dispone.
+
+---
+
+### Conclusión
+Para salidas en velero y costeras: un **GPS fiable en muñeca**, **chalecos 150N** para toda la tripulación y **energía solar** para autonomía elevan seguridad y disfrute. Prioriza calidad y compatibilidad náutica.
+
+`, ["reviews", "productos", "navegación en velero", "equipo seguridad", "cargador", "garmin"])
+  },
+  {
+    frontmatter: {
+      title: "Navegación con Mascotas: Guía Completa para Viajar con tu Perro en Barco",
+      slug: "navegacion-con-mascotas-guia-completa-perros-barco-2025",
+      date: getTodayDate(0),
+      summary: "Todo lo que necesitas saber para navegar con tu perro: equipamiento esencial, consejos de seguridad, destinos pet-friendly y productos específicos para mascotas a bordo.",
+      featuredImage: 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=800&h=400&fit=crop&crop=center', // Golden Retriever en barco
+      tags: ["mascotas", "perros", "familia", "seguridad", "equipamiento", "destinos"],
+      author: "Equipo BoatTrip Planner"
+    },
+    content: generateCategoryOptimizedContent(`
+# Navegación con Mascotas: Guía Completa para Viajar con tu Perro en Barco
+
+Navegar con tu mascota puede ser una de las experiencias más gratificantes para toda la familia. Tu perro puede convertirse en el mejor marinero del barco con la preparación adecuada. En esta guía completa te contamos todo lo que necesitas saber para que tu peludo amigo disfrute tanto como tú de la vida a bordo.
+
+## Preparación Pre-Navegación: Adaptación Gradual
+
+### Primeras Visitas al Barco
+
+Antes de zarpar, es fundamental que tu perro se familiarice con el barco cuando está amarrado:
+
+- **Visitas cortas iniciales** (15-30 minutos) para explorar y olisquear
+- **Permitir que explore libremente** toda la embarcación bajo supervisión
+- **Crear asociaciones positivas** con premios y caricias
+- **Identificar zonas de confort** donde se sienta seguro
+
+### Acostumbramiento al Movimiento
+
+- **Simulación en tierra**: bambolear suavemente al perro en brazos
+- **Navegaciones cortas**: 30 minutos máximo las primeras veces
+- **Observar signos de mareo**: jadeo excesivo, salivación, inquietud
+- **Incremento gradual** de la duración de las salidas
+
+## Equipamiento Esencial para Mascotas a Bordo
+
+### Chaleco Salvavidas para Perros
+
+**Imprescindible para cualquier perro a bordo, independientemente de si sabe nadar.**
+
+Características que debe tener:
+- Homologación para uso marítimo
+- Asa de rescate resistente en el lomo
+- Correas ajustables en pecho y barriga
+- Colores brillantes para alta visibilidad
+- Reflectantes para navegación nocturna
+
+[Ver Chalecos Salvavidas para Perros](${createAmazonProductLink('chaleco salvavidas perro barco', '', 'seguridad')})
+
+### Correa y Arnés Náuticos
+
+- **Arnés acolchado**: más cómodo que collar para tirones
+- **Correa elástica**: absorbe movimientos bruscos del barco
+- **Mosquetones antióxido**: resistentes al agua salada
+- **Longitud de 2-3 metros**: libertad de movimiento controlada
+
+[Ver Arneses Náuticos para Perros](${createAmazonProductLink('arnes nautico perro barco', '', 'seguridad')})
+
+### Zona de Descanso y Refugio
+
+- **Cama antideslizante**: con base de goma para estabilidad
+- **Toldo o zona de sombra**: protección solar obligatoria
+- **Manta impermeable**: para días de spray o lluvia
+- **Juguetes flotantes**: entretenimiento en el agua
+
+### Alimentación e Hidratación
+
+- **Bebedero antivuelco**: con base pesada o sistema de sujeción
+- **Comedero elevado**: reduce el estrés cervical
+- **Agua dulce extra**: siempre disponible y fresca
+- **Comida familiar**: evitar cambios dietéticos que causen malestar
+
+[Ver Comederos y Bebederos Náuticos](${createAmazonProductLink('comedero bebedero perro barco antideslizante', '', 'equipamiento')})
+
+## Seguridad y Prevención
+
+### Caídas al Agua: Prevención y Protocolo
+
+**Prevención:**
+- Chaleco salvavidas siempre puesto
+- Correa corta en maniobras y mal tiempo
+- Red de seguridad en bañeras con perros pequeños
+- Escalera de baño accesible para subida autónoma
+
+**Protocolo de rescate:**
+1. **Hombre al agua**: grito inmediato para alertar a tripulación
+2. **Mantener contacto visual** con el perro en todo momento
+3. **Aproximación suave** para evitar golpes con la hélice
+4. **Rescate por el asa** del chaleco salvavidas
+5. **Verificar estado** y secar inmediatamente
+
+### Botiquín Específico para Mascotas
+
+Elementos esenciales:
+- **Antihistamínicos veterinarios**: para reacciones alérgicas
+- **Suero fisiológico**: limpieza de ojos y heridas
+- **Gasas y vendas**: para cortes en almohadillas
+- **Termómetro digital**: control de temperatura
+- **Medicación habitual**: si la toma regularmente
+
+[Ver Botiquín Veterinario Náutico](${createAmazonProductLink('botiquin primeros auxilios perro mascota', '', 'seguridad')})
+
+### Protección Solar y Ambiental
+
+- **Protector solar pet-friendly**: especial para hocico y orejas
+- **Botas náuticas para perros**: protección de almohadillas
+- **Gafas de sol para perros**: en navegaciones muy soleadas
+- **Cera protectora**: para almohadillas secas o agrietadas
+
+## Destinos Pet-Friendly en España
+
+### Costa Brava - Girona
+
+**Calas recomendadas:**
+- **Cala Sa Tuna (Begur)**: agua cristalina, acceso fácil
+- **Cala Pedrosa (L'Ametlla de Mar)**: protegida y tranquila
+- **Playa de Roses**: servicios completos y dog-friendly
+
+**Servicios disponibles:**
+- Veterinarios 24h en poblaciones cercanas
+- Tiendas especializadas en mascotas
+- Restaurantes que admiten perros en terraza
+
+### Islas Baleares
+
+**Mallorca:**
+- **Es Trenc**: playa natural con zonas permitidas para perros
+- **Cala Mondragó**: aguas tranquilas ideales para primeras experiencias
+- **Puerto de Sóller**: servicios completos y ambiente pet-friendly
+
+**Menorca:**
+- **Cala Turqueta**: menos masificada, ideal para perros nerviosos
+- **Son Bou**: la playa más larga, con sectores dog-friendly
+
+### Islas Canarias
+
+**Destino ideal para navegación invernal con mascotas:**
+- **Temperaturas estables** todo el año
+- **Gran variedad de calas** protegidas
+- **Excelente infraestructura veterinaria**
+- **Cultura muy amigable** con las mascotas
+
+[Ver Guías de Viaje Pet-Friendly](${createAmazonProductLink('guia viaje mascotas españa', '', 'destinos')})
+
+## Consejos de Navegación con Perros
+
+### Tiempo de Adaptación por Razas
+
+**Razas acuáticas** (Golden, Labrador, Terranova):
+- Adaptación rápida (2-3 salidas)
+- Disfrutan nadando cerca del barco
+- Requieren más vigilancia por tendencia a saltar
+
+**Razas pequeñas** (Yorkshire, Chihuahua):
+- Adaptación más lenta (5-7 salidas)
+- Requieren más protección térmica
+- Zona de refugio imprescindible
+
+**Razas grandes** (Pastor Alemán, Mastín):
+- Adaptación gradual por peso
+- Necesitan más espacio para moverse
+- Chaleco extra-reforzado obligatorio
+
+### Gestión del Mareo Canino
+
+**Síntomas a vigilar:**
+- Jadeo excesivo
+- Salivación abundante
+- Vómitos o arcadas
+- Inquietud o letargo extremo
+
+**Prevención natural:**
+- **Ayuno previo** de 2-4 horas antes de zarpar
+- **Posición central** del barco para menor balanceo
+- **Aire fresco constante** en el hocico
+- **Distracciones positivas** con juegos o premios
+
+**Medicación veterinaria:**
+- Consultar siempre con veterinario antes de medicar
+- Antihistamínicos específicos para perros
+- Dosificación según peso y edad
+
+### Rutinas a Bordo
+
+**Horarios estructurados:**
+- **Comidas regulares**: mismos horarios que en tierra
+- **Descansos frecuentes**: cada 2-3 horas en navegación
+- **Ejercicio planificado**: natación controlada en fondeaderos seguros
+- **Tiempo de juego**: socialización con tripulación
+
+## Regulaciones y Documentación
+
+### Documentación Obligatoria
+
+- **Pasaporte europeo** para mascotas (viajes internacionales)
+- **Cartilla de vacunación** actualizada
+- **Microchip** obligatorio y registrado
+- **Seguro de responsabilidad civil** (recomendado)
+
+### Normativas Portuarias
+
+**Puertos españoles:**
+- Mayoría admiten mascotas con correa
+- Servicios higiénicos específicos en algunos puertos
+- Restricciones en zonas de restauración
+
+**Puertos internacionales:**
+- Verificar regulaciones específicas del país
+- Posible cuarentena en algunos destinos
+- Certificados sanitarios adicionales
+
+## Productos Especializados Recomendados
+
+### Tecnología para Mascotas
+
+**GPS para perros:**
+- Localizador en caso de caída al agua
+- Monitoreo de actividad y salud
+- Resistente al agua salada
+
+[Ver GPS para Mascotas Náuticas](${createAmazonProductLink('gps localizador perro resistente agua', '', 'tecnologia')})
+
+**Cámaras de vigilancia:**
+- Control remoto cuando bajas a tierra
+- Verificar comportamiento a bordo
+- Comunicación bidireccional
+
+### Confort y Entretenimiento
+
+**Juguetes específicos:**
+- Pelotas flotantes con cuerda
+- Mordedores resistentes al agua salada
+- Juguetes interactivos para días de mal tiempo
+
+[Ver Juguetes Acuáticos para Perros](${createAmazonProductLink('juguetes acuaticos perro flotantes', '', 'entretenimiento')})
+
+**Ropa náutica:**
+- Chalecos térmicos para navegación invernal
+- Impermeables con capucha
+- Botas antideslizantes para cubierta mojada
+
+## Emergencias y Primeros Auxilios
+
+### Kit de Emergencia Canino
+
+Elementos críticos para tener siempre a bordo:
+
+**Medicamentos básicos:**
+- Antihistamínicos veterinarios
+- Antibiótico tópico
+- Colirio para irritaciones oculares
+- Protectorgástrico (si toma medicación)
+
+**Material de curas:**
+- Vendas elásticas de diferentes tamaños
+- Gasas estériles
+- Esparadrapo hipoalergénico
+- Tijeras de punta roma
+
+[Ver Kit Primeros Auxilios Veterinario](${createAmazonProductLink('kit primeros auxilios veterinario nautico', '', 'seguridad')})
+
+### Protocolo de Actuación en Emergencias
+
+**Cortes en almohadillas:**
+1. Limpiar con suero fisiológico
+2. Presión directa para detener sangrado
+3. Vendaje protector no muy apretado
+4. Búsqueda de puerto para atención veterinaria
+
+**Golpe de calor:**
+1. Traslado inmediato a zona de sombra
+2. Agua fresca (no fría) en patas y barriga
+3. Ventilación constante
+4. Hidratación gradual si está consciente
+5. Rumbo inmediato a puerto más cercano
+
+### Contactos de Emergencia
+
+**Preparar antes de zarpar:**
+- Veterinarios de urgencia en puertos de la ruta
+- Números de emergencia veterinaria 24h
+- Contactos de compañías de rescate marítimo
+- Ubicación de clínicas en islas o destinos remotos
+
+## Conclusión: Una Experiencia Única
+
+Navegar con tu mascota requiere preparación, paciencia y los equipos adecuados, pero la recompensa es inmensa. Ver a tu perro disfrutar del viento marino, explorar nuevas calas y convertirse en un verdadero lobo de mar crea recuerdos inolvidables para toda la familia.
+
+**Recuerda siempre:**
+- La seguridad de tu mascota es prioritaria
+- La adaptación gradual es clave del éxito
+- El equipamiento de calidad justifica la inversión
+- Cada perro tiene su ritmo de adaptación
+
+**¿Listo para la aventura?** Con esta guía y los productos recomendados, tú y tu peludo compañero estaréis preparados para explorar los mares de forma segura y divertida.
+
+### Checklist Final para Navegar con Mascotas
+
+- ✅ Chaleco salvavidas homologado
+- ✅ Arnés y correa náuticos
+- ✅ Zona de descanso acondicionada
+- ✅ Botiquín veterinario completo
+- ✅ Documentación al día
+- ✅ Contactos de emergencia veterinaria
+- ✅ Agua dulce y comida extra
+- ✅ Protección solar y ambiental
+- ✅ Juguetes y entretenimiento
+- ✅ Plan de rutas pet-friendly
+
+¡Que tengan buen viento y mar en calma juntos!
+
+---
+
+*Artículo basado en experiencias reales de navegación con mascotas en el Mediterráneo. Consulta siempre con tu veterinario antes de iniciar la aventura náutica con tu mascota.*
+    `, ["mascotas", "perros", "seguridad", "familia"])
+  },
+  {
+    frontmatter: {
+      title: "Salud y Primeros Auxilios para Mascotas a Bordo: Manual Veterinario Náutico",
+      slug: "salud-primeros-auxilios-mascotas-veterinario-nautico-2025",
+      date: getTodayDate(0),
+      summary: "Guía veterinaria completa para emergencias con mascotas en el mar: botiquín especializado, síntomas de alarma, técnicas de primeros auxilios y protocolos específicos para situaciones náuticas.",
+      featuredImage: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=800&h=400&fit=crop&crop=center', // Veterinario con perro
+      tags: ["mascotas", "veterinaria", "salud", "primeros auxilios", "emergencias"],
+      author: "Equipo BoatTrip Planner"
+    },
+    content: generateCategoryOptimizedContent(`
+# 🩺 Salud a Bordo: El Manual Veterinario Náutico para tu Mascota
+
+Cuando izas la vela, tu mascota se convierte en parte de la tripulación. Pero, ¿qué sucede si enferma o tiene un accidente lejos de la costa? En el mar, lejos de la clínica veterinaria, tu conocimiento y tu preparación son su mejor seguro de vida. Este manual, elaborado con la colaboración de veterinarios, te da las herramientas esenciales para cuidar a tu compañero peludo en cualquier travesía.
+
+## Prevención: La Mejor Medicina en el Mar
+
+Antes de zarpar, la prevención es la única estrategia. Una revisión completa es la diferencia entre una aventura tranquila y una emergencia.
+
+### Revisión Veterinaria Pre-Navegación (Obligatoria):
+
+- **Examen físico completo**: Realizado máximo 30 días antes del viaje
+- **Vacunaciones al día**: Asegúrate de que tenga las de rabia, moquillo, hepatitis y parvovirus
+- **Desparasitación reciente**: Interna y externa, para evitar problemas a bordo
+- **Certificado de salud**: Es un requisito para viajes internacionales
+- **Análisis de sangre**: Especialmente si tu perro es mayor de 7 años
+
+Además, ten en cuenta que algunas razas son más propensas a ciertos problemas, como los Bulldogs y Boxers con el calor, o las razas pequeñas y las de hocico chato con el mareo (cinetosis). Conocer estos riesgos te ayudará a anticiparte.
+
+## Botiquín Veterinario: Tu Clínica Flotante
+
+El botiquín veterinario es tu salvavidas. Debe estar completo y ser específico para animales. La mayoría de los medicamentos humanos son tóxicos para ellos.
+
+### 1. Medicamentos Esenciales (Bajo Prescripción Veterinaria):
+
+**Para el dolor y la inflamación:**
+- Analgésicos como el Meloxicam (Metacam) o el Tramadol
+
+**Para problemas digestivos:**
+- Medicamentos contra náuseas (Metoclopramida)
+- Diarrea (Loperamida) y protectores gástricos
+
+**Antibióticos:**
+- Siempre lleva antibióticos de amplio espectro, pero úsalos solo si tu veterinario te ha dado instrucciones previas
+
+### 2. Material de Curas Especializado:
+
+**Instrumental básico:**
+- Termómetro digital flexible (vía rectal)
+- Estetoscopio pediátrico, tijeras y pinzas para curas
+
+**Vendajes:**
+- Gasas estériles, vendas cohesivas (se pegan a sí mismas, no al pelo) y esparadrapo hipoalergénico
+
+---
+
+## 🚨 Signos de Alarma: Cuándo Actuar Inmediatamente
+
+Saber identificar una emergencia a tiempo puede salvar una vida.
+
+### ⚠️ Emergencias Cardiovasculares:
+Busca síntomas críticos como **encías pálidas o azuladas** (señal de shock), un **pulso muy rápido** o **dificultad para respirar**. Si tu mascota colapsa súbitamente, necesitas actuar de inmediato.
+
+### ☠️ Intoxicaciones a Bordo:
+El mar está lleno de peligros. El **agua salada en exceso**, los **combustibles** o el **anticongelante** pueden ser mortales. Los síntomas típicos son vómitos, diarrea, salivación excesiva o temblores.
+
+**Primeros auxilios:**
+- Identifica la sustancia
+- **NUNCA provoques el vómito** sin consultar a un veterinario
+- Enjuaga su boca con agua dulce
+
+---
+
+## 🆘 Técnicas de Primeros Auxilios Básicos
+
+Saber qué hacer en un momento de crisis te dará la confianza para actuar.
+
+### 💨 RCP Canina:
+Si no hay pulso ni respiración, la reanimación cardiopulmonar es tu única opción. Sigue estos pasos:
+
+1. **Abre la boca** y limpia las vías respiratorias
+2. **Da 2 respiraciones artificiales** (boca a nariz o boca a boca)  
+3. **Aplica 30 compresiones cardíacas** y repite el ciclo
+
+### 🩸 Hemorragias:
+- Aplica **presión directa** con gasas estériles
+- **Eleva la extremidad** si es posible
+- Usa un **vendaje compresivo**, pero sin apretar demasiado
+
+---
+
+## 🌊 Emergencias Específicas Náuticas
+
+### 🏊‍♂️ Ahogamiento:
+Si tu mascota cae al agua, sácala de inmediato. Ponla con la **cabeza hacia abajo** para drenar el agua de los pulmones. Sécala bien para evitar la hipotermia.
+
+### 🔥 Golpe de Calor:
+A la menor señal (jadeo excesivo, temperatura superior a 41°C), muévela a la sombra. **Enfríala con agua fresca** (nunca fría) en las patas y el abdomen.
+
+### 💧 Mareo y Deshidratación:
+Si notas letargo extremo y encías secas, dale **suero oral veterinario** en pequeñas cantidades.
+
+---
+
+## 🏥 Kit de Supervivencia: Lo Que Puede Salvar una Vida
+
+Después de conocer todos los riesgos y técnicas, necesitas el equipamiento adecuado. Estos son los dos elementos que NUNCA deben faltar en tu barco:
+
+### 🎒 Tu Clínica Veterinaria Portátil
+
+[Ver Botiquín Veterinario Completo](${createAmazonProductLink('botiquin veterinario completo medicamentos', '', 'salud')})
+
+**¿Por qué es esencial?** Un botiquín veterinario náutico completo incluye medicamentos específicos para animales, instrumental de diagnóstico y todo lo necesario para las primeras 24-48 horas críticas de cualquier emergencia.
+
+*Incluye: termómetro digital, vendajes especializados, medicamentos veterinarios básicos, tijeras, pinzas y guía de primeros auxilios.*
+
+**Ver en Amazon - €95**
+
+### 📡 Tu Línea de Vida con Tierra
+
+[Ver Radio VHF Marina con GPS](${createAmazonProductLink('radio vhf marina gps emergencias', '', 'comunicaciones')})
+
+**¿Por qué es crítico?** En emergencias veterinarias, cada minuto cuenta. Una radio VHF con GPS te permite contactar inmediatamente con servicios de emergencia, otros barcos o veterinarios en puerto, transmitiendo tu ubicación exacta.
+
+*Incluye: GPS integrado, canales de emergencia, alcance de hasta 25 millas náuticas y resistencia al agua.*
+
+**Ver en Amazon - €350**
+
+---
+
+## ✅ Conclusión: La Preparación Salva Vidas
+
+La diferencia entre una emergencia veterinaria controlada y una tragedia a bordo reside en tu preparación. Con la información, el equipo y la calma, puedes asegurarte de que tu mejor amigo esté sano y salvo.
+
+### 📋 Checklist de Salud Pre-Navegación:
+
+- ✅ **Revisión veterinaria completa**
+- ✅ **Vacunaciones y desparasitaciones** al día  
+- ✅ **Botiquín veterinario completo** y actualizado
+- ✅ **Listado de veterinarios** en los puertos de tu ruta
+- ✅ **Un plan de evacuación** claro
+- ✅ **Formación básica** en primeros auxilios
+
+**Tu mascota confía en ti. Haz que esa confianza esté justificada.**
+
+---
+
+*Artículo elaborado con la colaboración de veterinarios especialistas en medicina de animales de compañía. La información proporcionada no sustituye la consulta veterinaria profesional.*
+    `, ["mascotas", "veterinaria", "salud", "primeros auxilios", "emergencias"])
   },
   ...additionalBlogPosts
 ]);

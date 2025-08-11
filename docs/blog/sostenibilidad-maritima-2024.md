@@ -1,5 +1,15 @@
 # 🌊 Sostenibilidad Marítima 2024: Navegando Hacia un Futuro Verde
 
+## Resumen ejecutivo
+
+- Qué aprenderás: conceptos clave y decisiones prácticas para 🌊 Sostenibilidad Marítima 2024: Navegando Hacia un Futuro Verde
+- Errores comunes: lo que debes evitar para ahorrar tiempo y dinero
+- Checklist accionable: pasos concretos antes/durante/después
+- Presupuesto estimado: rangos de costes y cómo optimizarlos
+- FAQ: dudas reales resueltas en el artículo
+
+
+
 *Publicado: 25 de Enero, 2024 | Actualizado: 25 de Enero, 2024*
 
 ## 🎯 ¿Por qué la Sostenibilidad Marítima es el Futuro?

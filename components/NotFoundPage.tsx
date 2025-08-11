@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './Button';
-import { SailboatIcon } from './icons/SailboatIcon';
+
 import { MapPinIcon } from './icons/MapPinIcon';
 // import { AnchorIcon } from './icons/AnchorIcon'; // Icono no disponible
 import { WindIcon } from './icons/WindIcon';
@@ -41,10 +41,10 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigateHome, showAppInst
   ];
 
   const helpfulLinks = [
-    { name: 'Planificador de Viajes', action: onNavigateHome, icon: '🗺️' },
-    { name: 'Blog Náutico', action: () => window.location.href = '/blog', icon: '📚' },
-    { name: 'Cómo Funciona', action: () => window.location.href = '/how-it-works', icon: '❓' },
-    { name: 'Sobre Nosotros', action: () => window.location.href = '/about', icon: 'ℹ️' }
+    { name: 'Planificador de Viajes', action: onNavigateHome },
+    { name: 'Blog Náutico', action: () => (window.location.href = '/blog') },
+    { name: 'Cómo Funciona', action: () => (window.location.href = '/how-it-works') },
+    { name: 'Sobre Nosotros', action: () => (window.location.href = '/about') }
   ];
 
   return (
@@ -84,21 +84,32 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigateHome, showAppInst
                 <span>Lat: 40°N, Lon: 3°W</span>
               </div>
               <div className="flex items-center gap-2">
-                <span>🕐 {currentTime.toLocaleTimeString('es-ES')}</span>
+                <span>{currentTime.toLocaleTimeString('es-ES')}</span>
               </div>
             </div>
           </div>
 
           {/* Contenido principal */}
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-8 md:p-12 border border-white/50">
-            {/* Icono y título principal */}
-            <div className="text-center mb-8">
-              <div className="relative inline-block mb-6">
-                <SailboatIcon className="w-24 h-24 md:w-32 md:h-32 text-teal-500 animate-bounce" />
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold animate-pulse">
-                  404
+            {/* Logo principal (igual que en Landing) */}
+            <div className="text-center mb-6">
+              <div className="flex justify-center">
+                <div className="relative">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-ocean-500 via-sea-500 to-sunset-500 rounded-full flex items-center justify-center shadow-2xl">
+                    <img
+                      src="/alex5.svg"
+                      alt="BoatTrip Planner Logo"
+                      className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12"
+                    />
+                  </div>
+                  <div className="absolute inset-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 border-2 border-ocean-300 rounded-full animate-ping opacity-20"></div>
+                  <div className="absolute inset-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 border-2 border-sea-300 rounded-full animate-ping opacity-20" style={{ animationDelay: '1s' }}></div>
                 </div>
               </div>
+            </div>
+
+            {/* Título principal sin icono */}
+            <div className="text-center mb-8">
               
               <h1 className="text-5xl md:text-7xl font-bold text-slate-800 mb-4">
                 ¡Naufragio Digital!
@@ -132,7 +143,7 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigateHome, showAppInst
                     disabled={isLoading}
                     className="px-6"
                   >
-                    {isLoading ? '🔍' : '⚓'}
+                    {isLoading ? 'Buscando…' : 'Buscar'}
                   </Button>
                 </div>
               </form>
@@ -140,9 +151,7 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigateHome, showAppInst
 
             {/* Destinos populares */}
             <div className="mb-8">
-              <h3 className="text-lg font-semibold text-slate-800 mb-4 text-center">
-                🌊 Destinos Populares
-              </h3>
+              <h3 className="text-lg font-semibold text-slate-800 mb-4 text-center">Destinos Populares</h3>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                 {popularDestinations.map((dest) => (
                   <button
@@ -158,9 +167,7 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigateHome, showAppInst
 
             {/* Enlaces útiles */}
             <div className="mb-8">
-              <h3 className="text-lg font-semibold text-slate-800 mb-4 text-center">
-                🧭 Enlaces Útiles
-              </h3>
+              <h3 className="text-lg font-semibold text-slate-800 mb-4 text-center">Enlaces Útiles</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {helpfulLinks.map((link) => (
                   <button
@@ -168,9 +175,6 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigateHome, showAppInst
                     onClick={link.action}
                     className="p-4 bg-gradient-to-br from-slate-100 to-slate-200 hover:from-slate-200 hover:to-slate-300 rounded-lg transition-all duration-200 text-center group"
                   >
-                    <div className="text-2xl mb-2 group-hover:scale-110 transition-transform duration-200">
-                      {link.icon}
-                    </div>
                     <div className="text-sm font-medium text-slate-700">
                       {link.name}
                     </div>
@@ -187,15 +191,13 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigateHome, showAppInst
                 className="text-lg px-8 py-4 bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
                 aria-label="Volver al planificador principal"
               >
-                <SailboatIcon className="w-6 h-6 mr-2" />
-                ⛵ Navegar al Planificador Principal
+                Navegar al Planificador Principal
               </Button>
             </div>
 
             {/* Mensaje de consuelo */}
             <div className="mt-8 text-center">
               <div className="inline-flex items-center gap-2 text-slate-500 text-sm">
-                <span>⚓</span>
                 <span>Recuerda: "Un buen marinero no teme al mar, aprende a navegarlo"</span>
               </div>
             </div>

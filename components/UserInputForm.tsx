@@ -10,6 +10,7 @@ import Step4Preferences from './wizard/Step4_Preferences';
 import Step5BoatDetails from './wizard/Step5_BoatDetails';
 import Step6Review from './wizard/Step6_Review';
 import WizardNavigation from './wizard/WizardNavigation';
+import { scrollToTop } from '../utils/scrollUtils';
 
 const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cookieConsent, onReconsiderCookies, showAppInstallBanner = false }) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -90,6 +91,8 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
 
   const totalSteps = steps.length;
   
+
+  
   const updateFormData = (fields: Partial<UserPreferences>) => {
     setFormData(prev => ({ ...prev, ...fields }));
   };
@@ -98,9 +101,7 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
     if (step >= 1 && step <= totalSteps) {
       setCurrentStep(step);
       // Scroll hacia arriba para una mejor experiencia de usuario
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 100);
+      scrollToTop();
     }
   };
 
@@ -169,9 +170,7 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
     if (currentStep < totalSteps) {
       setCurrentStep(prev => prev + 1);
       // Scroll hacia arriba para una mejor experiencia de usuario
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 100);
+      scrollToTop();
     }
   };
 
@@ -179,9 +178,7 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
     if (currentStep > 1) {
       setCurrentStep(prev => prev - 1);
       // Scroll hacia arriba para una mejor experiencia de usuario
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 100);
+      scrollToTop();
     }
   };
 

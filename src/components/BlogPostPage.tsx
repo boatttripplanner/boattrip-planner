@@ -3,7 +3,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { BlogPostPageProps, ParsedMarkdownPost } from '../../types';
-import { existingBlogPosts_definitions_only as allBlogPosts } from '../blogData';
+import { existingBlogPosts_definitions_only as allBlogPosts, NAUTICAL_IMAGES } from '../blogData';
 import { Button } from '../../components/Button';
 import NotFoundPage from '../../components/NotFoundPage';
 // import { AMAZON_AFFILIATE_LINK_PLACEHOLDER } from '../../constants'; // Removido - ya no se usa
@@ -16,6 +16,9 @@ import ProductRecommendations from '../../components/ProductRecommendations';
 // Importar componentes de Unsplash
 import UnsplashImage from '../../components/UnsplashImage';
 import UnsplashImageGallery from '../../components/UnsplashImageGallery';
+import { generateAffiliateUrlForProductName, ensureAffiliateAmazonUrl } from '../../services/affiliateLinkService';
+import { AMAZON_AFFILIATE_TAG } from '../../constants';
+import { findAffiliateProductByText } from '../../data/affiliateCatalog';
 
 // Estilos CSS personalizados para mejorar la apariencia
 const customStyles = `
@@ -516,16 +519,16 @@ const RelatedPostCard: React.FC<{ post: ParsedMarkdownPost, onNavigate: (slug: s
         
         // Fallback basado en tags
         const tagImageMap: { [key: string]: string } = {
-            'sostenibilidad': 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=400&h=300&fit=crop&crop=center',
-            'destinos': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
-            'baleares': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
-            'galicia': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center',
-            'equipamiento': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center',
-            'seguridad': 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop&crop=center',
-            'deportes': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
-            'tecnología': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center',
-            'familia': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
-            'mascotas': 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&h=300&fit=crop&crop=center',
+            'sostenibilidad': NAUTICAL_IMAGES.solar_panels,
+            'destinos': NAUTICAL_IMAGES.balearic_islands,
+            'baleares': NAUTICAL_IMAGES.balearic_islands,
+            'galicia': NAUTICAL_IMAGES.atlantic_coast,
+            'equipamiento': NAUTICAL_IMAGES.marine_electronics,
+            'seguridad': NAUTICAL_IMAGES.safety_equipment,
+            'deportes': NAUTICAL_IMAGES.snorkeling,
+            'tecnología': NAUTICAL_IMAGES.marine_electronics,
+            'familia': NAUTICAL_IMAGES.family_sailing,
+            'mascotas': NAUTICAL_IMAGES.pets_on_boat,
         };
         
         for (const tag of tags || []) {
@@ -538,7 +541,7 @@ const RelatedPostCard: React.FC<{ post: ParsedMarkdownPost, onNavigate: (slug: s
         }
         
         // Imagen por defecto marítima
-        return 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=400&h=300&fit=crop&crop=center';
+        return NAUTICAL_IMAGES.sailing_boat;
     };
 
     const featuredImage = getFeaturedImage(post.frontmatter.slug, post.frontmatter.tags);
@@ -643,6 +646,71 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
     if (!post) return 0;
     return calculateReadingTime(post.content);
   }, [post]);
+
+  // Quitar emojis de títulos visibles en entradas
+  const sanitizeTitle = (raw: string): string => {
+    try {
+      return raw.replace(/[\u{1F300}-\u{1FAFF}\u{1F900}-\u{1F9FF}\u{2600}-\u{27BF}\u{1F1E6}-\u{1F1FF}]/gu, '').trim();
+    } catch {
+      // Fallback sin flags unicode si el entorno no soporta u-escapes
+      return raw.replace(/[\u2600-\u27BF]/g, '').trim();
+    }
+  };
+
+  // Validación de enlaces Amazon para evitar categorías no náuticas
+  const isNauticalAmazonLink = (href: string, anchorText: string): boolean => {
+    const url = href.toLowerCase();
+    const text = anchorText.toLowerCase();
+    const disallowed = [
+      'pelicula', 'películas', 'pelicula', 'pelis', 'movie', 'movies', 'cine', 'dvd', 'blu-ray',
+      'videojuego', 'videojuegos', 'game', 'games', 'xbox', 'playstation', 'nintendo', 'switch',
+      'cd', 'mp3', 'mp4', 'blu ray'
+    ];
+    if (disallowed.some((k) => url.includes(k) || text.includes(k))) return false;
+
+    const whitelist = [
+      'nautic', 'náutic', 'barco', 'vela', 'naveg', 'gps', 'vhf', 'radio', 'plotter', 'sonda',
+      'chaleco', 'salvavidas', 'bengala', 'botiquin', 'ancla', 'amarre', 'compas', 'compás',
+      'cartas', 'derrotas', 'per', 'pnb', 'py', 'cy', 'roca', 'ripa', 'balizamiento', 'marino', 'marina'
+    ];
+    return whitelist.some((k) => url.includes(k) || text.includes(k));
+  };
+
+  // Canonicalización/verificación estricta de enlaces Amazon antes de renderizar el botón
+  const ensureAmazonAffiliateUrl = (href: string, anchorText: string): string => {
+    const text = anchorText?.trim() || '';
+    try {
+      const url = new URL(href);
+      if (!url.hostname.includes('amazon.es')) {
+        // Si no es Amazon: intentar curar por texto → si no, búsqueda segura
+        const curated = findAffiliateProductByText(text);
+        return curated?.affiliateUrl || generateAffiliateUrlForProductName(text || 'equipamiento nautico', { linkId: 'blog_inline', utmContent: 'blog' });
+      }
+
+      // Asegurar tag de afiliado correcto
+      url.searchParams.set('tag', AMAZON_AFFILIATE_TAG);
+
+      // Si es DP, validar ASIN y ajustarlo si hay curado mejor por texto
+      const asinMatch = url.pathname.match(/\/dp\/([A-Z0-9]{10})/i);
+      if (asinMatch) {
+        const asin = asinMatch[1].toUpperCase();
+        const curated = findAffiliateProductByText(text);
+        if (curated && curated.affiliateUrl) {
+          return curated.affiliateUrl; // preferimos el DP curado que coincide con el texto
+        }
+        return url.toString();
+      }
+
+      // Si no es DP (búsqueda u otra ruta), preferir DP curado por texto; si no, búsqueda segura reforzada
+      const curated = findAffiliateProductByText(text);
+      if (curated?.affiliateUrl) return curated.affiliateUrl;
+      return generateAffiliateUrlForProductName(text || 'equipamiento nautico', { linkId: 'blog_inline', utmContent: 'blog' });
+    } catch {
+      // Si la URL es inválida: caer a DP curado si existe, o a búsqueda segura
+      const curated = findAffiliateProductByText(text);
+      return curated?.affiliateUrl || generateAffiliateUrlForProductName(text || 'equipamiento nautico', { linkId: 'blog_inline', utmContent: 'blog' });
+    }
+  };
 
   // Cargar estado de favoritos y valoraciones al iniciar
   useEffect(() => {
@@ -838,29 +906,6 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
   };
 
   const markdownComponents: Components = {
-    // Componente personalizado para UnsplashImage
-    UnsplashImage: ({ searchQuery, width, height, alt, className }) => (
-      <div className="my-8">
-        <UnsplashImage
-          searchQuery={searchQuery || "nautical sailing"}
-          width={width || 800}
-          height={height || 400}
-          alt={alt || "Imagen náutica"}
-          className={className || "rounded-2xl shadow-2xl"}
-        />
-      </div>
-    ),
-    // Componente personalizado para UnsplashImageGallery
-    UnsplashImageGallery: ({ searchQuery, count, title, className }) => (
-      <div className="my-8">
-        <UnsplashImageGallery
-          searchQuery={searchQuery || "nautical sailing"}
-          count={count || 3}
-          title={title || "Galería de imágenes"}
-          className={className || "rounded-2xl shadow-2xl"}
-        />
-      </div>
-    ),
     h1: ({ children }) => {
       const text = getNodeTextContent(children);
       const id = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
@@ -958,71 +1003,38 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       }
 
       const amazonInfo = getAmazonLinkInfo(href, children);
+      const anchorText = getNodeTextContent(children);
 
-      // Si es un enlace de Amazon, renderizar con botón atractivo
+      // Si es un enlace de Amazon, normalizar con el "enlace guardián" para nunca fallar
       if (amazonInfo.isAmazon) {
-        const text = React.Children.toArray(children).join('');
-        
-        // CTAs especiales para contenido destacado
-        if (text.includes('🛒') && text.includes('**')) {
-          const cleanText = text.replace(/[🛒\*\!]/g, '').trim();
-          
-          if (amazonInfo.variant === 'premium') {
-            return (
-              <div className="my-6">
-                <AmazonCTAButton 
-                  productName={cleanText}
-                  variant="primary"
-                  size="lg"
-                  className="w-full"
-                  trackingLabel="premium_cta"
-                >
-                  🏆 {cleanText}
-                </AmazonCTAButton>
-              </div>
-            );
-          } else if (amazonInfo.variant === 'urgent') {
-            return (
-              <div className="my-6">
-                <AmazonCTAButton 
-                  productName={cleanText}
-                  variant="secondary"
-                  size="lg"
-                  className="w-full"
-                  trackingLabel="urgent_cta"
-                >
-                  🔥 {cleanText}
-                </AmazonCTAButton>
-              </div>
-            );
-          } else if (amazonInfo.variant === 'bestseller') {
-            return (
-              <div className="my-6">
-                <AmazonCTAButton 
-                  productName={cleanText}
-                  variant="outline"
-                  size="lg"
-                  className="w-full"
-                  trackingLabel="bestseller_cta"
-                >
-                  ⭐ {cleanText}
-                </AmazonCTAButton>
-              </div>
-            );
-          }
-        }
+        const text = anchorText;
+        const finalHref = ensureAffiliateAmazonUrl(href, text, { linkId: 'blog_inline', utmContent: 'blog' });
 
-        // CTA normal para enlaces inline
         return (
-          <AmazonCTAButton 
-            productName={amazonInfo.text}
-            variant={amazonInfo.variant}
-            size="sm"
-            className="mx-1"
-            trackingLabel="inline_cta"
+          <a
+            href={finalHref}
+            target="_blank"
+            rel="nofollow sponsored noopener noreferrer"
+            className="inline-flex items-center px-3 py-1.5 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-sm mx-1"
           >
             {children}
-          </AmazonCTAButton>
+          </a>
+        );
+      }
+
+      // Enlaces sin http(s) (por ejemplo "#", "/ruta" o texto vacío) → convertir a búsqueda Amazon monetizada segura
+      const isHttpLink = /^https?:\/\//i.test(href);
+      if (!isHttpLink) {
+        const fallbackHref = generateAffiliateUrlForProductName(anchorText || 'nautica', { linkId: 'blog_text_link', utmContent: 'blog' });
+        return (
+          <a
+            href={fallbackHref}
+            target="_blank"
+            rel="nofollow sponsored noopener noreferrer"
+            className="inline-flex items-center px-3 py-1.5 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-sm mx-1"
+          >
+            {children}
+          </a>
         );
       }
 
@@ -1033,7 +1045,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
         <a 
           href={href}
           target={isExternal ? "_blank" : undefined}
-          rel={isExternal ? "noopener noreferrer" : undefined}
+          rel={isExternal ? "nofollow sponsored noopener noreferrer" : undefined}
           className="text-teal-600 hover:text-teal-700 underline font-medium transition-colors duration-200"
         >
           {children}
@@ -1042,36 +1054,19 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
       );
     },
     img: ({ src, alt }) => {
-      // Si es una imagen de Unsplash, usar el componente UnsplashImage
-      if (src && src.includes('unsplash')) {
-        return (
-          <div className="my-8">
-            <UnsplashImage
-              searchQuery={alt || "nautical sailing"}
-              width={800}
-              height={400}
-              alt={alt || "Imagen náutica"}
-              className="rounded-2xl shadow-2xl"
-            />
-          </div>
-        );
-      }
-      
-      // Imagen normal
+      // Mostrar directamente la imagen provista en el markdown (incluida Unsplash)
       return (
-        <div className="my-8 relative group">
-          <img 
-            src={src} 
-            alt={alt} 
-            className="max-w-full h-auto rounded-2xl shadow-2xl transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-3xl"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          {alt && (
-            <div className="absolute bottom-4 left-4 right-4 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              {alt}
-            </div>
-          )}
-        </div>
+        <img
+          src={src}
+          alt={alt}
+          width={src && src.includes('unsplash') ? 1200 : undefined}
+          height={src && src.includes('unsplash') ? 600 : undefined}
+          className="max-w-full h-auto rounded-2xl shadow-lg my-8"
+          onError={(e) => {
+            console.error('Error loading image:', src);
+            e.currentTarget.style.display = 'none';
+          }}
+        />
       );
     },
   };
@@ -1137,9 +1132,9 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
               </span>
             </div>
             
-            {/* Título principal mejorado */}
+            {/* Título principal mejorado (sin emojis) */}
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight text-shadow-lg gradient-text-hero">
-              {post.frontmatter.title}
+              {sanitizeTitle(post.frontmatter.title)}
             </h1>
             
             {/* Descripción mejorada */}
@@ -1147,21 +1142,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
               {post.frontmatter.summary}
             </p>
             
-            {/* Meta información mejorada */}
-            <div className="flex flex-wrap items-center justify-center gap-8 text-blue-100 animate-slide-in-left">
-              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-                <span className="text-2xl">👨‍💻</span>
-                <span className="font-medium">{post.frontmatter.author || 'Equipo BoatTrip'}</span>
-              </div>
-              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-                <span className="text-2xl">📅</span>
-                <span className="font-medium">{formatDate(post.frontmatter.date)}</span>
-              </div>
-              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-                <span className="text-2xl">⏱️</span>
-                <span className="font-medium">{readingTime} min de lectura</span>
-              </div>
-            </div>
+            {/* Meta información oculta por solicitud */}
             
             {/* Botones de acción */}
             <div className="flex flex-wrap justify-center gap-4 mt-10">
@@ -1169,13 +1150,13 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
                 onClick={() => document.querySelector('article')?.scrollIntoView({behavior: 'smooth'})}
                 className="px-8 py-3 bg-gradient-to-r from-teal-500 to-blue-500 text-white font-semibold rounded-full hover:from-teal-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
-                📖 Leer Artículo
+                Leer Artículo
               </button>
               <button 
                 onClick={onNavigateToBlogIndex}
                 className="px-8 py-3 bg-white/20 backdrop-blur-sm text-white font-semibold rounded-full border border-white/30 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
               >
-                📚 Ver Más Artículos
+                Ver Más Artículos
               </button>
             </div>
           </div>

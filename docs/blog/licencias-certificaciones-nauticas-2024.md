@@ -1,8 +1,18 @@
 # 🎓 Licencias y Certificaciones Náuticas 2024: Guía Completa
 
+## Resumen ejecutivo
+
+- Qué aprenderás: conceptos clave y decisiones prácticas para 🎓 Licencias y Certificaciones Náuticas 2024: Guía Completa
+- Errores comunes: lo que debes evitar para ahorrar tiempo y dinero
+- Checklist accionable: pasos concretos antes/durante/después
+- Presupuesto estimado: rangos de costes y cómo optimizarlos
+- FAQ: dudas reales resueltas en el artículo
+
+
+
 *Publicado: 20 de Enero, 2024 | Actualizado: 20 de Enero, 2024*
 
-![Licencias y certificaciones náuticas](https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=800&fit=crop&crop=center&alt=Licencias y certificaciones náuticas)
+![Licencias y certificaciones náuticas](https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=800&fit=crop&crop=center&alt=Licencias?w=1200&q=80&auto=format&fit=crop y certificaciones náuticas)
 
 ## 📊 Resumen Ejecutivo
 

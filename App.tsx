@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { UserPreferences, Recommendation, ChatMessage, AppChatSession, AppView, CookieConsentStatus, WeatherData } from './types';
-import { APP_TITLE, GEMINI_MODEL_NAME, AD_CLIENT_ID, AD_SLOT_ID_BANNER_CONTENT, BLOG_TITLE, DEFAULT_APP_DESCRIPTION, BLOG_INDEX_DESCRIPTION, BASE_URL } from './constants';
+import { APP_TITLE, GEMINI_MODEL_NAME, BLOG_TITLE, DEFAULT_APP_DESCRIPTION, BLOG_INDEX_DESCRIPTION, BASE_URL } from './constants';
 import UserInputForm from './components/UserInputForm';
 import RecommendationCard from './components/RecommendationCard';
 import Header from './components/Header';
@@ -10,7 +10,7 @@ import Footer from './components/Footer';
 import PrivacyPolicyModal from './components/PrivacyPolicyModal';
 import TermsOfServiceModal from './components/TermsOfServiceModal';
 import CookieConsentBanner from './components/CookieConsentBanner';
-import AdSlot from './components/AdSlot'; 
+ 
 import NotFoundPage from './components/NotFoundPage';
 import BlogIndexPage from './src/components/BlogIndexPage';
 import BlogPostPage from './src/components/BlogPostPage';
@@ -28,6 +28,7 @@ import { generateBoatTripRecommendationStream, constructPrompt } from './service
 import { getWeatherData } from './services/weatherService';
 import { GoogleGenAI } from "@google/genai";
 import { existingBlogPosts_definitions_only as allBlogPosts } from './src/blogData';
+import { scrollToTop } from './utils/scrollUtils';
 
 // Service Worker Registration
 const registerServiceWorker = async () => {
@@ -55,8 +56,10 @@ const registerServiceWorker = async () => {
       return registration;
     } catch (error) {
       console.error('Error al registrar el Service Worker:', error);
+      return undefined;
     }
   }
+  return undefined;
 };
 
 
@@ -694,12 +697,7 @@ const App: React.FC = () => {
     updateURL(AppView.MAIN_APP);
     
     // Scroll suave al principio cuando se transiciona de landing page al wizard
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    }, 100); // Pequeño delay para asegurar que el DOM se ha actualizado
+    scrollToTop();
   }, [updateURL]);
   
   const handleNavigateToBlogIndex = useCallback(() => {
@@ -1072,11 +1070,7 @@ const App: React.FC = () => {
                 />
             </div>
 
-            {showAds && AD_SLOT_ID_BANNER_CONTENT !== "YOUR_AD_SLOT_ID_BANNER_CONTENT" && (
-              <div className="w-full max-w-3xl my-3 sm:my-4 no-print">
-                <AdSlot slotId={AD_SLOT_ID_BANNER_CONTENT} adClientId={AD_CLIENT_ID} className="min-h-[100px] bg-slate-200 flex items-center justify-center text-slate-500" />
-              </div>
-            )}
+
 
             <div ref={recommendationRef} className="w-full max-w-3xl">
               <RecommendationCard
