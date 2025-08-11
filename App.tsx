@@ -28,7 +28,7 @@ import { generateBoatTripRecommendationStream, constructPrompt } from './service
 import { getWeatherData } from './services/weatherService';
 import { GoogleGenAI } from "@google/genai";
 import { existingBlogPosts_definitions_only as allBlogPosts } from './src/blogData';
-import { scrollToTop } from './utils/scrollUtils';
+import { scrollToTop, scrollToTopWithTransition } from './utils/scrollUtils';
 
 // Service Worker Registration
 const registerServiceWorker = async () => {
@@ -696,8 +696,11 @@ const App: React.FC = () => {
     setCurrentBlogPostSlug(null);
     updateURL(AppView.MAIN_APP);
     
-    // Scroll suave al principio cuando se transiciona de landing page al wizard
-    scrollToTop();
+    // Scroll suave al principio después de que se renderice el wizard
+    // Usar setTimeout para asegurar que el DOM se haya actualizado
+    setTimeout(() => {
+      scrollToTopWithTransition();
+    }, 150);
   }, [updateURL]);
   
   const handleNavigateToBlogIndex = useCallback(() => {

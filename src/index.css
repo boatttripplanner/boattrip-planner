@@ -35,6 +35,14 @@
   /* Reduce layout shifts */
   html {
     scroll-behavior: smooth;
+    /* Mejorar la experiencia de scroll */
+    scroll-padding-top: 0;
+  }
+  
+  /* Mejorar la suavidad del scroll */
+  body {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Mobile-specific improvements */

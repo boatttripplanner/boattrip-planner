@@ -10,8 +10,19 @@ export const scrollToTop = (): void => {
   // Usar requestAnimationFrame para mejor rendimiento
   requestAnimationFrame(() => {
     try {
-      // Intentar scroll suave primero
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Intentar scroll suave primero con duración personalizada
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
+      
+      // Para navegadores que soportan CSS scroll-behavior, podemos hacer scroll más suave
+      if (CSS.supports('scroll-behavior', 'smooth')) {
+        // Scroll adicional para asegurar que llegue al top
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 50);
+      }
     } catch (error) {
       // Fallback para navegadores que no soportan smooth scroll
       window.scrollTo(0, 0);
@@ -70,4 +81,43 @@ export const smartScrollToTop = (): void => {
     // Para navegadores sin soporte, usar scroll instantáneo
     window.scrollTo(0, 0);
   }
+};
+
+/**
+ * Scroll especial para transiciones de landing page al wizard
+ * Más visible y suave para el usuario
+ */
+export const scrollToTopWithTransition = (): void => {
+  // Primero hacer scroll suave
+  scrollToTop();
+  
+  // Luego hacer un scroll adicional para asegurar que llegue al top
+  setTimeout(() => {
+    // Scroll adicional con easing
+    const currentScroll = window.pageYOffset;
+    if (currentScroll > 0) {
+      const targetScroll = 0;
+      const distance = currentScroll - targetScroll;
+      const duration = 800; // 800ms para el scroll adicional
+      let start: number | null = null;
+      
+      const animateScroll = (currentTime: number) => {
+        if (start === null) start = currentTime;
+        const timeElapsed = currentTime - start;
+        const progress = Math.min(timeElapsed / duration, 1);
+        
+        // Easing function (ease-out)
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const newScroll = currentScroll - (distance * easeOut);
+        
+        window.scrollTo(0, newScroll);
+        
+        if (progress < 1) {
+          requestAnimationFrame(animateScroll);
+        }
+      };
+      
+      requestAnimationFrame(animateScroll);
+    }
+  }, 200);
 };
