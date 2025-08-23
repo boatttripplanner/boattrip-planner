@@ -2,6 +2,86 @@
 
 La seguridad en el mar no es solo una recomendación, es una obligación moral y legal. Cada año, incidentes marítimos que podrían haberse prevenido nos recuerdan la importancia de estar preparados. En esta guía completa te mostramos cómo crear un entorno de navegación seguro y responsable.
 
+## ✅ Checklist de Seguridad Náutica - Verifica tu Preparación
+
+**Antes de continuar con la guía, asegúrate de que tu embarcación cumple con todos los requisitos de seguridad:**
+
+<ChecklistIntegration 
+  checklistType="safety"
+  title="Checklist de Seguridad Náutica Completa"
+  description="Verifica que tu embarcación y tripulación cumplen con todos los requisitos de seguridad obligatorios"
+  items={[
+    {
+      id: "safety-1",
+      title: "Chalecos Salvavidas",
+      description: "Chalecos certificados para cada tripulante, ajustados a talla y peso",
+      category: "equipment",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Mustang Survival HIT Chaleco Salvavidas",
+          price: "€89.00",
+          rating: 4.8,
+          reviewCount: 1247,
+          imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=mustang+survival+hit+chaleco+salvavidas&tag=explorashop18-21&linkCode=ur2&linkId=nautical_safety_lifejacket&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_safety&utm_content=chaleco_salvavidas",
+          category: "safety"
+        }
+      ]
+    },
+    {
+      id: "safety-2",
+      title: "Equipo de Emergencia",
+      description: "Bengalas, espejo de señales, linterna estanca y radio VHF",
+      category: "emergency",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Bengalas de Emergencia Marítimas",
+          price: "€45.00",
+          rating: 4.6,
+          reviewCount: 892,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=bengalas+emergencia+maritimas&tag=explorashop18-21&linkCode=ur2&linkId=nautical_safety_flares&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_safety&utm_content=bengalas_emergencia",
+          category: "emergency"
+        }
+      ]
+    },
+    {
+      id: "safety-3",
+      title: "Plan de Emergencia",
+      description: "Protocolos conocidos por toda la tripulación y simulacros realizados",
+      category: "procedures",
+      isEssential: true
+    },
+    {
+      id: "safety-4",
+      title: "Equipamiento de Navegación",
+      description: "GPS, brújula, cartas náuticas y equipos de comunicación",
+      category: "navigation",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Garmin fēnix 7 GPS Multideporte",
+          price: "€389.00",
+          rating: 4.9,
+          reviewCount: 2891,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=garmin+fenix+7+gps+multideporte&tag=explorashop18-21&linkCode=ur2&linkId=nautical_safety_gps&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_safety&utm_content=gps_navegacion",
+          category: "navigation"
+        }
+      ]
+    },
+    {
+      id: "safety-5",
+      title: "Revisión Previa a la Salida",
+      description: "Meteorología, estado del mar, combustible y tripulación",
+      category: "preparation",
+      isEssential: true
+    }
+  ]}
+/>
+
 ## 🚨 ¿Por qué la Seguridad Náutica es Fundamental?
 
 La navegación presenta riesgos únicos que requieren preparación específica. Las estadísticas muestran que:

@@ -3,6 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Importar optimizaciones móviles */
+@import './mobile-optimizations.css';
+
 /* Critical CSS for above-the-fold content */
 @layer base {
   /* Optimize font loading */
@@ -66,6 +69,71 @@
     .smooth-scroll {
       -webkit-overflow-scrolling: touch;
     }
+    
+    /* Optimizar tipografía en móvil */
+    h1, h2, h3, h4, h5, h6 {
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    
+    p {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    
+    /* Mejorar espaciado en móvil */
+    .container {
+      padding: 0 1rem;
+    }
+    
+    .section {
+      padding: 2rem 1rem;
+    }
+  }
+  
+  /* Breakpoints específicos para móvil */
+  @media (max-width: 640px) {
+    .container {
+      padding: 0 0.75rem;
+    }
+    
+    .section {
+      padding: 1.5rem 0.75rem;
+    }
+    
+    h1 {
+      font-size: 1.75rem;
+    }
+    
+    h2 {
+      font-size: 1.5rem;
+    }
+    
+    h3 {
+      font-size: 1.25rem;
+    }
+  }
+  
+  @media (max-width: 475px) {
+    .container {
+      padding: 0 0.5rem;
+    }
+    
+    .section {
+      padding: 1rem 0.5rem;
+    }
+    
+    h1 {
+      font-size: 1.5rem;
+    }
+    
+    h2 {
+      font-size: 1.25rem;
+    }
+    
+    h3 {
+      font-size: 1.125rem;
+    }
   }
 }
 
@@ -75,6 +143,23 @@
   @media (max-width: 768px) {
     .mobile-optimized {
       will-change: auto;
+    }
+    
+    /* Reducir animaciones en móvil */
+    .mobile-reduce-animations {
+      animation-duration: 0.3s !important;
+      transition-duration: 0.2s !important;
+    }
+    
+    /* Optimizar transformaciones */
+    .mobile-optimize-transforms {
+      will-change: auto;
+      transform: translateZ(0);
+    }
+    
+    /* Simplificar sombras en móvil */
+    .mobile-simple-shadows {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
     }
   }
   
@@ -99,5 +184,145 @@
 
   .mobile-spacing {
     @apply space-y-3 sm:space-y-4 md:space-y-6;
+  }
+  
+  /* Utilidades móviles específicas */
+  .mobile-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .mobile-card {
+    @apply bg-white rounded-lg shadow-sm border border-slate-200 p-4 sm:p-6;
+  }
+  
+  .mobile-button {
+    @apply min-h-[44px] sm:min-h-[40px] px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-medium transition-all duration-200;
+  }
+  
+  .mobile-input {
+    @apply min-h-[44px] sm:min-h-[40px] px-3 sm:px-4 py-2.5 sm:py-2 rounded-md border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500;
+  }
+  
+  /* Grids móviles responsivos */
+  .mobile-grid-1 {
+    @apply grid grid-cols-1;
+  }
+  
+  .mobile-grid-2 {
+    @apply grid grid-cols-1 sm:grid-cols-2;
+  }
+  
+  .mobile-grid-3 {
+    @apply grid grid-cols-1 md:grid-cols-3;
+  }
+  
+  /* Espaciado móvil consistente */
+  .mobile-gap-sm {
+    @apply gap-2 sm:gap-3;
+  }
+  
+  .mobile-gap-md {
+    @apply gap-4 sm:gap-6;
+  }
+  
+  .mobile-gap-lg {
+    @apply gap-6 sm:gap-8;
+  }
+  
+  /* Flexbox móvil */
+  .mobile-flex-col {
+    @apply flex flex-col;
+  }
+  
+  .mobile-flex-row {
+    @apply flex flex-col sm:flex-row;
+  }
+  
+  .mobile-items-center {
+    @apply items-center;
+  }
+  
+  .mobile-justify-center {
+    @apply justify-center;
+  }
+  
+  .mobile-justify-between {
+    @apply justify-between;
+  }
+  
+  /* Texto móvil */
+  .mobile-text-center {
+    @apply text-center;
+  }
+  
+  .mobile-text-left {
+    @apply text-left;
+  }
+  
+  .mobile-text-right {
+    @apply text-right;
+  }
+  
+  /* Sombras móviles */
+  .mobile-shadow-sm {
+    @apply shadow-sm;
+  }
+  
+  .mobile-shadow {
+    @apply shadow;
+  }
+  
+  .mobile-shadow-md {
+    @apply shadow-md;
+  }
+  
+  .mobile-shadow-lg {
+    @apply shadow-lg;
+  }
+  
+  /* Bordes móviles */
+  .mobile-border {
+    @apply border border-slate-200;
+  }
+  
+  .mobile-border-radius {
+    @apply rounded-lg;
+  }
+  
+  .mobile-border-radius-lg {
+    @apply rounded-xl;
+  }
+  
+  .mobile-border-radius-xl {
+    @apply rounded-2xl;
+  }
+  
+  /* Colores móviles */
+  .mobile-primary {
+    @apply text-ocean-600;
+  }
+  
+  .mobile-secondary {
+    @apply text-sea-600;
+  }
+  
+  .mobile-accent {
+    @apply text-sunset-600;
+  }
+  
+  .mobile-text-primary {
+    @apply text-slate-800;
+  }
+  
+  .mobile-text-secondary {
+    @apply text-slate-600;
+  }
+  
+  .mobile-bg-primary {
+    @apply bg-white;
+  }
+  
+  .mobile-bg-secondary {
+    @apply bg-slate-50;
   }
 } 

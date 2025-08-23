@@ -53,19 +53,16 @@ const Step2Route: React.FC<WizardStepProps> = ({ data, updateData, isPrimaryInpu
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="text-center">
-        <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
-            <MapPinIcon className="h-10 w-10 text-white" />
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 mb-2 sm:mb-3">
+                ¿A dónde quieres
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
+                    Navegar?
+                </span>
+            </h2>
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
+                Selecciona tu destino y te ayudaremos a planificar la ruta perfecta.
+            </p>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
-            Ruta y Fechas
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
-                de tu Viaje
-            </span>
-        </h2>
-        <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            ¿Desde dónde zarpamos y cuándo comenzará tu aventura náutica?
-        </p>
-      </div>
 
       <div className="space-y-6 rounded-xl bg-gradient-to-br from-blue-50 to-teal-50 p-8 border border-blue-200 shadow-lg">
         <div className="space-y-4">
@@ -123,7 +120,7 @@ const Step2Route: React.FC<WizardStepProps> = ({ data, updateData, isPrimaryInpu
                       }}
                       min="2" 
                       required
-                      placeholder="Mínimo 2 días"
+                      placeholder="Ej: 3, 5, 7 días"
                   />
                   <DateField
                       label="Fecha de Fin (Calculada)"

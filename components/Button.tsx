@@ -3,7 +3,7 @@ import React from 'react';
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'outline' | 'premium' | 'urgent' | 'bestseller';
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export const Button: React.FC<ButtonProps> = ({ 
@@ -25,8 +25,9 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const sizeSpecificStyles = {
-    md: "py-2.5 sm:py-2 px-3 sm:px-4 text-sm sm:text-base",
-    sm: "py-2 sm:py-1.5 px-2.5 sm:px-3 text-xs sm:text-sm",
+    sm: "py-2 sm:py-1.5 px-2.5 sm:px-3 text-xs sm:text-sm min-h-[44px] sm:min-h-[40px]",
+    md: "py-2.5 sm:py-2 px-3 sm:px-4 text-sm sm:text-base min-h-[48px] sm:min-h-[44px]",
+    lg: "py-3 sm:py-2.5 px-4 sm:px-6 text-base sm:text-lg min-h-[52px] sm:min-h-[48px]",
   };
 
   return (

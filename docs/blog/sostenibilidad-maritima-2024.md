@@ -28,7 +28,85 @@ Antes de continuar, necesitas saber algo **CRÍTICO**:
 
 ¿Sabías que cada año se vierten 8 millones de toneladas de plástico al océano? Como navegantes, tenemos la responsabilidad de ser parte de la solución.
 
----
+## ✅ Checklist de Sostenibilidad Marina - Verifica tu Compromiso
+
+**Antes de revisar las tecnologías verdes, asegúrate de que tu navegación es sostenible:**
+
+<ChecklistIntegration 
+  checklistType="sustainability"
+  title="Checklist de Sostenibilidad Marina"
+  description="Verifica que tu navegación contribuye a la conservación de nuestros océanos"
+  items={[
+    {
+      id: "sustainability-1",
+      title: "Gestión de Residuos",
+      description: "Separación de residuos a bordo, compostaje de orgánicos y reciclaje en puerto",
+      category: "waste",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Sistema de Compostaje Portátil para Barcos",
+          price: "€89.00",
+          rating: 4.6,
+          reviewCount: 234,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=sistema+compostaje+portatil+barcos&tag=explorashop18-21&linkCode=ur2&linkId=maritime_sustainability_compost&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=maritime_sustainability&utm_content=compostaje_portatil",
+          category: "waste_management"
+        }
+      ]
+    },
+    {
+      id: "sustainability-2",
+      title: "Anclaje Responsable",
+      description: "Evitar fondos de coral, usar boyas de amarre y respetar áreas protegidas",
+      category: "anchoring",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Boyas de Amarre Ecológicas",
+          price: "€45.00",
+          rating: 4.7,
+          reviewCount: 156,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=boyas+amarre+ecologicas&tag=explorashop18-21&linkCode=ur2&linkId=maritime_sustainability_buoys&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=maritime_sustainability&utm_content=boyas_amarre",
+          category: "anchoring"
+        }
+      ]
+    },
+    {
+      id: "sustainability-3",
+      title: "Energía Renovable",
+      description: "Paneles solares, turbinas eólicas o propulsión eléctrica instalados",
+      category: "energy",
+      isEssential: false,
+      amazonProducts: [
+        {
+          name: "Panel Solar Marino 100W Flexible",
+          price: "€189.00",
+          rating: 4.8,
+          reviewCount: 445,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=panel+solar+marino+100w+flexible&tag=explorashop18-21&linkCode=ur2&linkId=maritime_sustainability_solar&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=maritime_sustainability&utm_content=panel_solar",
+          category: "energy"
+        }
+      ]
+    },
+    {
+      id: "sustainability-4",
+      title: "Productos Ecológicos",
+      description: "Detergentes biodegradables, protectores solares sin oxibenzona y productos sin microplásticos",
+      category: "products",
+      isEssential: true
+    },
+    {
+      id: "sustainability-5",
+      title: "Participación en Limpiezas",
+      description: "Participar en limpiezas de playas, reportar contaminación y educar a otros navegantes",
+      category: "action",
+      isEssential: false
+    }
+  ]}
+/>
 
 ## 🌱 Tecnologías de Navegación Sostenible
 

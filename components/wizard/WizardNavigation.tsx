@@ -25,41 +25,39 @@ const WizardNavigation: React.FC<WizardNavigationProps> = ({
   const isLastStep = currentStep === totalSteps;
 
   return (
-    <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
-      {/* Back Button */}
-      <div className="flex-1 w-full sm:w-auto">
+    <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
+      {/* Back Button - Mejorado para móvil */}
+      <div className="flex-1 w-full sm:w-auto order-2 sm:order-1">
         {!isFirstStep && (
           <Button
             type="button"
             onClick={onBack}
             variant="secondary"
+            size="md"
             className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-white hover:bg-slate-50 border border-slate-300 hover:border-slate-400 text-slate-700 hover:text-slate-800 transition-all duration-200 rounded-xl font-medium"
           >
-            <span className="flex items-center gap-2">
-              <span>←</span>
-              Atrás
-            </span>
+            Atrás
           </Button>
         )}
       </div>
 
-      {/* Progress Indicator */}
+      {/* Progress Indicator - Simplificado y mejorado para móvil */}
       <div className="flex-1 text-center order-first sm:order-none">
-        <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-white/80 backdrop-blur-sm rounded-full border border-slate-200">
-          <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-ocean-500 rounded-full animate-pulse"></div>
+        <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/80 backdrop-blur-sm rounded-full border border-slate-200">
           <span className="text-xs sm:text-sm font-medium text-slate-600">
             Paso {currentStep} de {totalSteps}
           </span>
         </div>
       </div>
 
-      {/* Next/Finish Button */}
-      <div className="flex-1 flex justify-end w-full sm:w-auto">
+      {/* Next/Finish Button - Mejorado para móvil */}
+      <div className="flex-1 flex justify-end w-full sm:w-auto order-3">
         {isLastStep ? (
           <Button
             type="submit"
             onClick={onFinish}
             disabled={isLoading || isPrimaryInputDisabled}
+            size="lg"
             className="w-full sm:w-auto px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-ocean-500 to-sea-500 hover:from-ocean-600 hover:to-sea-600 disabled:from-slate-400 disabled:to-slate-500 text-white font-semibold rounded-xl shadow-medium hover:shadow-glow transition-all duration-300 transform hover:-translate-y-0.5 disabled:transform-none"
           >
             {isLoading ? (
@@ -68,22 +66,17 @@ const WizardNavigation: React.FC<WizardNavigationProps> = ({
                 <span className="text-sm sm:text-base">Generando...</span>
               </span>
             ) : (
-              <span className="flex items-center gap-2">
-                <span className="text-sm sm:text-base">Obtener Recomendaciones</span>
-                <span>⚡</span>
-              </span>
+              <span className="text-sm sm:text-base">Obtener Recomendaciones</span>
             )}
           </Button>
         ) : (
           <Button
             type="button"
             onClick={onNext}
+            size="lg"
             className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-ocean-500 to-sea-500 hover:from-ocean-600 hover:to-sea-600 text-white font-semibold rounded-xl shadow-medium hover:shadow-glow transition-all duration-300 transform hover:-translate-y-0.5"
           >
-            <span className="flex items-center gap-2">
-              <span className="text-sm sm:text-base">Siguiente</span>
-              <span>→</span>
-            </span>
+            <span className="text-sm sm:text-base">Siguiente</span>
           </Button>
         )}
       </div>

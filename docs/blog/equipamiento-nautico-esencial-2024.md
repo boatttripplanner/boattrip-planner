@@ -30,7 +30,96 @@ Antes de continuar, necesitas saber algo **CRÍTICO**:
 
 ¿Sabías que el 60% de los navegantes principiantes no llevan todo el equipamiento esencial? No seas parte de esa estadística.
 
----
+## ✅ Checklist de Equipamiento Náutico Esencial - Verifica tu Preparación
+
+**Antes de revisar los productos recomendados, asegúrate de que tienes todo el equipamiento básico:**
+
+<ChecklistIntegration 
+  checklistType="equipment"
+  title="Checklist de Equipamiento Náutico Esencial"
+  description="Verifica que tienes todo el equipamiento básico para una navegación segura"
+  items={[
+    {
+      id: "equipment-1",
+      title: "Chaleco Salvavidas",
+      description: "Chaleco certificado para cada tripulante con flotabilidad mínima de 150N",
+      category: "safety",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Mustang Survival HIT Chaleco Salvavidas",
+          price: "€89.00",
+          rating: 4.8,
+          reviewCount: 1247,
+          imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=mustang+survival+hit+chaleco+salvavidas&tag=explorashop18-21&linkCode=ur2&linkId=nautical_equipment_lifejacket&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_equipment&utm_content=chaleco_salvavidas",
+          category: "safety"
+        }
+      ]
+    },
+    {
+      id: "equipment-2",
+      title: "GPS de Navegación",
+      description: "GPS portátil o reloj con navegación marítima y mapas incluidos",
+      category: "navigation",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Garmin fēnix 7 GPS Multideporte",
+          price: "€389.00",
+          rating: 4.9,
+          reviewCount: 2891,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=garmin+fenix+7+gps+multideporte&tag=explorashop18-21&linkCode=ur2&linkId=nautical_equipment_gps&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_equipment&utm_content=gps_navegacion",
+          category: "navigation"
+        }
+      ]
+    },
+    {
+      id: "equipment-3",
+      title: "Radio VHF",
+      description: "Radio VHF portátil o fija con canal 16 programado",
+      category: "communication",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Standard Horizon HX890 Radio VHF Portátil",
+          price: "€199.00",
+          rating: 4.7,
+          reviewCount: 1156,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=standard+horizon+hx890+radio+vhf&tag=explorashop18-21&linkCode=ur2&linkId=nautical_equipment_vhf&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_equipment&utm_content=radio_vhf",
+          category: "communication"
+        }
+      ]
+    },
+    {
+      id: "equipment-4",
+      title: "Equipo de Anclaje",
+      description: "Ancla principal, cadena y cabo de fondeo adecuados al tamaño del barco",
+      category: "anchoring",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Lewmar Delta Anchor Ancla Delta",
+          price: "€189.00",
+          rating: 4.6,
+          reviewCount: 1156,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=lewmar+delta+anchor+ancla&tag=explorashop18-21&linkCode=ur2&linkId=nautical_equipment_anchor&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_equipment&utm_content=ancla_delta",
+          category: "anchoring"
+        }
+      ]
+    },
+    {
+      id: "equipment-5",
+      title: "Equipo de Emergencia",
+      description: "Bengalas, linterna estanca, espejo de señales y botiquín de primeros auxilios",
+      category: "emergency",
+      isEssential: true
+    }
+  ]}
+/>
 
 ## 🏆 Top 15 Equipos Náuticos Esenciales (Ranking 2024)
 

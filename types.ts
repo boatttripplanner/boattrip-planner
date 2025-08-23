@@ -133,7 +133,7 @@ export const boatingLicenseTypeOptions: { value: BoatingLicenseType; label: stri
   { value: BoatingLicenseType.PER, label: 'PER (Patrón de Embarcaciones de Recreo)' },
   { value: BoatingLicenseType.PER_EXTENDED, label: 'PER Ampliado (Habilitación Baleares/Vela)' },
   { value: BoatingLicenseType.PY, label: 'PY (Patrón de Yate)' },
-  { value: BoatingLicenseType.CY, label: 'Capitán de Yate)' }
+  { value: BoatingLicenseType.CY, label: 'Capitán de Yate' }
 ];
 
 export const activityOptions: string[] = [

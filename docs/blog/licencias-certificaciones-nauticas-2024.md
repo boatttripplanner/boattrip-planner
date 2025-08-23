@@ -22,7 +22,70 @@ Las licencias náuticas no son solo un requisito legal, sino una garantía de se
 - **Seguro no válido** sin licencia adecuada
 - **Responsabilidad civil** en caso de accidente
 
----
+## ✅ Checklist de Preparación para Licencias Náuticas - Verifica tu Preparación
+
+**Antes de revisar los tipos de licencias, asegúrate de que cumples con todos los requisitos:**
+
+<ChecklistIntegration 
+  checklistType="licenses"
+  title="Checklist de Preparación para Licencias Náuticas"
+  description="Verifica que cumples con todos los requisitos para obtener tu licencia náutica"
+  items={[
+    {
+      id: "license-1",
+      title: "Requisitos de Edad",
+      description: "Verificar edad mínima según el tipo de licencia (16 años para LN, 18 para PER/PY/CY)",
+      category: "requirements",
+      isEssential: true
+    },
+    {
+      id: "license-2",
+      title: "Reconocimiento Médico",
+      description: "Certificado médico que acredite aptitud física y psíquica para la navegación",
+      category: "medical",
+      isEssential: true
+    },
+    {
+      id: "license-3",
+      title: "Preparación Teórica",
+      description: "Curso teórico completado con el número de horas requeridas según la licencia",
+      category: "theory",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Manual de Navegación Náutica Completo",
+          price: "€35.00",
+          rating: 4.8,
+          reviewCount: 456,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=manual+navegacion+nautica+completo&tag=explorashop18-21&linkCode=ur2&linkId=nautical_licenses_manual&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_licenses&utm_content=manual_navegacion",
+          category: "education"
+        }
+      ]
+    },
+    {
+      id: "license-4",
+      title: "Preparación Práctica",
+      description: "Prácticas de navegación con instructor certificado y embarcación adecuada",
+      category: "practical",
+      isEssential: true
+    },
+    {
+      id: "license-5",
+      title: "Experiencia Previa",
+      description: "Para PY y CY, verificar experiencia mínima requerida con licencias inferiores",
+      category: "experience",
+      isEssential: false
+    },
+    {
+      id: "license-6",
+      title: "Documentación Personal",
+      description: "DNI o pasaporte en vigor, fotos recientes y documentación adicional requerida",
+      category: "documents",
+      isEssential: true
+    }
+  ]}
+/>
 
 ## 🏆 Tipos de Licencias Náuticas en España
 

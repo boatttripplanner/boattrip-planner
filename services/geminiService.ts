@@ -111,9 +111,30 @@ export const constructPrompt = (preferences: UserPreferences, weatherData?: Weat
   } else if (preferences.desiredExperienceType === DesiredExperienceType.MULTI_DAY) {
     prompt += `    *   **INSTRUCCIÓN OBLIGATORIA para Varios Días:** Es una experiencia de varios días. Debes generar un itinerario completo para cada día, incluyendo pernoctas, comidas, y actividades variadas. Cada día debe tener su propio programa completo.\n`;
   } else if (preferences.desiredExperienceType === DesiredExperienceType.TRANSFER) {
-    prompt += `    *   **INSTRUCCIÓN OBLIGATORIA para Traslado:** Es un servicio de transporte marítimo. El itinerario debe enfocarse en la navegación de un punto a otro, con paradas técnicas si es necesario. No incluyas actividades recreativas extensas.\n`;
+    prompt += `    *   **INSTRUCCIÓN OBLIGATORIA para Traslado:** Es un servicio de transporte marítimo profesional. El itinerario debe enfocarse en la navegación de un punto a otro, con planificación detallada de rutas y paradas técnicas.\n`;
     prompt += `    *   **INSTRUCCIÓN CRÍTICA para Traslado:** OMITE COMPLETAMENTE la sección "🚤 Tipo de Embarcación Recomendada". Los traslados son servicios de transporte, no experiencias recreativas.\n`;
-    prompt += `    *   **INSTRUCCIÓN para Itinerario de Traslado:** El itinerario debe ser simple y directo: salida del puerto de origen, navegación directa al puerto de destino, con posibles paradas técnicas para repostaje si es necesario.\n`;
+    prompt += `    *   **INSTRUCCIÓN CRÍTICA para Traslado:** DEBES generar DOS OPCIONES DE RUTA para el traslado, CALCULANDO AUTOMÁTICAMENTE los días necesarios basándote en la distancia real de la travesía:\n`;
+    prompt += `        *   **OPCIÓN 1 - RUTA SEGURA:** Sin travesías nocturnas, buscando fondeaderos seguros, marinas o puertos intermedios. Incluye:\n`;
+    prompt += `            - CÁLCULO AUTOMÁTICO de días basado en distancia y velocidad de crucero\n`;
+    prompt += `            - Paradas en marinas/puertos para pernoctas seguras\n`;
+    prompt += `            - Fondeaderos protegidos con buen tenedero\n`;
+    prompt += `            - Horarios de navegación diurna únicamente\n`;
+    prompt += `            - Tiempo estimado de navegación por día\n`;
+    prompt += `            - Distancia total y por tramos\n`;
+    prompt += `        *   **OPCIÓN 2 - RUTA DIRECTA:** Solo con paradas técnicas de repostaje, optimizando tiempo y combustible. Incluye:\n`;
+    prompt += `            - CÁLCULO AUTOMÁTICO de días basado en autonomía y paradas técnicas\n`;
+    prompt += `            - Paradas técnicas únicamente para repostaje\n`;
+    prompt += `            - Cálculo de consumo de combustible\n`;
+    prompt += `            - Tiempo total de navegación\n`;
+    prompt += `            - Distancia total y autonomía\n`;
+    prompt += `            - Consideraciones de seguridad para navegación continua\n`;
+    prompt += `    *   **ESTRUCTURA OBLIGATORIA para Traslado:**\n`;
+    prompt += `        *   **📊 ANÁLISIS DE RUTAS:** Comparación detallada de ambas opciones con días calculados automáticamente\n`;
+    prompt += `        *   **🗺️ OPCIÓN 1 - RUTA SEGURA:** Itinerario con días calculados automáticamente y pernoctas seguras\n`;
+    prompt += `        *   **⚡ OPCIÓN 2 - RUTA DIRECTA:** Itinerario optimizado con días calculados automáticamente y paradas técnicas\n`;
+    prompt += `        *   **🔧 CONSIDERACIONES TÉCNICAS:** Combustible, autonomía, seguridad\n`;
+    prompt += `        *   **📋 CHECKLIST DE TRASLADO:** Verificaciones específicas para transporte\n`;
+    prompt += `    *   **INSTRUCCIÓN CRÍTICA:** NO generes actividades recreativas. Enfócate en navegación, seguridad, y logística del traslado. CALCULA AUTOMÁTICAMENTE los días necesarios basándote en la distancia real de la travesía.\n`;
   }
   
   prompt += `*   **Zona de Navegación:** ${preferences.destination}\n`;
@@ -130,6 +151,12 @@ export const constructPrompt = (preferences: UserPreferences, weatherData?: Weat
   prompt += `*   **Número de Días:** ${correctedNumDays} día(s)\n`;
   prompt += `    *   **INSTRUCCIÓN CRÍTICA:** Debes generar EXACTAMENTE ${correctedNumDays} día(s) de itinerario. NO más, NO menos.\n`;
   prompt += `    *   **VALIDACIÓN CRUZADA:** El tipo de experiencia "${desiredExperienceTypeDisplay}" requiere EXACTAMENTE ${correctedNumDays} día(s).\n`;
+  prompt += `    *   **INSTRUCCIÓN CRÍTICA SOBRE TIEMPOS REALISTAS:**\n`;
+  prompt += `        *   Los tiempos de navegación deben ser REALISTAS y basados en la experiencia náutica real\n`;
+  prompt += `        *   Velocidades de navegación REALISTAS: 6-8 nudos para veleros, 8-12 nudos para motores\n`;
+  prompt += `        *   NO uses velocidades irreales como 20+ nudos a menos que sea un barco de alta velocidad\n`;
+  prompt += `        *   Considera el tiempo de maniobras, paradas, y condiciones meteorológicas\n`;
+  prompt += `        *   Agrega 20-30% de tiempo extra para maniobras, fondeos, y condiciones variables\n`;
   prompt += `*   **Número de Personas:** ${preferences.numPeople}\n`;
   prompt += `*   **Nivel de Experiencia del Patrón:** ${experienceDisplay}\n`;
 
@@ -218,6 +245,45 @@ export const constructPrompt = (preferences: UserPreferences, weatherData?: Weat
   } else if (preferences.desiredExperienceType === DesiredExperienceType.TRANSFER) {
     if (preferences.transferDestinationPort) {
       prompt += `*   **Puerto de Destino para Traslado:** ${preferences.transferDestinationPort}\n`;
+      prompt += `    *   **INSTRUCCIÓN CRÍTICA PARA TRASLADOS:** DEBES calcular la distancia náutica entre ${preferences.destination} y ${preferences.transferDestinationPort}.\n`;
+      prompt += `    *   **INSTRUCCIÓN CRÍTICA SOBRE CÁLCULOS REALISTAS:**\n`;
+      prompt += `        *   USA herramientas de navegación reales como Google Maps, Navionics, o calculadoras náuticas\n`;
+      prompt += `        *   NO hagas cálculos aproximados o estimaciones\n`;
+      prompt += `        *   La distancia debe ser la RUTA REAL de navegación, no la distancia en línea recta\n`;
+      prompt += `        *   Considera las corrientes, vientos dominantes, y zonas de navegación segura\n`;
+      prompt += `        *   Si no tienes acceso a herramientas reales, especifica que es una estimación aproximada\n`;
+      prompt += `    *   **INSTRUCCIÓN CRÍTICA SOBRE DURACIÓN:** Los TRASLADOS NO son "planes de X días". Son servicios de transporte donde solo se especifica el día de partida. La duración se calcula automáticamente según la distancia real de la travesía.\n`;
+      prompt += `    *   **CÁLCULOS OBLIGATORIOS:**\n`;
+      prompt += `        *   Distancia total en millas náuticas\n`;
+      prompt += `        *   Tiempo estimado de navegación a velocidad de crucero\n`;
+      prompt += `        *   Consumo de combustible estimado\n`;
+      prompt += `        *   Número de paradas técnicas necesarias\n`;
+      prompt += `        *   Autonomía del barco vs. distancia total\n`;
+      prompt += `    *   **CONSIDERACIONES DE SEGURIDAD:**\n`;
+      prompt += `        *   Horarios de navegación diurna vs. nocturna\n`;
+      prompt += `        *   Condiciones meteorológicas para navegación continua\n`;
+      prompt += `        *   Zonas de refugio en caso de emergencia\n`;
+      prompt += `        *   Comunicaciones y protocolos de seguridad\n`;
+      prompt += `    *   **CÁLCULOS OBLIGATORIOS REALISTAS:**\n`;
+      prompt += `        *   Distancia total en millas náuticas (usa herramientas de navegación reales)\n`;
+      prompt += `        *   Tiempo estimado de navegación REALISTA:\n`;
+      prompt += `            - Velocidad de crucero REALISTA: 6-8 nudos para veleros, 8-12 nudos para motores\n`;
+      prompt += `            - NO uses velocidades irreales como 20+ nudos a menos que sea un barco de alta velocidad\n`;
+      prompt += `            - Calcula: Tiempo = Distancia / Velocidad + 20% para maniobras, paradas y condiciones\n`;
+      prompt += `            - Ejemplo: 50 millas a 8 nudos = 6.25 horas + 20% = 7.5 horas totales\n`;
+      prompt += `        *   Consumo de combustible estimado REALISTA:\n`;
+      prompt += `            - Motores: 2-4 litros/hora por 100 CV\n`;
+      prompt += `            - Veleros con motor auxiliar: 1-2 litros/hora\n`;
+      prompt += `        *   Número de paradas técnicas necesarias:\n`;
+      prompt += `            - Cada 8-10 horas de navegación para descanso\n`;
+      prompt += `            - Cada 6-8 horas para repostaje si es necesario\n`;
+      prompt += `        *   Autonomía del barco vs. distancia total\n`;
+      prompt += `    *   **CONSIDERACIONES DE SEGURIDAD REALISTAS:**\n`;
+      prompt += `        *   Horarios de navegación diurna únicamente (6:00-18:00 en verano)\n`;
+      prompt += `        *   NO navegues de noche a menos que sea absolutamente necesario\n`;
+      prompt += `        *   Condiciones meteorológicas para navegación continua\n`;
+      prompt += `        *   Zonas de refugio en caso de emergencia\n`;
+      prompt += `        *   Comunicaciones y protocolos de seguridad\n`;
     }
   }
 
@@ -341,8 +407,10 @@ export const constructPrompt = (preferences: UserPreferences, weatherData?: Weat
 Asegúrate de incluir el bloque "Datos para API de Clima (Uso Interno - NO MOSTRAR COMO SECCIÓN PRINCIPAL EN EL ACORDEÓN)" al final de tu respuesta, completando los campos CiudadPrincipal, CodigoPais y RegionOpcional basados en la recomendación principal. Por ejemplo, si la recomendación es para "Port de Palma (Palma de Mallorca, Spain)", CiudadPrincipal sería "Palma de Mallorca", CodigoPais "ES", y RegionOpcional "Mallorca" o "Islas Baleares".
 
    ⚠️ **ADVERTENCIA FINAL CRÍTICA SOBRE DURACIÓN:**
-  El usuario ha especificado EXACTAMENTE ${preferences.numTripDays ? preferences.numTripDays.toString() : "1"} día(s) para su viaje. 
-  DEBES generar un itinerario de EXACTAMENTE ${preferences.numTripDays ? preferences.numTripDays.toString() : "1"} día(s), NO más, NO menos.
+  ${preferences.desiredExperienceType === DesiredExperienceType.TRANSFER ? 
+    'El usuario ha seleccionado TRASLADO. Los traslados son servicios de transporte, NO planes de viaje con duración específica. Solo se especifica el día de partida. La duración se calcula automáticamente según la distancia y condiciones de navegación.' :
+    `El usuario ha especificado EXACTAMENTE ${preferences.numTripDays ? preferences.numTripDays.toString() : "1"} día(s) para su viaje. DEBES generar un itinerario de EXACTAMENTE ${preferences.numTripDays ? preferences.numTripDays.toString() : "1"} día(s), NO más, NO menos.`
+  }
   Si generas más días de los especificados, la recomendación será incorrecta y no útil para el usuario.
 
   ⚠️ **ADVERTENCIA FINAL CRÍTICA SOBRE ACTIVIDADES:**
@@ -378,8 +446,43 @@ Asegúrate de incluir el bloque "Datos para API de Clima (Uso Interno - NO MOSTR
   4. No incluyas actividades genéricas que no estén en la lista del usuario
   5. El enfoque del viaje sea coherente con las preferencias expresadas
   
-  Si detectas alguna inconsistencia, CORRÍGELA antes de generar la respuesta final.
-`;
+  ⚠️ **INSTRUCCIÓN CRÍTICA SOBRE FORMATO:**
+  - NUNCA generes texto que diga "Nota Importante sobre la Duración"
+  - NUNCA generes texto que diga "Has indicado una duración de X días"
+  - NUNCA hagas referencia a días específicos en el texto introductorio
+  - NUNCA generes frases como "Aunque tu solicitud inicial es para un plan de X días"
+  - NUNCA generes frases como "Tu solicitud inicial es para X días"
+  - NUNCA generes frases como "Aunque solicitaste X días"
+  - NUNCA generes frases como "A pesar de que pediste X días"
+  - NUNCA generes frases como "Tu solicitud de X días"
+  
+  ⚠️ **INSTRUCCIÓN ESPECÍFICA PARA TRASLADOS:**
+  - Los TRASLADOS NO son "planes de X días"
+  - Los TRASLADOS son servicios de transporte de un puerto a otro
+  - Solo se especifica el DÍA DE PARTIDA, no la duración del plan
+  - NUNCA digas "plan de X días" para traslados
+  - NUNCA digas "itinerario de X días" para traslados
+  - Para traslados, di "servicio de traslado" o "traslado marítimo"
+  
+  Comienza directamente con el itinerario o la planificación
+  - Si necesitas explicar la duración, hazlo de forma natural en el contexto
+  - NO uses frases como "Para cumplir con tu solicitud de X días"
+  - NO uses frases como "Hemos estructurado este itinerario como..."
+  
+  ⚠️ **INSTRUCCIÓN CRÍTICA SOBRE ESTRUCTURA DE RESPUESTA:**
+  - Comienza DIRECTAMENTE con el título del itinerario (## 🗺️ ITINERARIO RECOMENDADO)
+  - NO generes párrafos introductorios sobre la solicitud del usuario
+  - NO generes explicaciones sobre lo que se va a hacer
+  - NO generes justificaciones sobre la duración
+  - Ve DIRECTAMENTE al contenido del itinerario
+  
+  Comienza directamente con el título del itinerario y el contenido principal.
+  
+  ⚠️ **INSTRUCCIÓN FINAL CRÍTICA:**
+  RECUERDA: Comienza DIRECTAMENTE con el título del itinerario. NO generes párrafos introductorios, explicaciones sobre la solicitud del usuario, o justificaciones sobre la duración. Ve INMEDIATAMENTE al contenido del itinerario.
+  
+  Si generas texto introductorio no deseado, la respuesta será rechazada.
+  `;
   return prompt;
 };
 

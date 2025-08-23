@@ -1,0 +1,417 @@
+/* 🎯 OPTIMIZACIONES ESPECÍFICAS PARA MÓVIL */
+/* Este archivo asegura que la versión móvil sea lo más fiel posible a la versión web */
+
+/* ===== BREAKPOINTS ESPECÍFICOS PARA MÓVIL ===== */
+@media (max-width: 640px) {
+  /* xs breakpoint */
+  .mobile-xs-text { font-size: 0.75rem; line-height: 1rem; }
+  .mobile-xs-spacing { padding: 0.5rem; margin: 0.5rem; }
+  .mobile-xs-gap { gap: 0.5rem; }
+}
+
+@media (max-width: 768px) {
+  /* sm breakpoint */
+  .mobile-sm-text { font-size: 0.875rem; line-height: 1.25rem; }
+  .mobile-sm-spacing { padding: 0.75rem; margin: 0.75rem; }
+  .mobile-sm-gap { gap: 0.75rem; }
+}
+
+/* ===== CONSISTENCIA DE TIPOGRAFÍA ===== */
+@media (max-width: 768px) {
+  /* Asegurar que los tamaños de fuente sean proporcionales */
+  h1 {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    line-height: 1.2;
+  }
+  
+  h2 {
+    font-size: clamp(1.25rem, 4vw, 2rem);
+    line-height: 1.3;
+  }
+  
+  h3 {
+    font-size: clamp(1.125rem, 3.5vw, 1.5rem);
+    line-height: 1.4;
+  }
+  
+  p {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+    line-height: 1.6;
+  }
+  
+  /* Mejorar legibilidad en móvil */
+  .text-content {
+    font-size: 16px; /* Prevenir zoom en iOS */
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+  }
+}
+
+/* ===== CONSISTENCIA DE ESPACIADO ===== */
+@media (max-width: 768px) {
+  /* Espaciado proporcional */
+  .mobile-container {
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+  
+  .mobile-section {
+    padding: 2rem 1rem;
+  }
+  
+  .mobile-card {
+    padding: 1rem;
+    margin: 0.5rem 0;
+  }
+  
+  /* Gaps consistentes */
+  .mobile-grid {
+    gap: 1rem;
+  }
+  
+  .mobile-flex {
+    gap: 0.75rem;
+  }
+}
+
+/* ===== CONSISTENCIA DE BOTONES ===== */
+@media (max-width: 768px) {
+  /* Botones consistentes en móvil */
+  .mobile-button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+  }
+  
+  /* Botones de acción principal */
+  .mobile-button-primary {
+    @apply mobile-button;
+    background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+  }
+  
+  /* Botones secundarios */
+  .mobile-button-secondary {
+    @apply mobile-button;
+    background: white;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    font-weight: 500;
+  }
+}
+
+/* ===== CONSISTENCIA DE FORMULARIOS ===== */
+@media (max-width: 768px) {
+  /* Campos de formulario consistentes */
+  .mobile-input {
+    min-height: 44px;
+    padding: 0.75rem;
+    font-size: 16px; /* Prevenir zoom en iOS */
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+  }
+  
+  .mobile-input:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+  }
+  
+  /* Labels consistentes */
+  .mobile-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  /* Grupos de formulario */
+  .mobile-form-group {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* ===== CONSISTENCIA DE CARDS Y CONTENEDORES ===== */
+@media (max-width: 768px) {
+  /* Cards consistentes */
+  .mobile-card {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+  }
+  
+  /* Contenedores principales */
+  .mobile-main-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  /* Secciones */
+  .mobile-section {
+    padding: 2rem 0;
+  }
+}
+
+/* ===== CONSISTENCIA DE NAVEGACIÓN ===== */
+@media (max-width: 768px) {
+  /* Header móvil */
+  .mobile-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0.75rem 0;
+  }
+  
+  /* Navegación móvil */
+  .mobile-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  /* Botones de navegación */
+  .mobile-nav-button {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    min-height: 40px;
+    min-width: 40px;
+  }
+}
+
+/* ===== CONSISTENCIA DE ANIMACIONES ===== */
+@media (max-width: 768px) {
+  /* Animaciones optimizadas para móvil */
+  .mobile-animate {
+    animation-duration: 0.3s; /* Más rápido en móvil */
+    animation-timing-function: ease-out;
+  }
+  
+  /* Transiciones suaves */
+  .mobile-transition {
+    transition: all 0.2s ease-out;
+  }
+  
+  /* Hover effects para móvil */
+  .mobile-hover:active {
+    transform: scale(0.98);
+    transition: transform 0.1s;
+  }
+}
+
+/* ===== CONSISTENCIA DE COLORES ===== */
+@media (max-width: 768px) {
+  /* Paleta de colores consistente */
+  .mobile-primary {
+    color: #0ea5e9;
+  }
+  
+  .mobile-secondary {
+    color: #14b8a6;
+  }
+  
+  .mobile-accent {
+    color: #f59e0b;
+  }
+  
+  .mobile-text-primary {
+    color: #111827;
+  }
+  
+  .mobile-text-secondary {
+    color: #6b7280;
+  }
+  
+  .mobile-bg-primary {
+    background-color: #ffffff;
+  }
+  
+  .mobile-bg-secondary {
+    background-color: #f9fafb;
+  }
+}
+
+/* ===== CONSISTENCIA DE SOMBRAS ===== */
+@media (max-width: 768px) {
+  /* Sombras consistentes en móvil */
+  .mobile-shadow-sm {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .mobile-shadow {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mobile-shadow-md {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mobile-shadow-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* ===== CONSISTENCIA DE BORDES ===== */
+@media (max-width: 768px) {
+  /* Bordes consistentes */
+  .mobile-border {
+    border: 1px solid #e5e7eb;
+  }
+  
+  .mobile-border-radius {
+    border-radius: 0.5rem;
+  }
+  
+  .mobile-border-radius-lg {
+    border-radius: 0.75rem;
+  }
+  
+  .mobile-border-radius-xl {
+    border-radius: 1rem;
+  }
+}
+
+/* ===== UTILIDADES MÓVILES ESPECÍFICAS ===== */
+@media (max-width: 768px) {
+  /* Ocultar elementos en móvil */
+  .mobile-hidden {
+    display: none !important;
+  }
+  
+  /* Mostrar elementos solo en móvil */
+  .mobile-only {
+    display: block !important;
+  }
+  
+  /* Texto centrado en móvil */
+  .mobile-text-center {
+    text-align: center;
+  }
+  
+  /* Flexbox móvil */
+  .mobile-flex-col {
+    flex-direction: column;
+  }
+  
+  .mobile-flex-row {
+    flex-direction: row;
+  }
+  
+  .mobile-items-center {
+    align-items: center;
+  }
+  
+  .mobile-justify-center {
+    justify-content: center;
+  }
+  
+  .mobile-justify-between {
+    justify-content: space-between;
+  }
+}
+
+/* ===== OPTIMIZACIONES DE RENDIMIENTO MÓVIL ===== */
+@media (max-width: 768px) {
+  /* Reducir animaciones complejas en móvil */
+  .mobile-reduce-animations * {
+    animation-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+  }
+  
+  /* Optimizar transformaciones */
+  .mobile-optimize-transforms {
+    will-change: auto;
+    transform: translateZ(0);
+  }
+  
+  /* Reducir sombras complejas */
+  .mobile-simple-shadows {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+/* ===== CONSISTENCIA DE SCROLLING ===== */
+@media (max-width: 768px) {
+  /* Scrolling suave en móvil */
+  .mobile-smooth-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* Scroll horizontal optimizado */
+  .mobile-scroll-x {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .mobile-scroll-x > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+}
+
+/* ===== CONSISTENCIA DE ICONOS ===== */
+@media (max-width: 768px) {
+  /* Iconos consistentes */
+  .mobile-icon-sm {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .mobile-icon-md {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .mobile-icon-lg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .mobile-icon-xl {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+/* ===== CONSISTENCIA DE GRIDS ===== */
+@media (max-width: 768px) {
+  /* Grids responsivos */
+  .mobile-grid-1 {
+    grid-template-columns: 1fr;
+  }
+  
+  .mobile-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .mobile-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .mobile-gap-sm {
+    gap: 0.5rem;
+  }
+  
+  .mobile-gap-md {
+    gap: 1rem;
+  }
+  
+  .mobile-gap-lg {
+    gap: 1.5rem;
+  }
+}

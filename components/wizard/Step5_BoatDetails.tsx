@@ -57,17 +57,14 @@ const Step5BoatDetails: React.FC<WizardStepProps> = ({ data, updateData }) => {
   return (
     <div className="space-y-8 animate-fade-in">
         <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
-                <BoatOutlineIcon className="h-10 w-10 text-white" />
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
-                {heading.split(' ').slice(0, -1).join(' ')}
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 mb-2 sm:mb-3">
+                ¿Qué tipo de
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
-                    {heading.split(' ').slice(-1)[0]}
+                    Barco Usarás?
                 </span>
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                {description}
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
+                Cuéntanos sobre tu embarcación para optimizar la planificación.
             </p>
         </div>
 

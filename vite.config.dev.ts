@@ -12,10 +12,11 @@ export default defineConfig({
   },
   server: {
     port: 5175,
-    host: true,
+    host: '127.0.0.1', // Forzar IPv4 localhost
     hmr: {
       overlay: false,
       port: 5175,
+      host: '127.0.0.1',
     },
   },
   optimizeDeps: {

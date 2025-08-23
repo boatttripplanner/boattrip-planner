@@ -8,6 +8,40 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '475px',
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
+        // Breakpoints específicos para móvil
+        'mobile': '320px',
+        'mobile-lg': '375px',
+        'mobile-xl': '414px',
+        'tablet': '768px',
+        'tablet-lg': '1024px',
+      },
+      spacing: {
+        // Espaciado específico para móvil
+        'mobile-xs': '0.5rem',
+        'mobile-sm': '0.75rem',
+        'mobile-md': '1rem',
+        'mobile-lg': '1.25rem',
+        'mobile-xl': '1.5rem',
+        'mobile-2xl': '2rem',
+      },
+      fontSize: {
+        // Tamaños de fuente específicos para móvil
+        'mobile-xs': ['0.75rem', { lineHeight: '1rem' }],
+        'mobile-sm': ['0.875rem', { lineHeight: '1.25rem' }],
+        'mobile-base': ['1rem', { lineHeight: '1.5rem' }],
+        'mobile-lg': ['1.125rem', { lineHeight: '1.75rem' }],
+        'mobile-xl': ['1.25rem', { lineHeight: '1.75rem' }],
+        'mobile-2xl': ['1.5rem', { lineHeight: '2rem' }],
+        'mobile-3xl': ['1.875rem', { lineHeight: '2.25rem' }],
+        'mobile-4xl': ['2.25rem', { lineHeight: '2.5rem' }],
+      },
       colors: {
         // Modern nautical color palette
         ocean: {
@@ -72,9 +106,12 @@ export default {
         'wave': 'wave 2s ease-in-out infinite',
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'bounce-slow': 'bounce 2s infinite',
+        'bounce-subtle': 'bounceSubtle 2s ease-in-out infinite',
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.5s ease-out',
         'glow': 'glow 2s ease-in-out infinite alternate',
+        'attention-pulse': 'attentionPulse 1.5s ease-in-out infinite',
+        'ring-pulse': 'ringPulse 2s ease-in-out infinite',
       },
       keyframes: {
         float: {
@@ -96,6 +133,19 @@ export default {
         glow: {
           '0%': { boxShadow: '0 0 5px rgba(14, 165, 233, 0.5)' },
           '100%': { boxShadow: '0 0 20px rgba(14, 165, 233, 0.8)' },
+        },
+        bounceSubtle: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-3px)' },
+        },
+        attentionPulse: {
+          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+          '50%': { transform: 'scale(1.05)', opacity: '0.9' },
+        },
+        ringPulse: {
+          '0%': { transform: 'scale(1)', opacity: '0.7' },
+          '50%': { transform: 'scale(1.1)', opacity: '0.3' },
+          '100%': { transform: 'scale(1.2)', opacity: '0' },
         }
       },
       boxShadow: {

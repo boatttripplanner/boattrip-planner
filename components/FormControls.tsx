@@ -7,12 +7,12 @@ interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export const InputField: React.FC<InputFieldProps> = ({ label, id, ...props }) => (
   <div>
-    <label htmlFor={id} className="block text-sm font-medium text-slate-700 mb-1">
+    <label htmlFor={id} className="block text-sm sm:text-base font-medium text-slate-700 mb-1 sm:mb-2">
       {label} {props.required && <span className="text-red-500">*</span>}
     </label>
     <input
       id={id}
-      className="mt-1 block w-full px-3 py-2.5 sm:py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base text-slate-900 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none placeholder:text-slate-500"
+      className="mt-1 block w-full px-3 py-2.5 sm:py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base text-slate-900 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none placeholder:text-slate-500 min-h-[44px] sm:min-h-[40px]"
       aria-required={props.required}
       {...props}
     />
@@ -26,12 +26,12 @@ interface TextAreaFieldProps extends React.TextareaHTMLAttributes<HTMLTextAreaEl
 
 export const TextAreaField: React.FC<TextAreaFieldProps> = ({ label, id, ...props }) => (
   <div>
-    <label htmlFor={id} className="block text-sm font-medium text-slate-700 mb-1">
+    <label htmlFor={id} className="block text-sm sm:text-base font-medium text-slate-700 mb-1 sm:mb-2">
       {label} {props.required && <span className="text-red-500">*</span>}
     </label>
     <textarea
       id={id}
-      className="mt-1 block w-full px-3 py-2.5 sm:py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base text-slate-900 placeholder:text-slate-500 disabled:bg-slate-50 disabled:text-slate-500"
+      className="mt-1 block w-full px-3 py-2.5 sm:py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base text-slate-900 placeholder:text-slate-500 disabled:bg-slate-50 disabled:text-slate-500 min-h-[44px] sm:min-h-[40px]"
       aria-required={props.required}
       {...props}
     />
@@ -49,14 +49,14 @@ interface SelectFieldProps extends Omit<React.SelectHTMLAttributes<HTMLSelectEle
 
 export const SelectField: React.FC<SelectFieldProps> = ({ label, id, options, value, onChange, ...rest }) => (
   <div>
-    <label htmlFor={id} className="block text-sm font-medium text-slate-700 mb-1">
+    <label htmlFor={id} className="block text-sm sm:text-base font-medium text-slate-700 mb-1 sm:mb-2">
       {label} {rest.required && <span className="text-red-500">*</span>}
     </label>
     <select
       id={id}
       value={value}
       onChange={onChange}
-      className="mt-1 block w-full pl-3 py-2.5 sm:py-2 text-base border-slate-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base rounded-md shadow-sm bg-white text-slate-900 disabled:bg-slate-50 disabled:text-slate-500"
+      className="mt-1 block w-full pl-3 py-2.5 sm:py-2 text-base border-slate-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base rounded-md shadow-sm bg-white text-slate-900 disabled:bg-slate-50 disabled:text-slate-500 min-h-[44px] sm:min-h-[40px]"
       aria-required={rest.required}
       {...rest}
     >
@@ -82,7 +82,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ label, options, se
   
   return (
     <fieldset className={disabled ? 'opacity-70' : ''}>
-      <legend className="block text-sm font-medium text-slate-700 mb-1">{label}</legend>
+      <legend className="block text-sm sm:text-base font-medium text-slate-700 mb-1 sm:mb-2">{label}</legend>
       <div className="mt-2 space-y-2 grid grid-cols-1 sm:grid-cols-2 gap-x-4 max-h-48 overflow-y-auto p-1 border rounded-md border-slate-200 custom-scrollbar">
         {options.map(option => (
           <div key={option} className="flex items-center">
@@ -107,7 +107,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ label, options, se
                   }
                 }}
                 className={`
-                  w-5 h-5 border-2 rounded flex items-center justify-center cursor-pointer transition-all duration-200
+                  w-5 h-5 sm:w-6 sm:h-6 border-2 rounded flex items-center justify-center cursor-pointer transition-all duration-200 min-h-[44px] sm:min-h-[40px] min-w-[44px] sm:min-w-[40px]
                   ${selectedOptions.includes(option)
                     ? 'border-green-500 bg-green-500 text-white'
                     : 'border-slate-300 bg-white hover:border-green-300'
@@ -122,7 +122,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ label, options, se
             </div>
             <label 
               htmlFor={option.replace(/\s+/g, '-')} 
-              className={`ml-3 block text-sm text-slate-800 cursor-pointer select-none ${disabled ? 'text-slate-500' : 'hover:text-slate-900'}`}
+              className={`ml-3 block text-sm sm:text-base text-slate-800 cursor-pointer select-none ${disabled ? 'text-slate-500' : 'hover:text-slate-900'}`}
             >
               {option}
             </label>
@@ -140,13 +140,13 @@ interface DateFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export const DateField: React.FC<DateFieldProps> = ({ label, id, ...props }) => (
   <div>
-    <label htmlFor={id} className="block text-sm font-medium text-slate-700 mb-1">
+    <label htmlFor={id} className="block text-sm sm:text-base font-medium text-slate-700 mb-1 sm:mb-2">
       {label} {props.required && <span className="text-red-500">*</span>}
     </label>
     <input
       id={id}
       type="date"
-      className="mt-1 block w-full px-3 py-2.5 sm:py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base text-slate-900 placeholder:text-slate-500 disabled:bg-slate-50 disabled:text-slate-500"
+      className="mt-1 block w-full px-3 py-2.5 sm:py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-base text-slate-900 placeholder:text-slate-500 disabled:bg-slate-50 disabled:text-slate-500 min-h-[44px] sm:min-h-[40px]"
       aria-required={props.required}
       {...props}
     />
@@ -167,11 +167,11 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({ label, name, options, se
   console.log('🔍 DEBUG - RadioGroup render:', { label, name, selectedValue, options });
   
   return (
-    <fieldset className={`space-y-2 ${disabled ? 'opacity-70' : ''}`}>
-      <legend className="block text-sm font-medium text-slate-700 mb-1">
+    <fieldset className={`space-y-2 sm:space-y-3 ${disabled ? 'opacity-70' : ''}`}>
+      <legend className="block text-sm sm:text-base font-medium text-slate-700 mb-1 sm:mb-2">
         {label} {required && <span className="text-red-500">*</span>}
       </legend>
-      <div className="space-y-2">
+      <div className="space-y-2 sm:space-y-3">
         {options.map(option => (
           <button
             key={option.value}
@@ -188,7 +188,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({ label, name, options, se
             }}
             disabled={disabled}
             className={`
-              block w-full p-3 sm:p-3 border-2 rounded-lg text-left transition-all duration-200
+              block w-full p-3 sm:p-3 border-2 rounded-lg text-left transition-all duration-200 min-h-[44px] sm:min-h-[40px]
               ${selectedValue === option.value 
                 ? 'border-teal-500 bg-teal-50 text-teal-700 shadow-sm' 
                 : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50'
@@ -198,17 +198,17 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({ label, name, options, se
           >
             <div className="flex items-center">
               <div className={`
-                w-4 h-4 rounded-full border-2 flex items-center justify-center mr-3
+                w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 flex items-center justify-center mr-3
                 ${selectedValue === option.value 
                   ? 'border-teal-500 bg-teal-500' 
                   : 'border-slate-300 bg-white'
                 }
               `}>
                 {selectedValue === option.value && (
-                  <div className="w-2 h-2 rounded-full bg-white"></div>
+                  <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white"></div>
                 )}
               </div>
-              <span className="text-sm font-medium">{option.label}</span>
+              <span className="text-sm sm:text-base font-medium">{option.label}</span>
             </div>
           </button>
         ))}

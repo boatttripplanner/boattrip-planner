@@ -30,7 +30,85 @@ Antes de continuar, necesitas saber algo **MÁGICO**:
 
 ¿Sabías que el Mediterráneo es el destino náutico más popular del mundo? Únete a millones de navegantes que ya lo han descubierto.
 
----
+## ✅ Checklist de Preparación para Destinos Mediterráneos - Verifica tu Preparación
+
+**Antes de explorar los destinos recomendados, asegúrate de que estás preparado para la aventura:**
+
+<ChecklistIntegration 
+  checklistType="destination"
+  title="Checklist de Preparación para Destinos Mediterráneos"
+  description="Verifica que tienes todo lo necesario para navegar por el Mediterráneo con seguridad"
+  items={[
+    {
+      id: "destination-1",
+      title: "Documentación y Permisos",
+      description: "Licencia náutica, documentación del barco, seguro y permisos de navegación",
+      category: "legal",
+      isEssential: true
+    },
+    {
+      id: "destination-2",
+      title: "Equipamiento de Navegación",
+      description: "GPS, cartas náuticas del Mediterráneo, brújula y equipos de comunicación",
+      category: "navigation",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Garmin fēnix 7 GPS Multideporte",
+          price: "€389.00",
+          rating: 4.9,
+          reviewCount: 2891,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=garmin+fenix+7+gps+multideporte&tag=explorashop18-21&linkCode=ur2&linkId=mediterranean_destination_gps&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=mediterranean_destination&utm_content=gps_navegacion",
+          category: "navigation"
+        }
+      ]
+    },
+    {
+      id: "destination-3",
+      title: "Equipamiento de Seguridad",
+      description: "Chalecos salvavidas, equipo de emergencia y botiquín de primeros auxilios",
+      category: "safety",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Mustang Survival HIT Chaleco Salvavidas",
+          price: "€89.00",
+          rating: 4.8,
+          reviewCount: 1247,
+          imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=mustang+survival+hit+chaleco+salvavidas&tag=explorashop18-21&linkCode=ur2&linkId=mediterranean_destination_lifejacket&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=mediterranean_destination&utm_content=chaleco_salvavidas",
+          category: "safety"
+        }
+      ]
+    },
+    {
+      id: "destination-4",
+      title: "Equipamiento de Fondeo",
+      description: "Ancla principal, cadena, cabo de fondeo y boyas de amarre",
+      category: "anchoring",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Lewmar Delta Anchor Ancla Delta",
+          price: "€189.00",
+          rating: 4.6,
+          reviewCount: 1156,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=lewmar+delta+anchor+ancla&tag=explorashop18-21&linkCode=ur2&linkId=mediterranean_destination_anchor&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=mediterranean_destination&utm_content=ancla_delta",
+          category: "anchoring"
+        }
+      ]
+    },
+    {
+      id: "destination-5",
+      title: "Preparación Meteorológica",
+      description: "Consulta del tiempo, análisis de vientos predominantes y planificación de rutas alternativas",
+      category: "weather",
+      isEssential: true
+    }
+  ]}
+/>
 
 ## 🏆 Top 10 Destinos Náuticos del Mediterráneo (Ranking 2024)
 

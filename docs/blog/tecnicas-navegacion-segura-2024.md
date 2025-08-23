@@ -30,7 +30,85 @@ Antes de continuar, necesitas saber algo **CRÍTICO**:
 
 ¿Sabías que el 70% de los navegantes principiantes no conocen las reglas básicas? No seas parte de esa estadística.
 
----
+## ✅ Checklist de Técnicas de Navegación Segura - Verifica tu Preparación
+
+**Antes de revisar las técnicas recomendadas, asegúrate de que dominas los fundamentos:**
+
+<ChecklistIntegration 
+  checklistType="navigation"
+  title="Checklist de Técnicas de Navegación Segura"
+  description="Verifica que dominas las técnicas fundamentales para una navegación segura"
+  items={[
+    {
+      id: "navigation-1",
+      title: "Navegación por GPS y Cartas",
+      description: "Uso correcto del GPS, interpretación de cartas náuticas y navegación por instrumentos",
+      category: "instruments",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Garmin fēnix 7 GPS Multideporte",
+          price: "€389.00",
+          rating: 4.9,
+          reviewCount: 2891,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=garmin+fenix+7+gps+multideporte&tag=explorashop18-21&linkCode=ur2&linkId=nautical_navigation_gps&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_navigation&utm_content=gps_navegacion",
+          category: "navigation"
+        }
+      ]
+    },
+    {
+      id: "navigation-2",
+      title: "Técnicas de Anclaje",
+      description: "Anclaje seguro, cálculo de cadena necesaria y verificación del agarre",
+      category: "anchoring",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Lewmar Delta Anchor Ancla Delta",
+          price: "€189.00",
+          rating: 4.6,
+          reviewCount: 1156,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=lewmar+delta+anchor+ancla&tag=explorashop18-21&linkCode=ur2&linkId=nautical_navigation_anchor&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_navigation&utm_content=ancla_delta",
+          category: "anchoring"
+        }
+      ]
+    },
+    {
+      id: "navigation-3",
+      title: "Maniobras en Puerto",
+      description: "Atraque, desatraque, giros en espacios reducidos y control de la embarcación",
+      category: "maneuvering",
+      isEssential: true
+    },
+    {
+      id: "navigation-4",
+      title: "Navegación en Condiciones Adversas",
+      description: "Manejo del viento fuerte, olas altas y visibilidad reducida",
+      category: "adverse_conditions",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Standard Horizon HX890 Radio VHF Portátil",
+          price: "€199.00",
+          rating: 4.7,
+          reviewCount: 1156,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=standard+horizon+hx890+radio+vhf&tag=explorashop18-21&linkCode=ur2&linkId=nautical_navigation_vhf&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_navigation&utm_content=radio_vhf",
+          category: "communication"
+        }
+      ]
+    },
+    {
+      id: "navigation-5",
+      title: "Reglas de Navegación",
+      description: "Conocimiento de las reglas de navegación, luces y señales marítimas",
+      category: "rules",
+      isEssential: true
+    }
+  ]}
+/>
 
 ## 🏆 Top 7 Técnicas de Navegación (Ranking 2024)
 

@@ -139,15 +139,15 @@ const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onClose }) => {
     <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
       isClosing ? 'transform -translate-y-full opacity-0' : 'transform translate-y-0 opacity-100'
     }`}>
-      {/* Banner principal */}
+      {/* Banner principal - Mejorado para móvil */}
       <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-2xl border-b border-slate-700/50 backdrop-blur-sm relative">
         {/* Efecto de brillo superior */}
         <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-blue-400/50 to-transparent"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-3 sm:py-4">
-            {/* Lado izquierdo - Logo y texto */}
-            <div className="flex items-center space-x-3 sm:space-x-4">
+            {/* Lado izquierdo - Logo y texto - Mejorado para móvil */}
+            <div className="flex items-center space-x-3 sm:space-x-4 flex-1 min-w-0">
               {/* Logo con efecto de brillo */}
               <div className="relative flex-shrink-0">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg relative overflow-hidden border border-blue-400/30">
@@ -160,7 +160,7 @@ const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onClose }) => {
                 </div>
               </div>
               
-              {/* Texto informativo */}
+              {/* Texto informativo - Mejorado para móvil */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center space-x-2 mb-0.5 sm:mb-1">
                   <h3 className="text-sm sm:text-base font-bold text-white truncate">
@@ -176,13 +176,13 @@ const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onClose }) => {
               </div>
             </div>
             
-            {/* Lado derecho - Botón de instalación con X pequeña */}
+            {/* Lado derecho - Botón de instalación con X pequeña - Mejorado para móvil */}
             <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
               {/* Botón de instalación */}
               <button
                 onClick={handleInstallClick}
                 disabled={isInstalling}
-                className="group relative px-3 py-2 sm:px-4 sm:py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-lg sm:rounded-xl border border-blue-400/30 transition-all duration-200 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden text-xs sm:text-sm"
+                className="group relative px-3 py-2 sm:px-4 sm:py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-lg sm:rounded-xl border border-blue-400/30 transition-all duration-200 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden text-xs sm:text-sm min-h-[44px] sm:min-h-[48px]"
               >
                 {/* Efecto de brillo en hover */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
@@ -206,7 +206,7 @@ const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onClose }) => {
               {/* X pequeña para cerrar */}
               <button
                 onClick={handleClose}
-                className="p-1.5 sm:p-2 text-slate-300 hover:text-white hover:bg-slate-700/70 rounded-full transition-all duration-200 hover:scale-110 border border-slate-600/30 hover:border-slate-500/50"
+                className="p-1.5 sm:p-2 text-slate-300 hover:text-white hover:bg-slate-700/70 rounded-full transition-all duration-200 hover:scale-110 border border-slate-600/30 hover:border-slate-500/50 min-h-[44px] sm:min-h-[48px] min-w-[44px] sm:min-w-[48px] flex items-center justify-center"
                 aria-label="Cerrar banner"
               >
                 <XIcon className="w-3 h-3 sm:w-4 sm:h-4" />

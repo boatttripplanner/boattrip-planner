@@ -69,38 +69,79 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
     const baseSteps = [
       { id: 1, name: 'Experiencia' },
       { id: 2, name: 'Ruta' },
-      { id: 3, name: 'Tripulación' },
-      { id: 4, name: 'Preferencias' },
     ];
 
-    if (shouldShowBoatStep) {
-      baseSteps.push({ id: 5, name: 'Barco' });
+    // Para traslado, solo agregar tripulación si es necesario
+    if (formData.desiredExperienceType === DesiredExperienceType.TRANSFER) {
+      // Solo agregar tripulación si hay más de 1 persona
+      if (formData.numPeople > 1) {
+        baseSteps.push({ id: 3, name: 'Tripulación' });
+      }
+    } else {
+      // Para otros tipos, mantener el flujo completo
+      baseSteps.push({ id: 3, name: 'Tripulación' });
+      baseSteps.push({ id: 4, name: 'Preferencias' });
     }
 
-    baseSteps.push({ id: shouldShowBoatStep ? 6 : 5, name: 'Revisar' });
+    if (shouldShowBoatStep) {
+      baseSteps.push({ id: baseSteps.length + 1, name: 'Barco' });
+    }
+
+    baseSteps.push({ id: baseSteps.length + 1, name: 'Revisar' });
 
     console.log('🔍 DEBUG - steps:', {
       shouldShowBoatStep,
+      desiredExperienceType: formData.desiredExperienceType,
+      numPeople: formData.numPeople,
       steps: baseSteps.map(s => s.name),
       totalSteps: baseSteps.length
     });
 
     return baseSteps;
-  }, [shouldShowBoatStep]);
+  }, [shouldShowBoatStep, formData.desiredExperienceType]); // Removido numPeople de las dependencias
 
   const totalSteps = steps.length;
   
-  const updateFormData = (fields: Partial<UserPreferences>) => {
-    setFormData(prev => ({ ...prev, ...fields }));
+  // Función para determinar si mostrar el paso de tripulación
+  const shouldShowTripulationStep = () => {
+    const isTransfer = formData.desiredExperienceType === DesiredExperienceType.TRANSFER;
+    return !isTransfer || (isTransfer && formData.numPeople > 1);
   };
   
+  const updateFormData = (fields: Partial<UserPreferences>) => {
+    console.log('🔍 UserInputForm - updateFormData called with:', fields);
+    console.log('🔍 UserInputForm - Previous formData:', formData);
+    setFormData(prev => {
+      const newData = { ...prev, ...fields };
+      console.log('🔍 UserInputForm - New formData:', newData);
+      return newData;
+    });
+  };
+  
+  // Función de scroll mejorada para todos los dispositivos
+  const scrollToTop = () => {
+    // Scroll suave hacia arriba con fallback para dispositivos móviles
+    if ('scrollBehavior' in document.documentElement.style) {
+      // Navegadores modernos - scroll suave
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Fallback para navegadores antiguos y algunos móviles
+      window.scrollTo(0, 0);
+    }
+    
+    // Fallback adicional para dispositivos móviles
+    setTimeout(() => {
+      if (window.pageYOffset > 0) {
+        window.scrollTo(0, 0);
+      }
+    }, 50);
+  };
+
   const goToStep = (step: number) => {
     if (step >= 1 && step <= totalSteps) {
       setCurrentStep(step);
       // Scroll hacia arriba para una mejor experiencia de usuario
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 100);
+      setTimeout(scrollToTop, 100);
     }
   };
 
@@ -166,22 +207,21 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
         // Si es RENTAL sin TRANSFER, no validar nada (es opcional)
     }
 
+    // Avanzar al siguiente paso
     if (currentStep < totalSteps) {
-      setCurrentStep(prev => prev + 1);
-      // Scroll hacia arriba para una mejor experiencia de usuario
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 100);
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+      // Scroll hacia arriba al cambiar de paso
+      setTimeout(scrollToTop, 100);
     }
   };
 
   const handleBack = () => {
     if (currentStep > 1) {
-      setCurrentStep(prev => prev - 1);
-      // Scroll hacia arriba para una mejor experiencia de usuario
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 100);
+      const prevStep = currentStep - 1;
+      setCurrentStep(prevStep);
+      // Scroll hacia arriba al cambiar de paso
+      setTimeout(scrollToTop, 100);
     }
   };
 
@@ -224,26 +264,73 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
       onReconsiderCookies: onReconsiderCookies,
     };
 
+    // Determinar qué pasos mostrar
+    const isTransfer = formData.desiredExperienceType === DesiredExperienceType.TRANSFER;
+    const showTripulation = shouldShowTripulationStep();
+    const showPreferences = !isTransfer;
+
+    console.log('🔍 UserInputForm - renderStep:', {
+      currentStep,
+      isTransfer,
+      showTripulation,
+      showPreferences,
+      shouldShowBoatStep,
+      numPeople: formData.numPeople,
+      desiredExperienceType: formData.desiredExperienceType
+    });
+
+    // Lógica clara para cada paso
     switch (currentStep) {
       case 1:
         return <Step1Experience {...stepProps} />;
+      
       case 2:
         return <Step2Route {...stepProps} />;
+      
       case 3:
-        return <Step3Crew {...stepProps} />;
-      case 4:
-        return <Step4Preferences {...stepProps} />;
-      case 5:
-        if (shouldShowBoatStep) {
+        console.log('🔍 UserInputForm - Paso 3 - showTripulation:', showTripulation, 'showPreferences:', showPreferences, 'shouldShowBoatStep:', shouldShowBoatStep);
+        if (showTripulation) {
+          console.log('🔍 UserInputForm - Paso 3 - Mostrando Step3Crew');
+          return <Step3Crew {...stepProps} />;
+        } else if (showPreferences) {
+          console.log('🔍 UserInputForm - Paso 3 - Mostrando Step4Preferences');
+          return <Step4Preferences {...stepProps} />;
+        } else if (shouldShowBoatStep) {
+          console.log('🔍 UserInputForm - Paso 3 - Mostrando Step5BoatDetails');
           return <Step5BoatDetails {...stepProps} />;
         } else {
+          console.log('🔍 UserInputForm - Paso 3 - Mostrando Step6Review');
           return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
         }
+      
+      case 4:
+        console.log('🔍 UserInputForm - Paso 4 - showPreferences:', showPreferences, 'shouldShowBoatStep:', shouldShowBoatStep);
+        if (showPreferences) {
+          console.log('🔍 UserInputForm - Paso 4 - Mostrando Step4Preferences');
+          return <Step4Preferences {...stepProps} />;
+        } else if (shouldShowBoatStep) {
+          console.log('🔍 UserInputForm - Paso 4 - Mostrando Step5BoatDetails');
+          return <Step5BoatDetails {...stepProps} />;
+        } else {
+          console.log('🔍 UserInputForm - Paso 4 - Mostrando Step6Review');
+          return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
+        }
+      
+      case 5:
+        console.log('🔍 UserInputForm - Paso 5 - shouldShowBoatStep:', shouldShowBoatStep, 'showPreferences:', showPreferences);
+        // El paso 5 solo puede ser el paso del barco si se mostraron preferencias
+        // Si no se mostraron preferencias, el paso 5 debe ser la revisión
+        if (shouldShowBoatStep && showPreferences) {
+          console.log('🔍 UserInputForm - Paso 5 - Mostrando Step5BoatDetails');
+          return <Step5BoatDetails {...stepProps} />;
+        } else {
+          console.log('🔍 UserInputForm - Paso 5 - Mostrando Step6Review');
+          return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
+        }
+      
       case 6:
-        if (shouldShowBoatStep) {
-          return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
-        }
-        break;
+        return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
+      
       default:
         return <div>Paso no encontrado</div>;
     }

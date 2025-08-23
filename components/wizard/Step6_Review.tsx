@@ -107,19 +107,16 @@ const Step6Review: React.FC<Step6ReviewProps> = ({ data, goToStep, showBoatSpecs
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="text-center">
-        <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
-            <ChecklistIcon className="h-10 w-10 text-white" />
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 mb-2 sm:mb-3">
+                Revisa tu
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
+                    Plan de Viaje
+                </span>
+            </h2>
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
+                Revisa todos los detalles antes de generar tu itinerario personalizado.
+            </p>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
-            Revisa tu
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
-                Plan Perfecto
-            </span>
-        </h2>
-        <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Confirma todos los detalles antes de generar tu recomendación personalizada.
-        </p>
-      </div>
 
       <div className="space-y-6">
         <SectionBlock title="Experiencia Náutica" onEdit={() => goToStep(1)}>

@@ -10,7 +10,85 @@
 
 La navegación nocturna es una de las técnicas más desafiantes y emocionantes del mar. En esta guía completa, te enseñamos las **técnicas esenciales** para navegar con seguridad durante la noche.
 
----
+## ✅ Checklist de Navegación Nocturna Segura - Verifica tu Preparación
+
+**Antes de revisar las técnicas nocturnas, asegúrate de que tienes todo el equipamiento necesario:**
+
+<ChecklistIntegration 
+  checklistType="night_navigation"
+  title="Checklist de Navegación Nocturna Segura"
+  description="Verifica que tienes todo el equipamiento y conocimientos para navegar de noche con seguridad"
+  items={[
+    {
+      id: "night-1",
+      title: "Equipamiento de Iluminación",
+      description: "Lámparas de cubierta LED rojas, linternas estancas y luces de navegación",
+      category: "lighting",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Linterna LED Estanca para Navegación",
+          price: "€45.00",
+          rating: 4.7,
+          reviewCount: 892,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=linterna+led+estanca+navegacion&tag=explorashop18-21&linkCode=ur2&linkId=night_navigation_flashlight&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=night_navigation&utm_content=linterna_estanca",
+          category: "lighting"
+        }
+      ]
+    },
+    {
+      id: "night-2",
+      title: "Equipamiento de Navegación Nocturna",
+      description: "GPS con mapas nocturnos, radar, AIS y brújula de respaldo",
+      category: "navigation",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Garmin fēnix 7 GPS Multideporte",
+          price: "€389.00",
+          rating: 4.9,
+          reviewCount: 2891,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=garmin+fenix+7+gps+multideporte&tag=explorashop18-21&linkCode=ur2&linkId=night_navigation_gps&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=night_navigation&utm_content=gps_navegacion",
+          category: "navigation"
+        }
+      ]
+    },
+    {
+      id: "night-3",
+      title: "Comunicaciones Nocturnas",
+      description: "Radio VHF con canal 16, teléfono móvil en bolsa estanca y códigos de emergencia",
+      category: "communication",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Standard Horizon HX890 Radio VHF Portátil",
+          price: "€199.00",
+          rating: 4.7,
+          reviewCount: 1156,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=standard+horizon+hx890+radio+vhf&tag=explorashop18-21&linkCode=ur2&linkId=night_navigation_vhf&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=night_navigation&utm_content=radio_vhf",
+          category: "communication"
+        }
+      ]
+    },
+    {
+      id: "night-4",
+      title: "Conocimientos de Navegación Nocturna",
+      description: "Identificación de luces de navegación, navegación por estrellas y protocolos nocturnos",
+      category: "knowledge",
+      isEssential: true
+    },
+    {
+      id: "night-5",
+      title: "Preparación de la Tripulación",
+      description: "Descanso adecuado, turnos de vigilancia y simulacros nocturnos realizados",
+      category: "crew",
+      isEssential: true
+    }
+  ]}
+/>
 
 ## 🎯 ¿Por qué Navegar de Noche?
 

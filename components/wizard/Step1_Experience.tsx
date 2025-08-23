@@ -20,9 +20,6 @@ const Step1Experience: React.FC<WizardStepProps> = ({ data, updateData }) => {
   return (
     <div className="space-y-6 sm:space-y-8 animate-fade-in">
         <div className="text-center">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-xl">
-                <UserAvatarIcon className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
-            </div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 mb-2 sm:mb-3">
                 Comencemos tu
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">

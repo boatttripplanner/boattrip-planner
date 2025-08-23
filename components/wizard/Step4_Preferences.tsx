@@ -105,19 +105,16 @@ const Step4Preferences: React.FC<WizardStepProps> = ({ data, updateData }) => {
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="text-center">
-        <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
-            <CogIcon className="h-10 w-10 text-white" />
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 mb-2 sm:mb-3">
+                ¿Qué tipo de
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
+                    Experiencia Buscas?
+                </span>
+            </h2>
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
+                Personaliza tu viaje según tus preferencias y estilo de navegación.
+            </p>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
-            Preferencias y
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
-                Actividades
-            </span>
-        </h2>
-        <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Personaliza tu experiencia con tus actividades favoritas y presupuesto.
-        </p>
-      </div>
 
       <div className="space-y-6 rounded-xl bg-gradient-to-br from-blue-50 to-teal-50 p-8 border border-blue-200 shadow-lg">
         <div className="text-center mb-4">

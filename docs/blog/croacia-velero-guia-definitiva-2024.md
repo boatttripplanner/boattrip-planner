@@ -6,6 +6,97 @@
 
 En esta guía exclusiva de 7 días, te mostramos cómo vivir la mejor aventura náutica por la costa dálmata. Y lo mejor: con BoatTrip-Planner.com puedes planificarlo todo de forma fácil, segura y personalizada. ¡Prepárate para zarpar!
 
+## ✅ Checklist de Viaje a Croacia - Verifica tu Preparación
+
+**Antes de planificar tu ruta, asegúrate de que tienes todo lo necesario para Croacia:**
+
+<ChecklistIntegration 
+  checklistType="croatia_trip"
+  title="Checklist de Viaje a Croacia en Velero"
+  description="Verifica que tienes todo lo necesario para tu aventura náutica por la costa croata"
+  items={[
+    {
+      id: "croatia-1",
+      title: "Documentación y Permisos",
+      description: "Pasaporte, licencia náutica, documentación del barco y seguro de navegación internacional",
+      category: "legal",
+      isEssential: true
+    },
+    {
+      id: "croatia-2",
+      title: "Equipamiento de Navegación",
+      description: "GPS con mapas del Adriático, cartas náuticas de Croacia y equipos de comunicación",
+      category: "navigation",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Garmin fēnix 7 GPS Multideporte",
+          price: "€389.00",
+          rating: 4.9,
+          reviewCount: 2891,
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=garmin+fenix+7+gps+multideporte&tag=explorashop18-21&linkCode=ur2&linkId=croatia_trip_gps&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=croatia_trip&utm_content=gps_navegacion",
+          category: "navigation"
+        }
+      ]
+    },
+    {
+      id: "croatia-3",
+      title: "Equipamiento de Comunicación",
+      description: "Router 4G/5G portátil, radio VHF y teléfono móvil con roaming activado",
+      category: "communication",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Router 4G/5G Portátil para Viajes",
+          price: "€89.00",
+          rating: 4.7,
+          reviewCount: 1234,
+          imageUrl: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=router+4g+portatil+viaje&tag=explorashop18-21&linkCode=ur2&linkId=croatia_trip_router&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=croatia_trip&utm_content=router_portatil",
+          category: "communication"
+        }
+      ]
+    },
+    {
+      id: "croatia-4",
+      title: "Equipamiento de Protección",
+      description: "Bolsa estanca para móvil y cámara, protector solar y equipamiento de seguridad",
+      category: "protection",
+      isEssential: true,
+      amazonProducts: [
+        {
+          name: "Bolsa Estanca Impermeable para Barco",
+          price: "€25.00",
+          rating: 4.8,
+          reviewCount: 567,
+          imageUrl: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=bolsa+estanca+impermeable+barco&tag=explorashop18-21&linkCode=ur2&linkId=croatia_trip_bag&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=croatia_trip&utm_content=bolsa_estanca",
+          category: "protection"
+        }
+      ]
+    },
+    {
+      id: "croatia-5",
+      title: "Equipamiento de Documentación",
+      description: "Cámara de acción resistente al agua, guías de viaje y mapas offline",
+      category: "documentation",
+      isEssential: false,
+      amazonProducts: [
+        {
+          name: "Cámara de Acción Resistente al Agua",
+          price: "€299.00",
+          rating: 4.9,
+          reviewCount: 2345,
+          imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=100&h=100&fit=crop&crop=center",
+          affiliateUrl: "https://www.amazon.es/s?k=camara+accion+resistente+agua&tag=explorashop18-21&linkCode=ur2&linkId=croatia_trip_camera&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=croatia_trip&utm_content=camara_accion",
+          category: "documentation"
+        }
+      ]
+    }
+  ]}
+/>
+
 <figure style="margin:2rem 0;text-align:center;">
   <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&q=80&auto=format&fit=crop" alt="Costa croata desde el aire" style="max-width:100%;border-radius:12px;box-shadow:0 2px 16px #0002;">
   <figcaption style="font-size:1rem;color:#555;">Vista aérea de la costa croata: aguas cristalinas y cientos de islas por descubrir.</figcaption>

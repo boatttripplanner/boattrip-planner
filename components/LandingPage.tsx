@@ -12,7 +12,7 @@ interface LandingPageProps {
 
 const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInstallBanner = false }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-ocean-50 via-white to-sea-50 relative overflow-hidden transition-all duration-500 ease-in-out safari-gpu">
+    <div className="min-h-screen bg-gradient-to-br from-ocean-50 via-white to-sea-50 relative overflow-hidden transition-all duration-500 ease-out safari-gpu">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-ocean-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
@@ -29,7 +29,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
         }`}>
           <div className="text-center">
 
-            {/* Logo Section */}
+            {/* Logo Section - Mejorado para móvil */}
             <div className="animate-slide-up mb-4 sm:mb-6 md:mb-8 lg:mb-10" style={{ animationDelay: '0.1s' }}>
               <div className="flex justify-center">
                 <div className="relative">
@@ -63,12 +63,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
               </p>
             </div>
             
-            {/* Enhanced CTA Button - Optimizado para móvil */}
+            {/* Enhanced CTA Button - Minimalista y elegante */}
             <div className="animate-slide-up" style={{ animationDelay: '0.7s' }}>
               <Button
                 onClick={onStartPlanning}
                 variant="primary"
-                className="text-sm sm:text-base md:text-lg px-4 sm:px-6 md:px-8 lg:px-10 py-2.5 sm:py-3 md:py-4 lg:py-5 bg-gradient-to-r from-ocean-500 to-sea-500 hover:from-ocean-600 hover:to-sea-600 shadow-strong hover:shadow-glow-strong transform hover:-translate-y-1 transition-all duration-300 rounded-xl font-semibold w-full sm:w-auto max-w-xs sm:max-w-sm md:max-w-none"
+                size="lg"
+                className="text-sm sm:text-base md:text-lg px-4 sm:px-6 md:px-8 lg:px-10 py-2.5 sm:py-3 md:py-4 lg:py-5 bg-gradient-to-r from-ocean-500 to-sea-500 hover:from-ocean-600 hover:to-sea-600 shadow-strong hover:shadow-glow-strong transform hover:-translate-y-1 transition-all duration-300 rounded-xl font-semibold w-full sm:w-auto max-w-xs sm:max-w-sm md:max-w-none animate-pulse-slow"
               >
                 Planificar Ruta en Barco
               </Button>
@@ -227,9 +228,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStartPlanning, showAppInsta
           <Button
             onClick={onStartPlanning}
             variant="secondary"
-            className="text-sm sm:text-base md:text-lg px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-white text-blue-600 hover:bg-blue-50 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 w-full sm:w-auto max-w-xs sm:max-w-sm md:max-w-none"
+            size="lg"
+            className="text-sm sm:text-base md:text-lg px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-white text-blue-600 hover:bg-blue-50 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 rounded-xl font-semibold w-full sm:w-auto max-w-xs sm:max-w-sm md:max-w-none animate-pulse-slow"
           >
-            Comenzar Ahora - Es Gratis
+            🚀 Comenzar Ahora - Es Gratis
           </Button>
         </div>
       </div>

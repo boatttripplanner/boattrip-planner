@@ -38,40 +38,146 @@ export async function getLocationKey(locationInfo: { cityName: string; countryCo
   console.log('🔍 Buscando ubicación para:', locationInfo);
   
   if (!ACCUWEATHER_API_KEY) {
-    console.warn('⚠️ No hay API key de AccuWeather configurada');
-    return null;
+    console.error('❌ No hay API key de AccuWeather configurada');
+    throw new Error('API key de AccuWeather no configurada');
   }
 
   const queryTextForAPI = locationInfo.cityName;
-  const locationUrl = `${ACCUWEATHER_BASE_URL}/locations/v1/cities/${locationInfo.countryCode}/search?apikey=${ACCUWEATHER_API_KEY}&q=${encodeURIComponent(queryTextForAPI)}&language=es-es`;
   
   try {
-    console.log('🌐 Haciendo petición a:', locationUrl);
-    const response = await fetch(locationUrl);
-    console.log('📡 Respuesta del servidor:', response.status, response.statusText);
+    // 1. Intentar búsqueda específica por país
+    let locationUrl = `${ACCUWEATHER_BASE_URL}/locations/v1/cities/${locationInfo.countryCode}/search?apikey=${ACCUWEATHER_API_KEY}&q=${encodeURIComponent(queryTextForAPI)}&language=es-es`;
+    console.log('🌐 Intentando búsqueda específica por país:', locationUrl);
     
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error(`❌ Error ${response.status} fetching AccuWeather location key for query "${queryTextForAPI}" in country "${locationInfo.countryCode}": ${errorData.Message || response.statusText}`);
-      console.error('📋 Detalles del error:', errorData);
-      throw new Error(`Error al buscar ubicación en AccuWeather: ${errorData.Message || response.statusText}`);
+    let response = await fetch(locationUrl);
+    console.log('📡 Respuesta del servidor (específica):', response.status, response.statusText);
+    
+    if (response.ok) {
+      const data: AccuWeatherLocationResponse[] = await response.json();
+      console.log('✅ Datos recibidos (específica):', data);
+      
+      if (data && data.length > 0) {
+        const location = data[0];
+        console.log('📍 Ubicación encontrada (específica):', location.LocalizedName, 'Key:', location.Key);
+        return location.Key;
+      }
     }
     
-    const data: AccuWeatherLocationResponse[] = await response.json();
-    console.log('✅ Datos recibidos:', data);
+    // 2. Si no se encuentra, intentar búsqueda global
+    console.log('🔄 No se encontró en búsqueda específica, intentando búsqueda global...');
+    locationUrl = `${ACCUWEATHER_BASE_URL}/locations/v1/search?apikey=${ACCUWEATHER_API_KEY}&q=${encodeURIComponent(queryTextForAPI)}&language=es-es`;
+    console.log('🌐 Intentando búsqueda global:', locationUrl);
     
-    if (data && data.length > 0) {
-      const location = data[0];
-      console.log('📍 Ubicación encontrada:', location.LocalizedName, 'Key:', location.Key);
-      return location.Key;
-    } else {
-      console.warn('⚠️ No se encontraron ubicaciones para:', queryTextForAPI);
-      return null;
+    response = await fetch(locationUrl);
+    console.log('📡 Respuesta del servidor (global):', response.status, response.statusText);
+    
+    if (response.ok) {
+      const data: AccuWeatherLocationResponse[] = await response.json();
+      console.log('✅ Datos recibidos (global):', data);
+      
+      if (data && data.length > 0) {
+        // Filtrar por país si es posible
+        let bestMatch = data[0];
+        
+        // Buscar coincidencia exacta de país
+        const exactCountryMatch = data.find(loc => loc.Country.ID === locationInfo.countryCode);
+        if (exactCountryMatch) {
+          bestMatch = exactCountryMatch;
+          console.log('📍 Coincidencia exacta de país encontrada:', bestMatch.LocalizedName, 'Key:', bestMatch.Key);
+        } else {
+          // Buscar cualquier ubicación en el mismo país o similar
+          const similarCountryMatch = data.find(loc => 
+            loc.Country.ID === locationInfo.countryCode || 
+            loc.Country.ID === 'ES' || // España como fallback para destinos en español
+            loc.AdministrativeArea?.ID === locationInfo.countryCode
+          );
+          if (similarCountryMatch) {
+            bestMatch = similarCountryMatch;
+            console.log('📍 Coincidencia similar de país encontrada:', bestMatch.LocalizedName, 'Key:', bestMatch.Key);
+          }
+        }
+        
+        return bestMatch.Key;
+      }
     }
+    
+    // 3. Si aún no se encuentra, intentar con nombres alternativos
+    console.log('🔄 No se encontró en búsqueda global, intentando con nombres alternativos...');
+    
+    const alternativeNames = getAlternativeNames(queryTextForAPI);
+    for (const altName of alternativeNames) {
+      console.log('🔄 Probando nombre alternativo:', altName);
+      
+      locationUrl = `${ACCUWEATHER_BASE_URL}/locations/v1/search?apikey=${ACCUWEATHER_API_KEY}&q=${encodeURIComponent(altName)}&language=es-es`;
+      response = await fetch(locationUrl);
+      
+      if (response.ok) {
+        const data: AccuWeatherLocationResponse[] = await response.json();
+        if (data && data.length > 0) {
+          const location = data[0];
+          console.log('📍 Ubicación encontrada con nombre alternativo:', altName, '->', location.LocalizedName, 'Key:', location.Key);
+          return location.Key;
+        }
+      }
+      
+      // Esperar un poco entre peticiones para no sobrecargar la API
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    
+    console.warn('⚠️ No se encontraron ubicaciones para:', queryTextForAPI);
+    return null;
+    
   } catch (error) {
     console.error('❌ Error in getLocationKey (AccuWeather):', error);
     throw error;
   }
+}
+
+// Función para obtener nombres alternativos de ciudades
+function getAlternativeNames(cityName: string): string[] {
+  const alternatives: string[] = [];
+  
+  // Mapeo de nombres alternativos
+  const nameMap: { [key: string]: string[] } = {
+    'granada': ['Granada', 'Granada Spain', 'Granada Andalucia'],
+    'almuñécar': ['Almuñécar', 'Almunecar', 'Almuñécar Granada'],
+    'almuñecar': ['Almuñécar', 'Almunecar', 'Almuñécar Granada'],
+    'motril': ['Motril', 'Motril Granada', 'Motril Spain'],
+    'salobreña': ['Salobreña', 'Salobrena', 'Salobreña Granada'],
+    'málaga': ['Málaga', 'Malaga', 'Málaga Spain', 'Malaga Spain'],
+    'malaga': ['Málaga', 'Malaga', 'Málaga Spain', 'Malaga Spain'],
+    'barcelona': ['Barcelona', 'Barcelona Spain', 'Barcelona Catalonia'],
+    'valencia': ['Valencia', 'Valencia Spain', 'Valencia Comunidad Valenciana'],
+    'palma de mallorca': ['Palma de Mallorca', 'Palma Mallorca', 'Palma', 'Mallorca'],
+    'mallorca': ['Mallorca', 'Palma de Mallorca', 'Palma Mallorca'],
+    'ibiza': ['Ibiza', 'Ibiza Spain', 'Eivissa'],
+    'menorca': ['Menorca', 'Mahón', 'Mahon', 'Menorca Spain'],
+    'mahón': ['Mahón', 'Mahon', 'Menorca', 'Menorca Spain'],
+  };
+  
+  const normalizedCityName = cityName.toLowerCase().trim();
+  
+  // Buscar en el mapeo
+  for (const [key, altNames] of Object.entries(nameMap)) {
+    if (normalizedCityName.includes(key) || key.includes(normalizedCityName)) {
+      alternatives.push(...altNames);
+    }
+  }
+  
+  // Agregar variaciones comunes
+  if (normalizedCityName.includes('marina')) {
+    alternatives.push(cityName.replace('marina', '').trim());
+    alternatives.push(cityName.replace('marina del', '').trim());
+    alternatives.push(cityName.replace('marina de', '').trim());
+  }
+  
+  // Eliminar duplicados y el nombre original
+  const uniqueAlternatives = [...new Set(alternatives)].filter(alt => 
+    alt.toLowerCase() !== cityName.toLowerCase()
+  );
+  
+  console.log('🔄 Nombres alternativos generados para', cityName, ':', uniqueAlternatives);
+  return uniqueAlternatives;
 }
 
 // Función para obtener el pronóstico meteorológico de AccuWeather
@@ -79,8 +185,8 @@ export async function getWeatherForecast(locationKey: string, locationName?: str
   console.log('🌤️ Obteniendo pronóstico para locationKey:', locationKey);
   
   if (!ACCUWEATHER_API_KEY) {
-    console.warn('⚠️ No hay API key de AccuWeather configurada');
-    return generateMockWeatherData(locationName || 'Unknown');
+    console.error('❌ No hay API key de AccuWeather configurada');
+    throw new Error('API key de AccuWeather no configurada');
   }
 
   const forecastUrl = `${ACCUWEATHER_BASE_URL}/forecasts/v1/daily/5day/${locationKey}?apikey=${ACCUWEATHER_API_KEY}&language=es-es&details=true&metric=true`;
@@ -96,13 +202,8 @@ export async function getWeatherForecast(locationKey: string, locationName?: str
       console.error(`❌ Error ${response.status} fetching AccuWeather forecast for key "${locationKey}": ${errorData.Message || response.statusText}`);
       console.error('📋 Detalles del error:', errorData);
       
-      // Si la API falla, usar datos simulados
-      if (locationName) {
-        console.log('🔄 Usando datos meteorológicos simulados debido a error de API');
-        return generateMockWeatherData(locationName);
-      } else {
-        throw new Error(`Error al obtener pronóstico de AccuWeather: ${errorData.Message || response.statusText}`);
-      }
+      // Lanzar error en lugar de usar datos simulados
+      throw new Error(`Error al obtener pronóstico de AccuWeather: ${errorData.Message || response.statusText}`);
     }
     
     const data: AccuWeatherForecastResponse = await response.json();
@@ -137,22 +238,13 @@ export async function getWeatherForecast(locationKey: string, locationName?: str
       return weatherDataArray;
     }
     
-    // Si no hay datos, usar datos simulados
-    if (locationName) {
-      console.log('🔄 Usando datos meteorológicos simulados debido a falta de datos de API');
-      return generateMockWeatherData(locationName);
-    }
+    // Si no hay datos, lanzar error
+    throw new Error('No se recibieron datos de pronóstico válidos de AccuWeather');
     
-    return [];
   } catch (error) {
     console.error('❌ Error in getWeatherForecast (AccuWeather):', error);
     
-    // Si hay error, usar datos simulados
-    if (locationName) {
-      console.log('🔄 Usando datos meteorológicos simulados debido a error de API');
-      return generateMockWeatherData(locationName);
-    }
-    
+    // Lanzar el error en lugar de usar datos simulados
     throw error;
   }
 }
@@ -262,19 +354,34 @@ export async function getWeatherData(locationName: string, countryCode: string =
   console.log('🌤️ Obteniendo datos meteorológicos para:', locationName, 'en', countryCode);
   
   try {
+    // Verificar que la API key esté configurada
+    if (!ACCUWEATHER_API_KEY || ACCUWEATHER_API_KEY === 'MISSING_API_KEY') {
+      console.error('❌ API key de AccuWeather no configurada');
+      throw new Error('API key de AccuWeather no configurada. Los datos meteorológicos no están disponibles.');
+    }
+
     // Intentar obtener datos reales de AccuWeather
     const locationKey = await getLocationKey({ cityName: locationName, countryCode });
     
     if (locationKey) {
       console.log('✅ Usando datos reales de AccuWeather');
-      return await getWeatherForecast(locationKey, locationName);
+      const weatherData = await getWeatherForecast(locationKey, locationName);
+      
+      // Verificar que los datos sean válidos
+      if (weatherData && weatherData.length > 0) {
+        console.log('✅ Datos meteorológicos reales obtenidos correctamente');
+        return weatherData;
+      } else {
+        throw new Error('No se pudieron obtener datos meteorológicos válidos de AccuWeather');
+      }
     } else {
-      console.log('🔄 No se encontró locationKey, usando datos simulados');
-      return generateMockWeatherData(locationName);
+      console.error('❌ No se encontró locationKey para:', locationName);
+      throw new Error(`No se pudo encontrar la ubicación "${locationName}" en AccuWeather`);
     }
   } catch (error) {
     console.error('❌ Error obteniendo datos meteorológicos:', error);
-    console.log('🔄 Usando datos simulados como fallback');
-    return generateMockWeatherData(locationName);
+    
+    // En lugar de usar datos simulados, lanzar el error
+    throw new Error(`Error al obtener datos meteorológicos: ${error instanceof Error ? error.message : 'Error desconocido'}`);
   }
 } 

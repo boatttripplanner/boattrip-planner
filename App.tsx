@@ -21,13 +21,14 @@ import LandingPage from './components/LandingPage';
 import AppInstallBanner from './components/AppInstallBanner';
 
 import AboutUsPage from './components/AboutUsPage';
-
+import ExitConfirmationModal from './components/ExitConfirmationModal';
 
 import { generateBoatTripRecommendationStream, constructPrompt } from './services/geminiService';
 
 import { getWeatherData } from './services/weatherService';
 import { GoogleGenAI } from "@google/genai";
 import { existingBlogPosts_definitions_only as allBlogPosts } from './src/blogData';
+import { useBeforeUnloadOnly } from './hooks/useBeforeUnload';
 
 // Service Worker Registration
 const registerServiceWorker = async () => {
@@ -180,8 +181,32 @@ const App: React.FC = () => {
   const [showAds, setShowAds] = useState(false);
   const [currentLoadingMessage, setCurrentLoadingMessage] = useState(loadingMessages[0]);
   const [showAppInstallBanner, setShowAppInstallBanner] = useState(false);
+  const [showExitConfirmation, setShowExitConfirmation] = useState(false);
+  const [pendingNavigation, setPendingNavigation] = useState<{ view: AppView; slug: string | null } | null>(null);
 
+  // 🚨 CONFIRMACIÓN ANTES DE SALIR DE LA PÁGINA
+  // Solo activar cuando hay datos importantes (recomendación, chat activo, etc.)
+  const hasImportantData = Boolean(recommendation?.text || (activeChatSession?.history && activeChatSession.history.length > 0));
+  
+  // Solo usar beforeunload para navegación externa (cerrar pestaña, etc.)
+  useBeforeUnloadOnly({
+    message: '¿Estás seguro de que quieres salir? Los cambios no guardados se perderán.',
+    enabled: hasImportantData
+  });
 
+  // Manejar confirmación de navegación SPA
+  useEffect(() => {
+    const handleNavigationConfirm = (event: CustomEvent) => {
+      if (hasImportantData) {
+        setShowExitConfirmation(true);
+      }
+    };
+
+    window.addEventListener('navigation-confirm', handleNavigationConfirm as EventListener);
+    return () => {
+      window.removeEventListener('navigation-confirm', handleNavigationConfirm as EventListener);
+    };
+  }, [hasImportantData]);
 
   // Manejar la lógica del banner de instalación
   useEffect(() => {
@@ -577,6 +602,7 @@ const App: React.FC = () => {
   const extractLocationFromDestination = (destination: string): LocationForWeather | null => {
     // Mapeo de destinos comunes a ubicaciones para AccuWeather
     const destinationMap: { [key: string]: LocationForWeather } = {
+      // España - Baleares
       'palma de mallorca': { cityName: 'Palma de Mallorca', countryCode: 'ES' },
       'palma': { cityName: 'Palma de Mallorca', countryCode: 'ES' },
       'mallorca': { cityName: 'Palma de Mallorca', countryCode: 'ES' },
@@ -584,6 +610,8 @@ const App: React.FC = () => {
       'menorca': { cityName: 'Mahón', countryCode: 'ES' },
       'mahon': { cityName: 'Mahón', countryCode: 'ES' },
       'formentera': { cityName: 'Formentera', countryCode: 'ES' },
+      
+      // España - Costa Mediterránea
       'denia': { cityName: 'Denia', countryCode: 'ES' },
       'valencia': { cityName: 'Valencia', countryCode: 'ES' },
       'barcelona': { cityName: 'Barcelona', countryCode: 'ES' },
@@ -596,17 +624,23 @@ const App: React.FC = () => {
       'huelva': { cityName: 'Huelva', countryCode: 'ES' },
       'almeria': { cityName: 'Almería', countryCode: 'ES' },
       'gibraltar': { cityName: 'Gibraltar', countryCode: 'GI' },
+      
+      // Portugal
       'portugal': { cityName: 'Lisboa', countryCode: 'PT' },
       'lisboa': { cityName: 'Lisboa', countryCode: 'PT' },
       'lisbon': { cityName: 'Lisboa', countryCode: 'PT' },
       'porto': { cityName: 'Porto', countryCode: 'PT' },
       'faro': { cityName: 'Faro', countryCode: 'PT' },
+      
+      // Francia
       'france': { cityName: 'Marseille', countryCode: 'FR' },
       'marseille': { cityName: 'Marseille', countryCode: 'FR' },
       'marseilles': { cityName: 'Marseille', countryCode: 'FR' },
       'nice': { cityName: 'Nice', countryCode: 'FR' },
       'cannes': { cityName: 'Cannes', countryCode: 'FR' },
       'monaco': { cityName: 'Monaco', countryCode: 'MC' },
+      
+      // Italia
       'italy': { cityName: 'Roma', countryCode: 'IT' },
       'roma': { cityName: 'Roma', countryCode: 'IT' },
       'rome': { cityName: 'Roma', countryCode: 'IT' },
@@ -618,6 +652,8 @@ const App: React.FC = () => {
       'sardegna': { cityName: 'Cagliari', countryCode: 'IT' },
       'sardinia': { cityName: 'Cagliari', countryCode: 'IT' },
       'cagliari': { cityName: 'Cagliari', countryCode: 'IT' },
+      
+      // Grecia
       'greece': { cityName: 'Atenas', countryCode: 'GR' },
       'athens': { cityName: 'Atenas', countryCode: 'GR' },
       'atenas': { cityName: 'Atenas', countryCode: 'GR' },
@@ -630,34 +666,136 @@ const App: React.FC = () => {
       'mykonos': { cityName: 'Mykonos', countryCode: 'GR' },
       'corfu': { cityName: 'Corfu', countryCode: 'GR' },
       'corfú': { cityName: 'Corfu', countryCode: 'GR' },
+      
+      // Croacia
       'croatia': { cityName: 'Split', countryCode: 'HR' },
       'split': { cityName: 'Split', countryCode: 'HR' },
       'dubrovnik': { cityName: 'Dubrovnik', countryCode: 'HR' },
       'zadar': { cityName: 'Zadar', countryCode: 'HR' },
       'pula': { cityName: 'Pula', countryCode: 'HR' },
+      
+      // Turquía
       'turkey': { cityName: 'Istanbul', countryCode: 'TR' },
       'turquia': { cityName: 'Istanbul', countryCode: 'TR' },
       'istanbul': { cityName: 'Istanbul', countryCode: 'TR' },
       'antalya': { cityName: 'Antalya', countryCode: 'TR' },
+      
+      // Chipre
       'cyprus': { cityName: 'Nicosia', countryCode: 'CY' },
       'chipre': { cityName: 'Nicosia', countryCode: 'CY' },
       'nicosia': { cityName: 'Nicosia', countryCode: 'CY' },
       'limassol': { cityName: 'Limassol', countryCode: 'CY' },
+      
+      // Malta
       'malta': { cityName: 'Valletta', countryCode: 'MT' },
       'valletta': { cityName: 'Valletta', countryCode: 'MT' },
     };
 
+    // Mapeo inteligente de marinas y ubicaciones específicas a ciudades cercanas
+    const marinaMap: { [key: string]: LocationForWeather } = {
+      // Marinas en Granada (Marina del Este está en Granada)
+      'marina del este': { cityName: 'Granada', countryCode: 'ES' },
+      'marina del este granada': { cityName: 'Granada', countryCode: 'ES' },
+      'marina del este almuñecar': { cityName: 'Almuñécar', countryCode: 'ES' },
+      'almuñecar': { cityName: 'Almuñécar', countryCode: 'ES' },
+      'almuñécar': { cityName: 'Almuñécar', countryCode: 'ES' },
+      
+      // Otras marinas populares
+      'marina porto': { cityName: 'Porto', countryCode: 'PT' },
+      'marina lisboa': { cityName: 'Lisboa', countryCode: 'PT' },
+      'marina barcelona': { cityName: 'Barcelona', countryCode: 'ES' },
+      'marina valencia': { cityName: 'Valencia', countryCode: 'ES' },
+      'marina malaga': { cityName: 'Málaga', countryCode: 'ES' },
+      'marina marbella': { cityName: 'Marbella', countryCode: 'ES' },
+      'marina gibraltar': { cityName: 'Gibraltar', countryCode: 'GI' },
+      'marina nice': { cityName: 'Nice', countryCode: 'FR' },
+      'marina cannes': { cityName: 'Cannes', countryCode: 'FR' },
+      'marina monaco': { cityName: 'Monaco', countryCode: 'MC' },
+      'marina split': { cityName: 'Split', countryCode: 'HR' },
+      'marina dubrovnik': { cityName: 'Dubrovnik', countryCode: 'HR' },
+      
+      // Puertos deportivos
+      'puerto deportivo': { cityName: 'Barcelona', countryCode: 'ES' },
+      'puerto deportivo barcelona': { cityName: 'Barcelona', countryCode: 'ES' },
+      'puerto deportivo valencia': { cityName: 'Valencia', countryCode: 'ES' },
+      'puerto deportivo malaga': { cityName: 'Málaga', countryCode: 'ES' },
+      
+      // Islas y archipiélagos
+      'islas baleares': { cityName: 'Palma de Mallorca', countryCode: 'ES' },
+      'baleares': { cityName: 'Palma de Mallorca', countryCode: 'ES' },
+      'islas canarias': { cityName: 'Las Palmas de Gran Canaria', countryCode: 'ES' },
+      'canarias': { cityName: 'Las Palmas de Gran Canaria', countryCode: 'ES' },
+      'islas griegas': { cityName: 'Atenas', countryCode: 'GR' },
+      'islas italianas': { cityName: 'Roma', countryCode: 'IT' },
+      
+      // Regiones costeras
+      'costa del sol': { cityName: 'Málaga', countryCode: 'ES' },
+      'costa brava': { cityName: 'Barcelona', countryCode: 'ES' },
+      'costa blanca': { cityName: 'Alicante', countryCode: 'ES' },
+      'costa dorada': { cityName: 'Tarragona', countryCode: 'ES' },
+      'costa azul': { cityName: 'Nice', countryCode: 'FR' },
+      'riviera francesa': { cityName: 'Nice', countryCode: 'FR' },
+      'riviera italiana': { cityName: 'Genova', countryCode: 'IT' },
+      'dalmacia': { cityName: 'Split', countryCode: 'HR' },
+      'dalmacia croacia': { cityName: 'Split', countryCode: 'HR' },
+    };
+
     const normalizedDestination = destination.toLowerCase().trim();
+    console.log('🔍 Buscando ubicación para destino normalizado:', normalizedDestination);
     
-    // Buscar coincidencias exactas primero
-    for (const [key, location] of Object.entries(destinationMap)) {
+    // 1. Buscar en el mapeo de marinas primero (más específico)
+    for (const [key, location] of Object.entries(marinaMap)) {
       if (normalizedDestination.includes(key)) {
-        console.log("Found location for destination:", { destination, location });
+        console.log("✅ Ubicación de marina encontrada:", { destination, location });
         return location;
       }
     }
     
-    // Si no se encuentra, intentar extraer información del texto
+    // 2. Buscar en el mapeo de destinos principales
+    for (const [key, location] of Object.entries(destinationMap)) {
+      if (normalizedDestination.includes(key)) {
+        console.log("✅ Ubicación principal encontrada:", { destination, location });
+        return location;
+      }
+    }
+    
+    // 3. Búsqueda inteligente por palabras clave
+    const keywordMap: { [key: string]: LocationForWeather } = {
+      // Palabras que indican ubicaciones en Granada
+      'granada': { cityName: 'Granada', countryCode: 'ES' },
+      'almuñecar': { cityName: 'Almuñécar', countryCode: 'ES' },
+      'motril': { cityName: 'Motril', countryCode: 'ES' },
+      'salobreña': { cityName: 'Salobreña', countryCode: 'ES' },
+      
+      // Palabras que indican ubicaciones en Málaga
+      'málaga': { cityName: 'Málaga', countryCode: 'ES' },
+      'malaga': { cityName: 'Málaga', countryCode: 'ES' },
+      'torremolinos': { cityName: 'Torremolinos', countryCode: 'ES' },
+      'benalmadena': { cityName: 'Benalmádena', countryCode: 'ES' },
+      'fuengirola': { cityName: 'Fuengirola', countryCode: 'ES' },
+      'nerja': { cityName: 'Nerja', countryCode: 'ES' },
+      
+      // Palabras que indican ubicaciones en Barcelona
+      'barcelona': { cityName: 'Barcelona', countryCode: 'ES' },
+      'sitges': { cityName: 'Sitges', countryCode: 'ES' },
+      'calella': { cityName: 'Calella', countryCode: 'ES' },
+      'palamos': { cityName: 'Palamós', countryCode: 'ES' },
+      
+      // Palabras que indican ubicaciones en Valencia
+      'valencia': { cityName: 'Valencia', countryCode: 'ES' },
+      'gandia': { cityName: 'Gandía', countryCode: 'ES' },
+      'cullera': { cityName: 'Cullera', countryCode: 'ES' },
+      'sagunto': { cityName: 'Sagunto', countryCode: 'ES' },
+    };
+    
+    for (const [key, location] of Object.entries(keywordMap)) {
+      if (normalizedDestination.includes(key)) {
+        console.log("✅ Ubicación por palabra clave encontrada:", { destination, location });
+        return location;
+      }
+    }
+    
+    // 4. Si no se encuentra, intentar extraer información del texto
     const cityMatch = normalizedDestination.match(/([a-záéíóúñ]+(?:\s+[a-záéíóúñ]+)*)/i);
     if (cityMatch) {
       const cityName = cityMatch[1];
@@ -666,11 +804,11 @@ const App: React.FC = () => {
         cityName: cityName.charAt(0).toUpperCase() + cityName.slice(1),
         countryCode: 'ES'
       };
-      console.log("Extracted location from destination:", { destination, location });
+      console.log("⚠️ Ubicación extraída del texto (puede no ser precisa):", { destination, location });
       return location;
     }
     
-    console.warn("Could not extract location from destination:", destination);
+    console.warn("❌ No se pudo extraer ubicación del destino:", destination);
     return null;
   };
 
@@ -1050,6 +1188,19 @@ const App: React.FC = () => {
     recommendationContentElement?.classList.remove('printable-area');
   };
 
+  // 🚨 MANEJAR CONFIRMACIÓN DE SALIDA
+  const handleConfirmExit = () => {
+    setShowExitConfirmation(false);
+    setPendingNavigation(null);
+    // Limpiar todos los datos importantes
+    clearAppState();
+  };
+
+  const handleCancelExit = () => {
+    setShowExitConfirmation(false);
+    setPendingNavigation(null);
+  };
+
   const renderContent = () => {
     if (showLandingPage) {
       return <LandingPage onStartPlanning={handleStartPlanning} showAppInstallBanner={showAppInstallBanner} />;
@@ -1159,6 +1310,13 @@ const App: React.FC = () => {
       )}
       {(currentView === AppView.BLOG_INDEX || currentView === AppView.BLOG_POST || currentView === AppView.MAIN_APP) && <ScrollToTopButton />}
       
+      {/* 🚨 MODAL DE CONFIRMACIÓN DE SALIDA */}
+      <ExitConfirmationModal
+        isOpen={showExitConfirmation}
+        onConfirm={handleConfirmExit}
+        onCancel={handleCancelExit}
+        message="¿Estás seguro de que quieres salir? Los cambios no guardados se perderán."
+      />
       
     </div>
   );
