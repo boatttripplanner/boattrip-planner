@@ -1,0 +1,5 @@
+[33m7fa3733[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m Update project configuration and prepare for deployment
+[33m343890f[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m  Configuración final de Vercel - Usar solo rewrites y headers para evitar conflictos - Configurar MIME types correctos para módulos ES6
+[33mfe541bb[m  Corregir configuración de Vercel - Eliminar propiedad destination inválida de routes - Usar rewrites para fallback de SPA
+[33mf10dacb[m  Corregir error MIME type en Vercel - Actualizar configuración de rutas para módulos ES6 - Agregar headers de content-type específicos para JS, CSS y assets
+[33mbaf5c98[m  Actualizar sitemap y robots.txt con nueva entrada de blog sobre mascotas en barco - Sincronizar todas las entradas del blog - Optimizar SEO para motores de búsqueda

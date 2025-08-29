@@ -40,9 +40,29 @@ const copyStaticFiles = () => {
   };
 };
 
+// Plugin para transformar HTML con preloads
+const htmlTransform = () => {
+  return {
+    name: 'html-transform',
+    transformIndexHtml(html: string) {
+      return html.replace(
+        '</head>',
+        `
+        <link rel="preload" href="/assets/css/index.css" as="style">
+        <link rel="preload" href="/assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="dns-prefetch" href="//unsplash.com">
+        <link rel="dns-prefetch" href="//api.accuweather.com">
+        </head>
+        `
+      );
+    },
+  };
+};
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), copyStaticFiles()],
+  plugins: [react(), copyStaticFiles(), htmlTransform()],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
@@ -56,32 +76,62 @@ export default defineConfig({
       compress: {
         drop_console: true,
         drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug'],
+        passes: 2,
+      },
+      mangle: {
+        toplevel: true,
       },
     },
     rollupOptions: {
       output: {
-        // Code splitting optimizado
+        // Code splitting optimizado - estrategia más agresiva
         manualChunks: (id) => {
-          // React y React DOM
+          // React core - mantener separado
           if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
-            return 'react-vendor';
+            return 'react-core';
           }
-          // Librerías de UI
-          if (id.includes('node_modules/react-router') || id.includes('node_modules/lucide-react')) {
-            return 'ui-vendor';
+          
+          // Routing - separar para navegación
+          if (id.includes('node_modules/react-router')) {
+            return 'routing';
           }
-          // Librerías de AI/ML
-          if (id.includes('node_modules/@google/generative-ai')) {
-            return 'ai-vendor';
+          
+          // UI Components - agrupar librerías de UI
+          if (id.includes('node_modules/lucide-react') || 
+              id.includes('node_modules/@headlessui') ||
+              id.includes('node_modules/@heroicons')) {
+            return 'ui-components';
           }
-          // Librerías de utilidades
-          if (id.includes('node_modules/date-fns') || id.includes('node_modules/lodash')) {
-            return 'utils-vendor';
+          
+          // AI/ML - separar por ser pesado
+          if (id.includes('node_modules/@google/generative-ai') || 
+              id.includes('node_modules/@google/genai')) {
+            return 'ai-services';
           }
-          // Markdown y parsing
-          if (id.includes('node_modules/react-markdown') || id.includes('node_modules/remark') || id.includes('node_modules/rehype')) {
-            return 'markdown-vendor';
+          
+          // Markdown y parsing - agrupar
+          if (id.includes('node_modules/react-markdown') || 
+              id.includes('node_modules/remark') || 
+              id.includes('node_modules/rehype') ||
+              id.includes('node_modules/hast')) {
+            return 'markdown';
           }
+          
+          // Utilidades - agrupar librerías pequeñas
+          if (id.includes('node_modules/date-fns') || 
+              id.includes('node_modules/lodash') ||
+              id.includes('node_modules/classnames') ||
+              id.includes('node_modules/clsx')) {
+            return 'utils';
+          }
+          
+          // Weather y APIs externas
+          if (id.includes('node_modules/unsplash-js') ||
+              id.includes('node_modules/node-fetch')) {
+            return 'external-apis';
+          }
+          
           // Si es un módulo de node_modules, agrupar en vendor
           if (id.includes('node_modules')) {
             return 'vendor';
@@ -95,10 +145,13 @@ export default defineConfig({
           const info = name.split('.')
           const ext = info[info.length - 1]
           if (/\.(css)$/.test(name)) {
-            return `assets/style.css`
+            return `assets/css/[name]-[hash][extname]`
           }
           if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(name)) {
             return `assets/images/[name]-[hash][extname]`
+          }
+          if (/\.(woff2?|eot|ttf|otf)$/i.test(name)) {
+            return `assets/fonts/[name]-[hash][extname]`
           }
           return `assets/[name]-[hash][extname]`
         },
@@ -108,8 +161,10 @@ export default defineConfig({
     cssCodeSplit: true,
     // Optimizaciones de assets
     assetsInlineLimit: 4096,
-    // Chunk size warning limit - aumentado para evitar warnings
-    chunkSizeWarningLimit: 1500,
+    // Chunk size warning limit - reducido para forzar optimizaciones
+    chunkSizeWarningLimit: 1000,
+    // Añadir source maps para debugging en producción
+    sourcemap: false,
   },
   // Optimizaciones de desarrollo
   server: {
@@ -128,6 +183,11 @@ export default defineConfig({
       'react-router-dom',
       'lucide-react',
       '@google/generative-ai',
+    ],
+    exclude: [
+      // Excluir dependencias pesadas del pre-bundling
+      '@google/genai',
+      'unsplash-js',
     ],
   },
 })

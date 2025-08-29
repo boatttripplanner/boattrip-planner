@@ -1,8 +1,5 @@
-# Redirect www to non-www (canonical domain)
-/* https://boattrip-planner.com/:splat 301!
+# Handle SPA routing - serve index.html for all routes
+/* /index.html 200
 
 # Exclude Service Worker from redirects
-/sw.js /sw.js 200
-
-# Handle all other routes
-/* /index.html 200 
+/sw.js /sw.js 200 

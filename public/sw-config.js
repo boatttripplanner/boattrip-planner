@@ -1,67 +1,54 @@
-// Service Worker Configuration
-// Configuración para prevenir errores de red y mejorar la estabilidad
+// public/sw-config.js
+// ⚡ Configuración del Service Worker para PWA
 
-window.SW_CONFIG = {
-  // Versión del Service Worker
-  version: '1.2.1',
-  
-  // Configuración de cache
-  cache: {
-    static: 'static-v1.2.1',
-    dynamic: 'dynamic-v1.2.1'
+const SW_CONFIG = {
+  CACHE_VERSION: 'v2.0.0',
+  CACHE_STRATEGIES: {
+    STATIC: 'cache-first',
+    DYNAMIC: 'network-first',
+    API: 'stale-while-revalidate'
   },
   
-  // Configuración de red
-  network: {
-    timeout: 5000, // 5 segundos
-    retryAttempts: 3,
-    fallbackStrategy: 'cache-first'
-  },
-  
-  // Recursos críticos que siempre deben estar en cache
-  criticalAssets: [
+  // Recursos críticos para cache inmediato
+  CRITICAL_RESOURCES: [
     '/',
     '/index.html',
-    '/favicon.svg',
-    '/favicon.ico',
-    '/favicon-96x96.png'
+    '/assets/style.css',
+    '/alex5.svg',
+    '/favicon.ico'
   ],
   
-  // Configuración de desarrollo
-  development: {
-    enableLogging: true,
-    skipWaiting: false,
-    updateViaCache: 'none'
+  // Recursos de terceros para cache
+  THIRD_PARTY_RESOURCES: [
+    'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap',
+    'https://www.googletagmanager.com/gtag/js'
+  ],
+  
+  // Estrategias de cache por tipo de recurso
+  CACHE_RULES: {
+    '/assets/': 'cache-first',
+    '/api/': 'stale-while-revalidate',
+    '/blog/': 'network-first',
+    'https://images.unsplash.com/': 'cache-first'
+  },
+  
+  // Configuración de offline
+  OFFLINE_CONFIG: {
+    ENABLE_OFFLINE: true,
+    OFFLINE_PAGE: '/offline.html',
+    SYNC_QUEUE: 'offline-actions'
+  },
+  
+  // Configuración de push notifications
+  PUSH_CONFIG: {
+    ENABLE_PUSH: true,
+    VAPID_PUBLIC_KEY: 'your-vapid-public-key-here'
   }
 };
 
-// Función para registrar el Service Worker de forma segura
-window.registerServiceWorkerSafely = async () => {
-  if ('serviceWorker' in navigator) {
-    try {
-      const registration = await navigator.serviceWorker.register('/sw.js', {
-        updateViaCache: 'none'
-      });
-      
-      console.log('Service Worker registrado exitosamente:', registration);
-      
-      // Manejar actualizaciones
-      registration.addEventListener('updatefound', () => {
-        const newWorker = registration.installing;
-        if (newWorker) {
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              console.log('Nueva versión del Service Worker disponible');
-            }
-          });
-        }
-      });
-      
-      return registration;
-    } catch (error) {
-      console.error('Error al registrar Service Worker:', error);
-      return null;
-    }
-  }
-  return null;
-};
+// Exportar para uso en el Service Worker
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = SW_CONFIG;
+} else {
+  window.SW_CONFIG = SW_CONFIG;
+}

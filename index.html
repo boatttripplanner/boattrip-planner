@@ -109,12 +109,62 @@
   <script src="/clear-sw-cache.js"></script>
   
   <!-- 🚨 PERFORMANCE OPTIMIZATIONS -->
+  <!-- Preload de recursos críticos para mejorar performance -->
+  <link rel="preload" href="/assets/css/index.css" as="style" />
+  <link rel="preload" href="/assets/js/react-core.js" as="script" />
+  <link rel="preload" href="/assets/js/routing.js" as="script" />
+  
+  <!-- Preload de fuentes críticas -->
+  <link rel="preload" href="/assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
+  
+  <!-- DNS prefetch para APIs externas -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="//unsplash.com" />
+  <link rel="dns-prefetch" href="//api.accuweather.com" />
+  <link rel="dns-prefetch" href="//generativelanguage.googleapis.com" />
+  
+  <!-- Preconnect para conexiones críticas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://unsplash.com" />
+  <link rel="preconnect" href="https://api.accuweather.com" />
+  
+  <!-- Critical CSS inline para mejorar FCP -->
+  <style>
+    /* Critical CSS para mejorar First Contentful Paint */
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif; }
+    #root { min-height: 100vh; }
+    .loading-skeleton { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    
+    /* Preload spinner */
+    .app-loading { 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      height: 100vh; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    .spinner { 
+      width: 40px; 
+      height: 40px; 
+      border: 4px solid rgba(255,255,255,0.3); 
+      border-top: 4px solid white; 
+      border-radius: 50%; 
+      animation: spin 1s linear infinite; 
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+  
   <script>
-    // Performance optimizations
+    // Performance optimizations mejoradas
     document.addEventListener('DOMContentLoaded', function() {
       // Preload critical resources with proper 'as' attribute
       const criticalResources = [
-        { href: '/alex5.svg', as: 'image' }
+        { href: '/alex5.svg', as: 'image' },
+        { href: '/assets/css/index.css', as: 'style' },
+        { href: '/assets/js/react-core.js', as: 'script' }
       ];
       
       criticalResources.forEach(resource => {
@@ -125,7 +175,7 @@
         document.head.appendChild(link);
       });
       
-      // Optimize images loading
+      // Optimize images loading con Intersection Observer
       if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries, observer) => {
           entries.forEach(entry => {
@@ -144,18 +194,32 @@
           imageObserver.observe(img);
         });
       }
+      
+      // Preload de componentes críticos
+      const criticalComponents = [
+        '/src/components/Header.tsx',
+        '/src/components/LandingPage.tsx'
+      ];
+      
+      // Preload de componentes críticos en background
+      setTimeout(() => {
+        criticalComponents.forEach(component => {
+          const link = document.createElement('link');
+          link.rel = 'prefetch';
+          link.href = component;
+          document.head.appendChild(link);
+        });
+      }, 1000);
     });
   </script>
   
   <!-- 🚨 ANALYTICS Y TRACKING -->
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR3KE7RXBD"></script>
+  <script src="/gtag.js"></script>
+  
+  <!-- Performance monitoring -->
   <script>
-    // Analytics setup
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX'); // Reemplazar con tu ID de Google Analytics
-    
-    // Performance monitoring
     if ('performance' in window) {
       window.addEventListener('load', function() {
         setTimeout(function() {
@@ -174,7 +238,15 @@
   </script>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <!-- Loading state crítico para mejorar percepción de velocidad -->
+    <div class="app-loading">
+      <div>
+        <div class="spinner"></div>
+        <p style="margin-top: 1rem; text-align: center;">Cargando Boat Trip Planner...</p>
+      </div>
+    </div>
+  </div>
   <script type="module" src="/index.tsx"></script>
 </body>
 </html>

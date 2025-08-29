@@ -1,6 +1,7 @@
 import React from 'react';
 import { AMAZON_AFFILIATE_TAG } from '../constants';
 import { generateAffiliateUrlForProductName } from '../services/affiliateLinkService';
+import { trackAffiliateClick } from '../services/analyticsService';
 
 interface AmazonCTAButtonProps {
   productName: string;
@@ -50,19 +51,13 @@ const AmazonCTAButton: React.FC<AmazonCTAButtonProps> = ({
 
   // Tracking de clics
   const handleClick = () => {
-    // Google Analytics tracking
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'click', {
-        'event_category': 'amazon_affiliate',
-        'event_label': trackingLabel || productName,
-        'value': 1,
-        'custom_parameter': {
-          'product_name': productName,
-          'asin': asin,
-          'category': category
-        }
-      });
-    }
+    // Tracking centralizado con el servicio de analytics
+    trackAffiliateClick({
+      productId: asin || 'search',
+      productName: productName,
+      category: category,
+      source: 'cta_button'
+    });
 
     // Facebook Pixel tracking (si está disponible)
     if (typeof window !== 'undefined' && (window as any).fbq) {
