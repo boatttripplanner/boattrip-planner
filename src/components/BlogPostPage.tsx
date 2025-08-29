@@ -105,6 +105,25 @@ const customStyles = `
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
   
+  /* Estilos para botones de Amazon */
+  .from-ocean-500 {
+    --tw-gradient-from: #0ea5e9;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(14, 165, 233, 0));
+  }
+  
+  .to-sea-600 {
+    --tw-gradient-to: #0891b2;
+  }
+  
+  .from-ocean-600 {
+    --tw-gradient-from: #0284c7;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(2, 132, 199, 0));
+  }
+  
+  .to-sea-700 {
+    --tw-gradient-to: #0e7490;
+  }
+  
   .text-shadow-lg {
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
@@ -900,9 +919,23 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
         </code>
       );
     },
-         a: ({ href, children }) => {
+         a: ({ href, children, className }) => {
        if (!href) {
          return <span>{children}</span>;
+       }
+
+       // Enlaces de Amazon con estilo de botón
+       if (className && className.includes('amazon-button')) {
+         return (
+           <a 
+             href={href}
+             target="_blank"
+             rel="nofollow noopener noreferrer"
+             className="inline-block bg-gradient-to-r from-ocean-500 to-sea-600 hover:from-ocean-600 hover:to-sea-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-center my-4"
+           >
+             {children}
+           </a>
+         );
        }
 
        // Enlaces normales
@@ -955,6 +988,14 @@ const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onNavigateToBlogIndex
           {children}
         </div>
       );
+    },
+    // Componente personalizado para renderizar HTML inline de manera segura
+    html: ({ children }) => {
+      // Si el contenido contiene HTML, renderizarlo de manera segura
+      if (typeof children === 'string' && children.includes('<')) {
+        return <div dangerouslySetInnerHTML={{ __html: children }} />;
+      }
+      return <>{children}</>;
     },
   };
 

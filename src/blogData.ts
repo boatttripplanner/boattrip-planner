@@ -1,6 +1,8 @@
 // 🚤 BLOG DATA - ESTRUCTURA LIMPIA PARA EMPEZAR DESDE CERO
 // BoatTrip Planner - Planificador Náutico IA
 
+import { SAMBOAT_AFFILIATE_URL } from '../constants';
+
 // Interfaces básicas
 export interface BlogPost {
   frontmatter: {
@@ -45,6 +47,9 @@ export const NAUTICAL_IMAGES = {
   // 👨‍👩‍👧‍👦 Familia y Mascotas
   family_sailing: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
   
+  // 🤖 Tecnología Náutica
+  nautical_technology: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center',
+  
   // 📸 Fotografía y Multimedia
   nautical_photography: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
   
@@ -79,7 +84,10 @@ export const NAUTICAL_IMAGES = {
   sailing_tips: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop&crop=center',
   
   // 🎒 Equipamiento Esencial
-  essential_equipment: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center'
+  essential_equipment: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=400&fit=crop&crop=center',
+  
+  // 👨‍👩‍👧‍👦 Vacaciones Familiares
+  family_vacation: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center'
 };
 
 // Array vacío de entradas de blog - EMPEZAR DESDE CERO
@@ -138,7 +146,7 @@ Perfecto para barcos de todos los tamaños, este panel flexible se adapta a cual
 - Garantía de 10 años
 - Eficiencia del 23%
 
-**Precio:** €299 - [Ver en Amazon](https://www.amazon.es/s?k=ecoflow+panel+solar+marino+flexible+100w&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €299 - [Ver en Amazon](https://www.amazon.es/s?k=ecoflow+panel+solar+marino+flexible+100w&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Kit Completo de Energía Solar Marina - Renogy**
 Incluye panel, controlador de carga, batería y accesorios de instalación.
@@ -150,7 +158,7 @@ Incluye panel, controlador de carga, batería y accesorios de instalación.
 - Cables y conectores MC4
 - Manual de instalación completo
 
-**Precio:** €599 - [Ver en Amazon](https://www.amazon.es/s?k=renogy+kit+solar+marino+completo&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €599 - [Ver en Amazon](https://www.amazon.es/s?k=renogy+kit+solar+marino+completo&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### 2. Aerogeneradores Marinos
 
@@ -166,7 +174,7 @@ Genera energía eólica incluso con vientos suaves, ideal para veleros.
 - Controlador integrado con protección
 - Instalación simple en mástil
 
-**Precio:** €1,299 - [Ver en Amazon](https://www.amazon.es/s?k=rutland+aerogenerador+marino+400w&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €1,299 - [Ver en Amazon](https://www.amazon.es/s?k=rutland+aerogenerador+marino+400w&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 🧽 Productos de Limpieza Ecológicos
 
@@ -184,7 +192,7 @@ Especialmente formulado para barcos, elimina la suciedad sin dañar el medio amb
 - Seguro para personas y mascotas
 - Concentrado (1L = 10L de uso)
 
-**Precio:** €15.99 - [Ver en Amazon](https://www.amazon.es/s?k=ecover+detergente+biodegradable+nautico&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €15.99 - [Ver en Amazon](https://www.amazon.es/s?k=ecover+detergente+biodegradable+nautico&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Limpiador Universal Marino Ecológico - BioM**
 Un solo producto para limpiar todo el barco de forma sostenible.
@@ -196,7 +204,7 @@ Un solo producto para limpiar todo el barco de forma sostenible.
 - Eliminación de óxido y sal
 - Desengrasante natural
 
-**Precio:** €22.50 - [Ver en Amazon](https://www.amazon.es/s?k=biom+limpiador+universal+marino+ecologico&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €22.50 - [Ver en Amazon](https://www.amazon.es/s?k=biom+limpiador+universal+marino+ecologico&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### 2. Cepillos y Accesorios de Limpieza Ecológicos
 
@@ -210,7 +218,7 @@ Cepillos fabricados con materiales naturales y biodegradables.
 - Guantes de algodón orgánico
 - Bolsa de almacenamiento reciclada
 
-**Precio:** €34.99 - [Ver en Amazon](https://www.amazon.es/s?k=green+marine+cepillos+ecologicos+nauticos&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €34.99 - [Ver en Amazon](https://www.amazon.es/s?k=green+marine+cepillos+ecologicos+nauticos&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 **Usos:**
 - Limpieza de cubierta y casco
@@ -242,7 +250,7 @@ Completo sistema de iluminación LED para todo el barco.
 - Protección IP67 (resistente al agua)
 - Certificación marina CE
 
-**Precio:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=lumitec+kit+iluminacion+led+nautica+12v&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=lumitec+kit+iluminacion+led+nautica+12v&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Lámpara LED de Navegación Portátil - Hella Marine**
 Lámpara LED recargable para navegación nocturna sostenible.
@@ -254,7 +262,7 @@ Lámpara LED recargable para navegación nocturna sostenible.
 - Carcasa de aluminio anodizado
 - Montaje universal para cualquier barco
 
-**Precio:** €89.99 - [Ver en Amazon](https://www.amazon.es/s?k=hella+marine+lampara+led+navegacion&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €89.99 - [Ver en Amazon](https://www.amazon.es/s?k=hella+marine+lampara+led+navegacion&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 🚿 Sistemas de Agua Sostenibles
 
@@ -279,7 +287,7 @@ Purifica el agua de mar y la convierte en agua potable de alta calidad.
 - Ahorro económico: €500/año en agua embotellada
 - Instalación simple en cualquier barco
 
-**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=seagull+filtro+agua+marino+3+etapas&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=seagull+filtro+agua+marino+3+etapas&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Filtro de Agua Portátil - LifeStraw Marine**
 Filtro portátil para emergencias y barcos pequeños.
@@ -291,7 +299,7 @@ Filtro portátil para emergencias y barcos pequeños.
 - No requiere baterías
 - Ideal para botes inflables y kayaks
 
-**Precio:** €49.99 - [Ver en Amazon](https://www.amazon.es/s?k=lifestraw+marine+filtro+agua+portatil&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €49.99 - [Ver en Amazon](https://www.amazon.es/s?k=lifestraw+marine+filtro+agua+portatil&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### 2. Sistema de Reciclaje de Agua Gris
 
@@ -315,7 +323,7 @@ Recicla hasta el 80% del agua utilizada a bordo.
 - Lavado de ropa
 - Refrigeración de motores
 
-**Precio:** €799.99 - [Ver en Amazon](https://www.amazon.es/s?k=ecowater+sistema+reciclaje+agua+marina&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €799.99 - [Ver en Amazon](https://www.amazon.es/s?k=ecowater+sistema+reciclaje+agua+marina&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 🎣 Pesca Sostenible
 
@@ -341,7 +349,7 @@ Caña fabricada con materiales reciclados y componentes biodegradables.
 - Repuestos disponibles localmente
 - Certificación de pesca sostenible MSC
 
-**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=shimano+sustain+caña+pesca+sostenible&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=shimano+sustain+caña+pesca+sostenible&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Kit de Anzuelos Ecológicos - Mustad BioGrip**
 Anzuelos biodegradables que se descomponen en el mar sin contaminar.
@@ -359,7 +367,7 @@ Anzuelos biodegradables que se descomponen en el mar sin contaminar.
 - Cumple normativas de pesca sostenible
 - Ideal para pesca deportiva responsable
 
-**Precio:** €24.99 - [Ver en Amazon](https://www.amazon.es/s?k=mustad+biogrip+anzuelos+ecologicos&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €24.99 - [Ver en Amazon](https://www.amazon.es/s?k=mustad+biogrip+anzuelos+ecologicos&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Carrete de Pesca Sostenible - Daiwa BG**
 Carrete fabricado con materiales reciclados y lubricantes biodegradables.
@@ -372,7 +380,7 @@ Carrete fabricado con materiales reciclados y lubricantes biodegradables.
 - **Peso:** 320g
 - **Freno:** Sistema de freno de disco progresivo
 
-**Precio:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=daiwa+bg+carrete+pesca+sostenible&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=daiwa+bg+carrete+pesca+sostenible&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### **Equipamiento de Pesca Sostenible Recomendado:**
 
@@ -405,7 +413,7 @@ Diseñada para minimizar el daño al fondo marino y maximizar la retención.
 - Durabilidad superior (20+ años)
 - Certificación de impacto ambiental mínimo
 
-**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=rocna+vulcan+ancla+ecologica+marina&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=rocna+vulcan+ancla+ecologica+marina&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Ancla de Fondeo Ecológica - Mantus M2**
 Ancla de diseño moderno que protege los fondos marinos sensibles.
@@ -417,7 +425,7 @@ Ancla de diseño moderno que protege los fondos marinos sensibles.
 - **Recuperación:** Sistema de auto-limpieza
 - **Certificación:** Cumple estándares de protección marina
 
-**Precio:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=mantus+m2+ancla+ecologica+fondeo&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=mantus+m2+ancla+ecologica+fondeo&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### 2. Rutas de Navegación Sostenibles
 
@@ -438,7 +446,7 @@ GPS con funciones específicas para navegación responsable y protección marina
 - Resistente al agua (IPX7)
 - GPS de alta precisión
 
-**Precio:** €599.99 - [Ver en Amazon](https://www.amazon.es/s?k=garmin+gpsmap+86i+satelital+marino&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €599.99 - [Ver en Amazon](https://www.amazon.es/s?k=garmin+gpsmap+86i+satelital+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **App de Navegación Sostenible - Navionics Boating**
 Aplicación móvil con información detallada sobre áreas marinas protegidas.
@@ -494,7 +502,7 @@ Controla en tiempo real tu consumo energético y optimiza el uso para máxima ef
 - **Reportes:** Genera informes de eficiencia energética
 - **Alertas inteligentes:** Notificaciones sobre consumo excesivo
 
-**Precio:** €399.99 - [Ver en Amazon](https://www.amazon.es/s?k=victron+energy+monitor+consumo+energetico+marino&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €399.99 - [Ver en Amazon](https://www.amazon.es/s?k=victron+energy+monitor+consumo+energetico+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Sistema de Monitoreo Marino - Ocean Data Systems**
 Dispositivo que recopila datos oceanográficos para contribuir a la ciencia ciudadana marina.
@@ -513,7 +521,7 @@ Dispositivo que recopila datos oceanográficos para contribuir a la ciencia ciud
 - Investigación de biodiversidad marina
 - Alertas tempranas de contaminación
 
-**Precio:** €799.99 - [Ver en Amazon](https://www.amazon.es/s?k=ocean+data+systems+monitoreo+marino&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €799.99 - [Ver en Amazon](https://www.amazon.es/s?k=ocean+data+systems+monitoreo+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **App de Sostenibilidad Marina - Marine Conservation**
 Aplicación que te ayuda a navegar de forma responsable y contribuir a la conservación marina.
@@ -550,7 +558,7 @@ Protege tu barco sin contaminar el mar con metales pesados.
 - Certificación ecológica marina
 - Cumple normativas internacionales
 
-**Precio:** €89.99/litro - [Ver en Amazon](https://www.amazon.es/s?k=hempel+silic+one+antifouling+sin+cobre&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €89.99/litro - [Ver en Amazon](https://www.amazon.es/s?k=hempel+silic+one+antifouling+sin+cobre&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### 2. Aceites y Lubricantes Biodegradables
 
@@ -572,7 +580,7 @@ Mantén tu motor en perfectas condiciones sin dañar el medio ambiente.
 - Rendimiento equivalente a aceites tradicionales
 - Empaquetado reciclable
 
-**Precio:** €24.99/litro - [Ver en Amazon](https://www.amazon.es/s?k=quicksilver+eco+aceite+motor+marino+biodegradable&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €24.99/litro - [Ver en Amazon](https://www.amazon.es/s?k=quicksilver+eco+aceite+motor+marino+biodegradable&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 💰 Beneficios Económicos de la Sostenibilidad
 
@@ -690,41 +698,41 @@ La navegación sostenible no solo es posible, sino que es la única opción para
 ## 🛒 **PRODUCTOS RECOMENDADOS - RESUMEN COMPLETO**
 
 ### **⚡ Energía Sostenible:**
-- **Panel Solar EcoFlow 100W:** €299 - [Ver en Amazon](https://www.amazon.es/s?k=ecoflow+panel+solar+marino+flexible+100w&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **Kit Solar Renogy Completo:** €599 - [Ver en Amazon](https://www.amazon.es/s?k=renogy+kit+solar+marino+completo&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **Aerogenerador Rutland 400W:** €1,299 - [Ver en Amazon](https://www.amazon.es/s?k=rutland+aerogenerador+marino+400w&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+- **Panel Solar EcoFlow 100W:** €299 - [Ver en Amazon](https://www.amazon.es/s?k=ecoflow+panel+solar+marino+flexible+100w&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **Kit Solar Renogy Completo:** €599 - [Ver en Amazon](https://www.amazon.es/s?k=renogy+kit+solar+marino+completo&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **Aerogenerador Rutland 400W:** €1,299 - [Ver en Amazon](https://www.amazon.es/s?k=rutland+aerogenerador+marino+400w&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### **🧽 Limpieza Ecológica:**
-- **Detergente Ecover:** €15.99 - [Ver en Amazon](https://www.amazon.es/s?k=ecover+detergente+biodegradable+nautico&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **Limpiador BioM Universal:** €22.50 - [Ver en Amazon](https://www.amazon.es/s?k=biom+limpiador+universal+marino+ecologico&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **Kit Cepillos Green Marine:** €34.99 - [Ver en Amazon](https://www.amazon.es/s?k=green+marine+cepillos+ecologicos+nauticos&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+- **Detergente Ecover:** €15.99 - [Ver en Amazon](https://www.amazon.es/s?k=ecover+detergente+biodegradable+nautico&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **Limpiador BioM Universal:** €22.50 - [Ver en Amazon](https://www.amazon.es/s?k=biom+limpiador+universal+marino+ecologico&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **Kit Cepillos Green Marine:** €34.99 - [Ver en Amazon](https://www.amazon.es/s?k=green+marine+cepillos+ecologicos+nauticos&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### **💡 Iluminación LED:**
-- **Kit LED Lumitec Completo:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=lumitec+kit+iluminacion+led+nautica+12v&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **Lámpara Hella Marine:** €89.99 - [Ver en Amazon](https://www.amazon.es/s?k=hella+marine+lampara+led+navegacion&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+- **Kit LED Lumitec Completo:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=lumitec+kit+iluminacion+led+nautica+12v&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **Lámpara Hella Marine:** €89.99 - [Ver en Amazon](https://www.amazon.es/s?k=hella+marine+lampara+led+navegacion&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### **🚿 Sistemas de Agua:**
-- **Filtro SeaGull 3 Etapas:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=seagull+filtro+agua+marino+3+etapas&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **Filtro LifeStraw Portátil:** €49.99 - [Ver en Amazon](https://www.amazon.es/s?k=lifestraw+marine+filtro+agua+portatil&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **Sistema Reciclaje EcoWater:** €799.99 - [Ver en Amazon](https://www.amazon.es/s?k=ecowater+sistema+reciclaje+agua+marina&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+- **Filtro SeaGull 3 Etapas:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=seagull+filtro+agua+marino+3+etapas&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **Filtro LifeStraw Portátil:** €49.99 - [Ver en Amazon](https://www.amazon.es/s?k=lifestraw+marine+filtro+agua+portatil&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **Sistema Reciclaje EcoWater:** €799.99 - [Ver en Amazon](https://www.amazon.es/s?k=ecowater+sistema+reciclaje+agua+marina&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### **🎣 Pesca Sostenible:**
-- **Caña Shimano Sustain:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=shimano+sustain+caña+pesca+sostenible&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **Anzuelos Mustad BioGrip:** €24.99 - [Ver en Amazon](https://www.amazon.es/s?k=mustad+biogrip+anzuelos+ecologicos&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **Carrete Daiwa BG:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=daiwa+bg+carrete+pesca+sostenible&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+- **Caña Shimano Sustain:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=shimano+sustain+caña+pesca+sostenible&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **Anzuelos Mustad BioGrip:** €24.99 - [Ver en Amazon](https://www.amazon.es/s?k=mustad+biogrip+anzuelos+ecologicos&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **Carrete Daiwa BG:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=daiwa+bg+carrete+pesca+sostenible&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### **🗺️ Navegación Responsable:**
-- **Ancla Rocna Vulcan:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=rocna+vulcan+ancla+ecologica+marina&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **Ancla Mantus M2:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=mantus+m2+ancla+ecologica+fondeo&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **GPS Garmin GPSMAP 86i:** €599.99 - [Ver en Amazon](https://www.amazon.es/s?k=garmin+gpsmap+86i+satelital+marino&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+- **Ancla Rocna Vulcan:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=rocna+vulcan+ancla+ecologica+marina&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **Ancla Mantus M2:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=mantus+m2+ancla+ecologica+fondeo&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **GPS Garmin GPSMAP 86i:** €599.99 - [Ver en Amazon](https://www.amazon.es/s?k=garmin+gpsmap+86i+satelital+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### **📱 Tecnología Verde:**
-- **Monitor Victron Energy:** €399.99 - [Ver en Amazon](https://www.amazon.es/s?k=victron+energy+monitor+consumo+energetico+marino&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **Sistema Ocean Data:** €799.99 - [Ver en Amazon](https://www.amazon.es/s?k=ocean+data+systems+monitoreo+marino&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+- **Monitor Victron Energy:** €399.99 - [Ver en Amazon](https://www.amazon.es/s?k=victron+energy+monitor+consumo+energetico+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **Sistema Ocean Data:** €799.99 - [Ver en Amazon](https://www.amazon.es/s?k=ocean+data+systems+monitoreo+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### **🌱 Mantenimiento Ecológico:**
-- **Pintura Hempel Silic One:** €89.99/litro - [Ver en Amazon](https://www.amazon.es/s?k=hempel+silic+one+antifouling+sin+cobre&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
-- **Aceite Quicksilver Eco:** €24.99/litro - [Ver en Amazon](https://www.amazon.es/s?k=quicksilver+eco+aceite+motor+marino+biodegradable&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+- **Pintura Hempel Silic One:** €89.99/litro - [Ver en Amazon](https://www.amazon.es/s?k=hempel+silic+one+antifouling+sin+cobre&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
+- **Aceite Quicksilver Eco:** €24.99/litro - [Ver en Amazon](https://www.amazon.es/s?k=quicksilver+eco+aceite+motor+marino+biodegradable&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ---
 
@@ -794,7 +802,7 @@ Chaleco salvavidas automático con tecnología de última generación.
 - **Asa de rescate** para levantar a la persona
 - **Certificación** SOLAS y CE
 
-**Precio:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=crewsaver+crewfit+190n+chaleco+salvavidas+automatico&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=crewsaver+crewfit+190n+chaleco+salvavidas+automatico&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Chaleco Salvavidas para Niños - Crewsaver Junior 100N**
 Chaleco específico para niños con características de seguridad especiales.
@@ -806,7 +814,7 @@ Chaleco específico para niños con características de seguridad especiales.
 - **Tamaños:** 3-6 años, 6-10 años, 10-14 años
 - **Colores:** Naranja de alta visibilidad
 
-**Precio:** €89.99 - [Ver en Amazon](https://www.amazon.es/s?k=crewsaver+junior+100n+chaleco+niños+nautico&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €89.99 - [Ver en Amazon](https://www.amazon.es/s?k=crewsaver+junior+100n+chaleco+niños+nautico&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### 2. Sistemas de Comunicación de Emergencia
 
@@ -828,7 +836,7 @@ Radio VHF portátil para comunicaciones de emergencia.
 - **Batería de emergencia** de larga duración
 - **Certificación** SOLAS
 
-**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=icom+ic+m25+radio+vhf+marina+portatil&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=icom+ic+m25+radio+vhf+marina+portatil&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Baliza de Emergencia Personal - ACR ResQLink 400**
 Baliza de emergencia personal con GPS integrado.
@@ -840,7 +848,7 @@ Baliza de emergencia personal con GPS integrado.
 - **Resistencia:** IPX7 (resistente al agua)
 - **Certificación:** SOLAS, Cospas-Sarsat
 
-**Precio:** €399.99 - [Ver en Amazon](https://www.amazon.es/s?k=acr+resqlink+400+baliza+emergencia+personal&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €399.99 - [Ver en Amazon](https://www.amazon.es/s?k=acr+resqlink+400+baliza+emergencia+personal&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 🚨 Protocolos de Emergencia
 
@@ -880,7 +888,7 @@ Kit completo para reparaciones de emergencia a bordo.
 - **Material de sellado** y juntas
 - **Manual de reparación** de emergencia
 
-**Precio:** €149.99 - [Ver en Amazon](https://www.amazon.es/s?k=marinetech+emergency+kit+reparacion+nautica&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €149.99 - [Ver en Amazon](https://www.amazon.es/s?k=marinetech+emergency+kit+reparacion+nautica&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 📱 Tecnología de Seguridad Moderna
 
@@ -910,7 +918,7 @@ Sistema integrado de monitoreo de seguridad.
 - **Comunicación satelital** de emergencia
 - **Historial de navegación** y seguridad
 
-**Precio:** €599.99 - [Ver en Amazon](https://www.amazon.es/s?k=garmin+marine+safety+monitor+seguridad&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €599.99 - [Ver en Amazon](https://www.amazon.es/s?k=garmin+marine+safety+monitor+seguridad&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 🧭 Navegación Segura
 
@@ -940,7 +948,7 @@ GPS con funciones específicas de seguridad.
 - **Información meteorológica** en tiempo real
 - **Cartas náuticas** detalladas
 
-**Precio:** €599.99 - [Ver en Amazon](https://www.amazon.es/s?k=garmin+gpsmap+86i+satelital+seguridad&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €599.99 - [Ver en Amazon](https://www.amazon.es/s?k=garmin+gpsmap+86i+satelital+seguridad&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 🏥 Primeros Auxilios a Bordo
 
@@ -957,7 +965,7 @@ Kit específico para emergencias marinas.
 - **Manual de primeros auxilios** marinos
 - **Contactos de emergencia** locales
 
-**Precio:** €199.99 - [Ver en Amazon](https://www.amazon.es/s?k=marine+first+aid+pro+kit+primeros+auxilios&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €199.99 - [Ver en Amazon](https://www.amazon.es/s?k=marine+first+aid+pro+kit+primeros+auxilios&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### Formación en Primeros Auxilios
 
@@ -1097,7 +1105,7 @@ Chaleco salvavidas profesional diseñado específicamente para actividades acuá
 - Material resistente a la corrosión marina
 - Cumple estándares de seguridad náutica
 
-**Precio:** €89.99 - [Ver en Amazon](https://www.amazon.es/s?k=ruffwear+float+coat+perros+marino&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €89.99 - [Ver en Amazon](https://www.amazon.es/s?k=ruffwear+float+coat+perros+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Chaleco Salvavidas para Gatos - Paws Aboard**
 Chaleco salvavidas específico para gatos que navegan en veleros.
@@ -1109,7 +1117,7 @@ Chaleco salvavidas específico para gatos que navegan en veleros.
 - **Tamaños:** S, M, L (gatos de 2kg a 8kg)
 - **Colores:** Azul marino con detalles reflectantes
 
-**Precio:** €59.99 - [Ver en Amazon](https://www.amazon.es/s?k=paws+aboard+chaleco+salvavidas+gatos&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €59.99 - [Ver en Amazon](https://www.amazon.es/s?k=paws+aboard+chaleco+salvavidas+gatos&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### 2. Sistemas de Sujeción y Seguridad
 
@@ -1123,7 +1131,7 @@ Arnés de alta resistencia para sujetar a tu mascota de forma segura durante la 
 - **Resistencia:** Soporta hasta 500kg de tensión
 - **Tamaños:** XS a XXL
 
-**Precio:** €79.99 - [Ver en Amazon](https://www.amazon.es/s?k=ruffwear+web+master+arnes+perros&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €79.99 - [Ver en Amazon](https://www.amazon.es/s?k=ruffwear+web+master+arnes+perros&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Correa de Sujeción Marina - Kong Marine Leash**
 Correa resistente al agua salada con sistema de sujeción rápida.
@@ -1134,7 +1142,7 @@ Correa resistente al agua salada con sistema de sujeción rápida.
 - **Resistencia:** Hasta 300kg de tensión
 - **Características:** Flotante y resistente a la corrosión
 
-**Precio:** €34.99 - [Ver en Amazon](https://www.amazon.es/s?k=kong+marine+leash+correa+perros&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €34.99 - [Ver en Amazon](https://www.amazon.es/s?k=kong+marine+leash+correa+perros&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 🏥 Kits de Emergencia y Primeros Auxilios
 
@@ -1150,7 +1158,7 @@ Kit profesional con todo lo necesario para emergencias a bordo.
 - **Medicamentos:** Antiinflamatorios, antidiarreicos
 - **Documentación:** Guía de primeros auxilios marinos
 
-**Precio:** €129.99 - [Ver en Amazon](https://www.amazon.es/s?k=pet+first+aid+kit+pro+marino&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €129.99 - [Ver en Amazon](https://www.amazon.es/s?k=pet+first+aid+kit+pro+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 🚢 Preparación del Barco para Mascotas
 
@@ -1165,7 +1173,7 @@ Cama portátil y resistente al agua para el descanso de tu mascota.
 - **Peso:** 0.5kg (fácil de transportar)
 - **Limpieza:** Lavable en máquina
 
-**Precio:** €49.99 - [Ver en Amazon](https://www.amazon.es/s?k=ruffwear+dirt+bag+cama+perros&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €49.99 - [Ver en Amazon](https://www.amazon.es/s?k=ruffwear+dirt+bag+cama+perros&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Comedero Portátil Marino - Outward Hound PortaBowl**
 Comedero plegable y resistente al agua para alimentación a bordo.
@@ -1176,7 +1184,7 @@ Comedero plegable y resistente al agua para alimentación a bordo.
 - **Características:** Plegable, ligero, resistente a la corrosión
 - **Colores:** Azul marino, naranja de alta visibilidad
 
-**Precio:** €19.99 - [Ver en Amazon](https://www.amazon.es/s?k=outward+hound+portabowl+comedero+perros&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €19.99 - [Ver en Amazon](https://www.amazon.es/s?k=outward+hound+portabowl+comedero+perros&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 📋 Checklist de Preparación para Navegar con Mascotas
 
@@ -1278,7 +1286,7 @@ Chaleco salvavidas profesional con activación automática para navegación cost
 - Silbato de emergencia incorporado
 - Material resistente a la corrosión marina
 
-**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=crewsaver+crewfit+190n+chaleco+salvavidas&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=crewsaver+crewfit+190n+chaleco+salvavidas&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Chaleco Salvavidas para Niños - Baltic Junior 100N**
 Chaleco salvavidas específico para niños con sistema de sujeción adicional.
@@ -1290,7 +1298,7 @@ Chaleco salvavidas específico para niños con sistema de sujeción adicional.
 - **Tamaños:** 15-30kg (3-8 años)
 - **Colores:** Naranja de alta visibilidad
 
-**Precio:** €89.99 - [Ver en Amazon](https://www.amazon.es/s?k=baltic+junior+100n+chaleco+niños&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €89.99 - [Ver en Amazon](https://www.amazon.es/s?k=baltic+junior+100n+chaleco+niños&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### 2. Sistemas de Comunicación y Emergencia
 
@@ -1311,7 +1319,7 @@ Radio VHF profesional con GPS integrado para comunicaciones marinas.
 - Sistema DSC para alertas automáticas
 - Interfaz intuitiva para uso en situaciones críticas
 
-**Precio:** €399.99 - [Ver en Amazon](https://www.amazon.es/s?k=standard+horizon+gx1400+radio+vhf+marina&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €399.99 - [Ver en Amazon](https://www.amazon.es/s?k=standard+horizon+gx1400+radio+vhf+marina&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Baliza de Emergencia Personal - ACR ResQLink 400**
 Baliza de emergencia personal con GPS para rescate en alta mar.
@@ -1323,7 +1331,7 @@ Baliza de emergencia personal con GPS para rescate en alta mar.
 - **Temperatura:** -40°C a +50°C
 - **Certificación:** SOLAS, Cospas-Sarsat
 
-**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=acr+resqlink+400+baliza+emergencia&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=acr+resqlink+400+baliza+emergencia&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 🚨 Protocolos de Emergencia
 
@@ -1572,7 +1580,7 @@ Sextante de alta precisión para mediciones astronómicas exactas.
 - Sistema de filtros para observación solar segura
 - Calibración precisa para navegación oceánica
 
-**Precio:** €1,299.99 - [Ver en Amazon](https://www.amazon.es/s?k=davis+instruments+mark+15+sextante+marino&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €1,299.99 - [Ver en Amazon](https://www.amazon.es/s?k=davis+instruments+mark+15+sextante+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ##### **Almanaque Náutico 2025 - Edición Española**
 Almanaque oficial con efemérides astronómicas para navegación.
@@ -1584,7 +1592,7 @@ Almanaque oficial con efemérides astronómicas para navegación.
 - **Planetas:** Posiciones de Venus, Marte, Júpiter, Saturno
 - **Correcciones:** Tablas de interpolación y correcciones
 
-**Precio:** €89.99 - [Ver en Amazon](https://www.amazon.es/s?k=almanaque+nautico+2025+españa&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €89.99 - [Ver en Amazon](https://www.amazon.es/s?k=almanaque+nautico+2025+españa&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### Técnicas de Observación Astronómica
 
@@ -1622,7 +1630,7 @@ GPS marino de pantalla táctil con cartografía avanzada.
 - Interfaz táctil intuitiva para navegación
 - Actualizaciones automáticas de cartografía
 
-**Precio:** €3,999.99 - [Ver en Amazon](https://www.amazon.es/s?k=garmin+gpsmap+8616xsv+gps+marino&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €3,999.99 - [Ver en Amazon](https://www.amazon.es/s?k=garmin+gpsmap+8616xsv+gps+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Plotter de Navegación - Raymarine Axiom 12**
 Plotter profesional con tecnología de navegación avanzada.
@@ -1634,7 +1642,7 @@ Plotter profesional con tecnología de navegación avanzada.
 - **Sonar:** CHIRP DownVision incluido
 - **Conectividad:** WiFi, Bluetooth, NMEA 2000
 
-**Precio:** €2,499.99 - [Ver en Amazon](https://www.amazon.es/s?k=raymarine+axiom+12+plotter+marino&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €2,499.99 - [Ver en Amazon](https://www.amazon.es/s?k=raymarine+axiom+12+plotter+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### Cartografía Electrónica Avanzada
 
@@ -1665,7 +1673,7 @@ Compás de alta precisión para navegación profesional.
 - **Material:** Carcasa de acero inoxidable
 - **Tamaño:** 5" de diámetro
 
-**Precio:** €599.99 - [Ver en Amazon](https://www.amazon.es/s?k=ritchie+navigation+f-500+compas+marino&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €599.99 - [Ver en Amazon](https://www.amazon.es/s?k=ritchie+navigation+f-500+compas+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 #### **Técnicas de Compensación del Compás**
 
@@ -1712,7 +1720,7 @@ Ancla de emergencia para condiciones meteorológicas adversas.
 - **Resistencia:** Hasta 1,500kg de tensión
 - **Fácil almacenamiento:** Plegable para ahorrar espacio
 
-**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=fortress+fx-37+ancla+mar+emergencia&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €299.99 - [Ver en Amazon](https://www.amazon.es/s?k=fortress+fx-37+ancla+mar+emergencia&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### Navegación Nocturna Avanzada
 
@@ -1735,7 +1743,7 @@ Linterna de alta potencia para navegación nocturna.
 - **Resistencia:** IPX7 (resistente a inmersión)
 - **Modos:** Alto, medio, bajo, estroboscópico
 
-**Precio:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=streamlight+44931+linterna+marina&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**Precio:** €189.99 - [Ver en Amazon](https://www.amazon.es/s?k=streamlight+44931+linterna+marina&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 📊 Técnicas de Posicionamiento Avanzado
 
@@ -2395,7 +2403,7 @@ Para más consejos sobre navegación con mascotas y recursos náuticos, visita <
 ---
 
 **💬 ¿Te ha gustado este artículo?** [Comparte tu experiencia](https://www.boattrip-planner.com/contacto) navegando con mascotas o [déjanos un comentario](https://www.boattrip-planner.com/blog) con tus preguntas.
-    `
+    `,
   },
   {
     frontmatter: {
@@ -2863,7 +2871,7 @@ El mar te espera con experiencias únicas y momentos inolvidables. Recuerda que 
 Para más información sobre deportes acuáticos, [visita nuestro blog](https://www.boattrip-planner.com/blog) o [contacta con nuestros expertos](https://www.boattrip-planner.com/contacto) para una asesoría personalizada.
 
 **¡Buenas olas y feliz aventura acuática!** 🌊🏄‍♂️
-    `
+    `,
   },
   {
     frontmatter: {
@@ -2892,17 +2900,17 @@ La seguridad en el mar es innegociable. Si vas a gastar dinero en algo, que sea 
 ### Chalecos Salvavidas de Calidad
 No basta con tenerlos, tienen que ser cómodos, robustos y adecuados para cada persona a bordo. No es un accesorio, es tu primera línea de defensa.
 
-**>> Consigue aquí tus chalecos salvavidas homologados y duraderos para toda la tripulación.** [Enlace de Afiliado Amazon para "Chalecos Salvavidas Homologados"](https://www.amazon.es/s?k=chalecos+salvavidas+homologados+marinos&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**>> Consigue aquí tus chalecos salvavidas homologados y duraderos para toda la tripulación.** [Enlace de Afiliado Amazon para "Chalecos Salvavidas Homologados"](https://www.amazon.es/s?k=chalecos+salvavidas+homologados+marinos&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### Kit de Primeros Auxilios Marino Profesional
 Un rasguño, una quemadura solar o un corte pueden convertirse en un problema grave en alta mar si no estás preparado. Un botiquín completo, resistente al agua y específico para ambientes marinos, te da la tranquilidad que necesitas para actuar con rapidez.
 
-**>> Asegura tu bienestar con un kit de primeros auxilios diseñado para el mar. ¡Imprescindible!** [Enlace de Afiliado Amazon para "Kit Primeros Auxilios Marino"](https://www.amazon.es/s?k=kit+primeros+auxilios+marino+profesional&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**>> Asegura tu bienestar con un kit de primeros auxilios diseñado para el mar. ¡Imprescindible!** [Enlace de Afiliado Amazon para "Kit Primeros Auxilios Marino"](https://www.amazon.es/s?k=kit+primeros+auxilios+marino+profesional&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### Baliza de Emergencia (EPIRB/PLB)
 En situaciones extremas, esto puede salvarte la vida. Es un dispositivo que envía tu posición vía satélite, la llamada de auxilio que nunca querrás usar, pero que te dará la certeza de ser encontrado. Es el seguro más importante que puedes tener.
 
-**>> Invierte en tu seguridad máxima. Descubre las balizas de emergencia más fiables del mercado.** [Enlace de Afiliado Amazon para "Baliza EPIRB / PLB"](https://www.amazon.es/s?k=baliza+epirb+plb+emergencia+marina&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**>> Invierte en tu seguridad máxima. Descubre las balizas de emergencia más fiables del mercado.** [Enlace de Afiliado Amazon para "Baliza EPIRB / PLB"](https://www.amazon.es/s?k=baliza+epirb+plb+emergencia+marina&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 📱 2. Tecnología que transforma tu viaje
 
@@ -2911,17 +2919,17 @@ El barco ya no es solo madera y velas. Es tecnología que te ayuda a navegar con
 ### GPS Náutico (con mapas detallados)
 Olvídate de la brújula y los mapas de papel en una era digital. Un buen GPS con cartografía detallada te da la ruta, la velocidad y la profundidad en tiempo real, evitando que te pierdas y asegurando que llegues a la cala que soñaste en la Costa del Sol.
 
-**>> Navega con confianza. Encuentra los mejores GPS náuticos para tu embarcación aquí.** [Enlace de Afiliado Amazon para "GPS Náutico"](https://www.amazon.es/s?k=gps+nautico+marino+plotter&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**>> Navega con confianza. Encuentra los mejores GPS náuticos para tu embarcación aquí.** [Enlace de Afiliado Amazon para "GPS Náutico"](https://www.amazon.es/s?k=gps+nautico+marino+plotter&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### Cargador Solar Portátil de Alta Capacidad
 En medio del océano, no hay enchufes. Este cargador mantendrá tu móvil, tu GPS y tu altavoz siempre con batería, asegurando que tus comunicaciones y entretenimiento no se detengan.
 
-**>> Mantén tus dispositivos cargados y listos. Explora cargadores solares portátiles resistentes al agua.** [Enlace de Afiliado Amazon para "Cargador Solar Portátil Marino"](https://www.amazon.es/s?k=cargador+solar+portatil+marino+alta+capacidad&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**>> Mantén tus dispositivos cargados y listos. Explora cargadores solares portátiles resistentes al agua.** [Enlace de Afiliado Amazon para "Cargador Solar Portátil Marino"](https://www.amazon.es/s?k=cargador+solar+portatil+marino+alta+capacidad&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### Altavoz Bluetooth Resistente al Agua
 La banda sonora de tu viaje es tan importante como el destino. Un buen altavoz te permitirá disfrutar de la música sin miedo a las salpicaduras ni a la arena.
 
-**>> Dale ritmo a tu aventura. Descubre los altavoces Bluetooth marinos más resistentes y con mejor sonido.** [Enlace de Afiliado Amazon para "Altavoz Bluetooth Marino"](https://www.amazon.es/s?k=altavoz+bluetooth+marino+resistente+agua&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**>> Dale ritmo a tu aventura. Descubre los altavoces Bluetooth marinos más resistentes y con mejor sonido.** [Enlace de Afiliado Amazon para "Altavoz Bluetooth Marino"](https://www.amazon.es/s?k=altavoz+bluetooth+marino+resistente+agua&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 🍹 3. Equipamiento para el confort (y el disfrute al máximo)
 
@@ -2930,12 +2938,12 @@ Un viaje en barco es una experiencia, y el confort es clave para que sea inolvid
 ### Nevera Portátil de Alta Capacidad
 La comida y las bebidas frías son un lujo en el mar, especialmente bajo el sol de Málaga. Una nevera de alto rendimiento te asegura que tus provisiones se mantengan frescas durante todo el viaje.
 
-**>> ¡Bebidas siempre frías! Elige la nevera portátil que te acompañará en todas tus travesías.** [Enlace de Afiliado Amazon para "Nevera Portátil de Alta Capacidad"](https://www.amazon.es/s?k=nevera+portatil+alta+capacidad+marina&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**>> ¡Bebidas siempre frías! Elige la nevera portátil que te acompañará en todas tus travesías.** [Enlace de Afiliado Amazon para "Nevera Portátil de Alta Capacidad"](https://www.amazon.es/s?k=nevera+portatil+alta+capacidad+marina&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ### Set de Snorkel Completo y de Calidad
 Tu viaje no termina al bajar del barco. Sumérgete en las aguas cristalinas de las calas andaluzas y descubre un mundo submarino fascinante.
 
-**>> Explora el mundo bajo el agua. Consigue tu set de snorkel profesional y vive la experiencia.** [Enlace de Afiliado Amazon para "Set de Snorkel de Calidad"](https://www.amazon.es/s?k=set+snorkel+profesional+completo+calidad&tag=nauticalguide-21&ref=sr_nr_p_nauticalguide-21_nautical)
+**>> Explora el mundo bajo el agua. Consigue tu set de snorkel profesional y vive la experiencia.** [Enlace de Afiliado Amazon para "Set de Snorkel de Calidad"](https://www.amazon.es/s?k=set+snorkel+profesional+completo+calidad&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical)
 
 ## 🎯 ¿Estás listo para invertir en tu mejor experiencia?
 
@@ -2947,6 +2955,588 @@ El mejor viaje es el que se planea bien. Ahora que tienes la lista esencial, haz
 
 **🌐 [BoatTrip Planner](https://www.boattrip-planner.com) - Tu compañero de navegación segura**
 **📧 [Contacto](https://www.boattrip-planner.com/contacto) | [Blog](https://www.boattrip-planner.com/blog) | [Rutas](https://www.boattrip-planner.com/rutas)**
+    `,
+  },
+  {
+    frontmatter: {
+      title: "👨‍👩‍👧‍👦 Vacaciones en Barco con Niños: El Único Equipamiento que Garantiza la Paz (y la Diversión)",
+      slug: "vacaciones-barco-ninos-equipamiento-garantiza-paz-diversion",
+      date: "2025-01-22",
+      summary: "¿La idea de viajar en barco con niños te da un poco de miedo? Descubre el equipamiento esencial que garantiza la seguridad, entretenimiento y comodidad para unas vacaciones familiares inolvidables en el mar.",
+      featuredImage: NAUTICAL_IMAGES.family_vacation,
+      tags: ["familia", "niños", "seguridad", "equipamiento", "vacaciones", "navegación familiar", "entretenimiento", "comodidad"],
+      author: "Equipo BoatTrip Planner",
+      category: "Familia",
+      difficulty: "Principiante",
+      readingTime: 12
+    },
+    content: `
+# 👨‍👩‍👧‍👦 Vacaciones en Barco con Niños: El Único Equipamiento que Garantiza la Paz (y la Diversión)
+
+¿La idea de viajar en barco con niños te da un poco de miedo? No te preocupes, es normal. Pero te aseguro que es la mejor aventura que puedes regalarles. Olvídate de los resorts abarrotados y las colas interminables. A bordo, la diversión es constante y el mar se convierte en su patio de juegos personal.
+
+La clave para que sea un éxito total es el equipamiento correcto. No se trata de sobrecargar el barco, sino de tener lo esencial para garantizar su seguridad, entretenimiento y comodidad.
+
+## 🛡️ 1. Seguridad: La tranquilidad no tiene precio
+
+Antes de pensar en la diversión, piensa en la seguridad. No es un tema negociable, es el pilar de un viaje sin preocupaciones.
+
+### Chalecos Salvavidas para Niños
+Un chaleco diseñado para niños es fundamental. Debe ajustarse bien, ser cómodo y flotar de manera segura. No es un capricho, es una inversión en su bienestar.
+
+         **>> Consigue aquí tus chalecos salvavidas infantiles homologados y seguros.** 
+         
+         [🛟 Chaleco Salvavidas Infantil](https://www.amazon.es/s?k=chaleco+salvavidas+infantil+homologado&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES){: .amazon-button}
+
+### Barandillas y Redes de Seguridad
+Asegurar la cubierta con una red es una forma simple pero efectiva de prevenir accidentes. Muchos barcos ya las tienen instaladas, pero si no, puedes añadir la tuya.
+
+         **>> Añade un extra de seguridad a tu barco con redes y protecciones infantiles.** 
+         
+         [🛡️ Red de Seguridad para Barcos](https://www.amazon.es/s?k=red+seguridad+barco+proteccion+infantil&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES){: .amazon-button}
+
+## 🎮 2. Entretenimiento: Mantenerlos ocupados es la clave de la felicidad
+
+Un niño aburrido en un barco es una receta para el desastre. Afortunadamente, el mar ofrece diversión infinita. Aquí te damos algunas ideas de equipamiento que te salvarán el viaje:
+
+### Set de Snorkel y Aletas para Niños
+¿Qué mejor que explorar el mundo submarino? Con unas gafas y aletas adecuadas, verán peces de colores y corales, convirtiendo cada parada en una aventura.
+
+         **>> Descubre los mejores kits de snorkel para niños, seguros y divertidos.** 
+         
+         [🏊 Set de Snorkel Infantil](https://www.amazon.es/s?k=set+snorkel+infantil+gafas+aletas&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES){: .amazon-button}
+
+### Juguetes Flotantes y Colchonetas
+Las colchonetas de piscina, los inflables o los juguetes flotantes son perfectos para jugar en las calas. Además, se deshinchan y guardan fácilmente.
+
+         **>> Explora aquí juguetes y colchonetas flotantes para el barco, ideales para niños.** 
+         
+         [🏖️ Colchoneta Flotante para Niños](https://www.amazon.es/s?k=colchoneta+flotante+infantil+juguete+acuatico&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES){: .amazon-button}
+
+### Juegos de Mesa Portátiles
+Cuando el sol se ponga o en los días de viento, tener a mano un juego de cartas, un dominó o un juego de mesa de viaje es la solución para las tardes en el camarote.
+
+         **>> Echa un vistazo a nuestra selección de juegos de mesa de viaje, perfectos para familias.** 
+         
+         [🎲 Juegos de Mesa de Viaje](https://www.amazon.es/s?k=juego+mesa+viaje+portatil+familiar&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES){: .amazon-button}
+
+## 🏖️ 3. Comodidad: Pequeños detalles, grandes diferencias
+
+### Cremas Solares y Gorras
+Un básico que no puedes olvidar. Las quemaduras solares pueden arruinar un viaje.
+
+         **>> Protege a tu familia del sol con las cremas y gorras más seguras y efectivas.** 
+         
+         [☀️ Protector Solar Infantil SPF50+](https://www.amazon.es/s?k=protector+solar+infantil+spf50+resistente+agua&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES){: .amazon-button}
+
+## 🚤 Una aventura familiar te espera. SamBoat te lo pone fácil.
+
+Viajar en barco con tu familia no es solo un viaje; es una oportunidad para enseñarles a amar el mar, la aventura y a crear recuerdos que atesorarán toda su vida. Con el equipamiento correcto, el único problema que tendrás es que no querrán volver a tierra firme.
+
+SamBoat te ofrece una plataforma segura y confiable para encontrar el barco perfecto para tus vacaciones familiares. Con una amplia selección de veleros, catamaranes y lanchas, seguro que encontrarás el barco ideal para tu próxima aventura.
+
+**>> ¡No esperes más! Encuentra el barco perfecto para tu familia y empieza a planificar el mejor viaje de vuestras vidas con SamBoat.** [https://www.samboat.com/?utm_source=affilae&utm_medium=cpa&utm_campaign=Sailway%20Adventures&ae=1582](https://www.samboat.com/?utm_source=affilae&utm_medium=cpa&utm_campaign=Sailway%20Adventures&ae=1582)
+
+---
+
+**🌐 [BoatTrip Planner](https://www.boattrip-planner.com) - Tu compañero de navegación segura**
+**📧 [Contacto](https://www.boattrip-planner.com/contacto) | [Blog](https://www.boattrip-planner.com/blog) | [Rutas](https://www.boattrip-planner.com/blog)**
+    `,
+  },
+  {
+    frontmatter: {
+      title: "🤖 Navega como un Profesional: 5 Piezas de Tecnología que No Pueden Faltar en tu Barco",
+      slug: "navega-como-profesional-5-piezas-tecnologia-barco",
+      date: "2025-01-25",
+      summary: "¿Creías que navegar se trataba solo de viento, velas y brújulas? La tecnología ha revolucionado la vida a bordo, haciendo que los viajes sean más seguros, eficientes y, sobre todo, mucho más divertidos.",
+      featuredImage: NAUTICAL_IMAGES.nautical_technology,
+      tags: ["tecnología", "navegación", "gps", "comunicación", "energía", "entretenimiento", "seguridad", "moderno"],
+      author: "Equipo BoatTrip Planner",
+      category: "Tecnología",
+      difficulty: "Intermedio",
+      readingTime: 10
+    },
+    content: `
+# 🤖 Navega como un Profesional: 5 Piezas de Tecnología que No Pueden Faltar en tu Barco
+
+¿Creías que navegar se trataba solo de viento, velas y brújulas? La tecnología ha revolucionado la vida a bordo, haciendo que los viajes sean más seguros, eficientes y, sobre todo, mucho más divertidos.
+
+Para el navegante moderno, el equipo tecnológico es tan importante como un buen ancla. Olvídate de las conjeturas. Aquí te presento las 5 herramientas tecnológicas esenciales que transformarán por completo tu experiencia en el mar.
+
+## 🧭 1. El cerebro de tu navegación: GPS Náutico de última generación
+
+Tu teléfono es genial, pero un GPS náutico dedicado es una herramienta completamente distinta. Ofrece cartografía detallada, información en tiempo real sobre la profundidad, las mareas y el tráfico marino. Es tu mejor aliado para explorar calas secretas y evitar peligros.
+
+**>> Descubre los GPS náuticos portátiles más fiables del mercado, con cartografía actualizada y funciones avanzadas.**
+
+[🧭 GPS Náutico Portátil](https://www.amazon.es/s?k=gps+nautico+portatil+cartografia+marina&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES){: .amazon-button}
+
+## 📡 2. El salvavidas digital: Comunicador por satélite
+
+Cuando navegas lejos de la costa, la señal del móvil desaparece. Un comunicador por satélite te permite enviar y recibir mensajes de emergencia y mantener a tus seres queridos informados de tu posición, sin importar dónde te encuentres. Es una inversión en tu tranquilidad.
+
+**>> Invierte en tu seguridad con los mejores comunicadores por satélite, compactos y fiables para cualquier emergencia.**
+
+[📡 Comunicador por Satélite](https://www.amazon.es/s?k=comunicador+satelite+emergencia+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES){: .amazon-button}
+
+## ☀️ 3. Energía infinita: Cargador solar portátil para dispositivos
+
+En un viaje largo, mantener cargados tus dispositivos es crucial. Un cargador solar portátil y resistente al agua te asegura que tu móvil, tablet o cualquier otro gadget no se queden sin batería, aprovechando la fuente de energía más abundante que tienes a bordo: el sol.
+
+**>> Mantén tus dispositivos siempre listos con un cargador solar de alta eficiencia, resistente al agua y al salitre.**
+
+[☀️ Cargador Solar Portátil](https://www.amazon.es/s?k=cargador+solar+portatil+resistente+agua+alta+capacidad&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES){: .amazon-button}
+
+## 🎵 4. La banda sonora perfecta: Altavoz Bluetooth marino
+
+La música es parte de la experiencia. Un altavoz Bluetooth diseñado para el ambiente marino es resistente a salpicaduras, polvo y golpes, y te garantiza un sonido de calidad para ambientar tus puestas de sol, cenas a bordo y fiestas improvisadas.
+
+**>> Llévate la fiesta a bordo: Explora altavoces Bluetooth con calidad de sonido superior, resistentes al agua y al salitre.**
+
+[🎵 Altavoz Bluetooth Marino](https://www.amazon.es/s?k=altavoz+bluetooth+marino+resistente+agua+salitre&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES){: .amazon-button}
+
+## 🌤️ 5. Monitoreo avanzado: Estación meteorológica personal
+
+Conocer el tiempo es vital. Una estación meteorológica compacta te da datos precisos de temperatura, humedad y presión atmosférica, lo que te ayuda a tomar decisiones informadas y a planificar tu ruta con antelación, evitando sorpresas desagradables.
+
+**>> Prepárate para cualquier cambio de tiempo con una estación meteorológica portátil, compacta y de alta precisión.**
+
+[🌤️ Estación Meteorológica Portátil](https://www.amazon.es/s?k=estacion+meteorologica+portatil+precision+marina&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES){: .amazon-button}
+
+## 🚤 Tu aventura tecnológica comienza con el barco perfecto. SamBoat te lo pone fácil.
+
+La tecnología adecuada te da la confianza y el control para disfrutar de la navegación al máximo. Pero incluso la mejor tecnología necesita la embarcación correcta para mostrar su verdadero potencial.
+
+SamBoat te ofrece acceso a miles de barcos en todo el mundo, con la seguridad y la fiabilidad que necesitas.
+
+**>> ¡No esperes más! Encuentra el barco perfecto para tu familia y empieza a planificar el mejor viaje de vuestras vidas con SamBoat.** [https://www.samboat.com/?utm_source=affilae&utm_medium=cpa&utm_campaign=Sailway%20Adventures&ae=1582](https://www.samboat.com/?utm_source=affilae&utm_medium=cpa&utm_campaign=Sailway%20Adventures&ae=1582)
+
+---
+
+**🌐 [BoatTrip Planner](https://www.boattrip-planner.com) - Tu compañero de navegación segura**
+**📧 [Contacto](https://www.boattrip-planner.com/contacto) | [Blog](https://www.boattrip-planner.com/blog) | [Rutas](https://www.boattrip-planner.com/blog)**
+    `,
+  },
+  {
+    frontmatter: {
+      title: "🌊 Navega de forma consciente: 5 claves para un viaje sostenible y cuidar el mar que tanto amas",
+      slug: "navega-forma-consciente-5-claves-viaje-sostenible-cuidar-mar",
+      date: "2025-01-27",
+      summary: "El mar es mucho más que un lugar de vacaciones; es un ecosistema frágil que nos regala momentos inolvidables. Como navegantes, tenemos el privilegio y la responsabilidad de protegerlo.",
+      featuredImage: NAUTICAL_IMAGES.solar_energy,
+      tags: ["sostenibilidad", "medio ambiente", "ecológico", "navegación responsable", "conservación marina", "posidonia", "plástico", "biodegradable"],
+      author: "Equipo BoatTrip Planner",
+      category: "Sostenibilidad",
+      difficulty: "Principiante",
+      readingTime: 8
+    },
+    content: `
+# 🌊 Navega de forma consciente: 5 claves para un viaje sostenible y cuidar el mar que tanto amas
+
+El mar es mucho más que un lugar de vacaciones; es un ecosistema frágil que nos regala momentos inolvidables. Como navegantes, tenemos el privilegio y la responsabilidad de protegerlo. La sostenibilidad no es una moda, es la única forma de asegurar que las futuras generaciones también puedan disfrutar de sus aguas transparentes y su rica vida marina.
+
+Si quieres que tu próxima travesía sea tan respetuosa con el medio ambiente como inolvidable, aquí tienes 5 claves esenciales que todo buen capitán debe seguir.
+
+## 🌿 1. Protege la posidonia: el corazón verde del Mediterráneo
+
+La Posidonia Oceánica no es un alga; es una planta marina protegida y vital para la salud de nuestras costas. Ayuda a mantener las aguas cristalinas y sirve de hogar para miles de especies. Fondea siempre sobre fondos de arena y evita las praderas de Posidonia.
+
+## 🚫 2. Reduce tu huella: Dile adiós al plástico de un solo uso
+
+El mar no es un vertedero. Evitar el plástico es una de las acciones más sencillas y poderosas que puedes tomar. Antes de zarpar, planifica tu viaje y equipa tu barco con:
+
+### Botellas de agua reutilizables
+Rellénalas antes de salir y olvídate de las botellas de plástico que contaminan.
+
+**>> Consigue tus botellas de agua reutilizables y duraderas aquí.**
+
+[💧 Botellas de Agua Reutilizables](https://www.amazon.es/s?k=botellas+agua+reutilizables+acero+inoxidable+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+### Contenedores de comida
+Empaca tus aperitivos y comidas en envases reutilizables para reducir la basura a bordo.
+
+**>> Explora los mejores kits de contenedores de comida ecológicos para tu viaje.**
+
+[🍱 Contenedores de Comida Ecológicos](https://www.amazon.es/s?k=contenedores+comida+reutilizables+ecologicos+viaje&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+## 🌱 3. Usa productos biodegradables: Limpia de forma responsable
+
+Los productos que usas en el barco terminan, en mayor o menor medida, en el agua. Opta por protectores solares, jabones y detergentes 100% biodegradables para no dañar la vida marina.
+
+### Protector solar ecológico
+Los protectores solares convencionales contienen químicos que dañan los corales y los peces.
+
+**>> Protege tu piel y el ecosistema con protectores solares biodegradables.**
+
+[☀️ Protector Solar Ecológico](https://www.amazon.es/s?k=protector+solar+biodegradable+ecologico+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+### Productos de limpieza eco-amigables
+Para limpiar el interior del barco, elige productos que no contengan fosfatos ni químicos agresivos.
+
+**>> Mantén tu barco impecable con productos de limpieza ecológicos.**
+
+[🧽 Productos de Limpieza Ecológicos](https://www.amazon.es/s?k=productos+limpieza+ecologicos+biodegradables+barco&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+## ⛽ 4. Navega con eficiencia: Minimiza el impacto de tu motor
+
+Planifica tus rutas para evitar viajes innecesarios y mantén tu motor en buen estado para reducir el consumo de combustible. Cada pequeño esfuerzo cuenta.
+
+## 🗑️ 5. Gestiona tus residuos: No dejes rastro
+
+Nunca, bajo ninguna circunstancia, tires residuos al mar. Separa la basura a bordo (plástico, papel, vidrio) y llévala a puerto para reciclarla correctamente. Si encuentras basura flotando, recógela y haz tu parte para limpiar el océano.
+
+## 🚤 Tu aventura sostenible comienza con la elección del barco adecuado. SamBoat te lo pone fácil.
+
+Elegir un barco con buen mantenimiento y eficiencia es el primer paso para una travesía sostenible. SamBoat te ofrece una plataforma segura y confiable para encontrar embarcaciones que se ajustan a tus valores, para que puedas disfrutar del mar sabiendo que lo estás cuidando.
+
+**>> ¡No esperes más! Haz clic aquí para encontrar el barco perfecto para tu travesía sostenible con SamBoat.**
+
+[SamBoat](https://www.samboat.com/?utm_source=affilae&utm_medium=cpa&utm_campaign=Sailway%20Adventures&ae=1582)
+
+---
+
+**🌐 [BoatTrip Planner](https://www.boattrip-planner.com) - Tu compañero de navegación segura**
+**📧 [Contacto](https://www.boattrip-planner.com/contacto) | [Blog](https://www.boattrip-planner.com/blog) | [Rutas](https://www.boattrip-planner.com/blog)**
+    `,
+  },
+  {
+    frontmatter: {
+      title: "🚤 Gadgets para el Disfrute en el Mar: 5 Piezas de Tecnología que Te Harán la Vida Más Fácil (y Más Divertida)",
+      slug: "gadgets-disfrute-mar-5-piezas-tecnologia-vida-facil-divertida",
+      date: "2025-01-26",
+      summary: "Ya tienes el barco, el sol y la compañía. Ahora, ¿qué falta para que el día sea perfecto? El equipamiento adecuado puede transformar una buena travesía en una experiencia épica.",
+      featuredImage: NAUTICAL_IMAGES.nautical_technology,
+      tags: ["tecnología", "gadgets", "drones", "cámaras", "neveras", "cargadores", "fundas", "entretenimiento", "moderno"],
+      author: "Equipo BoatTrip Planner",
+      category: "Tecnología",
+      difficulty: "Principiante",
+      readingTime: 8
+    },
+    content: `
+# 🚤 Gadgets para el Disfrute en el Mar: 5 Piezas de Tecnología que Te Harán la Vida Más Fácil (y Más Divertida)
+
+Ya tienes el barco, el sol y la compañía. Ahora, ¿qué falta para que el día sea perfecto? El equipamiento adecuado puede transformar una buena travesía en una experiencia épica.
+
+No estamos hablando de complejos sistemas de navegación, sino de gadgets inteligentes que resuelven problemas, capturan momentos y, en definitiva, hacen que el tiempo en el agua sea aún mejor.
+
+Descubre los 5 gadgets imprescindibles que cambiarán tu forma de disfrutar del barco.
+
+## 🚁 1. Drones resistentes al agua: La mejor forma de capturar tu aventura
+
+Imagina poder grabar tu barco desde el aire, o conseguir tomas espectaculares de esa cala secreta que acabas de encontrar. Los drones modernos, pequeños y resistentes a las salpicaduras, te permiten capturar perspectivas increíbles y guardar recuerdos de tu viaje como si fueran de película.
+
+**>> Consigue tu drone resistente al agua y graba tu viaje desde una nueva perspectiva.**
+
+[🚁 Drone Resistente al Agua](https://www.amazon.es/s?k=drone+resistente+agua+salpicaduras+pequeno&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+## 📷 2. Cámaras de acción sumergibles: Captura el mundo bajo las olas
+
+¿Te ha pasado que ves algo increíble bajo el agua y no tienes cómo grabarlo? Con una cámara de acción sumergible, puedes capturar en alta definición tus sesiones de snorkel, las inmersiones en las cuevas o simplemente los momentos de diversión en la superficie. Es tu ventana al mundo submarino.
+
+**>> Inmortaliza tus aventuras bajo el agua con una cámara de acción sumergible.**
+
+[📷 Cámara de Acción Sumergible](https://www.amazon.es/s?k=camara+accion+sumergible+alta+definicion+resistente+agua&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+## 🧊 3. Nevera portátil inteligente: La clave para bebidas siempre frías
+
+Olvídate del hielo que se derrite y el agua que se acumula en el fondo de la nevera. Una nevera portátil de compresor, que se conecta al encendedor del barco, mantiene tus bebidas y alimentos a la temperatura perfecta sin necesidad de hielo. Es un lujo que rápidamente se convierte en una necesidad.
+
+**>> Disfruta de bebidas heladas todo el día con una nevera portátil de alta tecnología.**
+
+[🧊 Nevera Portátil Inteligente](https://www.amazon.es/s?k=nevera+portatil+compresor+encendedor+coche+barco&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+## ☀️ 4. Cargador solar con panel plegable: Energía renovable en cualquier lugar
+
+Aunque ya tengas un altavoz marino, el móvil y la cámara necesitan batería. Un cargador solar con paneles plegables te permite generar tu propia energía de forma sostenible, sin tener que encender el motor del barco. Es la solución perfecta para un día de fondeo en una cala alejada.
+
+**>> Aprovecha el sol para cargar tus gadgets con un cargador solar portátil.**
+
+[☀️ Cargador Solar Plegable](https://www.amazon.es/s?k=cargador+solar+paneles+plegables+portatil+alta+capacidad&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+## 📱 5. Funda protectora impermeable para móvil: Conéctate sin riesgo
+
+Tu teléfono es tu cámara, tu reproductor de música y, en caso de emergencia, tu medio de comunicación. Una funda impermeable y flotante de alta calidad es la forma más sencilla de protegerlo del agua, la arena y el sol. No arriesgues tu móvil: protégelo bien.
+
+**>> Protege tu móvil del agua con una funda impermeable de alta calidad.**
+
+[📱 Funda Impermeable para Móvil](https://www.amazon.es/s?k=funda+impermeable+flotante+movil+alta+calidad&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+## 🚤 Tu aventura tecnológica comienza con el barco perfecto. SamBoat te lo pone fácil.
+
+Los gadgets adecuados pueden elevar tu experiencia, pero la base de un viaje perfecto es la embarcación correcta. Ya sea que busques un velero, una lancha o un catamarán, tener la nave ideal es el primer paso para una aventura inolvidable.
+
+SamBoat te ofrece acceso a miles de barcos en todo el mundo, con la seguridad y la fiabilidad que necesitas.
+
+**>> ¡No esperes más! Encuentra el barco perfecto para tu próxima aventura y pon la tecnología a tu servicio con SamBoat.**
+
+[SamBoat](https://www.samboat.com/?utm_source=affilae&utm_medium=cpa&utm_campaign=Sailway%20Adventures&ae=1582)
+
+---
+
+**🌐 [BoatTrip Planner](https://www.boattrip-planner.com) - Tu compañero de navegación segura**
+**📧 [Contacto](https://www.boattrip-planner.com/contacto) | [Blog](https://www.boattrip-planner.com/blog) | [Rutas](https://www.boattrip-planner.com/blog)**
+    `,
+  },
+  {
+    frontmatter: {
+      title: "🌊 Navega de forma consciente: 5 claves para un viaje sostenible y cuidar el mar que tanto amas",
+      slug: "navega-forma-consciente-5-claves-viaje-sostenible-cuidar-mar",
+      date: "2025-01-27",
+      summary: "El mar es mucho más que un lugar de vacaciones; es un ecosistema frágil que nos regala momentos inolvidables. Como navegantes, tenemos el privilegio y la responsabilidad de protegerlo.",
+      featuredImage: NAUTICAL_IMAGES.solar_energy,
+      tags: ["sostenibilidad", "medio ambiente", "ecológico", "navegación responsable", "conservación marina", "posidonia", "plástico", "biodegradable"],
+      author: "Equipo BoatTrip Planner",
+      category: "Sostenibilidad",
+      difficulty: "Principiante",
+      readingTime: 8
+    },
+    content: `
+# 🌊 Navega de forma consciente: 5 claves para un viaje sostenible y cuidar el mar que tanto amas
+
+El mar es mucho más que un lugar de vacaciones; es un ecosistema frágil que nos regala momentos inolvidables. Como navegantes, tenemos el privilegio y la responsabilidad de protegerlo. La sostenibilidad no es una moda, es la única forma de asegurar que las futuras generaciones también puedan disfrutar de sus aguas transparentes y su rica vida marina.
+
+Si quieres que tu próxima travesía sea tan respetuosa con el medio ambiente como inolvidable, aquí tienes 5 claves esenciales que todo buen capitán debe seguir.
+
+## 🌿 1. Protege la posidonia: el corazón verde del Mediterráneo
+
+La Posidonia Oceánica no es un alga; es una planta marina protegida y vital para la salud de nuestras costas. Ayuda a mantener las aguas cristalinas y sirve de hogar para miles de especies. Fondea siempre sobre fondos de arena y evita las praderas de Posidonia.
+
+## 🚫 2. Reduce tu huella: Dile adiós al plástico de un solo uso
+
+El mar no es un vertedero. Evitar el plástico es una de las acciones más sencillas y poderosas que puedes tomar. Antes de zarpar, planifica tu viaje y equipa tu barco con:
+
+### Botellas de agua reutilizables
+Rellénalas antes de salir y olvídate de las botellas de plástico que contaminan.
+
+**>> Consigue tus botellas de agua reutilizables y duraderas aquí.**
+
+[💧 Botellas de Agua Reutilizables](https://www.amazon.es/s?k=botellas+agua+reutilizables+acero+inoxidable+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+### Contenedores de comida
+Empaca tus aperitivos y comidas en envases reutilizables para reducir la basura a bordo.
+
+**>> Explora los mejores kits de contenedores de comida ecológicos para tu viaje.**
+
+[🍱 Contenedores de Comida Ecológicos](https://www.amazon.es/s?k=contenedores+comida+reutilizables+ecologicos+viaje&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+## 🌱 3. Usa productos biodegradables: Limpia de forma responsable
+
+Los productos que usas en el barco terminan, en mayor o menor medida, en el agua. Opta por protectores solares, jabones y detergentes 100% biodegradables para no dañar la vida marina.
+
+### Protector solar ecológico
+Los protectores solares convencionales contienen químicos que dañan los corales y los peces.
+
+**>> Protege tu piel y el ecosistema con protectores solares biodegradables.**
+
+[☀️ Protector Solar Ecológico](https://www.amazon.es/s?k=protector+solar+biodegradable+ecologico+marino&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+### Productos de limpieza eco-amigables
+Para limpiar el interior del barco, elige productos que no contengan fosfatos ni químicos agresivos.
+
+**>> Mantén tu barco impecable con productos de limpieza ecológicos.**
+
+[🧽 Productos de Limpieza Ecológicos](https://www.amazon.es/s?k=productos+limpieza+ecologicos+biodegradables+barco&tag=explorashop18-21&ref=sr_nr_p_explorashop18-21_nautical&linkCode=ogi&language=es_ES)
+
+## ⛽ 4. Navega con eficiencia: Minimiza el impacto de tu motor
+
+Planifica tus rutas para evitar viajes innecesarios y mantén tu motor en buen estado para reducir el consumo de combustible. Cada pequeño esfuerzo cuenta.
+
+## 🗑️ 5. Gestiona tus residuos: No dejes rastro
+
+Nunca, bajo ninguna circunstancia, tires residuos al mar. Separa la basura a bordo (plástico, papel, vidrio) y llévala a puerto para reciclarla correctamente. Si encuentras basura flotando, recógela y haz tu parte para limpiar el océano.
+
+## 🚤 Tu aventura sostenible comienza con la elección del barco adecuado. SamBoat te lo pone fácil.
+
+Elegir un barco con buen mantenimiento y eficiencia es el primer paso para una travesía sostenible. SamBoat te ofrece una plataforma segura y confiable para encontrar embarcaciones que se ajustan a tus valores, para que puedas disfrutar del mar sabiendo que lo estás cuidando.
+
+**>> ¡No esperes más! Haz clic aquí para encontrar el barco perfecto para tu travesía sostenible con SamBoat.**
+
+[SamBoat](https://www.samboat.com/?utm_source=affilae&utm_medium=cpa&utm_campaign=Sailway%20Adventures&ae=1582)
+
+---
+
+**🌐 [BoatTrip Planner](https://www.boattrip-planner.com) - Tu compañero de navegación segura**
+**📧 [Contacto](https://www.boattrip-planner.com/contacto) | [Blog](https://www.boattrip-planner.com/blog) | [Rutas](https://www.boattrip-planner.com/blog)**
+    `
+  },
+  {
+    frontmatter: {
+      title: "🐕 Navegando con tu Mejor Amigo: Guía Completa para un Viaje en Barco Inolvidable con tu Perro",
+      slug: "navegando-mejor-amigo-guia-completa-viaje-barco-perro",
+      date: "2025-01-25",
+      summary: "¿Quién dice que las aventuras en el mar son solo para humanos? Un viaje en barco puede ser una experiencia fantástica para tu perro, siempre y cuando estés bien preparado. Con un poco de planificación, la brisa marina, los nuevos olores y la libertad del océano pueden convertirse en su paraíso personal.",
+      featuredImage: NAUTICAL_IMAGES.family_sailing,
+      tags: ["mascotas", "perros", "navegación", "seguridad", "equipamiento", "familia", "marino", "aventura"],
+      author: "Equipo BoatTrip Planner",
+      category: "Mascotas",
+      difficulty: "Principiante",
+      readingTime: 12
+    },
+    content: `
+# 🐕 Navegando con tu Mejor Amigo: Guía Completa para un Viaje en Barco Inolvidable con tu Perro
+
+¿Quién dice que las aventuras en el mar son solo para humanos? Un viaje en barco puede ser una experiencia fantástica para tu perro, siempre y cuando estés bien preparado. Con un poco de planificación, la brisa marina, los nuevos olores y la libertad del océano pueden convertirse en su paraíso personal.
+
+Esta guía completa te dará las herramientas y los consejos esenciales para que tu viaje con tu perro sea seguro, cómodo y divertido para toda la familia. Descubre cómo **BoatTrip Planner** puede ayudarte a planificar la aventura perfecta en el mar.
+
+## 📋 Lo que Descubrirás en Esta Guía
+
+- ✅ **Preparación antes de zarpar** - Checklist esencial
+- ✅ **Equipamiento de seguridad** - Productos recomendados
+- ✅ **Confort y bienestar** - Consejos prácticos
+- ✅ **Actividades y diversión** - Juguetes y entretenimiento
+- ✅ **Planificación con BoatTrip Planner** - Tu viaje perfecto
+
+## 1. Preparación Antes de Zarpar: El Primer Paso Hacia el Éxito
+
+Antes de pisar la cubierta, hay algunas cosas vitales que debes considerar. Una preparación adecuada minimiza los riesgos y asegura que tu mascota se sienta segura en el nuevo entorno.
+
+### 🏥 Visita al Veterinario
+
+Haz una revisión rápida para asegurarte de que tu perro está en perfectas condiciones para viajar. Pregunta por medicamentos contra el mareo si crees que pueden ser necesarios.
+
+> **💡 Consejo:** Lleva contigo el historial médico de tu perro y asegúrate de que todas las vacunas estén al día, especialmente si planeas visitar puertos internacionales.
+
+### 🚢 Aclimatación al Barco
+
+Si es posible, lleva a tu perro al barco antes de zarpar. Permítele explorar, olfatear y familiarizarse con los ruidos y el movimiento del muelle.
+
+**Pasos para la aclimatación:**
+- Visitas cortas al muelle
+- Familiarización con el barco
+- Práctica con el chaleco salvavidas
+- Acostumbrarse a los sonidos del mar
+
+### 🏷️ Identificación y Documentación
+
+Asegúrate de que tu perro lleva un collar con una placa de identificación clara y tu número de teléfono. Un microchip es imprescindible para viajes en barco.
+
+> **⚠️ Importante:** Incluye información de contacto de emergencia y considera agregar el nombre del barco y tu itinerario en la placa de identificación.
+
+## 2. Seguridad a Bordo: No es una Opción, es una Necesidad
+
+La seguridad en el mar es la máxima prioridad. Por eso, no debes escatimar en el equipamiento que protege a tu compañero peludo.
+
+### 🦺 Chaleco Salvavidas para Perros
+
+Un chaleco con asa de rescate es la pieza más importante. No solo lo mantiene a flote, sino que te permite levantarlo del agua de forma segura en caso de que caiga.
+
+#### **Producto Recomendado: Chaleco Salvavidas de Alta Flotabilidad**
+
+**Características esenciales:**
+- Material resistente al agua salada
+- Asa de rescate robusta
+- Ajuste seguro y cómodo
+- Colores brillantes para visibilidad
+- Certificación de seguridad marina
+
+**[🛒 Ver Chalecos Salvavidas en Amazon](https://www.amazon.com/s?k=dog+life+jacket+marine+boat+sailing)**
+
+### 🦮 Arnés y Correa Resistente
+
+Nunca permitas que tu perro esté suelto en la cubierta. Usa un arnés seguro y una correa para mantenerlo controlado en todo momento, especialmente en puerto o al subir y bajar del barco.
+
+**Características del arnés ideal:**
+- Material resistente al agua
+- Ajuste cómodo y seguro
+- Anillas de sujeción múltiples
+- Fácil de limpiar
+
+## 3. Confort y Bienestar: El Viaje es Tan Importante como el Destino
+
+Un perro feliz es un compañero de viaje perfecto. Asegúrate de que su viaje sea cómodo y libre de estrés.
+
+### 💧 Hidratación Constante
+
+El sol y el viento deshidratan rápidamente. Ten siempre a mano un cuenco con agua fresca y limpia.
+
+#### **Producto Recomendado: Bebederos Portátiles y Antiderrames**
+
+**Características del bebedero ideal:**
+- Diseño antiderrame para barcos
+- Fácil de limpiar y transportar
+- Capacidad adecuada para viajes largos
+- Material resistente al agua salada
+- Sistema de cierre hermético
+
+**[🛒 Ver Bebederos Portátiles en Amazon](https://www.amazon.com/s?k=dog+water+bowl+travel+boat+spill+proof)**
+
+### 🌤️ Sombra y Refugio
+
+Asegúrate de que tu perro tenga un lugar sombreado y fresco donde pueda descansar, lejos del sol directo.
+
+**Opciones de refugio:**
+- Toldo plegable para perros
+- Zona sombreada bajo la cubierta
+- Manta húmeda para refrescar
+- Ventilación adecuada
+
+### 🚽 Gestión del "Baño"
+
+Entrena a tu perro para que haga sus necesidades en un lugar específico del barco (como una zona con césped artificial). O, si es posible, planea paradas frecuentes en tierra para sus paseos.
+
+> **💡 Consejo:** Considera usar pañales para perros o entrenar a tu mascota para usar una zona específica del barco con material absorbente.
+
+## 4. Actividades y Diversión: Juguetes para un Amigo Aventurero
+
+La diversión no se detiene al subir a bordo. Los juguetes adecuados pueden hacer que el viaje sea mucho más entretenido para tu perro.
+
+### 🧸 Juguetes Flotantes
+
+Invierte en juguetes que flotan y que sean de un color brillante para que los puedas encontrar fácilmente en el agua.
+
+#### **Producto Recomendado: Juguetes Flotantes para el Mar**
+
+**Características de los juguetes ideales:**
+- Material flotante duradero
+- Colores brillantes para visibilidad
+- Fácil de limpiar
+- Resistente al agua salada
+- Tamaño apropiado para tu perro
+
+**[🛒 Ver Juguetes Flotantes en Amazon](https://www.amazon.com/s?k=dog+toys+floating+water+beach+boat)**
+
+### 🧠 Juegos de Olfato y Estimulación Mental
+
+Los juegos de olfato y los juguetes interactivos son excelentes para mantener su mente activa durante los días de navegación.
+
+**Actividades recomendadas:**
+- Búsqueda de premios escondidos
+- Juguetes de rompecabezas
+- Entrenamiento de comandos básicos
+- Juegos de seguimiento de olores
+
+## 🚢 Planifica tu Aventura con BoatTrip Planner
+
+Una aventura para toda la familia. **BoatTrip Planner** te lo pone fácil para encontrar el barco perfecto para tu viaje con mascotas.
+
+### 🌟 ¿Por qué elegir BoatTrip Planner?
+
+- **Barcos pet-friendly** verificados
+- **Itinerarios personalizados** para familias con mascotas
+- **Asesoramiento experto** en viajes con animales
+- **Reservas seguras** y confiables
+
+## 🎉 Conclusión: Una Aventura para Toda la Familia
+
+Viajar con tu perro en barco no es solo un viaje; es una oportunidad para fortalecer el vínculo, crear recuerdos únicos y enseñarle a amar el mar tanto como tú. Con la preparación y el equipo correctos, el único problema que tendrás es que no querrá volver a tierra firme.
+
+> **"Los perros no son toda nuestra vida, pero hacen que nuestra vida sea completa."** - Roger Caras
+
+## 🚀 Próximos pasos para tu aventura:
+
+1. Visita al veterinario y preparación médica
+2. Adquiere el equipamiento de seguridad esencial
+3. Entrena a tu perro para la vida en barco
+4. Planifica tu ruta con [BoatTrip Planner](https://www.boattrip-planner.com)
+5. ¡Zarpa hacia la aventura de tu vida!
+
+¡Tu perro está listo para convertirse en el marinero más feliz del mar! 🐕⚓
+
+---
+
+**🌐 [BoatTrip Planner](https://www.boattrip-planner.com) - Tu compañero de navegación segura**
+**📧 [Contacto](https://www.boattrip-planner.com/contacto) | [Blog](https://www.boattrip-planner.com/blog) | [Rutas](https://www.boattrip-planner.com/blog)**
     `
   }
 ];
@@ -2958,7 +3548,7 @@ export const getTodayDate = (): string => {
 };
 
 // Función para crear enlaces de productos de Amazon
-export const createAmazonProductLink = (searchQuery: string, trackingId: string = 'nauticalguide-21'): string => {
+export const createAmazonProductLink = (searchQuery: string, trackingId: string = 'explorashop18-21'): string => {
   try {
     const baseUrl = 'https://www.amazon.es/s';
     const params = new URLSearchParams({
@@ -2972,7 +3562,7 @@ export const createAmazonProductLink = (searchQuery: string, trackingId: string 
     return `${baseUrl}?${params.toString()}`;
   } catch (error) {
     console.error('Error creando enlace de Amazon:', error);
-    return `https://www.amazon.es/s?k=${encodeURIComponent(searchQuery)}&tag=nauticalguide-21`;
+    return `https://www.amazon.es/s?k=${encodeURIComponent(searchQuery)}&tag=explorashop18-21`;
   }
 };
 
