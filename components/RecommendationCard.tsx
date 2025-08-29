@@ -15,6 +15,7 @@ const getWeatherIconUrl = (iconNumber: number): string => {
 import { SAMBOAT_AFFILIATE_URL } from '../constants'; 
 import { createAffiliateUrl } from '../services/amazonApi';
 import { amazonProductVerifier, VerifiedProduct } from '../services/amazonProductVerifier';
+import { findAffiliateProductByTextComplete } from '../data/affiliateCatalog';
 
 import { MapPinIcon } from './icons/MapPinIcon';
 import { ClipboardListIcon } from './icons/ClipboardListIcon';
