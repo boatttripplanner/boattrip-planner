@@ -45,9 +45,11 @@
       "headers": {
         "content-type": "text/plain; charset=utf-8"
       }
-    },
+    }
+  ],
+  "rewrites": [
     {
-      "src": "/(.*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
