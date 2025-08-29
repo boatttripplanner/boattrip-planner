@@ -395,13 +395,13 @@ export const createRealAmazonProductUrl = (asin: string): string => {
 };
 
 // Funciones de compatibilidad requeridas por RealAmazonRecommendations
-export const searchRealAmazonProducts = async (query: string, category: string = 'nautical', maxResults: number = 6): Promise<AmazonRealProduct[]> => {
+export const searchRealAmazonProducts = async (params: { query: string; category?: string; sortBy?: string; maxResults?: number }): Promise<{ products: AmazonRealProduct[] }> => {
   const response = await amazonRealAPI.searchProducts({
-    query,
-    category,
-    maxResults
+    query: params.query,
+    category: params.category || 'nautical',
+    maxResults: params.maxResults || 6
   });
-  return response.products;
+  return { products: response.products };
 };
 
 export const getRealTrendingProducts = async (category: string = 'nautical'): Promise<AmazonRealProduct[]> => {

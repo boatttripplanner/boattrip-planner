@@ -188,16 +188,16 @@ const ProductRecommendations: React.FC<ProductRecommendationsProps> = ({
         console.log('📂 Categoría determinada:', category);
         
         // Usar el sistema mejorado de productos reales
-        const realProducts = await searchRealAmazonProducts(
-          contentKeywords.join(' '), 
-          category, 
-          8 // Buscar más productos para asegurar 4 únicos
-        );
+        const realProducts = await searchRealAmazonProducts({
+          query: contentKeywords.join(' '), 
+          category: category, 
+          maxResults: 8 // Buscar más productos para asegurar 4 únicos
+        });
         
-        console.log('📦 Productos reales obtenidos:', realProducts.length);
+        console.log('📦 Productos reales obtenidos:', realProducts.products.length);
         
         // Eliminar duplicados y limitar exactamente a 4 productos
-        const uniqueProducts = realProducts
+        const uniqueProducts = realProducts.products
           .filter((product, index, self) => 
             index === self.findIndex(p => p.asin === product.asin)
           )

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { AmazonRealProduct, searchRealAmazonProducts, getRealTrendingProducts } from '../services/amazonRealApi';
+import React from 'react';
 import { trackAffiliateClick } from '../services/affiliateTracking';
 import { Button } from './Button';
 import RealAmazonProductCard from './RealAmazonProductCard';
+import RecommendationFallback from './RecommendationFallback';
+import { useRecommendations } from '../hooks/useRecommendations';
 
 interface RealAmazonRecommendationsProps {
   query?: string;
@@ -23,58 +24,30 @@ const RealAmazonRecommendations: React.FC<RealAmazonRecommendationsProps> = ({
   className = "",
   showRealTimePricing = true
 }) => {
-  const [products, setProducts] = useState<AmazonRealProduct[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    products,
+    loading,
+    error,
+    retryCount,
+    loadProducts,
+    loadTrending,
+    reset
+  } = useRecommendations({
+    query,
+    category,
+    maxProducts,
+    showTrending
+  });
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        let productResults: AmazonRealProduct[] = [];
-
-        if (query) {
-          // Búsqueda específica con API real
-          const searchResult = await searchRealAmazonProducts({ 
-            query, 
-            category,
-            sortBy: 'rating'
-          });
-          productResults = searchResult.products;
-        } else if (showTrending) {
-          // Productos trending con API real
-          productResults = await getRealTrendingProducts(category);
-        } else {
-          // Búsqueda por categoría con API real
-          const searchResult = await searchRealAmazonProducts({ 
-            query: category, 
-            category,
-            sortBy: 'rating'
-          });
-          productResults = searchResult.products;
-        }
-
-        console.log('RealAmazonRecommendations - Productos cargados:', {
-          query,
-          category,
-          showTrending,
-          productResults: productResults.length,
-          maxProducts,
-          finalProducts: productResults.slice(0, maxProducts).length
-        });
-        setProducts(productResults.slice(0, maxProducts));
-      } catch (err) {
-        setError('No se pudieron cargar los productos de Amazon');
-        console.error('Error loading real Amazon products:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
+  const handleRetry = () => {
+    reset();
     loadProducts();
-  }, [query, category, maxProducts, showTrending]);
+  };
+
+  const handleShowTrending = () => {
+    reset();
+    loadTrending();
+  };
 
   const getCategoryIcon = (category: string): string => {
     const icons: { [key: string]: string } = {
@@ -102,19 +75,20 @@ const RealAmazonRecommendations: React.FC<RealAmazonRecommendationsProps> = ({
 
   if (error) {
     return (
-      <div className={`bg-red-50 border border-red-200 rounded-lg p-6 my-8 ${className}`}>
-        <div className="text-center">
-          <span className="text-red-600">⚠️ {error}</span>
-          <Button 
-            onClick={() => window.location.reload()} 
-            variant="secondary" 
-            size="sm" 
-            className="mt-2"
-          >
-            Reintentar
-          </Button>
+      <RecommendationFallback
+        error={error}
+        onRetry={handleRetry}
+        onShowTrending={handleShowTrending}
+        query={query}
+        category={category}
+        className={className}
+      />
+      
+      {retryCount > 0 && (
+        <div className="text-center text-sm text-gray-500 mt-2">
+          Reintentos: {retryCount}/3
         </div>
-      </div>
+      )}
     );
   }
 
@@ -122,18 +96,37 @@ const RealAmazonRecommendations: React.FC<RealAmazonRecommendationsProps> = ({
     return (
       <div className={`bg-yellow-50 border border-yellow-200 rounded-lg p-6 my-8 ${className}`}>
         <div className="text-center">
-          <span className="text-yellow-700">⌛ No se encontraron productos para mostrar</span>
-          <div className="text-sm text-yellow-600 mt-2">
-            Query: "{query}" | Category: "{category}" | Trending: {showTrending ? 'Sí' : 'No'}
+          <div className="text-4xl mb-4">⌛</div>
+          <h3 className="text-xl font-bold text-yellow-700 mb-3">
+            No se encontraron productos para mostrar
+          </h3>
+          <div className="text-sm text-yellow-600 mb-4">
+            <p>Query: "{query || 'N/A'}" | Categoría: "{category}" | Trending: {showTrending ? 'Sí' : 'No'}</p>
           </div>
-          <Button 
-            onClick={() => window.location.reload()} 
-            variant="secondary" 
-            size="sm" 
-            className="mt-3"
-          >
-            Recargar productos
-          </Button>
+          
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+            <Button 
+              onClick={handleRetry}
+              variant="primary"
+              size="lg"
+              className="min-w-[140px]"
+            >
+              🔄 Reintentar
+            </Button>
+            
+            <Button 
+              onClick={handleShowTrending}
+              variant="secondary"
+              size="lg"
+              className="min-w-[140px]"
+            >
+              🔥 Ver Trending
+            </Button>
+          </div>
+          
+          <div className="mt-4 text-xs text-yellow-600">
+            <p>Si el problema persiste, intenta con una búsqueda diferente o recarga la página</p>
+          </div>
         </div>
       </div>
     );

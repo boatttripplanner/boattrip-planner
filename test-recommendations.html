@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Prueba de Recomendaciones - BoatTrip Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .loading-spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">
+                🧪 Probador de Recomendaciones
+            </h1>
+            <p class="text-xl text-gray-600">
+                Prueba el sistema de recomendaciones de Amazon con diferentes consultas
+            </p>
+        </div>
+
+        <!-- Panel de control -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        🔍 Consulta de búsqueda:
+                    </label>
+                    <input
+                        type="text"
+                        id="searchQuery"
+                        value="chaleco salvavidas"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Ej: chaleco salvavidas"
+                    />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        📂 Categoría:
+                    </label>
+                    <select
+                        id="categorySelect"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="safety">🛟 Seguridad</option>
+                        <option value="nautical">⚓ Náutico</option>
+                        <option value="technology">📱 Tecnología</option>
+                        <option value="comfort">🧊 Confort</option>
+                        <option value="snorkel">🤿 Snorkel</option>
+                        <option value="gps">🗺️ GPS</option>
+                        <option value="summer">☀️ Verano</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex gap-4 mt-6">
+                <button
+                    id="testBtn"
+                    class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                >
+                    🚀 Probar Recomendaciones
+                </button>
+                
+                <button
+                    id="trendingBtn"
+                    class="flex-1 bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                >
+                    🔥 Ver Trending
+                </button>
+                
+                <button
+                    id="resetBtn"
+                    class="flex-1 bg-gray-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors"
+                >
+                    🔄 Reiniciar
+                </button>
+            </div>
+        </div>
+
+        <!-- Consultas rápidas -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">⚡ Consultas rápidas:</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <button class="quick-query bg-blue-100 text-blue-800 px-4 py-2 rounded-lg hover:bg-blue-200 transition-colors text-sm">
+                    chaleco salvavidas
+                </button>
+                <button class="quick-query bg-blue-100 text-blue-800 px-4 py-2 rounded-lg hover:bg-blue-200 transition-colors text-sm">
+                    gps náutico
+                </button>
+                <button class="quick-query bg-blue-100 text-blue-800 px-4 py-2 rounded-lg hover:bg-blue-200 transition-colors text-sm">
+                    protector solar
+                </button>
+                <button class="quick-query bg-blue-100 text-blue-800 px-4 py-2 rounded-lg hover:bg-blue-200 transition-colors text-sm">
+                    cargador solar
+                </button>
+                <button class="quick-query bg-blue-100 text-blue-800 px-4 py-2 rounded-lg hover:bg-blue-200 transition-colors text-sm">
+                    aletas snorkel
+                </button>
+                <button class="quick-query bg-blue-100 text-blue-800 px-4 py-2 rounded-lg hover:bg-blue-200 transition-colors text-sm">
+                    nevera portátil
+                </button>
+                <button class="quick-query bg-blue-100 text-blue-800 px-4 py-2 rounded-lg hover:bg-blue-200 transition-colors text-sm">
+                    herramientas náuticas
+                </button>
+                <button class="quick-query bg-blue-100 text-blue-800 px-4 py-2 rounded-lg hover:bg-blue-200 transition-colors text-sm">
+                    linterna táctica
+                </button>
+            </div>
+        </div>
+
+        <!-- Estado de la aplicación -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">🔧 Estado de la Aplicación:</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div>
+                    <strong>Consulta actual:</strong> 
+                    <span id="currentQuery" class="text-blue-600">chaleco salvavidas</span>
+                </div>
+                <div>
+                    <strong>Categoría:</strong> 
+                    <span id="currentCategory" class="text-green-600">safety</span>
+                </div>
+                <div>
+                    <strong>Estado:</strong> 
+                    <span id="appStatus" class="text-gray-600">⏸️ Inactivo</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultados -->
+        <div id="resultsContainer" class="hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+                    📊 Resultados de las Recomendaciones
+                </h3>
+                
+                <div id="loadingIndicator" class="text-center py-12">
+                    <div class="loading-spinner mx-auto mb-4"></div>
+                    <p class="text-gray-600">Cargando recomendaciones...</p>
+                </div>
+                
+                <div id="errorDisplay" class="hidden text-center py-12">
+                    <div class="text-6xl mb-4">⚠️</div>
+                    <h4 class="text-xl font-bold text-red-700 mb-2">Error al cargar recomendaciones</h4>
+                    <p id="errorMessage" class="text-red-600 mb-4"></p>
+                    <button id="retryBtn" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                        🔄 Reintentar
+                    </button>
+                </div>
+                
+                <div id="productsGrid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Los productos se insertarán aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Logs de consola -->
+        <div class="bg-black text-green-400 rounded-lg p-4 font-mono text-sm">
+            <h3 class="text-lg font-semibold mb-2">📝 Logs de Consola:</h3>
+            <div id="consoleLogs" class="space-y-1 max-h-64 overflow-y-auto">
+                <div>🚀 Aplicación iniciada - Esperando comandos...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulación del sistema de recomendaciones
+        class MockRecommendationSystem {
+            constructor() {
+                this.products = this.generateMockProducts();
+                this.logs = [];
+            }
+
+            log(message) {
+                this.logs.push(`[${new Date().toLocaleTimeString()}] ${message}`);
+                this.updateConsoleLogs();
+                console.log(message);
+            }
+
+            updateConsoleLogs() {
+                const logsContainer = document.getElementById('consoleLogs');
+                logsContainer.innerHTML = this.logs.map(log => `<div>${log}</div>`).join('');
+                logsContainer.scrollTop = logsContainer.scrollHeight;
+            }
+
+            generateMockProducts() {
+                return [
+                    {
+                        asin: 'B01M0WXQKX',
+                        title: 'Chaleco Salvavidas Náutico Homologado CE 150N',
+                        price: '45.99',
+                        originalPrice: '59.99',
+                        rating: 4.3,
+                        reviewCount: 892,
+                        imageUrl: 'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=400&h=300&fit=crop&crop=center',
+                        affiliateUrl: 'https://www.amazon.es/dp/B01M0WXQKX',
+                        availability: 'En stock',
+                        prime: true,
+                        category: 'safety',
+                        features: ['Homologado CE 150N', 'Material resistente', 'Ajuste cómodo', 'Color llamativo']
+                    },
+                    {
+                        asin: 'B08XQRZQRF',
+                        title: 'Protector Solar Resistente Agua SPF 50+',
+                        price: '18.95',
+                        originalPrice: '24.99',
+                        rating: 4.6,
+                        reviewCount: 1247,
+                        imageUrl: 'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=400&h=300&fit=crop&crop=center',
+                        affiliateUrl: 'https://www.amazon.es/dp/B08XQRZQRF',
+                        availability: 'En stock',
+                        prime: true,
+                        category: 'comfort',
+                        features: ['SPF 50+', 'Resistente al agua', 'Sin ingredientes tóxicos', 'Aplicación fácil']
+                    },
+                    {
+                        asin: 'B07FNPY8WG',
+                        title: 'Cargador Solar Portátil 20000mAh',
+                        price: '29.99',
+                        originalPrice: '39.99',
+                        rating: 4.4,
+                        reviewCount: 2156,
+                        imageUrl: 'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=400&h=300&fit=crop&crop=center',
+                        affiliateUrl: 'https://www.amazon.es/dp/B07FNPY8WG',
+                        availability: 'En stock',
+                        prime: true,
+                        category: 'technology',
+                        features: ['20000mAh', 'Carga solar', 'Resistente al agua', 'Múltiples puertos']
+                    }
+                ];
+            }
+
+            async searchProducts(query, category) {
+                this.log(`🔍 Buscando productos: "${query}" en categoría "${category}"`);
+                
+                // Simular delay de red
+                await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1000));
+                
+                // Simular error ocasional (10% de probabilidad)
+                if (Math.random() < 0.1) {
+                    throw new Error('Error de conexión simulada');
+                }
+                
+                const filteredProducts = this.products.filter(product => 
+                    product.title.toLowerCase().includes(query.toLowerCase()) ||
+                    product.category === category
+                );
+                
+                this.log(`✅ Encontrados ${filteredProducts.length} productos`);
+                return filteredProducts;
+            }
+
+            async getTrendingProducts(category) {
+                this.log(`🔥 Obteniendo productos trending en categoría "${category}"`);
+                
+                await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 500));
+                
+                const trendingProducts = this.products.filter(product => 
+                    product.rating >= 4.0 && product.reviewCount > 1000
+                );
+                
+                this.log(`✅ Encontrados ${trendingProducts.length} productos trending`);
+                return trendingProducts;
+            }
+        }
+
+        // Inicialización
+        const recommendationSystem = new MockRecommendationSystem();
+        let currentQuery = 'chaleco salvavidas';
+        let currentCategory = 'safety';
+
+        // Elementos del DOM
+        const searchQueryInput = document.getElementById('searchQuery');
+        const categorySelect = document.getElementById('categorySelect');
+        const testBtn = document.getElementById('testBtn');
+        const trendingBtn = document.getElementById('trendingBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const errorDisplay = document.getElementById('errorDisplay');
+        const productsGrid = document.getElementById('productsGrid');
+        const currentQuerySpan = document.getElementById('currentQuery');
+        const currentCategorySpan = document.getElementById('currentCategory');
+        const appStatusSpan = document.getElementById('appStatus');
+
+        // Event listeners
+        searchQueryInput.addEventListener('input', (e) => {
+            currentQuery = e.target.value;
+            currentQuerySpan.textContent = currentQuery;
+        });
+
+        categorySelect.addEventListener('change', (e) => {
+            currentCategory = e.target.value;
+            currentCategorySpan.textContent = currentCategory;
+        });
+
+        testBtn.addEventListener('click', () => testRecommendations());
+        trendingBtn.addEventListener('click', () => showTrendingProducts());
+        resetBtn.addEventListener('click', () => resetApp());
+
+        // Consultas rápidas
+        document.querySelectorAll('.quick-query').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentQuery = btn.textContent;
+                searchQueryInput.value = currentQuery;
+                currentQuerySpan.textContent = currentQuery;
+                testRecommendations();
+            });
+        });
+
+        // Funciones principales
+        async function testRecommendations() {
+            try {
+                recommendationSystem.log(`🚀 Iniciando prueba de recomendaciones...`);
+                showResults();
+                showLoading();
+                updateStatus('🔄 Cargando...');
+                
+                const products = await recommendationSystem.searchProducts(currentQuery, currentCategory);
+                
+                if (products.length === 0) {
+                    throw new Error('No se encontraron productos para mostrar');
+                }
+                
+                hideLoading();
+                displayProducts(products);
+                updateStatus('✅ Activo');
+                recommendationSystem.log(`✅ Prueba completada exitosamente`);
+                
+            } catch (error) {
+                hideLoading();
+                showError(error.message);
+                updateStatus('❌ Error');
+                recommendationSystem.log(`❌ Error en la prueba: ${error.message}`);
+            }
+        }
+
+        async function showTrendingProducts() {
+            try {
+                recommendationSystem.log(`🔥 Cargando productos trending...`);
+                showResults();
+                showLoading();
+                updateStatus('🔄 Cargando trending...');
+                
+                const products = await recommendationSystem.getTrendingProducts(currentCategory);
+                
+                if (products.length === 0) {
+                    throw new Error('No se encontraron productos trending');
+                }
+                
+                hideLoading();
+                displayProducts(products);
+                updateStatus('✅ Trending activo');
+                recommendationSystem.log(`✅ Productos trending cargados exitosamente`);
+                
+            } catch (error) {
+                hideLoading();
+                showError(error.message);
+                updateStatus('❌ Error trending');
+                recommendationSystem.log(`❌ Error cargando trending: ${error.message}`);
+            }
+        }
+
+        function resetApp() {
+            recommendationSystem.log(`🔄 Reiniciando aplicación...`);
+            hideResults();
+            updateStatus('⏸️ Inactivo');
+            currentQuery = 'chaleco salvavidas';
+            currentCategory = 'safety';
+            searchQueryInput.value = currentQuery;
+            categorySelect.value = currentCategory;
+            currentQuerySpan.textContent = currentQuery;
+            currentCategorySpan.textContent = currentCategory;
+            recommendationSystem.log(`✅ Aplicación reiniciada`);
+        }
+
+        function showResults() {
+            resultsContainer.classList.remove('hidden');
+        }
+
+        function hideResults() {
+            resultsContainer.classList.add('hidden');
+        }
+
+        function showLoading() {
+            loadingIndicator.classList.remove('hidden');
+            errorDisplay.classList.add('hidden');
+            productsGrid.classList.add('hidden');
+        }
+
+        function hideLoading() {
+            loadingIndicator.classList.add('hidden');
+        }
+
+        function showError(message) {
+            errorDisplay.classList.remove('hidden');
+            document.getElementById('errorMessage').textContent = message;
+        }
+
+        function displayProducts(products) {
+            productsGrid.classList.remove('hidden');
+            productsGrid.innerHTML = products.map(product => `
+                <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
+                    <img src="${product.imageUrl}" alt="${product.title}" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h4 class="font-semibold text-gray-800 mb-2 line-clamp-2">${product.title}</h4>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-lg font-bold text-green-600">€${product.price}</span>
+                        ${product.originalPrice ? `<span class="text-sm text-gray-500 line-through">€${product.originalPrice}</span>` : ''}
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <span class="text-yellow-500">⭐</span>
+                        <span class="text-sm text-gray-600 ml-1">${product.rating} (${product.reviewCount})</span>
+                    </div>
+                    <div class="flex items-center mb-3">
+                        <span class="text-sm text-gray-600">${product.availability}</span>
+                        ${product.prime ? '<span class="ml-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Prime</span>' : ''}
+                    </div>
+                    <a href="${product.affiliateUrl}" target="_blank" class="block w-full bg-orange-500 text-white text-center py-2 rounded-lg hover:bg-orange-600 transition-colors">
+                        🛒 Ver en Amazon
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        function updateStatus(status) {
+            appStatusSpan.textContent = status;
+        }
+
+        // Inicialización
+        recommendationSystem.log(`🚀 Aplicación de prueba iniciada`);
+        recommendationSystem.log(`💡 Usa los botones para probar diferentes funcionalidades`);
+    </script>
+</body>
+</html>
