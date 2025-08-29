@@ -2,7 +2,16 @@
 // 🚀 SERVICIO REAL DE AMAZON PRODUCT ADVERTISING API
 // Integración completa con las credenciales auténticas
 
-import { AMAZON_API_CONFIG } from '../constants';
+import { AMAZON_API_CONFIG as DEFAULT_AMAZON_CONFIG } from '../constants';
+const AMAZON_API_CONFIG = {
+  accessKeyId: process.env.AMAZON_ACCESS_KEY_ID || DEFAULT_AMAZON_CONFIG.accessKeyId,
+  secretAccessKey: process.env.AMAZON_SECRET_ACCESS_KEY || DEFAULT_AMAZON_CONFIG.secretAccessKey,
+  associateTag: process.env.AMAZON_ASSOCIATE_TAG || DEFAULT_AMAZON_CONFIG.associateTag,
+  marketplace: process.env.AMAZON_MARKETPLACE || DEFAULT_AMAZON_CONFIG.marketplace,
+  region: process.env.AMAZON_REGION || DEFAULT_AMAZON_CONFIG.region,
+  host: process.env.AMAZON_PAAPI_HOST || DEFAULT_AMAZON_CONFIG.host,
+  service: DEFAULT_AMAZON_CONFIG.service
+};
 import crypto from 'crypto';
 
 export interface AmazonProduct {
@@ -98,10 +107,12 @@ class AmazonRealApiService {
     const date = new Date(timestamp * 1000).toISOString().split('T')[0].replace(/-/g, '');
     
     // Headers requeridos
+    const operation = path.includes('searchitems') ? 'SearchItems' : (path.includes('getitems') ? 'GetItems' : 'SearchItems');
+    const target = `com.amazon.paapi5.v1.ProductAdvertisingAPIv1.${operation}`;
     const signedHeaders = {
       'host': this.config.host,
       'x-amz-date': new Date(timestamp * 1000).toISOString().replace(/[:-]|\.\d{3}/g, ''),
-      'x-amz-target': `${this.config.service}.SearchItems`,
+      'x-amz-target': target,
       'content-type': 'application/json; charset=utf-8'
     };
 

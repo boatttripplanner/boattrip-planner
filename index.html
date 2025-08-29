@@ -1,349 +1,180 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    
-    <!-- 🚨 COMPATIBILIDAD CRÍTICA PARA SAFARI Y DISPOSITIVOS MÓVILES -->
-    <!-- Viewport esencial para todos los dispositivos -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
-    
-    <!-- Safari específico -->
-    <meta name="format-detection" content="telephone=no, email=no, address=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="BoatTrip" />
-    
-    <!-- PWA y móvil -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="application-name" content="BoatTrip Planner" />
-    <meta name="theme-color" content="#0d9488" />
-    <meta name="msapplication-TileColor" content="#0d9488" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    
-    <!-- Performance Optimizations for Core Web Vitals -->
-    <link rel="dns-prefetch" href="//www.googletagmanager.com">
-    <link rel="dns-prefetch" href="//www.google-analytics.com">
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Preload critical resources -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"></noscript>
-    
-    <!-- Cache Control Headers -->
-    <meta http-equiv="Cache-Control" content="public, max-age=31536000, immutable" />
-    <meta http-equiv="Pragma" content="cache" />
-    <meta http-equiv="Expires" content="31536000" />
-    
-    <!-- Google Tag Manager - Optimized for Core Web Vitals -->
-    <script>
-      // Defer GTM loading to improve Core Web Vitals
-      window.addEventListener('load', function() {
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-W92QTGF4');
-      });
-    </script>
-    <!-- End Google Tag Manager -->
-    
-    <!-- Google tag (gtag.js) - Optimized for Core Web Vitals -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=
-    G-VR3KE7RXBD"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      
-      // Defer analytics initialization to improve Core Web Vitals
-      window.addEventListener('load', function() {
-        gtag('js', new Date());
-        
-        // Consent Mode V2 default state - Set before any config calls
-        gtag('consent', 'default', {
-          'ad_storage': 'denied',
-          'ad_user_data': 'denied',
-          'ad_personalization': 'denied',
-          'analytics_storage': 'denied'
-        });
-
-        gtag('config', 'G-VR3KE7RXBD', {
-          'send_page_view': false // Disable automatic page view
-        });
-        
-        // Send page view manually after load
-        gtag('event', 'page_view');
-      });
-    </script>
-    
-    <!-- 🚤 FAVICON PRINCIPAL - CONFIGURACIÓN ROBUSTA PARA WWW Y NO-WWW -->
-    <!-- Favicon SVG principal - alex5.svg como estándar universal -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/alex5.svg?v=2025-08-23" />
-    <link rel="shortcut icon" href="/alex5.svg?v=2025-08-23" />
-    <!-- Favicon principal para todos los navegadores -->
-    <link rel="icon" href="/alex5.svg?v=2025-08-23" />
-    <!-- Fallbacks adicionales para máxima compatibilidad -->
-    <link rel="icon" type="image/svg+xml" href="/alex5.svg?v=2025-08-23" />
-    <link rel="icon" href="/favicon.ico?v=2025-08-23" />
-    <!-- Favicon PNG principal para máxima compatibilidad -->
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png?v=2025-08-23" />
-    <link rel="shortcut icon" type="image/png" href="/favicon-96x96.png?v=2025-08-23" />
-    
-    <!-- Favicons específicos para diferentes tamaños y dispositivos -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2025-08-23" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-96x96.png?v=2025-08-23" />
-    
-    <!-- Apple Touch Icon para dispositivos iOS -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2025-08-23" />
-    <link rel="apple-touch-icon" sizes="152x152" href="/web-app-manifest-192x192.png?v=2025-08-23" />
-    <link rel="apple-touch-icon" sizes="144x144" href="/web-app-manifest-192x192.png?v=2025-08-23" />
-    <link rel="apple-touch-icon" sizes="120x120" href="/web-app-manifest-192x192.png?v=2025-08-23" />
-    <link rel="apple-touch-icon" sizes="114x114" href="/web-app-manifest-192x192.png?v=2025-08-23" />
-    <link rel="apple-touch-icon" sizes="76x76" href="/web-app-manifest-192x192.png?v=2025-08-23" />
-    <link rel="apple-touch-icon" sizes="72x72" href="/web-app-manifest-192x192.png?v=2025-08-23" />
-    <link rel="apple-touch-icon" sizes="60x60" href="/web-app-manifest-192x192.png?v=2025-08-23" />
-    <link rel="apple-touch-icon" sizes="57x57" href="/web-app-manifest-192x192.png?v=2025-08-23" />
-    
-    <!-- Windows Tiles -->
-    <meta name="msapplication-TileImage" content="/web-app-manifest-192x192.png?v=2025-08-23" />
-    <meta name="msapplication-TileColor" content="#0d9488" />
-    <meta name="msapplication-config" content="/browserconfig.xml" />
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/site.webmanifest?v=2025-08-23" />
-    
-    <!-- CSS para hacer el favicon circular -->
-    <style>
-      /* Hacer el favicon circular en el navegador */
-      link[rel="icon"], link[rel="shortcut icon"] {
-        border-radius: 50% !important;
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/alex5.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BoatTrip Planner - Planifica tu viaje náutico con IA</title>
+  
+  <!-- Meta tags SEO -->
+  <meta name="description" content="Planifica tu viaje náutico perfecto con IA. Descubre destinos, calcula rutas, encuentra equipamiento y disfruta de la navegación." />
+  <meta name="keywords" content="viaje náutico, planificación, navegación, destinos marítimos, equipamiento náutico, IA, inteligencia artificial" />
+  <meta name="author" content="BoatTrip Planner" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://boattrip-planner.com/" />
+  <meta property="og:title" content="BoatTrip Planner - Planifica tu viaje náutico con IA" />
+  <meta property="og:description" content="Planifica tu viaje náutico perfecto con IA. Descubre destinos, calcula rutas, encuentra equipamiento y disfruta de la navegación." />
+  <meta property="og:image" content="https://boattrip-planner.com/images/og-image.jpg" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://boattrip-planner.com/" />
+  <meta property="twitter:title" content="BoatTrip Planner - Planifica tu viaje náutico con IA" />
+  <meta property="twitter:description" content="Planifica tu viaje náutico perfecto con IA. Descubre destinos, calcula rutas, encuentra equipamiento y disfruta de la navegación." />
+  <meta property="twitter:image" content="https://boattrip-planner.com/images/og-image.jpg" />
+  
+  <!-- 🚤 FAVICON PRINCIPAL - CONFIGURACIÓN ROBUSTA PARA WWW Y NO-WWW -->
+  <!-- Favicon SVG principal - alex5.svg como estándar universal -->
+  <link rel="icon" type="image/svg+xml" sizes="any" href="/alex5.svg?v=2025-08-23" />
+  <link rel="shortcut icon" href="/alex5.svg?v=2025-08-23" />
+  <!-- Favicon principal para todos los navegadores -->
+  <link rel="icon" href="/alex5.svg?v=2025-08-23" />
+  <!-- Fallbacks adicionales para máxima compatibilidad -->
+  <link rel="icon" type="image/svg+xml" href="/alex5.svg?v=2025-08-23" />
+  <link rel="icon" href="/favicon.ico?v=2025-08-23" />
+  <!-- Favicon PNG principal para máxima compatibilidad -->
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png?v=2025-08-23" />
+  <link rel="shortcut icon" type="image/png" href="/favicon-96x96.png?v=2025-08-23" />
+  
+  <!-- Favicons específicos para diferentes tamaños y dispositivos -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2025-08-23" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-96x96.png?v=2025-08-23" />
+  
+  <!-- Apple Touch Icon para dispositivos iOS -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2025-08-23" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/web-app-manifest-192x192.png?v=2025-08-23" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/web-app-manifest-192x192.png?v=2025-08-23" />
+  <link rel="apple-touch-icon" sizes="120x120" href="/web-app-manifest-192x192.png?v=2025-08-23" />
+  <link rel="apple-touch-icon" sizes="114x114" href="/web-app-manifest-192x192.png?v=2025-08-23" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/web-app-manifest-192x192.png?v=2025-08-23" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/web-app-manifest-192x192.png?v=2025-08-23" />
+  <link rel="apple-touch-icon" sizes="60x60" href="/web-app-manifest-192x192.png?v=2025-08-23" />
+  <link rel="apple-touch-icon" sizes="57x57" href="/web-app-manifest-192x192.png?v=2025-08-23" />
+  
+  <!-- Windows Tiles -->
+  <meta name="msapplication-TileImage" content="/web-app-manifest-192x192.png?v=2025-08-23" />
+  <meta name="msapplication-TileColor" content="#0d9488" />
+  <meta name="msapplication-config" content="/browserconfig.xml" />
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/site.webmanifest?v=2025-08-23" />
+  
+  <!-- Google específico - Favicon para resultados de búsqueda -->
+  <link rel="icon" type="image/svg+xml" sizes="32x32" href="/alex5.svg?v=2025" />
+  <link rel="icon" type="image/svg+xml" sizes="16x16" href="/alex5.svg?v=2025" />
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#0d9488" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="BoatTrip" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="BoatTrip Planner" />
+  <meta name="msapplication-TileColor" content="#0d9488" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  
+  <!-- 🚨 SAFARI-ANDROID CONSISTENCY FIXES -->
+  <script>
+    // Enhanced Safari-Android consistency fixes
+    document.addEventListener('DOMContentLoaded', function() {
+      // Force consistent viewport behavior across all browsers
+      const viewport = document.querySelector('meta[name=viewport]');
+      if (viewport) {
+        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover');
       }
       
-      /* Para navegadores que soporten CSS en favicons */
-      @media (prefers-color-scheme: light) {
-        link[rel="icon"] {
-          border-radius: 50% !important;
-        }
-      }
-    </style>
-    
-    <!-- Apple Touch Icons (iOS, macOS) - Usando alex5.svg --> 
-    <link rel="apple-touch-icon" sizes="180x180" href="/alex5.svg?v=2025" />
-    <link rel="apple-touch-icon" href="/alex5.svg?v=2025" />
-    
-    <!-- Microsoft Tiles para Windows -->
-    <meta name="msapplication-TileImage" content="/alex5.svg?v=2025" />
-    <meta name="msapplication-TileColor" content="#0d9488" />
-    <meta name="msapplication-config" content="/browserconfig.xml" />
-    
-    <!-- Google específico - Favicon para resultados de búsqueda -->
-    <link rel="icon" type="image/svg+xml" sizes="32x32" href="/alex5.svg?v=2025" />
-    <link rel="icon" type="image/svg+xml" sizes="16x16" href="/alex5.svg?v=2025" />
-    
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#0d9488" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="BoatTrip" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="application-name" content="BoatTrip Planner" />
-    <meta name="msapplication-TileColor" content="#0d9488" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    
-    <!-- 🚨 SAFARI-ANDROID CONSISTENCY FIXES -->
-    <script>
-      // Enhanced Safari-Android consistency fixes
-      document.addEventListener('DOMContentLoaded', function() {
-        // Force consistent viewport behavior across all browsers
-        const viewport = document.querySelector('meta[name=viewport]');
-        if (viewport) {
-          viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover');
-        }
-        
-        // Safari-specific fixes
-        if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
-          // Fix for Safari viewport issues
-          setTimeout(function() {
-            if (viewport) {
-              viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover');
-            }
-          }, 100);
-          
-          // Fix for Safari touch events
-          document.addEventListener('touchstart', function() {}, {passive: true});
-          document.addEventListener('touchmove', function() {}, {passive: true});
-          
-          // Force Safari to render like Chrome
-          document.documentElement.style.setProperty('--webkit-font-smoothing', 'antialiased');
-          document.documentElement.style.setProperty('--moz-osx-font-smoothing', 'grayscale');
-        }
-        
-        // Chrome mobile fixes
-        if (navigator.userAgent.includes('Chrome') && /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-          // Fix for Chrome mobile viewport
-          setTimeout(function() {
-            if (viewport) {
-              viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover');
-            }
-          }, 100);
-        }
-        
-        // iOS Safari specific fixes
-        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-          // Fix for iOS Safari 100vh issue
-          const setVH = () => {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-          };
-          
-          setVH();
-          window.addEventListener('resize', setVH);
-          window.addEventListener('orientationchange', setVH);
-          
-          // Force consistent rendering
-          document.body.style.webkitTextSizeAdjust = '100%';
-          document.body.style.webkitTapHighlightColor = 'transparent';
-          document.body.style.webkitTouchCallout = 'none';
-          document.body.style.webkitUserSelect = 'none';
-        }
-        
-        // Android Chrome specific fixes
-        if (/Android/.test(navigator.userAgent) && navigator.userAgent.includes('Chrome')) {
-          // Ensure Android Chrome renders consistently
-          document.documentElement.style.setProperty('--webkit-font-smoothing', 'antialiased');
-          document.documentElement.style.setProperty('--moz-osx-font-smoothing', 'grayscale');
-        }
-      });
-    </script>
-    
-    <!-- PWA Service Worker Registration -->
-    <script>
-      // Enhanced Service Worker Registration for PWA
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', async () => {
-          try {
-            // Ensure we're on the correct domain and avoid redirects
-            const currentOrigin = window.location.origin;
-            const swUrl = `${currentOrigin}/sw.js`;
-            
-            console.log('🔧 Registering Service Worker from:', swUrl);
-            
-            // Check if the SW file is accessible without redirects
-            const swResponse = await fetch(swUrl, { method: 'HEAD' });
-            if (!swResponse.ok) {
-              throw new Error(`Service Worker file not accessible: ${swResponse.status}`);
-            }
-            
-            const registration = await navigator.serviceWorker.register(swUrl, { 
-              scope: '.',
-              updateViaCache: 'none'
-            });
-            console.log('✅ Service Worker registered successfully:', registration);
-            
-            // Check for updates
-            registration.addEventListener('updatefound', () => {
-              console.log('🔄 Service Worker update found');
-            });
-            
-            // Handle updates
-            navigator.serviceWorker.addEventListener('controllerchange', () => {
-              console.log('🔄 Service Worker controller changed');
-            });
-            
-          } catch (registrationError) {
-            console.error('❌ Service Worker registration failed:', registrationError);
-            
-            // Fallback: try without scope
-            try {
-              console.log('🔄 Trying fallback registration...');
-              const fallbackRegistration = await navigator.serviceWorker.register('/sw.js');
-              console.log('✅ Fallback Service Worker registered:', fallbackRegistration);
-            } catch (fallbackError) {
-              console.error('❌ Fallback registration also failed:', fallbackError);
-            }
+      // Safari-specific fixes
+      if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
+        // Fix for Safari viewport issues
+        setTimeout(function() {
+          if (viewport) {
+            viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover');
           }
-        });
-      } else {
-        console.warn('⚠️ Service Worker not supported');
+        }, 100);
+        
+        // Fix for Safari touch events
+        document.addEventListener('touchstart', function() {}, {passive: true});
+        document.addEventListener('touchmove', function() {}, {passive: true});
       }
+    });
+  </script>
+  
+  <!-- 🔧 Service Worker Configuration - Prevenir errores de red -->
+  <script src="/sw-config.js"></script>
+  
+  <!-- 🧹 Service Worker Cache Manager - Para debugging -->
+  <script src="/clear-sw-cache.js"></script>
+  
+  <!-- 🚨 PERFORMANCE OPTIMIZATIONS -->
+  <script>
+    // Performance optimizations
+    document.addEventListener('DOMContentLoaded', function() {
+      // Preload critical resources with proper 'as' attribute
+      const criticalResources = [
+        { href: '/alex5.svg', as: 'image' }
+      ];
       
-      // Performance monitoring
-      window.addEventListener('load', () => {
-        if ('performance' in window) {
+      criticalResources.forEach(resource => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.href = resource.href;
+        link.as = resource.as;
+        document.head.appendChild(link);
+      });
+      
+      // Optimize images loading
+      if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              if (img.dataset.src) {
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                observer.unobserve(img);
+              }
+            }
+          });
+        });
+        
+        document.querySelectorAll('img[data-src]').forEach(img => {
+          imageObserver.observe(img);
+        });
+      }
+    });
+  </script>
+  
+  <!-- 🚨 ANALYTICS Y TRACKING -->
+  <script>
+    // Analytics setup
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX'); // Reemplazar con tu ID de Google Analytics
+    
+    // Performance monitoring
+    if ('performance' in window) {
+      window.addEventListener('load', function() {
+        setTimeout(function() {
           const perfData = performance.getEntriesByType('navigation')[0];
-          if (perfData && perfData.loadEventEnd && perfData.loadEventStart) {
-            console.log('📊 Page Load Time:', perfData.loadEventEnd - perfData.loadEventStart);
+          if (perfData) {
+            console.log('🚀 Performance Metrics:', {
+              'Time to First Byte': perfData.responseStart - perfData.requestStart + 'ms',
+              'DOM Content Loaded': perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart + 'ms',
+              'Load Complete': perfData.loadEventEnd - perfData.loadEventStart + 'ms',
+              'Total Load Time': perfData.loadEventEnd - perfData.requestStart + 'ms'
+            });
           }
-        }
+        }, 0);
       });
-    </script>
-    
-    <!-- 🎯 SEO OPTIMIZADO PARA WWW Y NO-WWW -->
-    <title>Planificar Ruta en Barco - BoatTrip Planner | Planificador Náutico con IA</title>
-    <meta name="description" content="Planifica tu ruta en barco con inteligencia artificial. Genera itinerarios personalizados, rutas marinas optimizadas, pronóstico del tiempo y checklist completo para tu viaje náutico." />
-    
-    <!-- Canonical URL para evitar contenido duplicado -->
-    <link rel="canonical" href="https://boattrip-planner.com/" />
-    
-    <!-- Open Graph / Facebook - Optimizado para ambos dominios -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://boattrip-planner.com/" />
-    <meta property="og:title" content="Planificar Ruta en Barco - BoatTrip Planner | Planificador Náutico con IA" />
-    <meta property="og:description" content="Planifica tu ruta en barco con inteligencia artificial. Genera itinerarios personalizados, rutas marinas optimizadas, pronóstico del tiempo y checklist completo para tu viaje náutico." />
-    <meta property="og:image" content="https://boattrip-planner.com/favicon-96x96.png" />
-    <meta property="og:image:width" content="96" />
-    <meta property="og:image:height" content="96" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:site_name" content="BoatTrip Planner" />
-    <meta property="og:locale" content="es_ES" />
-    
-    <!-- Twitter - Optimizado para ambos dominios -->
-    <meta property="twitter:card" content="summary" />
-    <meta property="twitter:url" content="https://boattrip-planner.com/" />
-    <meta property="twitter:title" content="Planificar Ruta en Barco - BoatTrip Planner | Planificador Náutico con IA" />
-    <meta property="twitter:description" content="Planifica tu ruta en barco con inteligencia artificial. Genera itinerarios personalizados, rutas marinas optimizadas, pronóstico del tiempo y checklist completo para tu viaje náutico." />
-    <meta property="twitter:image" content="https://boattrip-planner.com/favicon-96x96.png" />
-    <meta property="twitter:site" content="@boattripplanner" />
-    
-    <!-- Meta tags adicionales para SEO -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow" />
-    <meta name="author" content="BoatTrip Planner" />
-    <meta name="keywords" content="planificar ruta en barco, planificador viajes náuticos, rutas marinas, navegación, alquiler barcos, IA, inteligencia artificial, pronóstico tiempo marino, checklist náutico, itinerario barco, planificación náutica" />
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "BoatTrip Planner - Planificar Ruta en Barco",
-      "description": "Planificador de rutas náuticas inteligente con IA. Genera itinerarios personalizados, rutas marinas optimizadas y pronóstico del tiempo para tu viaje en barco.",
-      "url": "https://boattrip-planner.com",
-      "applicationCategory": "TravelApplication",
-      "operatingSystem": "Web Browser",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "EUR"
-      },
-      "featureList": [
-        "Planificación de rutas marinas",
-        "Generación de itinerarios personalizados",
-        "Pronóstico del tiempo náutico",
-        "Checklist de equipamiento",
-        "Recomendaciones de destinos",
-        "Optimización de rutas con IA"
-      ],
-      "keywords": "planificar ruta en barco, planificador náutico, rutas marinas, navegación, itinerario barco"
     }
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
-  </body>
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
 </html>

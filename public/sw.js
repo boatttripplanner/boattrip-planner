@@ -184,6 +184,8 @@ self.addEventListener('error', (event) => {
 // Manejo de rechazos de promesas no manejados
 self.addEventListener('unhandledrejection', (event) => {
   console.error('Service Worker unhandled rejection:', event.reason);
+  // Prevenir que el error se propague
+  event.preventDefault();
 });
 
 // Optimización: Precachear recursos críticos en background
@@ -196,7 +198,10 @@ self.addEventListener('sync', (event) => {
           '/blog/',
           '/destinos/',
           '/productos/'
-        ]);
+        ]).catch(error => {
+          console.warn('Background sync failed:', error);
+          return Promise.resolve();
+        });
       })
     );
   }
@@ -241,7 +246,7 @@ self.addEventListener('notificationclick', (event) => {
   
   if (event.action === 'explore') {
     event.waitUntil(
-      clients.openWindow('/')
+      self.clients.openWindow('/')
     );
   }
 }); 

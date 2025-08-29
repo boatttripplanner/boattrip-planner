@@ -1,10 +1,10 @@
 /* Performance optimized CSS */
+/* Importar optimizaciones móviles */
+@import './mobile-optimizations.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Importar optimizaciones móviles */
-@import './mobile-optimizations.css';
 
 /* Critical CSS for above-the-fold content */
 @layer base {
@@ -38,6 +38,14 @@
   /* Reduce layout shifts */
   html {
     scroll-behavior: smooth;
+    /* Mejorar la experiencia de scroll */
+    scroll-padding-top: 0;
+  }
+  
+  /* Mejorar la suavidad del scroll */
+  body {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Mobile-specific improvements */

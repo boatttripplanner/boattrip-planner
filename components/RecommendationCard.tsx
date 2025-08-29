@@ -16,7 +16,6 @@ import { SAMBOAT_AFFILIATE_URL } from '../constants';
 import { createAffiliateUrl } from '../services/amazonApi';
 import { amazonProductVerifier, VerifiedProduct } from '../services/amazonProductVerifier';
 
-
 import { MapPinIcon } from './icons/MapPinIcon';
 import { ClipboardListIcon } from './icons/ClipboardListIcon';
 import { MapRouteIcon } from './icons/MapRouteIcon';
@@ -302,6 +301,27 @@ const extractKeywordsFromText = (text: string): string[] => {
   }
   
   return foundKeywords;
+};
+
+// 🚀 FUNCIÓN PARA CONSTRUIR ENLACES DE AFILIADOS DE BÚSQUEDA
+const buildSearchAffiliateLink = (searchQuery: string, trackingId: string, category: string): string => {
+  try {
+    // Crear URL de búsqueda de Amazon con parámetros de afiliado
+    const baseUrl = 'https://www.amazon.es/s';
+    const params = new URLSearchParams({
+      'k': searchQuery,
+      'tag': 'nauticalguide-21', // Tag de afiliado
+      'ref': `sr_nr_p_${trackingId}_${category}`,
+      'linkCode': 'ogi',
+      'language': 'es_ES'
+    });
+    
+    return `${baseUrl}?${params.toString()}`;
+  } catch (error) {
+    console.error('Error construyendo enlace de afiliado:', error);
+    // Fallback a búsqueda básica de Amazon
+    return `https://www.amazon.es/s?k=${encodeURIComponent(searchQuery)}&tag=nauticalguide-21`;
+  }
 };
 
 
@@ -797,10 +817,9 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
         // PRIMERO: Intentar con el sistema optimizado de productos verificados
         const optimizedProduct = getOptimizedChecklistProduct(currentItem);
         
-        if (optimizedProduct && optimizedProduct.isDirectLink && optimizedProduct.asin) {
+          if (optimizedProduct && optimizedProduct.isDirectLink && optimizedProduct.asin) {
           // Producto verificado encontrado - usar ASIN directo
-          setProductAsins(prev => ({ ...prev, [itemKey]: optimizedProduct.asin ?? null }));
-          console.log(`✅ Producto VERIFICADO encontrado para "${currentItem}": ${optimizedProduct.name} (ASIN: ${optimizedProduct.asin})`);
+          setProductAsins(prev => ({ ...prev, [itemKey]: optimizedProduct.asin ?? null }));          console.log(`✅ Producto VERIFICADO encontrado para "${currentItem}": ${optimizedProduct.name} (ASIN: ${optimizedProduct.asin})`);
         } else {
           // Buscar producto dinámicamente con la API (fallback)
           const asin = await searchDynamicAmazonProduct(currentItem);
@@ -880,19 +899,18 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
   }, [recommendation?.text, isLoading]);
 
   useEffect(() => {
-    // When a new accordion is opened, scroll it into view.
+    let timer: number | undefined;
     if (openAccordionId) {
-        // The timeout gives the accordion's open animation time to start,
-        // resulting in a smoother scroll experience.
-        const timer = setTimeout(() => {
-            const element = document.getElementById(openAccordionId);
-            // The 'start' block alignment is better than 'center' because the header is sticky/large.
-            // It ensures the accordion title is visible at the top.
-            element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 350); // Animation duration is 300ms, so 350ms is a safe delay.
-
-        return () => clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        const element = document.getElementById(openAccordionId);
+        element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 350);
     }
+    return () => {
+      if (timer !== undefined) {
+        clearTimeout(timer);
+      }
+    };
   }, [openAccordionId]);
 
 
@@ -988,8 +1006,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
       
       // Generar enlace de Amazon usando solo el sistema de fallback
       let amazonLink: string | null = null;
-      let productName = 'Producto Amazon';
-      
+      let productName = 'Producto Amazon';      
       if (USE_SIMPLE_SYSTEM) {
         // Sistema simple: solo usar fallback
         const productInfo = generateProductSearchUrl(textContent);
@@ -1033,7 +1050,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
             id={`${componentId}-${itemKey}`}
             checked={isChecked}
             onChange={() => handleToggleAiItem(itemKey)}
-            className="h-5 w-5 text-teal-600 border-slate-400 rounded-sm focus:ring-2 focus:ring-teal-500/50 focus:ring-offset-1 mr-3 mt-0.5 flex-shrink-0 cursor-pointer"
+            className="h-4 w-4 text-teal-600 border-slate-400 rounded-sm focus:ring-2 focus:ring-teal-500/50 focus:ring-offset-1 mr-2 mt-0.5 flex-shrink-0 cursor-pointer"
             aria-labelledby={`${componentId}-${itemKey}-label`}
           />
           <label
@@ -1093,8 +1110,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
                   aria-label={`Ver producto "${textContent}" en Amazon.es`}
                 >
                   <ShoppingCartIcon className="w-5 h-5 animate-pulse" />
-                </a>
-              )}
+                </a>              )}
               {!isLoadingProduct && !amazonLink && (
                 <div className="ml-2 p-1 flex-shrink-0" title="Producto no disponible en Amazon España">
                   <div className="w-5 h-5 text-gray-400">
@@ -1254,7 +1270,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
                               id={item.id}
                               checked={item.checked}
                               onChange={() => handleToggleCustomItem(item.id)}
-                              className="h-4 w-4 sm:h-5 sm:w-5 text-teal-600 border-slate-400 rounded-sm focus:ring-2 focus:ring-teal-500/50 focus:ring-offset-1 mr-2 sm:mr-3 mt-0.5 flex-shrink-0 cursor-pointer"
+                              className="h-4 w-4 text-teal-600 border-slate-400 rounded-sm focus:ring-2 focus:ring-teal-500/50 focus:ring-offset-1 mr-2 mt-0.5 flex-shrink-0 cursor-pointer"
                               aria-labelledby={`${item.id}-label`}
                             />
                             <label
@@ -1376,8 +1392,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
 // 🎯 SISTEMA DE BÚSQUEDA DIRECTA EN AMAZON - OPTIMIZADO
 // URLs de búsqueda optimizadas con tracking avanzado - ASINs VERIFICADOS
 
-interface AmazonSearchUrl {
-  searchUrl: string;
+interface AmazonSearchUrl {  searchUrl: string;
   name: string;
   category: string;
   keywords: string[];
@@ -1387,8 +1402,7 @@ interface AmazonSearchUrl {
 const AMAZON_SEARCH_URLS: Record<string, AmazonSearchUrl> = {
   // 🏖️ PROTECCIÓN SOLAR - BÚSQUEDA DINÁMICA
   'protector_solar': {
-    searchUrl: 'https://www.amazon.es/s?k=protector+solar+spf50+resistente+agua+nautico&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_proteccion&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=proteccion_solar',
-    name: 'Protector Solar Resistente al Agua SPF50+',
+    searchUrl: 'https://www.amazon.es/s?k=protector+solar+spf50+resistente+agua+nautico&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_proteccion&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=proteccion_solar',    name: 'Protector Solar Resistente al Agua SPF50+',
     category: 'protección solar',
     keywords: ['crema solar', 'protector solar', 'solar', 'spf', 'biodegradable'],
     asin: undefined
@@ -1396,8 +1410,7 @@ const AMAZON_SEARCH_URLS: Record<string, AmazonSearchUrl> = {
   
   // 🥽 EQUIPO SNORKEL - BÚSQUEDA DINÁMICA
   'aletas_snorkel': {
-    searchUrl: 'https://www.amazon.es/s?k=equipo+snorkel+completo+profesional+nautico&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_snorkel&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=equipo_snorkel',
-    name: 'Equipo de Snorkel Profesional Completo',
+    searchUrl: 'https://www.amazon.es/s?k=equipo+snorkel+completo+profesional+nautico&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_snorkel&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=equipo_snorkel',    name: 'Equipo de Snorkel Profesional Completo',
     category: 'equipo snorkel',
     keywords: ['snorkel', 'máscara', 'aletas', 'buceo', 'equipo snorkel'],
     asin: undefined
@@ -1405,8 +1418,7 @@ const AMAZON_SEARCH_URLS: Record<string, AmazonSearchUrl> = {
   
   // 🦺 SEGURIDAD - BÚSQUEDA DINÁMICA
   'chaleco_salvavidas': {
-    searchUrl: 'https://www.amazon.es/s?k=chaleco+salvavidas+homologado+ce+150n+nautico&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_seguridad&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=chaleco_salvavidas',
-    name: 'Chaleco Salvavidas Homologado CE 150N',
+    searchUrl: 'https://www.amazon.es/s?k=chaleco+salvavidas+homologado+ce+150n+nautico&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_seguridad&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=chaleco_salvavidas',    name: 'Chaleco Salvavidas Homologado CE 150N',
     category: 'seguridad',
     keywords: ['chaleco salvavidas', 'chaleco', 'salvavidas', 'seguridad', 'linterna'],
     asin: undefined
@@ -1415,8 +1427,7 @@ const AMAZON_SEARCH_URLS: Record<string, AmazonSearchUrl> = {
   // 🧭 GPS/NAVEGACIÓN - BÚSQUEDA DINÁMICA
   'gps_garmin': {
     searchUrl: 'https://www.amazon.es/s?k=gps+navegacion+nautica+garmin+profesional&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_gps&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=gps_navegacion',
-    name: 'GPS Navegación Náutica Profesional',
-    category: 'gps navegación',
+    name: 'GPS Navegación Náutica Profesional',    category: 'gps navegación',
     keywords: ['gps', 'garmin', 'plotter', 'navegación', 'smartwatch'],
     asin: undefined
   },
@@ -1424,8 +1435,7 @@ const AMAZON_SEARCH_URLS: Record<string, AmazonSearchUrl> = {
   // 📱 TECNOLOGÍA - BÚSQUEDA DINÁMICA
   'gopro_camera': {
     searchUrl: 'https://www.amazon.es/s?k=camara+accion+gopro+hero+black+nautica&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_tecnologia&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=camara_accion',
-    name: 'Cámara de Acción Profesional',
-    category: 'tecnología',
+    name: 'Cámara de Acción Profesional',    category: 'tecnología',
     keywords: ['gopro', 'cámara', 'fotos', 'videos'],
     asin: undefined
   },
@@ -1433,16 +1443,14 @@ const AMAZON_SEARCH_URLS: Record<string, AmazonSearchUrl> = {
   // 🧊 NEVERA/COOLER - BÚSQUEDA DINÁMICA
   'nevera_coleman': {
     searchUrl: 'https://www.amazon.es/s?k=nevera+portatil+coleman+barco+hielo&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_nevera&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=nevera_portatil',
-    name: 'Nevera Portátil para Barco',
-    category: 'nevera cooler',
+    name: 'Nevera Portátil para Barco',    category: 'nevera cooler',
     keywords: ['nevera', 'cooler', 'coleman', 'hielo'],
     asin: undefined
   },
   
   // 🏥 BOTIQUÍN - BÚSQUEDA DINÁMICA
   'botiquin_emergencia': {
-    searchUrl: 'https://www.amazon.es/s?k=botiquin+primeros+auxilios+nautico+barco&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_botiquin&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=botiquin_emergencia',
-    name: 'Botiquín Primeros Auxilios Náutico',
+    searchUrl: 'https://www.amazon.es/s?k=botiquin+primeros+auxilios+nautico+barco&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_botiquin&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=botiquin_emergencia',    name: 'Botiquín Primeros Auxilios Náutico',
     category: 'botiquín',
     keywords: ['botiquín', 'primeros auxilios', 'medicación', 'mareo', 'emergencia'],
     asin: undefined
@@ -1450,8 +1458,7 @@ const AMAZON_SEARCH_URLS: Record<string, AmazonSearchUrl> = {
   
   // 🕶️ GAFAS DE SOL - BÚSQUEDA DINÁMICA
   'gafas_polarizadas': {
-    searchUrl: 'https://www.amazon.es/s?k=gafas+sol+polarizadas+nauticas+barco&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_gafas&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=gafas_sol',
-    name: 'Gafas de Sol Polarizadas Náuticas',
+    searchUrl: 'https://www.amazon.es/s?k=gafas+sol+polarizadas+nauticas+barco&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_gafas&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=gafas_sol',    name: 'Gafas de Sol Polarizadas Náuticas',
     category: 'gafas sol',
     keywords: ['gafas de sol', 'polarizadas', 'sombrero', 'gorra', 'protección'],
     asin: undefined
@@ -1497,12 +1504,11 @@ const AMAZON_SEARCH_URLS: Record<string, AmazonSearchUrl> = {
   
   // 🏄‍♂️ DEPORTES ACUÁTICOS - OPTIMIZADO
   'deportes_acuaticos': {
-    searchUrl: 'https://www.amazon.es/s?k=equipo+deportes+acuaticos+nauticos&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_deportes&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=deportes',
+    searchUrl: buildSearchAffiliateLink('equipo deportes acuaticos nauticos', 'nautical_guide_deportes', 'deportes'),
     name: 'Equipo Deportes Acuáticos',
     category: 'deportes acuáticos',
     keywords: ['deportes acuáticos', 'wakeboard', 'esquís', 'donut', 'cabo'],
-    asin: undefined
-  }
+    asin: undefined  }
 };
 
 // 🚀 FUNCIÓN INTELIGENTE PARA GENERAR ASINs
@@ -1530,7 +1536,19 @@ const generateProductASIN = (itemText: string): { asin: string; name: string; ca
 const generateProductSearchUrl = (itemText: string): AmazonSearchUrl | null => {
   const lowerText = itemText.toLowerCase();
   
-  // Buscar coincidencia exacta en la base de datos
+  // 🎯 PRIMERA PRIORIDAD: Buscar en el catálogo curado de afiliados
+  const curatedProduct = findAffiliateProductByTextComplete(itemText);
+  if (curatedProduct) {
+    console.log(`🎯 Producto CURADO encontrado: "${itemText}" → ${curatedProduct.title} (${curatedProduct.asin ? 'ASIN directo' : 'URL de búsqueda'})`);
+    return {
+      searchUrl: curatedProduct.affiliateUrl,
+      name: curatedProduct.title,
+      category: curatedProduct.category,
+      asin: curatedProduct.asin
+    };
+  }
+  
+  // 🔍 SEGUNDA PRIORIDAD: Buscar en la base de datos de búsquedas
   for (const [productKey, product] of Object.entries(AMAZON_SEARCH_URLS)) {
     if (product.keywords.some(keyword => lowerText.includes(keyword))) {
       console.log(`🎯 Producto OPTIMIZADO encontrado: "${itemText}" → ${product.name} (${product.asin ? 'ASIN directo' : 'URL de búsqueda'})`);
@@ -1579,44 +1597,111 @@ const generateProductSearchUrl = (itemText: string): AmazonSearchUrl | null => {
   
   // Fallback inteligente basado en categorías
   if (lowerText.includes('ropa') || lowerText.includes('baño') || lowerText.includes('toalla')) {
-    return AMAZON_SEARCH_URLS.ropa_nautica;
+    return AMAZON_SEARCH_URLS.ropa_nautica;  }
+  
+  // 👕 ROPA Y ACCESORIOS
+  if (lowerText.includes('ropa') || lowerText.includes('baño') || lowerText.includes('toallas')) {
+    return {
+      searchUrl: buildSearchAffiliateLink('ropa baño nautica toallas rapidas secado', 'nautical_guide_ropa', 'ropa'),
+      name: 'Ropa de Baño y Toallas Náuticas',
+      category: 'ropa accesorios',
+      price: '€20-60'
+    };
   }
   
-  if (lowerText.includes('comida') || lowerText.includes('bebida') || lowerText.includes('agua')) {
-    return AMAZON_SEARCH_URLS.comida_barco;
+  if (lowerText.includes('abrigo') || lowerText.includes('chaqueta') || lowerText.includes('sudadera')) {
+    return {
+      searchUrl: buildSearchAffiliateLink('ropa abrigo ligero mar nautica impermeable', 'nautical_guide_ropa', 'ropa'),
+      name: 'Ropa de Abrigo Ligera para Mar',
+      category: 'ropa accesorios',
+      price: '€30-80'
+    };
   }
   
-  if (lowerText.includes('limpieza') || lowerText.includes('basura') || lowerText.includes('bolsa')) {
-    return AMAZON_SEARCH_URLS.limpieza_barco;
+  if (lowerText.includes('calzado') || lowerText.includes('zapatos') || lowerText.includes('suela goma')) {
+    return {
+      searchUrl: buildSearchAffiliateLink('calzado blanco barco suela goma nautico', 'nautical_guide_ropa', 'calzado'),
+      name: 'Calzado Blanco para Barco con Suela de Goma',
+      category: 'ropa accesorios',
+      price: '€25-70'
+    };
   }
   
-  if (lowerText.includes('documento') || lowerText.includes('dni') || lowerText.includes('licencia')) {
-    return AMAZON_SEARCH_URLS.documentacion_nautica;
+  // 🍽️ COMIDA Y BEBIDAS
+  if (lowerText.includes('agua') || lowerText.includes('bebidas') || lowerText.includes('hidratación')) {
+    return {
+      searchUrl: buildSearchAffiliateLink('agua botellas barco hidratacion nautica', 'nautical_guide_comida', 'bebidas'),
+      name: 'Agua y Bebidas Refrescantes para Barco',
+      category: 'comida bebidas',
+      price: '€5-20'
+    };
   }
   
-  // Fallback por defecto - búsqueda genérica
-  console.log(`ℹ️ No se encontró producto específico para: "${itemText}" - usando búsqueda genérica`);
+  if (lowerText.includes('snacks') || lowerText.includes('comida') || lowerText.includes('picnic')) {
+    return {
+      searchUrl: buildSearchAffiliateLink('snacks picnic barco nautico alimentos portatiles', 'nautical_guide_comida', 'alimentos'),
+      name: 'Snacks y Comida para Picnic Náutico',
+      category: 'comida bebidas',
+      price: '€10-30'
+    };
+  }
+  
+  // 🧹 LIMPIEZA
+  if (lowerText.includes('bolsas') || lowerText.includes('basura') || lowerText.includes('limpieza')) {
+    return {
+      searchUrl: buildSearchAffiliateLink('bolsas basura resistentes mar nauticas ecologicas', 'nautical_guide_limpieza', 'limpieza'),
+      name: 'Bolsas para Basura Resistentes para Mar',
+      category: 'limpieza',
+      price: '€5-15'
+    };
+  }
+  
+  // 📱 TECNOLOGÍA
+  if (lowerText.includes('batería') || lowerText.includes('móvil') || lowerText.includes('teléfono')) {
+    return {
+      searchUrl: buildSearchAffiliateLink('bateria externa movil nautica resistente agua', 'nautical_guide_tecnologia', 'bateria'),
+      name: 'Batería Externa para Móvil Náutica',
+      category: 'tecnología',
+      price: '€20-50'
+    };
+  }
+  
+  if (lowerText.includes('cámara') || lowerText.includes('fotográfica') || lowerText.includes('fotos')) {
+    return {
+      searchUrl: buildSearchAffiliateLink('camara fotografica acuatica resistente agua nautica', 'nautical_guide_tecnologia', 'camara'),
+      name: 'Cámara Fotográfica Acuática Resistente al Agua',
+      category: 'tecnología',
+      price: '€50-150'
+    };
+  }
+  
+  // 📋 DOCUMENTACIÓN
+  if (lowerText.includes('documentos') || lowerText.includes('dni') || lowerText.includes('pasaporte')) {
+    return {
+      searchUrl: buildSearchAffiliateLink('organizador documentos nautico impermeable dni pasaporte', 'nautical_guide_organizacion', 'documentos'),
+      name: 'Organizador de Documentos Náutico',
+      category: 'organización',
+      price: '€15-35'
+    };
+  }
+  
+  // 🎯 Fallback por defecto - búsqueda genérica optimizada
+  console.log(`ℹ️ No se encontró producto específico para: "${itemText}" - usando búsqueda genérica optimizada`);
   return {
-    searchUrl: `https://www.amazon.es/s?k=${encodeURIComponent(itemText)}+nautico&tag=explorashop18-21&linkCode=ur2&linkId=nautical_guide_generic&camp=3638&creative=24630&ref=as_li_ss_tl&utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=generic_search`,
+    searchUrl: buildSearchAffiliateLink(`${itemText} nautico barco velero`, 'nautical_guide_generic', 'generic_search'),
     name: itemText,
     category: 'general',
     keywords: [itemText.toLowerCase()],
-    asin: undefined
-  };
+    asin: undefined  };
 };
 
 // 🚀 FUNCIÓN PARA GENERAR ENLACES OPTIMIZADOS DEL CHECKLIST
 const generateOptimizedAmazonLink = (itemText: string, asin?: string): string => {
-  const affiliateTag = "explorashop18-21";
-  
   if (asin) {
-    // Enlace directo al producto con ASIN y tracking optimizado
-    return `https://www.amazon.es/dp/${asin}?tag=${affiliateTag}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=${asin}&linkId=nautical_guide_checklist_${asin}`;
+    return createAffiliateUrl(asin);
   } else {
-    // Enlace de búsqueda optimizado con UTM parameters
-    const searchTerm = itemText.replace(/\s+/g, '+');
-    const utmParams = `utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=checklist&utm_term=${searchTerm}`;
-    return `https://www.amazon.es/s?k=${searchTerm}&tag=${affiliateTag}&linkCode=ur2&linkId=nautical_guide_checklist_search&camp=3638&creative=24630&ref=as_li_ss_tl&${utmParams}`;
+    const searchQuery = encodeURIComponent(itemText);
+    return `https://www.amazon.es/s?k=${searchQuery}&tag=explorashop18-21`;
   }
 };
 
@@ -1644,17 +1729,11 @@ const generateOptimizedAmazonLink = (itemText: string, asin?: string): string =>
   };
 
   // 🚀 FUNCIÓN PARA GENERAR ENLACE DINÁMICO OPTIMIZADO
-  const generateDynamicAmazonLink = (itemText: string, asin?: string): string => {
-    const affiliateTag = "explorashop18-21";
-    
+const generateDynamicAmazonLink = (itemText: string, asin?: string): string => {
     if (asin && asin !== 'direct_link' && asin !== 'optimized_link') {
-      // Enlace directo al producto con ASIN y tracking optimizado
-      return `https://www.amazon.es/dp/${asin}?tag=${affiliateTag}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=${asin}&linkId=nautical_guide_dynamic_${asin}`;
+      return createAffiliateUrl(asin);
     } else {
-      // Enlace de búsqueda optimizado con UTM parameters dinámicos
-      const searchTerm = itemText.replace(/\s+/g, '+');
-      const utmParams = `utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=dynamic_checklist&utm_term=${searchTerm}`;
-      return `https://www.amazon.es/s?k=${searchTerm}&tag=${affiliateTag}&linkCode=ur2&linkId=nautical_guide_dynamic_search&camp=3638&creative=24630&ref=as_li_ss_tl&${utmParams}`;
+      return buildSearchAffiliateLink(itemText, 'nautical_guide_dynamic_search', 'dynamic_checklist');
     }
   };
 

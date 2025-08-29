@@ -17,11 +17,12 @@ const SostenibilidadBlogPost: React.FC = () => {
       {/* Imagen principal del artículo */}
       <div className="mb-8">
         <UnsplashImage
-          searchQuery="sustainable sailing boat ocean"
+          searchQuery="electric sailboat sustainable marine technology"
           width={1200}
           height={600}
-          alt="Navegación sostenible en el océano"
+          alt="Velero eléctrico sostenible con tecnología marina"
           className="rounded-lg shadow-lg"
+          key={`sustainable-${Date.now()}`}
         />
       </div>
 

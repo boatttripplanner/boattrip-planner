@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 
-// Configuración específica para desarrollo
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -10,15 +10,19 @@ export default defineConfig({
       '@': resolve(__dirname, 'src'),
     },
   },
+  // Configuración específica para desarrollo
   server: {
-    port: 5175,
-    host: '127.0.0.1', // Forzar IPv4 localhost
+    port: 5174,
+    host: '0.0.0.0',
+    strictPort: false,
     hmr: {
       overlay: false,
-      port: 5175,
-      host: '127.0.0.1',
     },
+    // Configuración para desarrollo local
+    open: true, // Abrir navegador automáticamente
+    cors: true, // Habilitar CORS para desarrollo
   },
+  // Optimizaciones para desarrollo
   optimizeDeps: {
     include: [
       'react',
@@ -27,5 +31,19 @@ export default defineConfig({
       'lucide-react',
       '@google/generative-ai',
     ],
+  },
+  // Configuración de build para desarrollo
+  build: {
+    sourcemap: true, // Habilitar source maps para debugging
+    minify: false, // No minificar en desarrollo
+    rollupOptions: {
+      output: {
+        manualChunks: undefined, // Deshabilitar code splitting en desarrollo
+      },
+    },
+  },
+  // Variables de entorno para desarrollo
+  define: {
+    __DEV__: true,
   },
 }); 

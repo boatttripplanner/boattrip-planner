@@ -16,10 +16,7 @@ export const WEATHER_SERVICE_ENABLED = true;
 export const ACCUWEATHER_API_KEY = import.meta.env.VITE_ACCUWEATHER_API_KEY;
 export const ACCUWEATHER_BASE_URL = "https://dataservice.accuweather.com";
 
-// AdSense Configuration
-export const AD_CLIENT_ID = "ca-pub-7049246836044228"; // Your AdSense Publisher ID
-export const AD_SLOT_ID_BANNER_CONTENT = "YOUR_AD_SLOT_ID_BANNER_CONTENT"; // Replace with your actual Ad Slot ID
-export const AD_SLOT_ID_FOOTER = "YOUR_AD_SLOT_ID_FOOTER"; // Replace with your actual Ad Slot ID
+// AdSense deshabilitado: mantenemos constantes removidas para evitar uso accidental
 
 
 export const SAMBOAT_AFFILIATE_URL = "https://www.samboat.com/?utm_source=affilae&utm_medium=cpa&utm_campaign=Sailway%20Adventures&ae=1582";
@@ -28,14 +25,14 @@ export const SAMBOAT_AFFILIATE_URL = "https://www.samboat.com/?utm_source=affila
 export const AMAZON_AFFILIATE_TAG = "explorashop18-21"; // Your Amazon Affiliate Tag
 export const AMAZON_SEARCH_BASE_URL = "https://www.amazon.es/s";
 
-// Amazon Product Advertising API Configuration - REAL CREDENTIALS
+// Amazon Product Advertising API Configuration - SECURE CREDENTIALS
 export const AMAZON_API_CONFIG = {
-  accessKeyId: 'AKPAXD3F0H1753982397',
-  secretAccessKey: 'UUY08lWjgs40wYKps1NGLx8RjA2zAXYoQ5e6fw33',
-  associateTag: 'explorashop18-21',
-  marketplace: 'amazon.es',
+  accessKeyId: import.meta.env.VITE_AMAZON_ACCESS_KEY_ID || '',
+  secretAccessKey: import.meta.env.VITE_AMAZON_SECRET_ACCESS_KEY || '',
+  associateTag: import.meta.env.VITE_AMAZON_ASSOCIATE_TAG || 'explorashop18-21',
+  marketplace: 'www.amazon.es',
   region: 'eu-west-1',
-          host: 'webservices.amazon.com',
+  host: 'webservices.amazon.es',
   service: 'ProductAdvertisingAPI',
   version: '2013-08-01'
 };
@@ -843,7 +840,23 @@ export const BLOG_CATEGORY_PROMPTS = {
 };
 
 // Function to get category prompt by tags
-export const getCategoryPrompt = (tags: string[]): any => {
+export const getCategoryPrompt = (tags: string[] | undefined): any => {
+  // Validar que tags sea un array válido
+  if (!tags || !Array.isArray(tags) || tags.length === 0) {
+    // Default to general category
+    return {
+      title: "Navegación General",
+      description: "Artículos generales sobre navegación y aventuras náuticas",
+      keywords: ["navegación", "náutica", "barco", "mar"],
+      amazon_links: [AMAZON_AFFILIATE_LINKS.general],
+      content_prompt: `Escribe un artículo general sobre navegación que incluya:
+      - Consejos generales de navegación
+      - Productos básicos recomendados
+      - Experiencias y aventuras
+      - Enlaces de afiliado a productos generales de Amazon`
+    };
+  }
+
   const categoryMap: { [key: string]: string } = {
     'mascotas': 'mascotas',
     'perros': 'mascotas',
@@ -908,11 +921,11 @@ export const CONTACT_EMAIL = "boattripplanner@gmail.com";
 
 export const budgetLevelOptions: { value: BudgetLevel | ''; label: string }[] = [ 
   { value: '', label: 'Selecciona un nivel...' },
-  { value: BudgetLevel.ECONOMY, label: 'Económico 💰' },
-  { value: BudgetLevel.STANDARD, label: 'Estándar ⛵' },
-  { value: BudgetLevel.PREMIUM, label: 'Premium ✨' },
-  { value: BudgetLevel.LUXURY, label: 'Lujo 💎' },
-  { value: BudgetLevel.SPECIFIC_AMOUNT, label: 'Monto Específico 🎯' } 
+  { value: BudgetLevel.ECONOMY, label: 'Económico (€100-300/día)' },
+  { value: BudgetLevel.STANDARD, label: 'Estándar (€300-600/día)' },
+  { value: BudgetLevel.PREMIUM, label: 'Premium (€600-1000/día)' },
+  { value: BudgetLevel.LUXURY, label: 'Lujo (€1000+/día)' },
+  { value: BudgetLevel.SPECIFIC_AMOUNT, label: 'Monto Específico' } 
 ];
 
 export const planningModeOptions: typeof planningModeOptionsType = [

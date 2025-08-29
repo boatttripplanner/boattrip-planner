@@ -110,10 +110,9 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
                 con estos servicios, solo datos de ubicación para obtener información meteorológica relevante.
               </p>
 
-              <h4 className="text-lg font-medium text-gray-800 mb-2">4.3 Google AdSense</h4>
+              <h4 className="text-lg font-medium text-gray-800 mb-2">4.3 Afiliados de Amazon</h4>
               <p className="mb-3">
-                Utilizamos Google AdSense para mostrar publicidad relevante. Google puede utilizar cookies 
-                para personalizar anuncios basándose en sus intereses.
+                Utilizamos enlaces de afiliado de Amazon para recomendar productos relevantes. Al hacer clic y comprar, podemos recibir una comisión sin costo adicional para usted. No mostramos anuncios de display de AdSense.
               </p>
             </section>
 

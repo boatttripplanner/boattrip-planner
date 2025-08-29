@@ -1,5 +1,6 @@
 import React from 'react';
 import { AMAZON_AFFILIATE_TAG } from '../constants';
+import { generateAffiliateUrlForProductName } from '../services/affiliateLinkService';
 
 interface AmazonCTAButtonProps {
   productName: string;
@@ -25,22 +26,10 @@ const AmazonCTAButton: React.FC<AmazonCTAButtonProps> = ({
   trackingLabel
 }) => {
   // Generar enlace optimizado de Amazon
-  const generateAmazonLink = () => {
-    const affiliateTag = AMAZON_AFFILIATE_TAG;
-    
-    if (asin) {
-      // Enlace directo al producto con ASIN
-      return `https://www.amazon.es/dp/${asin}?tag=${affiliateTag}&linkCode=ogi&th=1&psc=1&ref_=as_li_ss_tl&camp=3638&creative=24630&creativeASIN=${asin}&linkId=nautical_guide_${category}`;
-    } else {
-      // Enlace de búsqueda optimizado
-      const searchTerm = productName.replace(/\s+/g, '+');
-      const utmParams = `utm_source=boattrip-planner&utm_medium=affiliate&utm_campaign=nautical_guide&utm_content=${category}`;
-      return `https://www.amazon.es/s?k=${searchTerm}&tag=${affiliateTag}&linkCode=ur2&linkId=nautical_guide_${category}&camp=3638&creative=24630&ref=as_li_ss_tl&${utmParams}`;
-    }
-  };
+  const generateAmazonLink = () => generateAffiliateUrlForProductName(productName, { linkId: `cta_${category}`, utmContent: category });
 
   // Estilos base
-  const baseStyles = "inline-flex items-center justify-center font-semibold rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
+  const baseStyles = "inline-flex items-center justify-center font-semibold rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60";
   
   // Variantes de estilo
   const variantStyles = {

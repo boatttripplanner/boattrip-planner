@@ -10,6 +10,7 @@ import Step4Preferences from './wizard/Step4_Preferences';
 import Step5BoatDetails from './wizard/Step5_BoatDetails';
 import Step6Review from './wizard/Step6_Review';
 import WizardNavigation from './wizard/WizardNavigation';
+import { scrollToTop } from '../utils/scrollUtils';
 
 const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cookieConsent, onReconsiderCookies, showAppInstallBanner = false }) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -98,7 +99,7 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
     });
 
     return baseSteps;
-  }, [shouldShowBoatStep, formData.desiredExperienceType]); // Removido numPeople de las dependencias
+  }, [shouldShowBoatStep, formData.desiredExperienceType, formData.numPeople]);
 
   const totalSteps = steps.length;
   
@@ -116,25 +117,6 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
       console.log('🔍 UserInputForm - New formData:', newData);
       return newData;
     });
-  };
-  
-  // Función de scroll mejorada para todos los dispositivos
-  const scrollToTop = () => {
-    // Scroll suave hacia arriba con fallback para dispositivos móviles
-    if ('scrollBehavior' in document.documentElement.style) {
-      // Navegadores modernos - scroll suave
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      // Fallback para navegadores antiguos y algunos móviles
-      window.scrollTo(0, 0);
-    }
-    
-    // Fallback adicional para dispositivos móviles
-    setTimeout(() => {
-      if (window.pageYOffset > 0) {
-        window.scrollTo(0, 0);
-      }
-    }, 50);
   };
 
   const goToStep = (step: number) => {
@@ -169,8 +151,8 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
             return;
         }
     } else if (currentStep === 3) { // Tripulación
-        if (!formData.numPeople || formData.numPeople <= 0) {
-            alert("El número de personas debe ser mayor que 0.");
+        if (!formData.numPeople || formData.numPeople < 1 || formData.numPeople > 12) {
+            alert("El número de personas debe estar entre 1 y 12.");
             return;
         }
         const needsLicense = formData.experience === ExperienceLevel.EXPERIENCED_WITH_LICENSE_NO_SKIPPER || formData.experience === ExperienceLevel.EXPERT_ADVANCED_LICENSE;
@@ -342,13 +324,20 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
       <div className={`text-center mb-6 sm:mb-8 animate-fade-in ${showAppInstallBanner ? 'pt-4 sm:pt-6' : ''}`}>
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 mb-3 sm:mb-4">
           Planifica tu{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-ocean-600 to-sea-600">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-ocean-600 to-sea-600 animate-pulse">
             Aventura Náutica
           </span>
         </h1>
         <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-2">
           Completa los siguientes pasos para generar tu itinerario personalizado
         </p>
+        
+        {/* Indicador visual de que el wizard está listo */}
+        <div className="mt-4 flex justify-center">
+          <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-ocean-100 to-sea-100 text-ocean-700 border border-ocean-200 animate-bounce">
+            ✨ ¡Comienza aquí tu planificación!
+          </div>
+        </div>
       </div>
 
       {/* Enhanced Progress Stepper */}
@@ -380,8 +369,6 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
           />
         </div>
       </div>
-
-
     </div>
   );
 };

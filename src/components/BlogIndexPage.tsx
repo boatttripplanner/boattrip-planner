@@ -4,6 +4,10 @@ import { BlogIndexPageProps } from '../../types';
 import { existingBlogPosts_definitions_only as allBlogPosts } from '../blogData';
 import { Button } from '../../components/Button';
 import { InputField, SelectField } from '../../components/FormControls';
+import { BlogSearch } from '../../components/BlogSearch';
+import { BlogFilters } from '../../components/BlogFilters';
+import { useBlogSearch } from '../../hooks/useBlogSearch';
+
 
 
 const formatDate = (dateString: string): string => {
@@ -42,53 +46,77 @@ const validateMaritimeImage = (imageUrl: string): boolean => {
 
 // Función para obtener imagen destacada basada en el slug y tags
 const getFeaturedImage = (slug: string, tags?: string[]): string => {
+  // Mapeo inteligente de slugs a categorías para búsqueda de imágenes
+  const slugCategoryMap: { [key: string]: string } = {
+    'navegacion-sostenible-guia-completa-mar-limpio-2025': 'sostenibilidad',
+    'mascotas-a-bordo-guia-completa-navegar-companero-peludo': 'mascotas',
+    'seguridad-nautica-guia-esencial-navegantes-responsables': 'seguridad',
+    'tecnicas-navegacion-avanzada-dominando-mar-2025': 'técnicas'
+  };
+  
+  // Buscar categoría por slug
+  const category = slugCategoryMap[slug];
+  if (category) {
+    // Usar el sistema de fallback si la API no está disponible
+    const fallbackMap = {
+      'sostenibilidad': 'https://source.unsplash.com/800x400/?solar+energy+boat+ocean+renewable',
+      'mascotas': 'https://source.unsplash.com/800x400/?sailing+boat+dog+pet+family',
+      'seguridad': 'https://source.unsplash.com/800x400/?marine+safety+equipment+boat',
+      'técnicas': 'https://source.unsplash.com/800x400/?navigation+compass+marine+technology'
+    };
+    
+    return fallbackMap[category as keyof typeof fallbackMap] || 
+           'https://source.unsplash.com/800x400/?sailing+boat+ocean';
+  }
+  
   // Mapeo específico de imágenes temáticas y de alta calidad
   const specificImageMap: { [key: string]: string } = {
     // MASCOTAS & PERROS 🐕
-    'los-7-productos-esenciales-navegar-perro-seguro': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Golden Retriever en barco
-    'guia-completa-viajar-barco-mascotas': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Perro con chaleco salvavidas
+    'los-7-productos-esenciales-navegar-perro-seguro': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Perro en velero navegando
+    'guia-completa-viajar-barco-mascotas': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Perro con chaleco salvavidas
     
     // REVIEWS Y COMPARATIVAS 📊
-    'mejores-gps-marinos-2024-comparativa-completa': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // GPS marino en cockpit de velero
+    'mejores-gps-marinos-2024-comparativa-completa': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // GPS marino en cockpit de velero
     
     // SOSTENIBILIDAD Y ECO-FRIENDLY 🌱
-    'navegacion-sostenible-guia-completa-barco-ecologico': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Velero con paneles solares navegando
+    'navegacion-sostenible-guia-completa-mar-limpio-2025': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Velero con paneles solares navegando
+    'mascotas-a-bordo-guia-completa-navegar-companero-peludo': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Mascota en velero navegando
     
     // FAMILIA Y NIÑOS 👨‍👩‍👧‍👦
-    'navegar-en-familia-guia-completa-aventuras-nauticas': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Familia en velero con velas desplegadas
+    'navegar-en-familia-guia-completa-aventuras-nauticas': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Familia en velero con velas desplegadas
     
     // PRODUCTOS Y REVIEWS 🛒
-    'mejores-ctas-productos-nauticos-2024': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Barco moderno con equipamiento visible
+    'mejores-ctas-productos-nauticos-2024': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Barco moderno con equipamiento visible
     
     // DESTINOS ESPECÍFICOS 🗺️
-    'islas-columbretes-paraiso-secreto-mediterraneo-navegantes': 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=300&fit=crop&crop=center', // Velero navegando hacia islas volcánicas
+    'islas-columbretes-paraiso-secreto-mediterraneo-navegantes': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Velero navegando hacia islas volcánicas
     'cala-macarella-macarelleta-menorca-paraiso-escondido': 'https://images.unsplash.com/photo-1558618666-8647a1e1e4f8?w=400&h=300&fit=crop&crop=center', // Barco anclado en cala turquesa
     'navegar-en-ibiza-descubre-isla-magica': 'https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?w=400&h=300&fit=crop&crop=center', // Ibiza sunset sailing - MANTENER (tiene barco)
     'navegar-costa-brava-explora-encanto-mediterraneo': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Velero navegando por Costa Brava
     'menorca-en-barco-paraiso-calas-turquesas': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Catamarán en aguas turquesas de Menorca
-    'mejores-destinos-aventura-barco-espana': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Velero en costa española
+    'mejores-destinos-aventura-barco-espana': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Velero en costa española
     
     // TIPOS DE BARCOS ⛵
     'que-es-un-catamaran-ventajas-desventajas-aventura-nautica': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Catamarán navegando - MUY CLARO
     'alquilar-velero-experiencia-pura-navegar-a-vela': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Velero clásico - MANTENER (perfecto)
-    'alquilar-barco-a-motor-velocidad-confort': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Yate a motor moderno - MANTENER (perfecto)
+    'alquilar-barco-a-motor-velocidad-confort': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Yate a motor moderno - MANTENER (perfecto)
     
     // ACTIVIDADES ESPECÍFICAS 🎣
     'guia-pesca-desde-barco-principiantes': 'https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?w=400&h=300&fit=crop&crop=center', // Pescando desde barco - MANTENER (perfecto)
     'el-paddle-surf-sup-explora-mar-ritmo-fortalece-cuerpo': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // SUP desde barco como base
     'mejores-destinos-windsurf-kitesurf-espana': 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=300&fit=crop&crop=center', // Barco en zona de windsurf
-    'deportes-acuaticos-barco-guia-completa': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Barco con deportes acuáticos
+    'deportes-acuaticos-barco-guia-completa': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Barco con deportes acuáticos
     
     // EQUIPAMIENTO & TECH 📱
-    'gps-nautico-navegador-indispensable': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // GPS en panel de barco moderno
-    'review-garmin-echomap-uhd-mejor-plotter-sonda': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Panel electrónico en barco
+    'gps-nautico-navegador-indispensable': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // GPS en panel de barco moderno
+    'review-garmin-echomap-uhd-mejor-plotter-sonda': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Panel electrónico en barco
     'gadgets-nauticos-siglo-xxi': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Barco moderno con tecnología
-    'como-elegir-mejor-chaleco-salvavidas': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Personas con chalecos en barco
+    'como-elegir-mejor-chaleco-salvavidas': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Personas con chalecos en barco
     'el-traje-de-neopreno-tu-aliado-indispensable': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Buceador desde barco - MANTENER
-    'cressi-rondinella-aletas-snorkel-review': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Snorkel desde velero
+    'cressi-rondinella-aletas-snorkel-review': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Snorkel desde velero
     
     // FAMILIA & EXPERIENCIAS 👨‍👩‍👧‍👦
-    'navegar-en-familia-crea-recuerdos-inolvidables': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Familia navegando en velero
+    'navegar-en-familia-crea-recuerdos-inolvidables': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Familia navegando en velero
     'con-patron-o-sin-patron-claves-elegir-aventura-barco': 'https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?w=400&h=300&fit=crop&crop=center', // Capitán al timón - MANTENER (perfecto)
     'alquiler-barcos-por-horas-explora-mar-a-tu-ritmo': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Barco alquilado navegando
     
@@ -97,34 +125,34 @@ const getFeaturedImage = (slug: string, tags?: string[]): string => {
     'posidonia-oceanica-tesoro-submarino-proteger-navegar': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Barco sobre aguas cristalinas protegidas
     
     // TÉCNICAS & EDUCACIÓN 📚
-    'mejores-libros-navegacion': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Cartas náuticas en barco moderno
+    'mejores-libros-navegacion': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Cartas náuticas en barco moderno
     'patente-de-navegacion-primer-paso-capitan': 'https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?w=400&h=300&fit=crop&crop=center', // Capitán aprendiendo - MANTENER (perfecto)
     'patron-de-navegacion-basica-pnb-siguiente-nivel': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Navegación avanzada en velero
-    'el-diario-de-abordo-captura-cada-momento-aventura-marina': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Escribiendo diario en velero
+    'el-diario-de-abordo-captura-cada-momento-aventura-marina': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Escribiendo diario en velero
     'rumbovivo-escuela-nautica-patrones-exigentes': 'https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?w=400&h=300&fit=crop&crop=center', // Escuela náutica - MANTENER (perfecto)
     
     // PROBLEMAS & SOLUCIONES 🔧
     'consejos-vencer-mareo-barco': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Persona tranquila en barco
     'si-llueve-viaje-barco-planes-alternativos-dia-brillante': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Barco bajo la lluvia
-    'fuera-pajaros-protege-tu-barco-visitantes-alados': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Mantenimiento de barco - MANTENER
+    'fuera-pajaros-protege-tu-barco-visitantes-alados': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Mantenimiento de barco - MANTENER
     'el-ancla-tu-fiel-guardian-en-cada-fondeo': 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=300&fit=crop&crop=center', // Barco anclado - ancla visible
-    'guia-supervivencia-mar-tecnicas-basicas': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Seguridad marítima en velero
+    'guia-supervivencia-mar-tecnicas-basicas': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Seguridad marítima en velero
     
     // SERVICIOS & REVIEWS 💼
     'samboat-review-plataforma-alquiler-barcos': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center', // Plataforma de alquiler - barco visible
-    'mejor-aliado-alquilar-barco-nuestra-experiencia': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Alquiler de lujo - MANTENER (perfecto)
+    'mejor-aliado-alquilar-barco-nuestra-experiencia': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Alquiler de lujo - MANTENER (perfecto)
     
     // PRODUCTOS & AMAZON 🛒
-    'productos-reales-amazon-nautica-2024': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Productos en barco moderno
-    'top-10-productos-nauticos-mas-vendidos-amazon': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Equipamiento en barco - MANTENER (perfecto)
-    'equipamiento-nautico-esencial-aventura-mar': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Equipamiento esencial en velero
+    'productos-reales-amazon-nautica-2024': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Productos en barco moderno
+    'top-10-productos-nauticos-mas-vendidos-amazon': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Equipamiento en barco - MANTENER (perfecto)
+    'equipamiento-nautico-esencial-aventura-mar': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Equipamiento esencial en velero
     
     // TECH & PLANIFICACIÓN 🤖
-    'como-planificar-viaje-nautico-con-ia-boattrip-planner': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Planificación con IA en barco moderno
+    'como-planificar-viaje-nautico-con-ia-boattrip-planner': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Planificación con IA en barco moderno
     'banderas-de-cortesia-simbolo-respeto-puerto': 'https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?w=400&h=300&fit=crop&crop=center', // Banderas marítimas - MANTENER (perfecto)
     
     // BIENVENIDA 👋
-    'bienvenida-al-blog': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center', // Bienvenida con velero navegando
+    'bienvenida-al-blog': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center', // Bienvenida con velero navegando
   };
   
   // Si existe imagen específica, la validamos y usamos
@@ -141,8 +169,8 @@ const getFeaturedImage = (slug: string, tags?: string[]): string => {
   if (tags && tags.length > 0) {
     const tagImageMap: { [key: string]: string } = {
       // Mascotas
-      'mascotas': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center',
-      'perros': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center',
+      'mascotas': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
+      'perros': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop&crop=center',
       
       // Destinos
       'destinos': 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop&crop=center',
@@ -155,9 +183,9 @@ const getFeaturedImage = (slug: string, tags?: string[]): string => {
       'castellón': 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&h=300&fit=crop&crop=center',
       
       // Equipamiento
-      'equipamiento': 'https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=400&h=300&fit=crop&crop=center',
-      'seguridad': 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop&crop=center',
-      'gps': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center',
+      'equipamiento': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center',
+      'seguridad': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center',
+      'gps': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center',
       
       // Actividades - REEMPLAZADA LA IMAGEN PROBLEMÁTICA
       'pesca': 'https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?w=400&h=300&fit=crop&crop=center',
@@ -173,9 +201,9 @@ const getFeaturedImage = (slug: string, tags?: string[]): string => {
       'niños': 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=400&h=300&fit=crop&crop=center',
       
       // Amazon/Productos
-      'amazon': 'https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=400&h=300&fit=crop&crop=center',
-      'productos': 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop&crop=center',
-      'reviews': 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop&crop=center',
+      'amazon': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center',
+      'productos': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center',
+      'reviews': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center',
     };
     
     // Buscar la primera tag que coincida y validar la imagen
@@ -193,8 +221,8 @@ const getFeaturedImage = (slug: string, tags?: string[]): string => {
     }
   }
   
-  // Imagen por defecto - vista aérea del mar
-  return 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center';
+  // Imagen por defecto - velero navegando en el mar
+  return 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=300&fit=crop&crop=center';
 };
 
 // Función para obtener categorías de artículos
@@ -294,54 +322,56 @@ const getDifficultyLevel = (tags: string[], content: string): string => {
 
 // Artículos destacados (seleccionados manualmente)
 const getFeaturedPosts = () => {
-  const featuredSlugs = [
-    'bienvenida-al-blog',
-    'mejores-destinos-aventura-barco-espana',
-    'con-patron-o-sin-patron-claves-elegir-aventura-barco',
-    'como-planificar-viaje-nautico-con-ia-boattrip-planner'
-  ];
-  
-  return sortedBlogPosts.filter(post => featuredSlugs.includes(post.frontmatter.slug));
+  // Por ahora, no hay entradas destacadas - mostrar array vacío
+  return [];
 };
 
-// Sort posts: welcome post first, then by date descending
+// Sort posts by date descending (newest first)
 const sortedBlogPosts = [...allBlogPosts].sort((a, b) => {
-  if (a.frontmatter.slug === 'bienvenida-al-blog') return -1;
-  if (b.frontmatter.slug === 'bienvenida-al-blog') return 1;
   return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
 });
 
 const POSTS_PER_PAGE = 8; // Display 8 posts per page for a cleaner grid layout
 
 const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavigateHome, showAppInstallBanner = false }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeTag, setActiveTag] = useState<string | null>(null);
+  // Función para navegar a un post con scroll automático
+  const handleNavigateToPost = (slug: string) => {
+    // Scroll al top antes de navegar
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    // Pequeño delay para que el scroll se complete antes de la navegación
+    setTimeout(() => {
+      onNavigateToPost(slug);
+    }, 150);
+  };
+
+  // Usar el hook de búsqueda optimizada
+  const {
+    filters,
+    searchResults,
+    updateFilters,
+    resetFilters,
+    calculateReadingTime,
+  } = useBlogSearch(allBlogPosts);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [darkMode, setDarkMode] = useState(false);
-  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>('');
-  const [selectedReadingTime, setSelectedReadingTime] = useState<string>('');
-  const [selectedMaritimeTheme, setSelectedMaritimeTheme] = useState<string>('');
-  const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
   const [activeTab, setActiveTab] = useState<'all' | 'favorites' | 'featured'>('all');
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [maritimeFilters, setMaritimeFilters] = useState({
-    onlyWithBoats: false,
-    onlyDestinations: false,
-    onlyEquipment: false,
-    onlySafety: false
-  });
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
 
   // Leer parámetros de URL al cargar el componente
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const categoryParam = params.get('category');
     if (categoryParam) {
-      setSelectedCategory(categoryParam);
+      updateFilters({ selectedCategory: categoryParam });
     }
-  }, []);
+  }, [updateFilters]);
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -427,10 +457,10 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
 
   // Sugerencias de búsqueda
   const searchSuggestions = useMemo(() => {
-    if (!searchQuery.trim()) return [];
+    if (!filters.searchQuery.trim()) return [];
     
     const suggestions = new Set<string>();
-    const query = searchQuery.toLowerCase();
+    const query = filters.searchQuery.toLowerCase();
     
     // Buscar en títulos
     sortedBlogPosts.forEach(post => {
@@ -454,78 +484,25 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
     });
     
     return Array.from(suggestions).slice(0, 5);
-  }, [searchQuery, searchHistory, allTags]);
+  }, [filters.searchQuery, searchHistory, allTags]);
 
   // Obtener posts según la pestaña activa
-  const getPostsForActiveTab = () => {
-    if (activeTab === 'favorites') {
-      return sortedBlogPosts.filter(post => favorites.includes(post.frontmatter.slug));
-    } else if (activeTab === 'featured') {
-      return getFeaturedPosts();
-    }
-    return sortedBlogPosts;
-  };
-
   const filteredPosts = useMemo(() => {
-    let posts = getPostsForActiveTab();
-    
-    // Filtro por etiqueta
-    if (activeTag) {
-        posts = posts.filter(post => post.frontmatter.tags?.includes(activeTag));
+    let posts = [...searchResults.posts];
+
+    // Filtrar por pestaña activa
+    if (activeTab === 'favorites') {
+      posts = posts.filter(post => favorites.includes(post.frontmatter.slug));
+    } else if (activeTab === 'featured') {
+      posts = getFeaturedPosts();
     }
 
-    // Filtro por categoría
-    if (selectedCategory) {
-        posts = posts.filter(post => {
-            if (!post.frontmatter.tags) return false;
-            return getArticleCategory(post.frontmatter.tags) === selectedCategory;
-        });
-    }
-
-    // Filtro por dificultad
-    if (selectedDifficulty) {
-        posts = posts.filter(post => {
-            if (!post.frontmatter.tags) return false;
-            return getDifficultyLevel(post.frontmatter.tags, post.content) === selectedDifficulty;
-        });
-    }
-
-    // Filtro por tiempo de lectura
-    if (selectedReadingTime) {
-        posts = posts.filter(post => {
-            const readingTime = calculateReadingTime(post.content);
-            switch (selectedReadingTime) {
-                case '1-3':
-                    return readingTime >= 1 && readingTime <= 3;
-                case '4-7':
-                    return readingTime >= 4 && readingTime <= 7;
-                case '8-15':
-                    return readingTime >= 8 && readingTime <= 15;
-                case '15+':
-                    return readingTime > 15;
-                default:
-                    return true;
-            }
-        });
-    }
-
-    // Búsqueda por texto
-    if (searchQuery.trim()) {
-      const lowerQuery = searchQuery.toLowerCase();
-      posts = posts.filter(post =>
-        post.frontmatter.title.toLowerCase().includes(lowerQuery) ||
-        post.frontmatter.summary.toLowerCase().includes(lowerQuery) ||
-        post.content.toLowerCase().includes(lowerQuery) || // Búsqueda en contenido
-        (post.frontmatter.tags && post.frontmatter.tags.some(tag => tag.toLowerCase().includes(lowerQuery))) ||
-        (post.frontmatter.author && post.frontmatter.author.toLowerCase().includes(lowerQuery))
-      );
-    }
     return posts;
-  }, [searchQuery, activeTag, selectedCategory, selectedDifficulty, selectedReadingTime, activeTab, favorites]);
+  }, [searchResults.posts, activeTab, favorites]);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, activeTag, selectedCategory, selectedDifficulty, selectedReadingTime, activeTab]);
+  }, [filters, activeTab]);
 
   // Unified pagination logic for all filtered posts
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
@@ -543,31 +520,20 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
 
 
   const handleSearch = (query: string) => {
-    setSearchQuery(query);
+    updateFilters({ searchQuery: query });
     addToSearchHistory(query);
     setShowSearchSuggestions(false);
   };
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setSearchQuery(value);
+    updateFilters({ searchQuery: value });
     setShowSearchSuggestions(value.trim().length > 0);
   };
 
   const clearAllFilters = () => {
-    setSearchQuery('');
-    setActiveTag(null);
-    setSelectedCategory('');
-    setSelectedDifficulty('');
-    setSelectedReadingTime('');
-    setSelectedMaritimeTheme('');
+    resetFilters();
     setCurrentPage(1);
-    setMaritimeFilters({
-      onlyWithBoats: false,
-      onlyDestinations: false,
-      onlyEquipment: false,
-      onlySafety: false
-    });
   };
 
   const renderPageNumbers = () => {
@@ -655,19 +621,19 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
             );
             
             return (
-              <button
-                key={category.key}
-                onClick={() => {
-                  setSelectedCategory(category.name);
-                  setActiveTab('all');
-                  setCurrentPage(1);
-                }}
-                className={`p-3 sm:p-4 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
-                  selectedCategory === category.name
-                    ? `${darkMode ? 'border-teal-400 bg-teal-400/10' : 'border-teal-500 bg-teal-50'}`
-                    : `${darkMode ? 'border-slate-600 hover:border-teal-400' : 'border-slate-200 hover:border-teal-300'}`
-                }`}
-              >
+                          <button
+              key={category.key}
+              onClick={() => {
+                updateFilters({ selectedCategory: category.name });
+                setActiveTab('all');
+                setCurrentPage(1);
+              }}
+              className={`p-3 sm:p-4 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
+                filters.selectedCategory === category.name
+                  ? `${darkMode ? 'border-teal-400 bg-teal-400/10' : 'border-teal-500 bg-teal-50'}`
+                  : `${darkMode ? 'border-slate-600 hover:border-teal-400' : 'border-slate-200 hover:border-teal-300'}`
+              }`}
+            >
                 <div className="text-xl sm:text-2xl mb-1 sm:mb-2">{category.icon}</div>
                 <div className={`font-semibold text-xs sm:text-sm ${darkMode ? 'text-white' : 'text-slate-800'}`}>
                   {category.name}
@@ -740,7 +706,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
         </div>
 
         {/* Categorías principales (solo en la pestaña "Todos") */}
-        {activeTab === 'all' && !searchQuery && !activeTag && !selectedCategory && !selectedDifficulty && !selectedReadingTime && (
+        {activeTab === 'all' && !filters.searchQuery && !filters.activeTag && !filters.selectedCategory && !filters.selectedDifficulty && !filters.selectedReadingTime && (
           <>
             <CategorySection />
           </>
@@ -748,99 +714,34 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
 
         {/* Búsqueda principal */}
         <div className="mb-4 sm:mb-6">
-          <div className="relative">
-            <InputField
-              label="Buscar en el blog..."
-              id="blog-search"
-              type="text"
-              placeholder="Escribe palabras clave, títulos, contenido..."
-              value={searchQuery}
-              onChange={handleSearchInputChange}
-              onFocus={() => setShowSearchSuggestions(searchQuery.trim().length > 0)}
-            />
-            
-            {/* Sugerencias de búsqueda */}
-            {showSearchSuggestions && (searchSuggestions.length > 0 || searchHistory.length > 0) && (
-              <div className={`absolute top-full left-0 right-0 z-50 mt-1 rounded-lg shadow-lg border ${darkMode ? 'bg-slate-700 border-slate-600' : 'bg-white border-slate-200'}`}>
-                {searchSuggestions.length > 0 && (
-                  <div className="p-2">
-                    <div className={`text-xs font-semibold mb-2 ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                      Sugerencias:
-                    </div>
-                    {searchSuggestions.map((suggestion, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleSearch(suggestion)}
-                        className={`w-full text-left px-3 py-2 rounded hover:bg-teal-50 hover:text-teal-700 transition-colors ${darkMode ? 'text-slate-200 hover:bg-slate-600' : 'text-slate-700'}`}
-                      >
-                        {suggestion}
-                      </button>
-                    ))}
-                  </div>
-                )}
-                {searchHistory.length > 0 && (
-                  <div className="p-2 border-t border-slate-200 dark:border-slate-600">
-                    <div className={`text-xs font-semibold mb-2 ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                      Búsquedas recientes:
-                    </div>
-                    {searchHistory.map((query, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleSearch(query)}
-                        className={`w-full text-left px-3 py-2 rounded hover:bg-teal-50 hover:text-teal-700 transition-colors ${darkMode ? 'text-slate-200 hover:bg-slate-600' : 'text-slate-700'}`}
-                      >
-                        {query}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+          <BlogSearch
+            value={filters.searchQuery}
+            onChange={(value) => updateFilters({ searchQuery: value })}
+            onSearch={(query) => updateFilters({ searchQuery: query })}
+            suggestions={searchResults.suggestions}
+            placeholder="Buscar en el blog..."
+            className="max-w-2xl mx-auto"
+          />
+          
+          {/* Indicador de resultados */}
+          {filters.searchQuery && (
+            <div className="mt-2 text-center text-sm text-gray-600">
+              🔍 {searchResults.totalResults} resultados en {searchResults.searchTime.toFixed(2)}ms
+            </div>
+          )}
         </div>
 
         {/* Filtros avanzados */}
         <div className="mb-4 sm:mb-6">
-          <button
-            onClick={toggleAdvancedFilters}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              darkMode 
-                ? 'bg-slate-700 hover:bg-slate-600 text-slate-200' 
-                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-            }`}
-          >
-            <span>🔍</span>
-            Filtros Avanzados
-            <span className={`transform transition-transform ${showAdvancedFilters ? 'rotate-180' : ''}`}>
-              ▼
-            </span>
-          </button>
-          
-          {showAdvancedFilters && (
-            <div className={`mt-3 p-4 rounded-lg ${darkMode ? 'bg-slate-700' : 'bg-slate-50'}`}>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-                <SelectField
-                  label="Categoría"
-                  id="category-filter"
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  options={categoryOptions}
-                />
-                <SelectField
-                  label="Nivel de Dificultad"
-                  id="difficulty-filter"
-                  value={selectedDifficulty}
-                  onChange={(e) => setSelectedDifficulty(e.target.value)}
-                  options={difficultyOptions}
-                />
-                <SelectField
-                  label="Tiempo de Lectura"
-                  id="reading-time-filter"
-                  value={selectedReadingTime}
-                  onChange={(e) => setSelectedReadingTime(e.target.value)}
-                  options={readingTimeOptions}
-                />
-              </div>
+          <BlogFilters
+            filters={filters}
+            onUpdateFilters={updateFilters}
+            onResetFilters={resetFilters}
+            availableTags={allTags}
+            availableCategories={categoryOptions.map(opt => opt.value).filter(Boolean)}
+            totalPosts={allBlogPosts.length}
+            filteredPosts={searchResults.totalResults}
+          />
               <div className="mt-4 flex justify-end">
                 <Button
                   onClick={clearAllFilters}
@@ -851,14 +752,12 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
                   Limpiar Filtros
                 </Button>
               </div>
-            </div>
-          )}
         </div>
         
         <div className="mb-6">
           <p className={`text-sm ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
             Mostrando {currentPostsToDisplay.length} de {filteredPosts.length} artículos.
-            {filteredPosts.length !== getPostsForActiveTab().length && (
+            {filteredPosts.length !== searchResults.posts.length && (
               <span className="ml-2">
                 <button
                   onClick={clearAllFilters}
@@ -921,7 +820,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
                     <div className="p-4 sm:p-6 flex flex-col flex-grow">
                       <h3 className={`text-lg sm:text-xl font-semibold ${darkMode ? 'text-white group-hover:text-teal-400' : 'text-slate-800 group-hover:text-teal-700'} transition-colors mb-2`}>
                         <button
-                          onClick={() => onNavigateToPost(post.frontmatter.slug)}
+                          onClick={() => handleNavigateToPost(post.frontmatter.slug)}
                           className="text-left focus:outline-none focus:underline"
                         >
                           {post.frontmatter.title}
@@ -954,7 +853,7 @@ const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onNavigateToPost, onNavig
                       )}
                       
                       <Button
-                        onClick={() => onNavigateToPost(post.frontmatter.slug)}
+                        onClick={() => handleNavigateToPost(post.frontmatter.slug)}
                         variant="primary"
                         size="sm"
                         className="mt-auto self-start px-3 py-2"

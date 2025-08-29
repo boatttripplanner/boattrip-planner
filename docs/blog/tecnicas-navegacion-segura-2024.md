@@ -1,8 +1,18 @@
 # ⚓ Técnicas de Navegación Segura 2024: Domina el Mar
 
+## Resumen ejecutivo
+
+- Qué aprenderás: conceptos clave y decisiones prácticas para ⚓ Técnicas de Navegación Segura 2024: Domina el Mar
+- Errores comunes: lo que debes evitar para ahorrar tiempo y dinero
+- Checklist accionable: pasos concretos antes/durante/después
+- Presupuesto estimado: rangos de costes y cómo optimizarlos
+- FAQ: dudas reales resueltas en el artículo
+
+
+
 *Publicado: 20 de Enero, 2024 | Actualizado: 20 de Enero, 2024*
 
-![Técnicas de navegación segura](https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&h=800&fit=crop&crop=center&alt=Técnicas de navegación segura)
+![Técnicas de navegación segura](https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&h=800&fit=crop&crop=center&alt=Técnicas?w=1200&q=80&auto=format&fit=crop de navegación segura)
 
 ## 🎯 ¿Quieres Ser un Navegante Experto?
 
@@ -125,7 +135,7 @@ Antes de continuar, necesitas saber algo **CRÍTICO**:
 
 ## 🧭 Garmin fēnix 7 - El GPS de los Expertos
 
-![Garmin fēnix 7](https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center&alt=Garmin fēnix 7 GPS)
+![Garmin fēnix 7](https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center&alt=Garmin?w=1200&q=80&auto=format&fit=crop fēnix 7 GPS)
 
 ### ⭐ Valoración: 4.9/5 (2,891 reviews)
 
@@ -164,7 +174,7 @@ Antes de continuar, necesitas saber algo **CRÍTICO**:
 
 ## ⚓ Lewmar Delta Anchor - El Ancla de los Profesionales
 
-![Lewmar Delta Anchor](https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center&alt=Lewmar Delta Anchor)
+![Lewmar Delta Anchor](https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center&alt=Lewmar?w=1200&q=80&auto=format&fit=crop Delta Anchor)
 
 ### ⭐ Valoración: 4.6/5 (1,156 reviews)
 
@@ -203,7 +213,7 @@ Antes de continuar, necesitas saber algo **CRÍTICO**:
 
 ## 📻 Standard Horizon HX890 - Comunicación Profesional
 
-![Standard Horizon HX890](https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center&alt=Standard Horizon HX890 VHF)
+![Standard Horizon HX890](https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&crop=center&alt=Standard?w=1200&q=80&auto=format&fit=crop Horizon HX890 VHF)
 
 ### ⭐ Valoración: 4.7/5 (956 reviews)
 
