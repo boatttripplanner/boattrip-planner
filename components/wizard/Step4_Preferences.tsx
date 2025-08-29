@@ -1,35 +1,9 @@
 
 import React, { useState } from 'react';
-import { WizardStepProps, BudgetLevel } from '../../types';
-import { SelectField, InputField, TextAreaField } from '../FormControls';
-import { budgetLevelOptions } from '../../constants';
-import { InfoIcon } from '../icons/InfoIcon';
-
-import { CogIcon } from '../icons/CogIcon';
-
-const formatNumberWithDots = (digits: string): string => {
-  if (!digits) return '';
-  return digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-};
+import { WizardStepProps } from '../../types';
+import { TextAreaField } from '../FormControls';
 
 const Step4Preferences: React.FC<WizardStepProps> = ({ data, updateData }) => {
-  const [showBudgetTooltip, setShowBudgetTooltip] = useState(false);
-
-  const [displayedCustomBudget, setDisplayedCustomBudget] = useState(
-      data.customBudgetAmount ? formatNumberWithDots(data.customBudgetAmount.toString()) : ''
-  );
-
-  const budgetTooltipId = 'budget-tooltip-content-wizard';
-  
-  const handleCustomBudgetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value;
-    const digitsOnly = rawValue.replace(/\D/g, ''); 
-    
-    if (digitsOnly.length <= 10) { 
-        setDisplayedCustomBudget(formatNumberWithDots(digitsOnly));
-        updateData({ customBudgetAmount: Number(digitsOnly) });
-    }
-  };
   
   const handleActivityChange = (activity: string) => {
     const newActivities = data.activities.includes(activity)
@@ -105,16 +79,16 @@ const Step4Preferences: React.FC<WizardStepProps> = ({ data, updateData }) => {
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="text-center">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 mb-2 sm:mb-3">
-                ¿Qué tipo de
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
-                    Experiencia Buscas?
-                </span>
-            </h2>
-            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
-                Personaliza tu viaje según tus preferencias y estilo de navegación.
-            </p>
-        </div>
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 mb-2 sm:mb-3">
+          ¿Qué tipo de
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
+            Experiencia Buscas?
+          </span>
+        </h2>
+        <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
+          Personaliza tu viaje según tus preferencias y estilo de navegación.
+        </p>
+      </div>
 
       <div className="space-y-6 rounded-xl bg-gradient-to-br from-blue-50 to-teal-50 p-8 border border-blue-200 shadow-lg">
         <div className="text-center mb-4">
@@ -171,7 +145,7 @@ const Step4Preferences: React.FC<WizardStepProps> = ({ data, updateData }) => {
                     {/* Checkbox personalizado */}
                     <div className="flex-shrink-0 mt-0.5">
                       <div className={`
-                        w-5 h-5 rounded border-2 flex items-center justify-center transition-all duration-200
+                        w-4 h-4 sm:w-5 sm:h-5 rounded border-2 flex items-center justify-center transition-all duration-200
                         ${isSelected 
                           ? 'border-teal-500 bg-teal-500' 
                           : 'border-slate-300 bg-white'
@@ -179,7 +153,7 @@ const Step4Preferences: React.FC<WizardStepProps> = ({ data, updateData }) => {
                       `}>
                         {isSelected && (
                           <svg 
-                            className="w-3 h-3 text-white" 
+                            className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" 
                             fill="currentColor" 
                             viewBox="0 0 20 20"
                           >
@@ -200,8 +174,6 @@ const Step4Preferences: React.FC<WizardStepProps> = ({ data, updateData }) => {
                     `}>
                       {activity}
                     </span>
-                    
-                    
                   </label>
                 );
               })}
@@ -210,67 +182,11 @@ const Step4Preferences: React.FC<WizardStepProps> = ({ data, updateData }) => {
         ))}
 
         <TextAreaField
-            label="Otras Actividades o Solicitudes Especiales (Opcional)"
-            id="otherActivities"
-            value={data.otherActivities || ''}
-            onChange={(e) => updateData({ otherActivities: e.target.value })}
-            placeholder="Ej: Celebrar un cumpleaños, equipo de snorkel para niños, etc."
-            rows={2}
-        />
-      </div>
-
-      {/* Sección de Presupuesto */}
-      <div className="space-y-4 pt-4 border-t border-slate-200">
-        <h3 className="text-lg font-semibold text-slate-800 mb-4">💰 Presupuesto (Opcional)</h3>
-        
-        <div className="relative">
-          <SelectField
-            label="Nivel de Presupuesto"
-            id="budgetLevel"
-            value={data.budgetLevel || ''}
-            onChange={(e) => updateData({ budgetLevel: e.target.value as BudgetLevel | undefined, customBudgetAmount: undefined })}
-            options={budgetLevelOptions}
-          />
-          <button
-            type="button"
-            className="absolute top-0 right-0 mt-1 mr-1 h-5 w-5 text-teal-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-1 rounded-sm"
-            onClick={() => setShowBudgetTooltip(!showBudgetTooltip)}
-            aria-label="Información sobre niveles de presupuesto"
-            aria-expanded={showBudgetTooltip}
-            aria-controls={budgetTooltipId}
-          >
-            <InfoIcon className="w-full h-full" aria-hidden="true" />
-          </button>
-          {showBudgetTooltip && (
-              <div 
-                   id={budgetTooltipId}
-                   className="absolute z-20 w-80 p-3 mt-1 text-sm text-white bg-slate-700 rounded-md shadow-lg right-0 sm:left-1/2 sm:-translate-x-1/2"
-                   onClick={() => setShowBudgetTooltip(false)}
-                   role="tooltip">
-                Indica un presupuesto para ayudarnos a personalizar tu plan: desde opciones económicas hasta experiencias de lujo.
-              </div>
-          )}
-        </div>
-        
-        {data.budgetLevel === BudgetLevel.SPECIFIC_AMOUNT && (
-          <InputField
-            label="Monto del Presupuesto (EUR)"
-            id="customBudgetAmount"
-            type="text" 
-            value={displayedCustomBudget}
-            onChange={handleCustomBudgetChange} 
-            placeholder="Ej: 500"
-            required
-            inputMode="numeric" 
-          />
-        )}
-        
-        <TextAreaField
-          label="Notas Adicionales sobre tu Viaje (Opcional)"
-          id="budgetNotes"
-          value={data.budgetNotes || ''}
-          onChange={(e) => updateData({ budgetNotes: e.target.value })}
-          placeholder="Ej: Preferencias alimentarias, celebraciones especiales, restricciones, etc."
+          label="Otras Actividades o Solicitudes Especiales (Opcional)"
+          id="otherActivities"
+          value={data.otherActivities || ''}
+          onChange={(e) => updateData({ otherActivities: e.target.value })}
+          placeholder="Ej: Celebrar un cumpleaños, equipo de snorkel para niños, etc."
           rows={2}
         />
       </div>

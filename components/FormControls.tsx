@@ -107,7 +107,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ label, options, se
                   }
                 }}
                 className={`
-                  w-5 h-5 sm:w-6 sm:h-6 border-2 rounded flex items-center justify-center cursor-pointer transition-all duration-200 min-h-[44px] sm:min-h-[40px] min-w-[44px] sm:min-w-[40px]
+                  w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 border-2 rounded flex items-center justify-center cursor-pointer transition-all duration-200 min-h-[32px] sm:min-h-[36px] md:min-h-[40px] min-w-[32px] sm:min-w-[36px] md:min-w-[40px]
                   ${selectedOptions.includes(option)
                     ? 'border-green-500 bg-green-500 text-white'
                     : 'border-slate-300 bg-white hover:border-green-300'
@@ -116,7 +116,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ label, options, se
                 `}
               >
                 {selectedOptions.includes(option) && (
-                  <span className="text-white text-xs font-bold">✓</span>
+                  <span className="text-white text-[10px] sm:text-xs font-bold">✓</span>
                 )}
               </div>
             </div>

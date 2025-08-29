@@ -392,22 +392,58 @@ ${generatedContent.content}
           {/* Opciones */}
           <div className="mb-4 space-y-2">
             <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={formData.includeImages}
-                onChange={(e) => handleInputChange('includeImages', e.target.checked)}
-                className="mr-2"
-              />
+              <div 
+                onClick={() => handleInputChange('includeImages', !formData.includeImages)}
+                className={`
+                  w-4 h-4 sm:w-5 sm:h-5 border-2 rounded flex items-center justify-center cursor-pointer transition-all duration-200 mr-3
+                  ${formData.includeImages
+                    ? 'border-blue-500 bg-blue-500 text-white'
+                    : 'border-gray-300 bg-white hover:border-blue-300'
+                  }
+                `}
+              >
+                {formData.includeImages && (
+                  <svg 
+                    className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" 
+                    fill="currentColor" 
+                    viewBox="0 0 20 20"
+                  >
+                    <path 
+                      fillRule="evenodd" 
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
+                      clipRule="evenodd" 
+                    />
+                  </svg>
+                )}
+              </div>
               <span className="text-sm">🖼️ Incluir imágenes de Unsplash</span>
             </label>
             
             <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={formData.includeProducts}
-                onChange={(e) => handleInputChange('includeProducts', e.target.checked)}
-                className="mr-2"
-              />
+              <div 
+                onClick={() => handleInputChange('includeProducts', !formData.includeProducts)}
+                className={`
+                  w-4 h-4 sm:w-5 sm:h-5 border-2 rounded flex items-center justify-center cursor-pointer transition-all duration-200 mr-3
+                  ${formData.includeProducts
+                    ? 'border-blue-500 bg-blue-500 text-white'
+                    : 'border-gray-300 bg-white hover:border-blue-300'
+                  }
+                `}
+              >
+                {formData.includeProducts && (
+                                     <svg 
+                     className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" 
+                     fill="currentColor" 
+                     viewBox="0 0 20 20"
+                   >
+                    <path 
+                      fillRule="evenodd" 
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
+                      clipRule="evenodd" 
+                    />
+                  </svg>
+                )}
+              </div>
               <span className="text-sm">🛒 Incluir productos de Amazon</span>
             </label>
           </div>

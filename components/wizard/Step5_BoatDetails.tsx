@@ -1,6 +1,6 @@
 
 import React, { useMemo } from 'react';
-import { WizardStepProps, PlanningMode, DesiredExperienceType } from '../../types';
+import { WizardStepProps, PlanningMode, DesiredExperienceType, ExperienceLevel } from '../../types';
 import { InputField } from '../FormControls';
 import { AutocompleteInputField } from '../AutocompleteInputField';
 import { boatDatabase } from '../../data/boatModels';
@@ -9,11 +9,23 @@ import { BoatOutlineIcon } from '../icons/BoatOutlineIcon';
 const Step5BoatDetails: React.FC<WizardStepProps> = ({ data, updateData }) => {
     const boatModelSuggestions = useMemo(() => boatDatabase.map(b => b.displayName), []);
     
-    const isRequired = useMemo(() => 
-        data.planningMode === PlanningMode.OWN_BOAT || 
-        (data.planningMode === PlanningMode.RENTAL && data.desiredExperienceType === DesiredExperienceType.TRANSFER),
-        [data.planningMode, data.desiredExperienceType]
-    );
+    const isRequired = useMemo(() => {
+        // Para OWN_BOAT siempre es requerido
+        if (data.planningMode === PlanningMode.OWN_BOAT) {
+            return true;
+        }
+        
+        // Para RENTAL solo es requerido si tiene experiencia suficiente
+        if (data.planningMode === PlanningMode.RENTAL) {
+            const hasEnoughExperience = data.experience === ExperienceLevel.EXPERIENCED_WITH_LICENSE_NO_SKIPPER || 
+                                       data.experience === ExperienceLevel.EXPERT_ADVANCED_LICENSE;
+            
+            // Requerido si tiene experiencia suficiente
+            return hasEnoughExperience;
+        }
+        
+        return false;
+    }, [data.planningMode, data.desiredExperienceType, data.experience]);
 
     const handleBoatModelChange = (selectedModelName: string) => {
         const selectedBoat = boatDatabase.find(boat => boat.displayName.toLowerCase() === selectedModelName.toLowerCase());
@@ -43,15 +55,20 @@ const Step5BoatDetails: React.FC<WizardStepProps> = ({ data, updateData }) => {
     
     if (data.planningMode === PlanningMode.OWN_BOAT) {
         if (data.desiredExperienceType === DesiredExperienceType.TRANSFER) {
-            heading = "Especificaciones del Barco para Traslado";
-            description = "Introduce las especificaciones de tu embarcación.";
+            heading = "Información Básica del Barco para Traslado";
+            description = "Introduce la información básica de tu embarcación para el traslado.";
         } else {
             heading = "Especificaciones de tu Barco";
             description = "Introduce las especificaciones de tu embarcación para personalizar mejor tu itinerario.";
         }
     } else if (data.planningMode === PlanningMode.RENTAL) {
-        heading = "Preferencias de Barco (Opcional)";
-        description = "Como tienes experiencia suficiente para navegar sin patrón, puedes especificar tus preferencias de barco si lo deseas.";
+        if (data.desiredExperienceType === DesiredExperienceType.TRANSFER) {
+            heading = "Información Básica del Barco (Opcional)";
+            description = "Para traslados, solo necesitamos información básica del barco.";
+        } else {
+            heading = "Preferencias de Barco (Opcional)";
+            description = "Como tienes experiencia suficiente para navegar sin patrón, puedes especificar tus preferencias de barco si lo deseas.";
+        }
     }
 
   return (
@@ -60,7 +77,7 @@ const Step5BoatDetails: React.FC<WizardStepProps> = ({ data, updateData }) => {
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 mb-2 sm:mb-3">
                 ¿Qué tipo de
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-600">
-                    Barco Usarás?
+                    Embarcación Usarás?
                 </span>
             </h2>
             <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
@@ -79,6 +96,7 @@ const Step5BoatDetails: React.FC<WizardStepProps> = ({ data, updateData }) => {
                     placeholder="Ej: Beneteau Oceanis 46.1 (autocompletar)"
                     required={isRequired}
                 />
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputField 
                         label="Eslora (metros)" 

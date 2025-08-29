@@ -258,13 +258,13 @@ const InteractiveChecklist: React.FC<InteractiveChecklistProps> = ({
               <div className="flex items-start space-x-3">
                 <button
                   onClick={() => toggleItem(item.id)}
-                  className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+                  className={`flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center transition-all ${
                     item.isCompleted
                       ? 'bg-green-500 border-green-500 text-white'
                       : 'border-gray-300 hover:border-blue-500'
                   }`}
                 >
-                  {item.isCompleted && <CheckIcon className="w-4 h-4" />}
+                  {item.isCompleted && <CheckIcon className="w-3 h-3 sm:w-4 sm:h-4" />}
                 </button>
                 
                 <div className="flex-1 min-w-0">

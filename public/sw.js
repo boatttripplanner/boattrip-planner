@@ -1,9 +1,12 @@
 // Service Worker para Boattrip-Planner
 // Optimización de cache y rendimiento
 
-const CACHE_NAME = 'boattrip-planner-v1.2.0';
-const STATIC_CACHE = 'static-v1.2.0';
-const DYNAMIC_CACHE = 'dynamic-v1.2.0';
+// Importar configuración
+importScripts('./sw-config.js');
+
+const CACHE_NAME = `boattrip-planner-${SW_CONFIG.CACHE_VERSION}`;
+const STATIC_CACHE = `static-${SW_CONFIG.CACHE_VERSION}`;
+const DYNAMIC_CACHE = `dynamic-${SW_CONFIG.CACHE_VERSION}`;
 
 // Recursos críticos para cache inmediato
 const STATIC_ASSETS = [
@@ -25,44 +28,58 @@ const THIRD_PARTY_ASSETS = [
 
 // Estrategia: Cache First para recursos estáticos
 const cacheFirst = async (request) => {
-  const cache = await caches.open(STATIC_CACHE);
-  const cachedResponse = await cache.match(request);
-  
-  if (cachedResponse) {
-    return cachedResponse;
-  }
-  
   try {
-    const networkResponse = await fetch(request);
-    if (networkResponse.ok) {
-      cache.put(request, networkResponse.clone());
+    const cache = await caches.open(STATIC_CACHE);
+    const cachedResponse = await cache.match(request);
+    
+    if (cachedResponse) {
+      return cachedResponse;
     }
-    return networkResponse;
+    
+    try {
+      const networkResponse = await fetch(request);
+      if (networkResponse.ok) {
+        cache.put(request, networkResponse.clone());
+      }
+      return networkResponse;
+    } catch (error) {
+      console.warn('Network request failed for:', request.url, error);
+      // Fallback para recursos críticos
+      if (request.url.includes('/assets/')) {
+        return new Response('Resource not available', { status: 404 });
+      }
+      // Para otros recursos, devolver respuesta vacía en lugar de fallar
+      return new Response('', { status: 404 });
+    }
   } catch (error) {
-    // Fallback para recursos críticos
-    if (request.url.includes('/assets/')) {
-      return new Response('Resource not available', { status: 404 });
-    }
-    throw error;
+    console.error('Cache operation failed:', error);
+    return new Response('Cache error', { status: 500 });
   }
 };
 
 // Estrategia: Network First para datos dinámicos
 const networkFirst = async (request) => {
-  const cache = await caches.open(DYNAMIC_CACHE);
-  
   try {
-    const networkResponse = await fetch(request);
-    if (networkResponse.ok) {
-      cache.put(request, networkResponse.clone());
+    const cache = await caches.open(DYNAMIC_CACHE);
+    
+    try {
+      const networkResponse = await fetch(request);
+      if (networkResponse.ok) {
+        cache.put(request, networkResponse.clone());
+      }
+      return networkResponse;
+    } catch (error) {
+      console.warn('Network request failed for:', request.url, error);
+      const cachedResponse = await cache.match(request);
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      // En lugar de fallar, devolver respuesta vacía
+      return new Response('', { status: 503 });
     }
-    return networkResponse;
   } catch (error) {
-    const cachedResponse = await cache.match(request);
-    if (cachedResponse) {
-      return cachedResponse;
-    }
-    throw error;
+    console.error('Cache operation failed:', error);
+    return new Response('Cache error', { status: 500 });
   }
 };
 
@@ -146,22 +163,30 @@ self.addEventListener('fetch', (event) => {
   }
   
   // Estrategias de cache según el tipo de recurso
-  if (STATIC_ASSETS.includes(url.pathname) || 
-      request.url.includes('/assets/') ||
-      request.url.includes('/images/')) {
-    // Cache First para recursos estáticos
-    event.respondWith(cacheFirst(request));
-  } else if (request.url.includes('/api/') || 
-             request.url.includes('/blog/')) {
-    // Network First para datos dinámicos
-    event.respondWith(networkFirst(request));
-  } else if (request.url.includes('fonts.googleapis.com') ||
-             request.url.includes('images.unsplash.com')) {
-    // Stale While Revalidate para recursos externos
-    event.respondWith(staleWhileRevalidate(request));
-  } else {
-    // Estrategia por defecto
-    event.respondWith(networkFirst(request));
+  try {
+    if (STATIC_ASSETS.includes(url.pathname) || 
+        request.url.includes('/assets/') ||
+        request.url.includes('/images/')) {
+      // Cache First para recursos estáticos
+      event.respondWith(cacheFirst(request));
+    } else if (request.url.includes('/api/') || 
+               request.url.includes('/blog/')) {
+      // Network First para datos dinámicos
+      event.respondWith(networkFirst(request));
+    } else if (request.url.includes('fonts.googleapis.com') ||
+               request.url.includes('images.unsplash.com')) {
+      // Stale While Revalidate para recursos externos
+      event.respondWith(staleWhileRevalidate(request));
+    } else {
+      // Estrategia por defecto
+      event.respondWith(networkFirst(request));
+    }
+  } catch (error) {
+    console.error('Service Worker fetch error:', error);
+    // Fallback: intentar obtener del cache o devolver respuesta vacía
+    event.respondWith(
+      caches.match(request).catch(() => new Response('', { status: 500 }))
+    );
   }
 });
 

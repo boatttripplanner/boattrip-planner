@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { UserPreferences, desiredExperienceTypeOptions, experienceLevelOptions, planningModeOptions } from '../../types';
+import { UserPreferences, desiredExperienceTypeOptions, experienceLevelOptions, planningModeOptions, DesiredExperienceType } from '../../types';
 import { budgetLevelOptions } from '../../constants';
 
 import { ChecklistIcon } from '../icons/ChecklistIcon';
@@ -141,33 +141,53 @@ const Step6Review: React.FC<Step6ReviewProps> = ({ data, goToStep, showBoatSpecs
           <ReviewItem label="Experiencia" value={getDisplayValue(experienceLevelOptions, data.experience)} />
         </SectionBlock>
 
-        <SectionBlock title="Actividades y Preferencias" onEdit={() => goToStep(4)}>
-          <div className="space-y-4">
-            <div>
-              <h4 className="text-sm font-medium text-slate-700 mb-2">Actividades Seleccionadas:</h4>
-              <ActivitiesPreview activities={data.activities} />
-            </div>
-            
-            {data.otherActivities && (
+        {data.desiredExperienceType !== 'transfer' && (
+          <SectionBlock title="Actividades y Preferencias" onEdit={() => goToStep(4)}>
+            <div className="space-y-4">
               <div>
-                <h4 className="text-sm font-medium text-slate-700 mb-2">Otras Actividades:</h4>
-                <p className="text-sm text-slate-800 bg-slate-50 p-2 rounded">{data.otherActivities}</p>
+                <h4 className="text-sm font-medium text-slate-700 mb-2">Actividades Seleccionadas:</h4>
+                <ActivitiesPreview activities={data.activities} />
               </div>
-            )}
-            
-            <div className="pt-2 border-t border-blue-200">
-              <ReviewItem label="Presupuesto" value={data.budgetLevel ? getDisplayValue(budgetLevelOptions, data.budgetLevel) : 'No especificado'} />
-              {data.budgetLevel === 'specific_amount' && <ReviewItem label="Monto" value={`${data.customBudgetAmount?.toLocaleString('es-ES') || '0'} EUR`} />}
+              
+              {data.otherActivities && (
+                <div>
+                  <h4 className="text-sm font-medium text-slate-700 mb-2">Otras Actividades:</h4>
+                  <p className="text-sm text-slate-800 bg-slate-50 p-2 rounded">{data.otherActivities}</p>
+                </div>
+              )}
+              
+              <div className="pt-2 border-t border-blue-200">
+                <ReviewItem label="Presupuesto" value={data.budgetLevel ? getDisplayValue(budgetLevelOptions, data.budgetLevel) : 'No especificado'} />
+                {data.budgetLevel === 'specific_amount' && <ReviewItem label="Monto" value={`${data.customBudgetAmount?.toLocaleString('es-ES') || '0'} EUR`} />}
+              </div>
+              
+              {data.budgetNotes && (
+                <div>
+                  <h4 className="text-sm font-medium text-slate-700 mb-2">Notas Adicionales:</h4>
+                  <p className="text-sm text-slate-800 bg-slate-50 p-2 rounded">{data.budgetNotes}</p>
+                </div>
+              )}
             </div>
-            
-            {data.budgetNotes && (
-              <div>
-                <h4 className="text-sm font-medium text-slate-700 mb-2">Notas Adicionales:</h4>
-                <p className="text-sm text-slate-800 bg-slate-50 p-2 rounded">{data.budgetNotes}</p>
+          </SectionBlock>
+        )}
+        
+        {data.desiredExperienceType === 'transfer' && (
+          <SectionBlock title="Información del Traslado" onEdit={() => goToStep(2)}>
+            <div className="space-y-4">
+              <div className="pt-2 border-t border-blue-200">
+                <ReviewItem label="Presupuesto" value={data.budgetLevel ? getDisplayValue(budgetLevelOptions, data.budgetLevel) : 'No especificado'} />
+                {data.budgetLevel === 'specific_amount' && <ReviewItem label="Monto" value={`${data.customBudgetAmount?.toLocaleString('es-ES') || '0'} EUR`} />}
               </div>
-            )}
-          </div>
-        </SectionBlock>
+              
+              {data.budgetNotes && (
+                <div>
+                  <h4 className="text-sm font-medium text-slate-700 mb-2">Notas Adicionales:</h4>
+                  <p className="text-sm text-slate-800 bg-slate-50 p-2 rounded">{data.budgetNotes}</p>
+                </div>
+              )}
+            </div>
+          </SectionBlock>
+        )}
         
         {showBoatSpecsStep && (
           <SectionBlock title="Detalles del Barco" onEdit={() => goToStep(5)}>
@@ -190,32 +210,64 @@ const Step6Review: React.FC<Step6ReviewProps> = ({ data, goToStep, showBoatSpecs
 
       <div className="bg-gradient-to-r from-blue-50 to-teal-50 p-6 rounded-xl border border-blue-200 shadow-lg">
         <h3 className="text-lg font-semibold text-slate-800 mb-3">✨ Tu Recomendación Personalizada</h3>
-        <p className="text-sm text-slate-600 mb-3">
-          Basándome en tus selecciones, especialmente tus actividades preferidas, 
-          generaré un itinerario completamente personalizado que incluirá:
-        </p>
-        <ul className="text-sm text-slate-700 space-y-2">
-          <li className="flex items-start">
-            <span className="text-blue-500 mr-2">•</span>
-            Destinos específicos para tus actividades seleccionadas
-          </li>
-          <li className="flex items-start">
-            <span className="text-blue-500 mr-2">•</span>
-            Horarios optimizados para cada experiencia
-          </li>
-          <li className="flex items-start">
-            <span className="text-blue-500 mr-2">•</span>
-            Consejos especializados según tus preferencias
-          </li>
-          <li className="flex items-start">
-            <span className="text-blue-500 mr-2">•</span>
-            Checklist personalizado con equipamiento necesario
-          </li>
-          <li className="flex items-start">
-            <span className="text-blue-500 mr-2">•</span>
-            Sugerencias adicionales relacionadas con tus intereses
-          </li>
-        </ul>
+        {data.desiredExperienceType === 'transfer' ? (
+          <>
+            <p className="text-sm text-slate-600 mb-3">
+              Basándome en los detalles de tu traslado, generaré un plan de navegación optimizado que incluirá:
+            </p>
+            <ul className="text-sm text-slate-700 space-y-2">
+              <li className="flex items-start">
+                <span className="text-blue-500 mr-2">•</span>
+                Ruta optimizada entre puertos de origen y destino
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-500 mr-2">•</span>
+                Horarios recomendados según condiciones marítimas
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-500 mr-2">•</span>
+                Paradas técnicas si son necesarias
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-500 mr-2">•</span>
+                Consideraciones de seguridad para tu nivel de experiencia
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-500 mr-2">•</span>
+                Información de contacto de puertos y marinas
+              </li>
+            </ul>
+          </>
+        ) : (
+          <>
+            <p className="text-sm text-slate-600 mb-3">
+              Basándome en tus selecciones, especialmente tus actividades preferidas, 
+              generaré un itinerario completamente personalizado que incluirá:
+            </p>
+            <ul className="text-sm text-slate-700 space-y-2">
+              <li className="flex items-start">
+                <span className="text-blue-500 mr-2">•</span>
+                Destinos específicos para tus actividades seleccionadas
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-500 mr-2">•</span>
+                Horarios optimizados para cada experiencia
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-500 mr-2">•</span>
+                Consejos especializados según tus preferencias
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-500 mr-2">•</span>
+                Checklist personalizado con equipamiento necesario
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-500 mr-2">•</span>
+                Sugerencias adicionales relacionadas con tus intereses
+              </li>
+            </ul>
+          </>
+        )}
       </div>
     </div>
   );

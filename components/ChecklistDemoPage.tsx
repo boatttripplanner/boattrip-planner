@@ -2,9 +2,17 @@ import React, { useState } from 'react';
 import ChecklistShowcase from './ChecklistShowcase';
 import ChecklistDashboard from './ChecklistDashboard';
 import { ChecklistIcon, BarChart3Icon, HomeIcon } from './icons';
+import { useScrollToTop } from '../hooks/useScrollToTop';
 
 const ChecklistDemoPage: React.FC = () => {
   const [currentView, setCurrentView] = useState<'showcase' | 'dashboard'>('showcase');
+
+  // Scroll automático hacia arriba cuando cambie la vista
+  useScrollToTop(currentView, {
+    behavior: 'smooth',
+    delay: 150,
+    enabled: true
+  });
 
   return (
     <div className="min-h-screen bg-gray-50">

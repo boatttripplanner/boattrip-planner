@@ -7,6 +7,7 @@ import Step1Experience from './wizard/Step1_Experience';
 import Step2Route from './wizard/Step2_Route';
 import Step3Crew from './wizard/Step3_Crew';
 import Step4Preferences from './wizard/Step4_Preferences';
+import Step4Budget from './wizard/Step4_Budget';
 import Step5BoatDetails from './wizard/Step5_BoatDetails';
 import Step6Review from './wizard/Step6_Review';
 import WizardNavigation from './wizard/WizardNavigation';
@@ -26,7 +27,7 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
     arrivalPortForMultiDay: '',
     multiDayTripNotes: '',
     transferDestinationPort: '',
-    numPeople: 2,
+    numPeople: 1,
     experience: ExperienceLevel.BEGINNER_NEEDS_SKIPPER,
     boatingLicense: undefined,
     budgetLevel: undefined,
@@ -51,6 +52,7 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
     if (formData.planningMode === PlanningMode.RENTAL) {
       const hasEnoughExperience = formData.experience === ExperienceLevel.EXPERIENCED_WITH_LICENSE_NO_SKIPPER || 
                                  formData.experience === ExperienceLevel.EXPERT_ADVANCED_LICENSE;
+      
       console.log('🔍 DEBUG - shouldShowBoatStep:', {
         planningMode: formData.planningMode,
         experience: formData.experience,
@@ -58,6 +60,8 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
         EXPERIENCED_WITH_LICENSE_NO_SKIPPER: ExperienceLevel.EXPERIENCED_WITH_LICENSE_NO_SKIPPER,
         EXPERT_ADVANCED_LICENSE: ExperienceLevel.EXPERT_ADVANCED_LICENSE
       });
+      
+      // Mostrar paso del barco si tiene experiencia suficiente
       return hasEnoughExperience;
     }
     
@@ -72,23 +76,27 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
       { id: 2, name: 'Ruta' },
     ];
 
-    // Para traslado, solo agregar tripulación si es necesario
+    // Para traslado, SIEMPRE agregar tripulación (es importante para experiencia y titulación)
     if (formData.desiredExperienceType === DesiredExperienceType.TRANSFER) {
-      // Solo agregar tripulación si hay más de 1 persona
-      if (formData.numPeople > 1) {
-        baseSteps.push({ id: 3, name: 'Tripulación' });
-      }
+      baseSteps.push({ id: 3, name: 'Tripulación' });
+      // Para traslados NO agregar el paso de preferencias, pero SÍ agregar presupuesto
+      baseSteps.push({ id: 4, name: 'Presupuesto' });
     } else {
       // Para otros tipos, mantener el flujo completo
       baseSteps.push({ id: 3, name: 'Tripulación' });
       baseSteps.push({ id: 4, name: 'Preferencias' });
+      baseSteps.push({ id: 5, name: 'Presupuesto' });
     }
 
+    // Agregar paso del barco/embarcación si es necesario
     if (shouldShowBoatStep) {
-      baseSteps.push({ id: baseSteps.length + 1, name: 'Barco' });
+      const nextId = baseSteps.length + 1;
+      baseSteps.push({ id: nextId, name: 'Embarcación' });
     }
 
-    baseSteps.push({ id: baseSteps.length + 1, name: 'Revisar' });
+    // Agregar paso de revisión (SIEMPRE el último)
+    const nextId = baseSteps.length + 1;
+    baseSteps.push({ id: nextId, name: 'Resumen' });
 
     console.log('🔍 DEBUG - steps:', {
       shouldShowBoatStep,
@@ -105,8 +113,9 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
   
   // Función para determinar si mostrar el paso de tripulación
   const shouldShowTripulationStep = () => {
-    const isTransfer = formData.desiredExperienceType === DesiredExperienceType.TRANSFER;
-    return !isTransfer || (isTransfer && formData.numPeople > 1);
+    // Para traslados, SIEMPRE mostrar tripulación (es importante para experiencia y titulación)
+    // Para otros tipos, siempre mostrar tripulación
+    return true;
   };
   
   const updateFormData = (fields: Partial<UserPreferences>) => {
@@ -128,6 +137,13 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
   };
 
   const handleNext = () => {
+    console.log('🔍 DEBUG - handleNext:', {
+      currentStep,
+      totalSteps,
+      shouldShowBoatStep,
+      isLastStep: currentStep === totalSteps
+    });
+
     // Step validation logic
     if (currentStep === 1) { // Experiencia
        // No mandatory fields here to validate
@@ -160,41 +176,83 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
             alert("Por favor, selecciona tu titulación náutica.");
             return;
         }
-    } else if (currentStep === 4) { // Preferencias
-      if (formData.budgetLevel === 'specific_amount' && (!formData.customBudgetAmount || formData.customBudgetAmount <= 0)) {
-        alert("Por favor, introduce un monto de presupuesto válido.");
-        return;
+    } else if (currentStep === 4) { // Preferencias o Presupuesto
+      if (formData.desiredExperienceType === DesiredExperienceType.TRANSFER) {
+        // Para traslados, validar presupuesto
+        if (formData.budgetLevel === 'specific_amount' && (!formData.customBudgetAmount || formData.customBudgetAmount <= 0)) {
+          alert("Por favor, introduce un monto de presupuesto válido.");
+          return;
+        }
+      } else {
+        // Para otros tipos, validar preferencias (actividades ya validadas en el componente)
+        if (formData.budgetLevel === 'specific_amount' && (!formData.customBudgetAmount || formData.customBudgetAmount <= 0)) {
+          alert("Por favor, introduce un monto de presupuesto válido.");
+          return;
+        }
       }
-    } else if (currentStep === 5 && shouldShowBoatStep) { // Barco
+    } else if (currentStep === 5) { // Presupuesto (para otros tipos) o Embarcación
+      if (formData.desiredExperienceType !== DesiredExperienceType.TRANSFER) {
+        // Para otros tipos, validar presupuesto en el paso 5
+        if (formData.budgetLevel === 'specific_amount' && (!formData.customBudgetAmount || formData.customBudgetAmount <= 0)) {
+          alert("Por favor, introduce un monto de presupuesto válido.");
+          return;
+        }
+      } else if (shouldShowBoatStep) { // Embarcación para traslados
         const details = formData.boatTransferDetails;
         if (formData.planningMode === PlanningMode.OWN_BOAT) {
-            // Para OWN_BOAT siempre obligatorio
-            if (!details?.model?.trim()) { alert("Por favor, introduce el modelo de tu barco."); return; }
-            if (!details?.length?.trim()) { alert("Por favor, introduce la eslora de tu barco."); return; }
-            if (!details?.beam?.trim()) { alert("Por favor, introduce la manga de tu barco."); return; }
-            if (!details?.draft?.trim()) { alert("Por favor, introduce el calado de tu barco."); return; }
-            if (!details?.cruisingSpeed?.trim()) { alert("Por favor, introduce la velocidad de crucero."); return; }
-            if (!details?.tankCapacity?.trim()) { alert("Por favor, introduce la capacidad del depósito."); return; }
-            if (!details?.averageConsumption?.trim()) { alert("Por favor, introduce el consumo medio."); return; }
+          // Para OWN_BOAT siempre obligatorio
+          if (!details?.model?.trim()) { alert("Por favor, introduce el modelo de tu embarcación."); return; }
+          if (!details?.length?.trim()) { alert("Por favor, introduce la eslora de tu embarcación."); return; }
+          if (!details?.beam?.trim()) { alert("Por favor, introduce la manga de tu embarcación."); return; }
+          if (!details?.draft?.trim()) { alert("Por favor, introduce el calado de tu embarcación."); return; }
+          if (!details?.cruisingSpeed?.trim()) { alert("Por favor, introduce la velocidad de crucero."); return; }
+          if (!details?.tankCapacity?.trim()) { alert("Por favor, introduce la capacidad del depósito."); return; }
+          if (!details?.averageConsumption?.trim()) { alert("Por favor, introduce el consumo medio."); return; }
         } else if (formData.planningMode === PlanningMode.RENTAL && formData.desiredExperienceType === DesiredExperienceType.TRANSFER) {
-            // Para RENTAL + TRANSFER también obligatorio
-            if (!details?.model?.trim()) { alert("Por favor, introduce el modelo de tu barco."); return; }
-            if (!details?.length?.trim()) { alert("Por favor, introduce la eslora de tu barco."); return; }
-            if (!details?.beam?.trim()) { alert("Por favor, introduce la manga de tu barco."); return; }
-            if (!details?.draft?.trim()) { alert("Por favor, introduce el calado de tu barco."); return; }
-            if (!details?.cruisingSpeed?.trim()) { alert("Por favor, introduce la velocidad de crucero."); return; }
-            if (!details?.tankCapacity?.trim()) { alert("Por favor, introduce la capacidad del depósito."); return; }
-            if (!details?.averageConsumption?.trim()) { alert("Por favor, introduce el consumo medio."); return; }
+          // Para RENTAL + TRANSFER validar todos los campos
+          if (!details?.model?.trim()) { alert("Por favor, introduce el modelo de tu embarcación."); return; }
+          if (!details?.length?.trim()) { alert("Por favor, introduce la eslora de tu embarcación."); return; }
+          if (!details?.beam?.trim()) { alert("Por favor, introduce la manga de tu embarcación."); return; }
+          if (!details?.draft?.trim()) { alert("Por favor, introduce el calado de tu embarcación."); return; }
+          if (!details?.cruisingSpeed?.trim()) { alert("Por favor, introduce la velocidad de crucero."); return; }
+          if (!details?.tankCapacity?.trim()) { alert("Por favor, introduce la capacidad del depósito."); return; }
+          if (!details?.averageConsumption?.trim()) { alert("Por favor, introduce el consumo medio."); return; }
         }
         // Si es RENTAL sin TRANSFER, no validar nada (es opcional)
+      }
+    } else if (currentStep === 6 && shouldShowBoatStep) { // Embarcación (para otros tipos)
+      const details = formData.boatTransferDetails;
+      if (formData.planningMode === PlanningMode.OWN_BOAT) {
+        // Para OWN_BOAT siempre obligatorio
+        if (!details?.model?.trim()) { alert("Por favor, introduce el modelo de tu embarcación."); return; }
+        if (!details?.length?.trim()) { alert("Por favor, introduce la eslora de tu embarcación."); return; }
+        if (!details?.beam?.trim()) { alert("Por favor, introduce la manga de tu embarcación."); return; }
+        if (!details?.draft?.trim()) { alert("Por favor, introduce el calado de tu embarcación."); return; }
+        if (!details?.cruisingSpeed?.trim()) { alert("Por favor, introduce la velocidad de crucero."); return; }
+        if (!details?.tankCapacity?.trim()) { alert("Por favor, introduce la capacidad del depósito."); return; }
+        if (!details?.averageConsumption?.trim()) { alert("Por favor, introduce el consumo medio."); return; }
+      } else if (formData.planningMode === PlanningMode.RENTAL && formData.desiredExperienceType === DesiredExperienceType.TRANSFER) {
+        // Para RENTAL + TRANSFER validar todos los campos
+        if (!details?.model?.trim()) { alert("Por favor, introduce el modelo de tu embarcación."); return; }
+        if (!details?.length?.trim()) { alert("Por favor, introduce la eslora de tu embarcación."); return; }
+        if (!details?.beam?.trim()) { alert("Por favor, introduce la manga de tu embarcación."); return; }
+        if (!details?.draft?.trim()) { alert("Por favor, introduce el calado de tu embarcación."); return; }
+        if (!details?.cruisingSpeed?.trim()) { alert("Por favor, introduce la velocidad de crucero."); return; }
+        if (!details?.tankCapacity?.trim()) { alert("Por favor, introduce la capacidad del depósito."); return; }
+        if (!details?.averageConsumption?.trim()) { alert("Por favor, introduce el consumo medio."); return; }
+      }
+      // Si es RENTAL sin TRANSFER, no validar nada (es opcional)
     }
 
     // Avanzar al siguiente paso
     if (currentStep < totalSteps) {
       const nextStep = currentStep + 1;
+      console.log('🔍 DEBUG - Avanzando al siguiente paso:', { currentStep, nextStep, totalSteps });
       setCurrentStep(nextStep);
       // Scroll hacia arriba al cambiar de paso
       setTimeout(scrollToTop, 100);
+    } else {
+      console.log('🔍 DEBUG - Ya estamos en el último paso, no se puede avanzar más');
     }
   };
 
@@ -253,68 +311,57 @@ const UserInputForm: React.FC<UserInputFormProps> = ({ onSubmit, isLoading, cook
 
     console.log('🔍 UserInputForm - renderStep:', {
       currentStep,
+      totalSteps,
       isTransfer,
       showTripulation,
       showPreferences,
       shouldShowBoatStep,
       numPeople: formData.numPeople,
-      desiredExperienceType: formData.desiredExperienceType
+      desiredExperienceType: formData.desiredExperienceType,
+      steps: steps.map(s => ({ id: s.id, name: s.name }))
     });
 
-    // Lógica clara para cada paso
-    switch (currentStep) {
-      case 1:
+    // Obtener el paso actual basado en la construcción dinámica
+    const currentStepData = steps.find(step => step.id === currentStep);
+    
+    if (!currentStepData) {
+      console.error('❌ Paso no encontrado:', currentStep);
+      return <div>Paso no encontrado</div>;
+    }
+
+    // Mapear el nombre del paso al componente correspondiente
+    switch (currentStepData.name) {
+      case 'Experiencia':
+        console.log('🔍 UserInputForm - Mostrando Step1Experience');
         return <Step1Experience {...stepProps} />;
       
-      case 2:
+      case 'Ruta':
+        console.log('🔍 UserInputForm - Mostrando Step2Route');
         return <Step2Route {...stepProps} />;
       
-      case 3:
-        console.log('🔍 UserInputForm - Paso 3 - showTripulation:', showTripulation, 'showPreferences:', showPreferences, 'shouldShowBoatStep:', shouldShowBoatStep);
-        if (showTripulation) {
-          console.log('🔍 UserInputForm - Paso 3 - Mostrando Step3Crew');
-          return <Step3Crew {...stepProps} />;
-        } else if (showPreferences) {
-          console.log('🔍 UserInputForm - Paso 3 - Mostrando Step4Preferences');
-          return <Step4Preferences {...stepProps} />;
-        } else if (shouldShowBoatStep) {
-          console.log('🔍 UserInputForm - Paso 3 - Mostrando Step5BoatDetails');
-          return <Step5BoatDetails {...stepProps} />;
-        } else {
-          console.log('🔍 UserInputForm - Paso 3 - Mostrando Step6Review');
-          return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
-        }
+      case 'Tripulación':
+        console.log('🔍 UserInputForm - Mostrando Step3Crew');
+        return <Step3Crew {...stepProps} />;
       
-      case 4:
-        console.log('🔍 UserInputForm - Paso 4 - showPreferences:', showPreferences, 'shouldShowBoatStep:', shouldShowBoatStep);
-        if (showPreferences) {
-          console.log('🔍 UserInputForm - Paso 4 - Mostrando Step4Preferences');
-          return <Step4Preferences {...stepProps} />;
-        } else if (shouldShowBoatStep) {
-          console.log('🔍 UserInputForm - Paso 4 - Mostrando Step5BoatDetails');
-          return <Step5BoatDetails {...stepProps} />;
-        } else {
-          console.log('🔍 UserInputForm - Paso 4 - Mostrando Step6Review');
-          return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
-        }
+      case 'Preferencias':
+        console.log('🔍 UserInputForm - Mostrando Step4Preferences');
+        return <Step4Preferences {...stepProps} />;
       
-      case 5:
-        console.log('🔍 UserInputForm - Paso 5 - shouldShowBoatStep:', shouldShowBoatStep, 'showPreferences:', showPreferences);
-        // El paso 5 solo puede ser el paso del barco si se mostraron preferencias
-        // Si no se mostraron preferencias, el paso 5 debe ser la revisión
-        if (shouldShowBoatStep && showPreferences) {
-          console.log('🔍 UserInputForm - Paso 5 - Mostrando Step5BoatDetails');
-          return <Step5BoatDetails {...stepProps} />;
-        } else {
-          console.log('🔍 UserInputForm - Paso 5 - Mostrando Step6Review');
-          return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
-        }
+      case 'Presupuesto':
+        console.log('🔍 UserInputForm - Mostrando Step4Budget');
+        return <Step4Budget {...stepProps} />;
       
-      case 6:
+      case 'Embarcación':
+        console.log('🔍 UserInputForm - Mostrando Step5BoatDetails');
+        return <Step5BoatDetails {...stepProps} />;
+      
+      case 'Resumen':
+        console.log('🔍 UserInputForm - Mostrando Step6Review');
         return <Step6Review data={formData} goToStep={goToStep} showBoatSpecsStep={shouldShowBoatStep} />;
       
       default:
-        return <div>Paso no encontrado</div>;
+        console.error('❌ Nombre de paso no reconocido:', currentStepData.name);
+        return <div>Paso no reconocido: {currentStepData.name}</div>;
     }
   };
 
