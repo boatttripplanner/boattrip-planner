@@ -6,7 +6,7 @@
   <!-- Página principal -->
   <url>
     <loc>https://boattrip-planner.com/</loc>
-    <lastmod>2025-08-05</lastmod>
+    <lastmod>2025-01-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -18,7 +18,7 @@
   <!-- Páginas principales -->
   <url>
     <loc>https://boattrip-planner.com/about</loc>
-    <lastmod>2025-08-05</lastmod>
+    <lastmod>2025-01-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -29,7 +29,7 @@
 
   <url>
     <loc>https://boattrip-planner.com/how-it-works</loc>
-    <lastmod>2025-08-05</lastmod>
+    <lastmod>2025-01-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -40,7 +40,7 @@
 
   <url>
     <loc>https://boattrip-planner.com/blog</loc>
-    <lastmod>2025-08-05</lastmod>
+    <lastmod>2025-01-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -52,7 +52,7 @@
   <!-- Página 404 personalizada -->
   <url>
     <loc>https://boattrip-planner.com/404</loc>
-    <lastmod>2025-08-05</lastmod>
+    <lastmod>2025-01-25</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.1</priority>
     <image:image>
@@ -61,207 +61,171 @@
     </image:image>
   </url>
 
-  <!-- Entrada del blog: 🌱 Productos Sostenibles para Navegantes: Guía de Compra Responsable 2024 -->
+  <!-- Entrada del blog: 🌊 Navegación Sostenible: Guía Completa para un Mar Más Limpio en 2025 -->
   <url>
-    <loc>https://boattrip-planner.com/blog/-productos-sostenibles-para-navegantes-gua-de-compra-responsable-2024</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/navegacion-sostenible-guia-completa-mar-limpio-2025</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>🌱 Productos Sostenibles para Navegantes: Guía de Compra Responsable 2024</image:title>
+      <image:title>🌊 Navegación Sostenible: Guía Completa para un Mar Más Limpio en 2025</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: Navegación con Mascotas: Guía Completa para Viajar con tu Perro -->
+  <!-- Entrada del blog: 🛡️ Seguridad Náutica 2025: Guía Completa para Navegar con Confianza -->
   <url>
-    <loc>https://boattrip-planner.com/blog/navegacin-con-mascotas-gua-completa-para-viajar-con-tu-perro</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/seguridad-nautica-2025-guia-completa-navegar-confianza</loc>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>Navegación con Mascotas: Guía Completa para Viajar con tu Perro</image:title>
+      <image:title>🛡️ Seguridad Náutica 2025: Guía Completa para Navegar con Confianza</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: 🐕 Equipamiento Esencial para Mascotas en el Barco: Guía Definitiva 2024 -->
+  <!-- Entrada del blog: 🐕 Mascotas a Bordo: Guía Completa para Navegar con tu Compañero Peludo -->
   <url>
-    <loc>https://boattrip-planner.com/blog/-equipamiento-esencial-para-mascotas-en-el-barco-gua-definitiva-2024</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/mascotas-a-bordo-guia-completa-navegar-companero-peludo</loc>
+    <lastmod>2025-01-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>🐕 Equipamiento Esencial para Mascotas en el Barco: Guía Definitiva 2024</image:title>
+      <image:title>🐕 Mascotas a Bordo: Guía Completa para Navegar con tu Compañero Peludo</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: Los Mejores Destinos Náuticos de España: Guía 2024 -->
+  <!-- Entrada del blog: 🛡️ Seguridad Náutica: Guía Esencial para Navegantes Responsables -->
   <url>
-    <loc>https://boattrip-planner.com/blog/los-mejores-destinos-nuticos-de-espaa-gua-2024</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/seguridad-nautica-guia-esencial-navegantes-responsables</loc>
+    <lastmod>2025-01-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>Los Mejores Destinos Náuticos de España: Guía 2024</image:title>
+      <image:title>🛡️ Seguridad Náutica: Guía Esencial para Navegantes Responsables</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: Equipamiento Náutico Esencial: Todo lo que Necesitas -->
+  <!-- Entrada del blog: 🧭 Técnicas de Navegación Avanzada: Dominando el Mar en 2025 -->
   <url>
-    <loc>https://boattrip-planner.com/blog/equipamiento-nutico-esencial-todo-lo-que-necesitas</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/tecnicas-navegacion-avanzada-dominando-mar-2025</loc>
+    <lastmod>2025-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>Equipamiento Náutico Esencial: Todo lo que Necesitas</image:title>
+      <image:title>🧭 Técnicas de Navegación Avanzada: Dominando el Mar en 2025</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: Deportes Acuáticos desde el Barco: Snorkel, Buceo y Más -->
+  <!-- Entrada del blog: 💡 Consejos Náuticos: 50 Trucos que Todo Marinero Debe Conocer -->
   <url>
-    <loc>https://boattrip-planner.com/blog/deportes-acuticos-desde-el-barco-snorkel-buceo-y-ms</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/consejos-nauticos-50-trucos-marinero-debe-conocer</loc>
+    <lastmod>2025-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>Deportes Acuáticos desde el Barco: Snorkel, Buceo y Más</image:title>
+      <image:title>💡 Consejos Náuticos: 50 Trucos que Todo Marinero Debe Conocer</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: Navegación Familiar: Consejos para Viajar con Niños -->
+  <!-- Entrada del blog: 🐕 Mascotas en Barcos de Alquiler: Guía Completa para Navegar con tu Compañero Peludo -->
   <url>
-    <loc>https://boattrip-planner.com/blog/navegacin-familiar-consejos-para-viajar-con-nios</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/mascotas-barcos-alquiler-guia-completa-navegar-companero-peludo</loc>
+    <lastmod>2025-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>Navegación Familiar: Consejos para Viajar con Niños</image:title>
+      <image:title>🐕 Mascotas en Barcos de Alquiler: Guía Completa para Navegar con tu Compañero Peludo</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: Tecnología Náutica: Las Mejores Apps y Dispositivos -->
+  <!-- Entrada del blog: 🏊‍♂️ Deportes Acuáticos en el Mediterráneo: Guía Completa para Aventureros Náuticos -->
   <url>
-    <loc>https://boattrip-planner.com/blog/tecnologa-nutica-las-mejores-apps-y-dispositivos</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/deportes-acuaticos-mediterraneo-guia-completa-aventureros-nauticos</loc>
+    <lastmod>2025-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>Tecnología Náutica: Las Mejores Apps y Dispositivos</image:title>
+      <image:title>🏊‍♂️ Deportes Acuáticos en el Mediterráneo: Guía Completa para Aventureros Náuticos</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: Fotografía Náutica: Captura Momentos Únicos en el Mar -->
+  <!-- Entrada del blog: 🎒 Equipamiento Esencial para Viaje en Barco: Lo que No Puedes Vivir Sin Él -->
   <url>
-    <loc>https://boattrip-planner.com/blog/fotografa-nutica-captura-momentos-nicos-en-el-mar</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/equipamiento-esencial-viaje-barco-no-puedes-vivir-sin-el</loc>
+    <lastmod>2025-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>Fotografía Náutica: Captura Momentos Únicos en el Mar</image:title>
+      <image:title>🎒 Equipamiento Esencial para Viaje en Barco: Lo que No Puedes Vivir Sin Él</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: Soluciones a Problemas Comunes en Navegación -->
+  <!-- Entrada del blog: 👶 Vacaciones en Barco con Niños: Equipamiento que Garantiza Paz y Diversión -->
   <url>
-    <loc>https://boattrip-planner.com/blog/soluciones-a-problemas-comunes-en-navegacin</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/vacaciones-barco-ninos-equipamiento-garantiza-paz-diversion</loc>
+    <lastmod>2025-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>Soluciones a Problemas Comunes en Navegación</image:title>
+      <image:title>👶 Vacaciones en Barco con Niños: Equipamiento que Garantiza Paz y Diversión</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: 🎯 Reviews Reales: Los 3 Productos Náuticos que Realmente Funcionan (Testeados por 8 Meses) -->
+  <!-- Entrada del blog: 🚢 Navega como un Profesional: 5 Piezas de Tecnología para tu Barco -->
   <url>
-    <loc>https://boattrip-planner.com/blog/-reviews-reales-los-3-productos-nuticos-que-realmente-funcionan-testeados-por-8-meses</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/navega-como-profesional-5-piezas-tecnologia-barco</loc>
+    <lastmod>2025-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>🎯 Reviews Reales: Los 3 Productos Náuticos que Realmente Funcionan (Testeados por 8 Meses)</image:title>
+      <image:title>🚢 Navega como un Profesional: 5 Piezas de Tecnología para tu Barco</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: Navegar en Familia: Consejos y Herramientas para una Experiencia Segura y Divertida -->
+  <!-- Entrada del blog: 🌱 Navega de Forma Consciente: 5 Claves para un Viaje Sostenible y Cuidar el Mar -->
   <url>
-    <loc>https://boattrip-planner.com/blog/navegar-en-familia-consejos-y-herramientas-para-una-experiencia-segura-y-divertida</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/navega-forma-consciente-5-claves-viaje-sostenible-cuidar-mar</loc>
+    <lastmod>2025-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>Navegar en Familia: Consejos y Herramientas para una Experiencia Segura y Divertida</image:title>
+      <image:title>🌱 Navega de Forma Consciente: 5 Claves para un Viaje Sostenible y Cuidar el Mar</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: 🛡️ Seguridad Náutica Esencial: Guía Completa para Navegantes Responsables 2024 -->
+  <!-- Entrada del blog: 📱 Gadgets para el Disfrute del Mar: 5 Piezas de Tecnología para una Vida Fácil y Divertida -->
   <url>
-    <loc>https://boattrip-planner.com/blog/-seguridad-nutica-esencial-gua-completa-para-navegantes-responsables-2024</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/gadgets-disfrute-mar-5-piezas-tecnologia-vida-facil-divertida</loc>
+    <lastmod>2025-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>🛡️ Seguridad Náutica Esencial: Guía Completa para Navegantes Responsables 2024</image:title>
+      <image:title>📱 Gadgets para el Disfrute del Mar: 5 Piezas de Tecnología para una Vida Fácil y Divertida</image:title>
     </image:image>
   </url>
 
-  <!-- Entrada del blog: Sostenibilidad Marítima 2024: Navegando Hacia un Futuro Verde -->
+  <!-- Entrada del blog: 🐕 Navegando con tu Mejor Amigo: Guía Completa para un Viaje en Barco Inolvidable con tu Perro -->
   <url>
-    <loc>https://boattrip-planner.com/blog/sostenibilidad-martima-2024-navegando-hacia-un-futuro-verde</loc>
-    <lastmod>2025-08-05</lastmod>
+    <loc>https://boattrip-planner.com/blog/navegando-mejor-amigo-guia-completa-viaje-barco-perro</loc>
+    <lastmod>2025-01-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>Sostenibilidad Marítima 2024: Navegando Hacia un Futuro Verde</image:title>
-    </image:image>
-  </url>
-
-  <!-- Entrada del blog: Croacia en velero: La guía definitiva para la aventura de 7 días que te cambiará la vida -->
-  <url>
-    <loc>https://boattrip-planner.com/blog/croacia-en-velero-la-gua-definitiva-para-la-aventura-de-7-das-que-te-cambiar-la-vida</loc>
-    <lastmod>2025-08-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>Croacia en velero: La guía definitiva para la aventura de 7 días que te cambiará la vida</image:title>
-    </image:image>
-  </url>
-
-  <!-- Entrada del blog: 🛡️ Seguridad Náutica Completa: Protección Total para tu Tripulación 2024 -->
-  <url>
-    <loc>https://boattrip-planner.com/blog/-seguridad-nutica-completa-proteccin-total-para-tu-tripulacin-2024</loc>
-    <lastmod>2025-08-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>🛡️ Seguridad Náutica Completa: Protección Total para tu Tripulación 2024</image:title>
-    </image:image>
-  </url>
-
-  <!-- Entrada del blog: Navegación Sostenible: Guía Completa para un Mar Más Limpio -->
-  <url>
-    <loc>https://boattrip-planner.com/blog/navegacin-sostenible-gua-completa-para-un-mar-ms-limpio</loc>
-    <lastmod>2025-08-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://boattrip-planner.com/favicon-96x96.png</image:loc>
-      <image:title>Navegación Sostenible: Guía Completa para un Mar Más Limpio</image:title>
+      <image:title>🐕 Navegando con tu Mejor Amigo: Guía Completa para un Viaje en Barco Inolvidable con tu Perro</image:title>
     </image:image>
   </url>
 

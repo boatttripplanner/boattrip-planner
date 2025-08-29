@@ -48,6 +48,7 @@ Allow: /blog/mejores-gps-marinos-2024-comparativa-completa
 Allow: /blog/seguridad-nautica-accidentes-evitable
 Allow: /blog/mascotas-nauticas-seguridad-equipamiento-perros-gatos-barco-2025
 Allow: /blog/islas-baleares-guia-completa-navegacion
+Allow: /blog/navegando-mejor-amigo-guia-completa-viaje-barco-perro
 
 # URLs con parámetros de consulta para el blog
 Allow: /*?view=BLOG_INDEX
@@ -120,6 +121,6 @@ Crawl-delay: 1
 # Información adicional para desarrolladores
 # Este robots.txt está optimizado para SEO y permite
 # la indexación completa del contenido público de BoatTrip Planner
-# Última actualización: 2025-08-03
-# Nuevas entradas agregadas: Seguridad Náutica, Mascotas, Baleares, Sostenibilidad, Reviews GPS
-# Total de entradas de blog: 60
+# Última actualización: 2025-01-25
+# Nuevas entradas agregadas: Navegando con Mascotas, Seguridad Náutica, Mascotas, Baleares, Sostenibilidad, Reviews GPS
+# Total de entradas de blog: 61
